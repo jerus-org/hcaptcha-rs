@@ -14,7 +14,7 @@ use rustc_serialize::json;
 use response::RecaptchaResponse;
 
 /// Verify a recaptcha user response
-fn verify(key: &str, response: &str, user_ip: Option<&str>) -> Result<(), RecaptchaError> {
+pub fn verify(key: &str, response: &str, user_ip: Option<&str>) -> Result<(), RecaptchaError> {
     use hyper::{Client, Url};
 
     let mut query = vec![
