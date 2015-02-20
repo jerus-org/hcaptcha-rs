@@ -1,11 +1,15 @@
 [package]
 
 name = "recaptcha"
+description = "recaptcha response verification"
 version = "0.0.1"
 authors = ["panicbit <panicbit@users.noreply.github.com>"]
+license = "MIT"
+keywords = ["recaptcha", "captcha"]
+repository = "https://github.com/panicbit/recaptcha-rs"
 
 [dependencies.hyper]
-version = "*"
+version = "0.1"
 
 [dependencies.rustc-serialize]
 version = "0.2"
