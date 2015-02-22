@@ -1,4 +1,4 @@
-# recaptcha-rs
+# recaptcha-rs [![Build Status](https://travis-ci.org/panicbit/recaptcha-rs.svg)](https://travis-ci.org/panicbit/recaptcha-rs)
 Recaptcha-rs is a very simple library to verify recaptcha responses.
 
 ## Installation
