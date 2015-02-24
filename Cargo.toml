@@ -9,7 +9,7 @@ keywords = ["recaptcha", "captcha"]
 repository = "https://github.com/panicbit/recaptcha-rs"
 
 [dependencies.hyper]
-version = "0.2"
+version = "*"
 
 [dependencies.rustc-serialize]
-version = "0.2"
+version = "*"
