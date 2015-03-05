@@ -1,4 +1,4 @@
-#![feature(core, io, hash)]
+#![feature(core,io)]
 extern crate "rustc-serialize" as rustc_serialize;
 extern crate hyper;
 
@@ -9,6 +9,7 @@ mod response;
 pub use error::RecaptchaError;
 pub use errorcode::RecaptchaErrorCode;
 
+use std::io::Read;
 use std::collections::HashSet;
 use rustc_serialize::json;
 use response::RecaptchaResponse;
@@ -33,7 +34,8 @@ pub fn verify(key: &str, response: &str, user_ip: Option<&str>) -> Result<(), Re
     let mut client = Client::new();
 
     let mut response = try!(client.get(url).send());
-    let body = try!(response.read_to_string());
+    let ref mut body = String::new();
+    try!(response.read_to_string(body));
     let recaptcha_response = try!(json::decode::<RecaptchaResponse>(&body));
     
     match (recaptcha_response.success, recaptcha_response.error_codes) {

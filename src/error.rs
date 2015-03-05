@@ -1,7 +1,7 @@
 use std::error::{Error, FromError};
 use std::fmt::{self, Display, Debug};
 use std::collections::HashSet;
-use std::old_io::IoError;
+use std::io;
 use rustc_serialize::json::DecoderError;
 use hyper::HttpError;
 use super::RecaptchaErrorCode;
@@ -53,8 +53,8 @@ impl FromError<HttpError> for RecaptchaError {
     }
 }
 
-impl FromError<IoError> for RecaptchaError {
-    fn from_error(err: IoError) -> RecaptchaError {
+impl FromError<io::Error> for RecaptchaError {
+    fn from_error(err: io::Error) -> RecaptchaError {
         RecaptchaError::Wrapped(Box::new(err))
     }
 }
