@@ -1,4 +1,4 @@
-#![feature(core,io)]
+#![feature(core,io,net)]
 extern crate "rustc-serialize" as rustc_serialize;
 extern crate hyper;
 
@@ -6,25 +6,31 @@ mod error;
 mod errorcode;
 mod response;
 
+use std::io::Read;
+use std::collections::HashSet;
+use std::net::IpAddr;
+
 pub use error::RecaptchaError;
 pub use errorcode::RecaptchaErrorCode;
 
-use std::io::Read;
-use std::collections::HashSet;
 use rustc_serialize::json;
 use response::RecaptchaResponse;
 
 /// Verify a recaptcha user response
-pub fn verify(key: &str, response: &str, user_ip: Option<&str>) -> Result<(), RecaptchaError> {
+pub fn verify(key: &str, response: &str, user_ip: Option<&IpAddr>) -> Result<(), RecaptchaError> {
     use hyper::{Client, Url};
+
+    let user_ip = user_ip.map(ToString::to_string);
+    let user_ip = user_ip.as_ref().map(|s| &**s);
 
     let mut query = vec![
         ("secret", key),
         ("response", response),
     ];
+    
 
     if let Some(user_ip) = user_ip {
-        query.push(("remoteip", user_ip));
+        query.push(("remoteip", &user_ip));
     }
 
     let mut url = Url::parse("https://www.google.com/recaptcha/api/siteverify").unwrap();
