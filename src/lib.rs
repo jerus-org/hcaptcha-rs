@@ -59,11 +59,11 @@ fn test_invalid_secret_missing_response() {
 
     match resp {
         Ok(()) => panic!("unexpected response: Ok(())"),
-        Err(Wrapped(ref e)) => panic!("unexpected response: {}", e),
         Err(Codes(ref errors)) => {
             assert!(errors.contains(&InvalidSecret));
             assert!(errors.contains(&MissingResponse));
         }
+        Err(e) => panic!("unexpected error: {}", e),
     };
 
     println!("{:?}", resp);
