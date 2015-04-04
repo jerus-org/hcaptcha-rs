@@ -14,7 +14,8 @@ Verifying recaptcha responses is very easy:
 extern crate recaptcha;
 
 fn main() {
-    let res = recaptcha::verify("your_private_key", "user_response", Some("user_ip"));
+    let remote_ip = "123.123.123.123".parse().ok();
+    let res = recaptcha::verify("your_private_key", "user_response", remote_ip);
 
     if res.is_ok() {
         println!("Success");
