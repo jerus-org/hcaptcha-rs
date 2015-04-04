@@ -1,4 +1,4 @@
-#![feature(core,io,net)]
+#![feature(ip_addr)]
 extern crate rustc_serialize;
 extern crate hyper;
 
