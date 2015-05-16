@@ -2,7 +2,7 @@
 
 name = "recaptcha"
 description = "recaptcha response verification"
-version = "0.0.7"
+version = "0.1.0"
 authors = ["panicbit <panicbit@users.noreply.github.com>"]
 license = "MIT"
 keywords = ["recaptcha", "captcha"]
