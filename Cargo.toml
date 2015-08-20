@@ -3,7 +3,7 @@
 name = "recaptcha"
 description = "recaptcha response verification"
 version = "0.1.0"
-authors = ["panicbit <panicbit@users.noreply.github.com>"]
+authors = ["panicbit <panicbit.dev@gmail.com>"]
 license = "MIT"
 keywords = ["recaptcha", "captcha"]
 repository = "https://github.com/panicbit/recaptcha-rs"
