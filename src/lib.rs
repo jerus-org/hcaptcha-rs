@@ -36,7 +36,7 @@ pub fn verify(key: &str, response: &str, user_ip: Option<&Ipv4Addr>) -> Result<(
 
     url.set_query_from_pairs(query.into_iter());
 
-    let mut client = Client::new();
+    let client = Client::new();
 
     let mut response = try!(client.get(url).send());
     let ref mut body = String::new();
