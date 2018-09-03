@@ -1,4 +1,4 @@
-use rustc_serialize::{Decodable, Decoder};
+use serde::{Deserializer, Deserialize};
 
 #[derive(PartialEq, Eq, Hash, Debug)]
 pub enum RecaptchaErrorCode {
@@ -6,18 +6,23 @@ pub enum RecaptchaErrorCode {
     InvalidSecret,
     MissingResponse,
     InvalidResponse,
+    BadRequest,
     Unknown(String)
 }
 
-impl Decodable for RecaptchaErrorCode {
-    fn decode<D: Decoder>(decoder: &mut D) -> Result<RecaptchaErrorCode, D::Error> {
-        use self::RecaptchaErrorCode::*;
-        Ok(match &*try!(decoder.read_str()) {
-            "missing-input-secret" => MissingSecret,
-            "invalid-input-secret" => InvalidSecret,
-            "missing-input-response" => MissingResponse,
-            "invalid-input-response" => InvalidResponse,
-            unknown => Unknown(unknown.to_string())
+impl<'de> Deserialize<'de> for RecaptchaErrorCode {
+    fn deserialize<D>(de: D) -> Result<Self, D::Error>
+    where
+        D: Deserializer<'de>
+    {
+        let code = String::deserialize(de)?;
+        Ok(match &*code {
+            "missing-input-secret" => RecaptchaErrorCode::MissingSecret,
+            "invalid-input-secret" => RecaptchaErrorCode::InvalidSecret,
+            "missing-input-response" => RecaptchaErrorCode::MissingResponse,
+            "invalid-input-response" => RecaptchaErrorCode::InvalidResponse,
+            "bad-request" => RecaptchaErrorCode::BadRequest,
+            _ => RecaptchaErrorCode::Unknown(code),
         })
     }
 }

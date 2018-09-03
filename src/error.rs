@@ -3,14 +3,12 @@ use std::fmt::{self, Display, Debug};
 use std::collections::HashSet;
 use std::io;
 use std::convert::From;
-use rustc_serialize::json::DecoderError;
 use super::RecaptchaErrorCode;
 use reqwest;
 
 pub enum RecaptchaError {
     Codes(HashSet<RecaptchaErrorCode>),
-    Decoder(DecoderError),
-    Http(reqwest::Error),
+    Reqwest(reqwest::Error),
     Io(io::Error),
 }
 
@@ -19,8 +17,7 @@ impl Display for RecaptchaError {
         use self::RecaptchaError::*;
         match self {
             &Codes(ref errs) => write!(f, "{} ({:?})", self.description(), errs),
-            &Decoder(ref e) => Display::fmt(e, f),
-            &Http(ref e) => Display::fmt(e, f),
+            &Reqwest(ref e) => Display::fmt(e, f),
             &Io(ref e) => Display::fmt(e, f)
         }
     }
@@ -41,22 +38,15 @@ impl Error for RecaptchaError {
         use self::RecaptchaError::*;
         match self {
             &Codes(_) => None,
-            &Decoder(ref e) => Some(e),
-            &Http(ref e) => Some(e),
+            &Reqwest(ref e) => Some(e),
             &Io(ref e) => Some(e)
         }
     }
 }
 
-impl From<DecoderError> for RecaptchaError {
-    fn from(err: DecoderError) -> RecaptchaError {
-        RecaptchaError::Decoder(err)
-    }
-}
-
 impl From<reqwest::Error> for RecaptchaError {
     fn from(err: reqwest::Error) -> RecaptchaError {
-        RecaptchaError::Http(err)
+        RecaptchaError::Reqwest(err)
     }
 }
 

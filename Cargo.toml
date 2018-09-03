@@ -9,6 +9,8 @@ repository = "https://github.com/panicbit/recaptcha-rs"
 
 [dependencies]
 reqwest = "0.8.8"
+serde_derive = "1.0.76"
+serde = "1.0.76"
 
-[dependencies.rustc-serialize]
-version = "0.3"
+[dev-dependencies]
+serde_json = "1.0.26"

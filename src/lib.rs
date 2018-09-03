@@ -1,5 +1,6 @@
-extern crate rustc_serialize;
 extern crate reqwest;
+extern crate serde;
+#[macro_use] extern crate serde_derive;
 
 mod error;
 mod errorcode;
@@ -12,7 +13,6 @@ use std::net::Ipv4Addr;
 pub use error::RecaptchaError;
 pub use errorcode::RecaptchaErrorCode;
 
-use rustc_serialize::json;
 use response::RecaptchaResponse;
 
 /// Verify a recaptcha user response
@@ -36,9 +36,7 @@ pub fn verify(key: &str, response: &str, user_ip: Option<&Ipv4Addr>) -> Result<(
     let client = Client::new();
 
     let mut response = try!(client.get(url).send());
-    let ref mut body = String::new();
-    try!(response.read_to_string(body));
-    let recaptcha_response = try!(json::decode::<RecaptchaResponse>(&body));
+    let recaptcha_response = response.json::<RecaptchaResponse>()?;
     
     match (recaptcha_response.success, recaptcha_response.error_codes) {
         (true, _) => Ok(()),

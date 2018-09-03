@@ -1,30 +1,19 @@
 use std::collections::HashSet;
-use rustc_serialize::{Decodable, Decoder};
 use super::RecaptchaErrorCode;
 
-#[derive(Debug)]
+#[derive(Debug, Deserialize)]
 pub struct RecaptchaResponse {
     pub success: bool,
+    #[serde(rename="error-codes")]
     pub error_codes: Option<HashSet<RecaptchaErrorCode>>
-}
-
-impl Decodable for RecaptchaResponse {
-    fn decode<D: Decoder>(decoder: &mut D) -> Result<RecaptchaResponse, D::Error> {
-        decoder.read_struct("RecaptchaResponse", 2, |d|
-            Ok(RecaptchaResponse {
-                success: try!(d.read_struct_field("success", 0, Decodable::decode)),
-                error_codes: try!(d.read_struct_field("error-codes", 1, Decodable::decode))
-            })
-        )
-    }
 }
 
 #[test]
 fn decoding_test() {
-    use rustc_serialize::json::decode;
+    extern crate serde_json as json;
     use super::RecaptchaErrorCode::*;
 
-    let resp = decode::<RecaptchaResponse>(r#"{
+    let resp = json::from_str::<RecaptchaResponse>(r#"{
         "success": true,
         "error-codes": ["missing-input-secret", "foo"]
     }"#).unwrap();
