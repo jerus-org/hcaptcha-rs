@@ -6,9 +6,8 @@ mod error;
 mod errorcode;
 mod response;
 
-use std::io::Read;
 use std::collections::HashSet;
-use std::net::Ipv4Addr;
+use std::net::IpAddr;
 
 pub use error::RecaptchaError;
 pub use errorcode::RecaptchaErrorCode;
@@ -16,7 +15,7 @@ pub use errorcode::RecaptchaErrorCode;
 use response::RecaptchaResponse;
 
 /// Verify a recaptcha user response
-pub fn verify(key: &str, response: &str, user_ip: Option<&Ipv4Addr>) -> Result<(), RecaptchaError> {
+pub fn verify(key: &str, response: &str, user_ip: Option<&IpAddr>) -> Result<(), RecaptchaError> {
     use reqwest::{Client, Url};
 
     let user_ip = user_ip.map(ToString::to_string);
