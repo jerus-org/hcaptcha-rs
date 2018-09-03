@@ -20,7 +20,6 @@ pub fn verify(key: &str, response: &str, user_ip: Option<&Ipv4Addr>) -> Result<(
     use reqwest::{Client, Url};
 
     let user_ip = user_ip.map(ToString::to_string);
-    let user_ip = user_ip.as_ref().map(|s| &**s);
 
     let mut url = Url::parse("https://www.google.com/recaptcha/api/siteverify").unwrap();
 
@@ -30,7 +29,7 @@ pub fn verify(key: &str, response: &str, user_ip: Option<&Ipv4Addr>) -> Result<(
     ]);
 
     if let Some(user_ip) = user_ip {
-        url.query_pairs_mut().append_pair("remoteip", user_ip);
+        url.query_pairs_mut().append_pair("remoteip", &user_ip);
     }
 
     let client = Client::new();
