@@ -1,5 +1,5 @@
 extern crate rustc_serialize;
-extern crate hyper;
+extern crate reqwest;
 
 mod error;
 mod errorcode;
@@ -17,24 +17,21 @@ use response::RecaptchaResponse;
 
 /// Verify a recaptcha user response
 pub fn verify(key: &str, response: &str, user_ip: Option<&Ipv4Addr>) -> Result<(), RecaptchaError> {
-    use hyper::{Client, Url};
+    use reqwest::{Client, Url};
 
     let user_ip = user_ip.map(ToString::to_string);
     let user_ip = user_ip.as_ref().map(|s| &**s);
 
-    let mut query = vec![
-        ("secret", key),
-        ("response", response),
-    ];
-    
-
-    if let Some(user_ip) = user_ip {
-        query.push(("remoteip", &user_ip));
-    }
-
     let mut url = Url::parse("https://www.google.com/recaptcha/api/siteverify").unwrap();
 
-    url.set_query_from_pairs(query.into_iter());
+    url.query_pairs_mut().extend_pairs(&[
+        ("secret", key),
+        ("response", response),
+    ]);
+
+    if let Some(user_ip) = user_ip {
+        url.query_pairs_mut().append_pair("remoteip", user_ip);
+    }
 
     let client = Client::new();
 

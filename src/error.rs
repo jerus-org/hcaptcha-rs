@@ -1,4 +1,3 @@
-extern crate hyper;
 use std::error::Error;
 use std::fmt::{self, Display, Debug};
 use std::collections::HashSet;
@@ -6,11 +5,12 @@ use std::io;
 use std::convert::From;
 use rustc_serialize::json::DecoderError;
 use super::RecaptchaErrorCode;
+use reqwest;
 
 pub enum RecaptchaError {
     Codes(HashSet<RecaptchaErrorCode>),
     Decoder(DecoderError),
-    Http(hyper::Error),
+    Http(reqwest::Error),
     Io(io::Error),
 }
 
@@ -54,8 +54,8 @@ impl From<DecoderError> for RecaptchaError {
     }
 }
 
-impl From<hyper::Error> for RecaptchaError {
-    fn from(err: hyper::Error) -> RecaptchaError {
+impl From<reqwest::Error> for RecaptchaError {
+    fn from(err: reqwest::Error) -> RecaptchaError {
         RecaptchaError::Http(err)
     }
 }
