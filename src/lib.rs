@@ -34,7 +34,7 @@ pub fn verify(key: &str, response: &str, user_ip: Option<&IpAddr>) -> Result<(),
 
     let client = Client::new();
 
-    let mut response = try!(client.get(url).send());
+    let mut response = client.get(url).send()?;
     let recaptcha_response = response.json::<RecaptchaResponse>()?;
     
     match (recaptcha_response.success, recaptcha_response.error_codes) {
