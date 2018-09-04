@@ -1,57 +1,26 @@
-use std::error::Error;
-use std::fmt::{self, Display, Debug};
 use std::collections::HashSet;
 use std::io;
-use std::convert::From;
 use super::RecaptchaErrorCode;
 use reqwest;
 
-pub enum RecaptchaError {
+#[derive(Fail, Debug)]
+pub enum Error {
+    #[fail(display = "{:?}", _0)]
     Codes(HashSet<RecaptchaErrorCode>),
-    Reqwest(reqwest::Error),
-    Io(io::Error),
+    #[fail(display = "{}", _0)]
+    Reqwest(#[cause] reqwest::Error),
+    #[fail(display = "{}", _0)]
+    Io(#[cause] io::Error),
 }
 
-impl Display for RecaptchaError {
-    fn fmt(&self, f: &mut fmt::Formatter) -> Result<(), fmt::Error> {
-        use self::RecaptchaError::*;
-        match self {
-            &Codes(ref errs) => write!(f, "{} ({:?})", self.description(), errs),
-            &Reqwest(ref e) => Display::fmt(e, f),
-            &Io(ref e) => Display::fmt(e, f)
-        }
+impl From<reqwest::Error> for Error {
+    fn from(err: reqwest::Error) -> Error {
+        Error::Reqwest(err)
     }
 }
 
-impl Debug for RecaptchaError {
-    fn fmt(&self, f: &mut fmt::Formatter) -> Result<(), fmt::Error> {
-        <RecaptchaError as Display>::fmt(self, f)
-    }
-}
-
-impl Error for RecaptchaError {
-    fn description(&self) -> &str {
-        "recaptcha verification failed"
-    }
-
-    fn cause(&self) -> Option<&Error> {
-        use self::RecaptchaError::*;
-        match self {
-            &Codes(_) => None,
-            &Reqwest(ref e) => Some(e),
-            &Io(ref e) => Some(e)
-        }
-    }
-}
-
-impl From<reqwest::Error> for RecaptchaError {
-    fn from(err: reqwest::Error) -> RecaptchaError {
-        RecaptchaError::Reqwest(err)
-    }
-}
-
-impl From<io::Error> for RecaptchaError {
-    fn from(err: io::Error) -> RecaptchaError {
-        RecaptchaError::Io(err)
+impl From<io::Error> for Error {
+    fn from(err: io::Error) -> Error {
+        Error::Io(err)
     }
 }

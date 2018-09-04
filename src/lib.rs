@@ -1,6 +1,7 @@
 extern crate reqwest;
 extern crate serde;
 #[macro_use] extern crate serde_derive;
+#[macro_use] extern crate failure;
 
 mod error;
 mod errorcode;
@@ -9,13 +10,13 @@ mod response;
 use std::collections::HashSet;
 use std::net::IpAddr;
 
-pub use error::RecaptchaError;
+pub use error::Error;
 pub use errorcode::RecaptchaErrorCode;
 
 use response::RecaptchaResponse;
 
 /// Verify a recaptcha user response
-pub fn verify(key: &str, response: &str, user_ip: Option<&IpAddr>) -> Result<(), RecaptchaError> {
+pub fn verify(key: &str, response: &str, user_ip: Option<&IpAddr>) -> Result<(), Error> {
     use reqwest::{Client, Url};
 
     let user_ip = user_ip.map(ToString::to_string);
@@ -38,14 +39,14 @@ pub fn verify(key: &str, response: &str, user_ip: Option<&IpAddr>) -> Result<(),
     
     match (recaptcha_response.success, recaptcha_response.error_codes) {
         (true, _) => Ok(()),
-        (false, Some(errors)) => Err(RecaptchaError::Codes(errors)),
-        (false, _) => Err(RecaptchaError::Codes(HashSet::new()))
+        (false, Some(errors)) => Err(Error::Codes(errors)),
+        (false, _) => Err(Error::Codes(HashSet::new()))
     }
 }
 
 #[test]
 fn test_invalid_secret_missing_response() {
-    use RecaptchaError::*;
+    use Error::*;
     use RecaptchaErrorCode::*;
     let resp = verify("", "", None);
 
