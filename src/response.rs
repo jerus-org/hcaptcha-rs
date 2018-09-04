@@ -1,17 +1,17 @@
 use std::collections::HashSet;
-use super::RecaptchaErrorCode;
+use error::Code;
 
 #[derive(Debug, Deserialize)]
 pub struct RecaptchaResponse {
     pub success: bool,
     #[serde(rename="error-codes")]
-    pub error_codes: Option<HashSet<RecaptchaErrorCode>>
+    pub error_codes: Option<HashSet<Code>>
 }
 
 #[test]
 fn decoding_test() {
     extern crate serde_json as json;
-    use super::RecaptchaErrorCode::*;
+    use error::Code::*;
 
     let resp = json::from_str::<RecaptchaResponse>(r#"{
         "success": true,

@@ -3,15 +3,13 @@ extern crate serde;
 #[macro_use] extern crate serde_derive;
 #[macro_use] extern crate failure;
 
-mod error;
-mod errorcode;
+pub mod error;
 mod response;
 
 use std::collections::HashSet;
 use std::net::IpAddr;
 
 pub use error::Error;
-pub use errorcode::RecaptchaErrorCode;
 
 use response::RecaptchaResponse;
 
@@ -46,8 +44,8 @@ pub fn verify(key: &str, response: &str, user_ip: Option<&IpAddr>) -> Result<(),
 
 #[test]
 fn test_invalid_secret_missing_response() {
-    use Error::*;
-    use RecaptchaErrorCode::*;
+    use error::Error::*;
+    use error::Code::*;
     let resp = verify("", "", None);
 
     match resp {
