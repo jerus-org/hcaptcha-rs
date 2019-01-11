@@ -1,14 +1,14 @@
 [package]
 name = "recaptcha"
 description = "recaptcha response verification"
-version = "0.2.0"
+version = "0.3.0"
 authors = ["panicbit <panicbit.dev@gmail.com>"]
 license = "MIT"
 keywords = ["recaptcha", "captcha"]
 repository = "https://github.com/panicbit/recaptcha-rs"
 
 [dependencies]
-reqwest = "0.8.8"
+reqwest = "0.9.7"
 serde_derive = "1.0.76"
 serde = "1.0.76"
 failure = "0.1.2"
