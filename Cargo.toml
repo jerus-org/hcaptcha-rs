@@ -1,7 +1,7 @@
 [package]
 name = "recaptcha"
 description = "recaptcha response verification"
-version = "0.3.0"
+version = "0.3.1"
 authors = ["panicbit <panicbit.dev@gmail.com>"]
 license = "MIT"
 keywords = ["recaptcha", "captcha"]
