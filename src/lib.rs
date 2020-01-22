@@ -33,7 +33,7 @@ pub async fn verify(key: &str, response: &str, user_ip: Option<&IpAddr>) -> Resu
 
     let response = reqwest::get(url).await?;
     let recaptcha_response = response.json::<RecaptchaResponse>().await?;
-    
+
     match (recaptcha_response.success, recaptcha_response.error_codes) {
         (true, _) => Ok(()),
         (false, Some(errors)) => Err(Error::Codes(errors)),
