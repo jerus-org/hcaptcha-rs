@@ -9,14 +9,15 @@ mod response;
 use std::collections::HashSet;
 use std::net::IpAddr;
 
-pub use error::Error;
+use reqwest::Url;
 
 use response::RecaptchaResponse;
 
-/// Verify a recaptcha user response
-pub fn verify(key: &str, response: &str, user_ip: Option<&IpAddr>) -> Result<(), Error> {
-    use reqwest::{Client, Url};
+pub use error::Error;
 
+
+/// Verify a recaptcha user response
+pub async fn verify(key: &str, response: &str, user_ip: Option<&IpAddr>) -> Result<(), Error> {
     let user_ip = user_ip.map(ToString::to_string);
 
     let mut url = Url::parse("https://www.google.com/recaptcha/api/siteverify").unwrap();
@@ -30,10 +31,8 @@ pub fn verify(key: &str, response: &str, user_ip: Option<&IpAddr>) -> Result<(),
         url.query_pairs_mut().append_pair("remoteip", &user_ip);
     }
 
-    let client = Client::new();
-
-    let mut response = client.get(url).send()?;
-    let recaptcha_response = response.json::<RecaptchaResponse>()?;
+    let response = reqwest::get(url).await?;
+    let recaptcha_response = response.json::<RecaptchaResponse>().await?;
     
     match (recaptcha_response.success, recaptcha_response.error_codes) {
         (true, _) => Ok(()),
@@ -42,20 +41,25 @@ pub fn verify(key: &str, response: &str, user_ip: Option<&IpAddr>) -> Result<(),
     }
 }
 
-#[test]
-fn test_invalid_secret_missing_response() {
-    use error::Error::*;
-    use error::Code::*;
-    let resp = verify("", "", None);
+#[cfg(test)]
+mod tests {
+    use super::*;
 
-    match resp {
-        Ok(()) => panic!("unexpected response: Ok(())"),
-        Err(Codes(ref errors)) => {
-            assert!(errors.contains(&InvalidSecret));
-            assert!(errors.contains(&MissingResponse));
-        }
-        Err(e) => panic!("unexpected error: {}", e),
-    };
+    #[tokio::test]
+    async fn test_invalid_secret_missing_response() {
+        use error::Error::*;
+        use error::Code::*;
+        let response = verify("", "", None).await;
 
-    println!("{:?}", resp);
+        match response {
+            Ok(()) => panic!("unexpected response: Ok(())"),
+            Err(Codes(ref errors)) => {
+                assert!(errors.contains(&InvalidSecret));
+                assert!(errors.contains(&MissingResponse));
+            }
+            Err(e) => panic!("unexpected error: {}", e),
+        };
+
+        println!("{:?}", response);
+    }
 }

@@ -1,17 +1,19 @@
 [package]
 name = "recaptcha"
 description = "recaptcha response verification"
-version = "0.3.1"
+version = "0.4.0"
 authors = ["panicbit <panicbit.dev@gmail.com>"]
 license = "MIT"
 keywords = ["recaptcha", "captcha"]
 repository = "https://github.com/panicbit/recaptcha-rs"
+edition = "2018"
 
 [dependencies]
-reqwest = "0.9.7"
-serde_derive = "1.0.76"
-serde = "1.0.76"
-failure = "0.1.2"
+reqwest = { version = "0.10.1", features = ["json"] }
+serde_derive = "1.0.104"
+serde = "1.0.104"
+failure = "0.1.6"
 
 [dev-dependencies]
-serde_json = "1.0.26"
+serde_json = "1.0.44"
+tokio = { version = "0.2.10", features = ["macros"] }
