@@ -9,11 +9,11 @@ repository = "https://github.com/panicbit/recaptcha-rs"
 edition = "2018"
 
 [dependencies]
-reqwest = { version = "0.10.1", features = ["json"] }
-serde_derive = "1.0.104"
-serde = "1.0.104"
-failure = "0.1.6"
+reqwest = { version = "0.10.4", features = ["json"] }
+serde_derive = "1.0.106"
+serde = "1.0.106"
+failure = "0.1.7"
 
 [dev-dependencies]
-serde_json = "1.0.44"
-tokio = { version = "0.2.10", features = ["macros"] }
+serde_json = "1.0.50"
+tokio = { version = "0.2.15", features = ["macros"] }
