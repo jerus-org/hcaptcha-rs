@@ -1,7 +1,8 @@
+use failure::Fail;
+use reqwest;
+use serde::{Deserialize, Deserializer};
 use std::collections::HashSet;
 use std::io;
-use serde::{Deserializer, Deserialize};
-use reqwest;
 
 #[derive(Fail, Debug)]
 pub enum Error {
@@ -32,13 +33,13 @@ pub enum Code {
     MissingResponse,
     InvalidResponse,
     BadRequest,
-    Unknown(String)
+    Unknown(String),
 }
 
 impl<'de> Deserialize<'de> for Code {
     fn deserialize<D>(de: D) -> Result<Self, D::Error>
     where
-        D: Deserializer<'de>
+        D: Deserializer<'de>,
     {
         let code = String::deserialize(de)?;
         Ok(match &*code {

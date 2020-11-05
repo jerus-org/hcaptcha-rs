@@ -11,7 +11,6 @@ version = "0.1.0"
 ## Usage
 Verifying hcaptcha responses is very easy:
 ```rust
-extern crate hcaptcha;
 
 fn main() {
     let remote_ip = "123.123.123.123".parse().ok();

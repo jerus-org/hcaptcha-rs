@@ -1,11 +1,12 @@
-use std::collections::HashSet;
 use crate::error::Code;
+use serde_derive::Deserialize;
+use std::collections::HashSet;
 
 #[derive(Debug, Deserialize)]
 pub struct RecaptchaResponse {
     pub success: bool,
-    #[serde(rename="error-codes")]
-    pub error_codes: Option<HashSet<Code>>
+    #[serde(rename = "error-codes")]
+    pub error_codes: Option<HashSet<Code>>,
 }
 
 #[cfg(test)]
@@ -14,8 +15,8 @@ mod tests {
 
     #[test]
     fn decoding_test() {
-        use serde_json::json;
         use crate::error::Code::*;
+        use serde_json::json;
 
         let response = json!({
             "success": true,
