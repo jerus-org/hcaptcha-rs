@@ -6,7 +6,7 @@ use std::net::IpAddr;
 
 use reqwest::Url;
 
-use response::RecaptchaResponse;
+use response::HcaptchaResponse;
 
 pub use error::Error;
 
@@ -24,7 +24,7 @@ pub async fn verify(key: &str, response: &str, user_ip: Option<&IpAddr>) -> Resu
     }
 
     let response = reqwest::get(url).await?;
-    let recaptcha_response = response.json::<RecaptchaResponse>().await?;
+    let recaptcha_response = response.json::<HcaptchaResponse>().await?;
 
     match (recaptcha_response.success, recaptcha_response.error_codes) {
         (true, _) => Ok(()),
