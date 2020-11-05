@@ -1,17 +1,17 @@
-# recaptcha-rs [![Build Status](https://travis-ci.org/panicbit/recaptcha-rs.svg)](https://travis-ci.org/panicbit/recaptcha-rs)
-Recaptcha-rs is a very simple library to verify recaptcha responses.
+# hcaptcha-rs [![Build Status](https://travis-ci.org/jerusdp/hcaptcha-rs.svg)](https://travis-ci.org/jerusdp/hcaptcha-rs)
+hcaptcha-rs is a very simple library to verify hcaptcha responses.
 
 ## Installation
-To use recaptcha-rs in your project you can add the following to your `Cargo.toml`:
+To use hcaptcha-rs in your project you can add the following to your `Cargo.toml`:
 ```toml
-[dependencies.recaptcha]
-version = "0.2.0"
+[dependencies.hcaptcha]
+version = "0.1.0"
 ```
 
 ## Usage
-Verifying recaptcha responses is very easy:
+Verifying hcaptcha responses is very easy:
 ```rust
-extern crate recaptcha;
+extern crate hcaptcha;
 
 fn main() {
     let remote_ip = "123.123.123.123".parse().ok();
@@ -25,3 +25,5 @@ fn main() {
 }
 
 ```
+
+Based on [recaptcha-rs](https://github.com/panicbit/recaptcha-rs) by panicbit
