@@ -2,6 +2,7 @@ use crate::error::Code;
 use serde_derive::Deserialize;
 use std::collections::HashSet;
 
+type Score = f32;
 #[derive(Debug, Default, Deserialize, Clone)]
 pub struct HcaptchaResponse {
     success: bool,
@@ -10,38 +11,38 @@ pub struct HcaptchaResponse {
     credit: Option<bool>,
     #[serde(rename = "error-codes")]
     error_codes: Option<HashSet<Code>>,
-    score: Option<f32>,
+    score: Option<Score>,
     score_reason: Option<HashSet<String>>,
 }
 
 impl HcaptchaResponse {
     #[allow(dead_code)]
-    pub fn get_success(&self) -> bool {
+    pub fn success(&self) -> bool {
         self.success
     }
 
     #[allow(dead_code)]
-    pub fn get_hostname(&self) -> Option<String> {
+    pub fn hostname(&self) -> Option<String> {
         self.hostname.clone()
     }
     #[allow(dead_code)]
-    pub fn get_timestamp(&self) -> Option<String> {
+    pub fn timestamp(&self) -> Option<String> {
         self.challenge_ts.clone()
     }
     #[allow(dead_code)]
-    pub fn get_credit(&self) -> Option<bool> {
+    pub fn credit(&self) -> Option<bool> {
         self.credit
     }
     #[allow(dead_code)]
-    pub fn get_error_codes(&self) -> Option<HashSet<Code>> {
+    pub fn error_codes(&self) -> Option<HashSet<Code>> {
         self.error_codes.clone()
     }
     #[allow(dead_code)]
-    pub fn get_score(&self) -> Option<f32> {
+    pub fn score(&self) -> Option<f32> {
         self.score
     }
     #[allow(dead_code)]
-    pub fn get_score_reason(&self) -> Option<HashSet<String>> {
+    pub fn score_reason(&self) -> Option<HashSet<String>> {
         self.score_reason.clone()
     }
 }
@@ -85,61 +86,61 @@ mod tests {
     }
 
     #[test]
-    fn get_success_test() {
+    fn success_test() {
         let response = test_response();
 
-        assert_eq!(response.get_success(), true);
+        assert_eq!(response.success(), true);
     }
 
     #[test]
-    fn get_timestamp_test() {
+    fn timestamp_test() {
         let response = test_response();
 
         assert_eq!(
-            response.get_timestamp(),
+            response.timestamp(),
             Some("2020-11-11T23:27:00Z".to_owned())
         );
     }
 
     #[test]
-    fn get_hostname_test() {
+    fn hostname_test() {
         let response = test_response();
 
-        assert_eq!(response.get_hostname(), Some("my-host.ie".to_owned()));
+        assert_eq!(response.hostname(), Some("my-host.ie".to_owned()));
     }
 
     #[test]
-    fn get_credit_test() {
+    fn credit_test() {
         let response = test_response();
 
-        assert_eq!(response.get_credit(), Some(false));
+        assert_eq!(response.credit(), Some(false));
     }
 
     #[test]
-    fn get_error_codes_test() {
+    fn error_codes_test() {
         let response = test_response();
 
-        assert!(response.get_error_codes().is_some());
-        match response.get_error_codes() {
+        assert!(response.error_codes().is_some());
+        match response.error_codes() {
             Some(hash_set) => assert_eq!(hash_set.len(), 2),
             None => {}
         }
     }
 
     #[test]
-    fn get_score_test() {
+    fn score_test() {
         let response = test_response();
 
-        assert!(response.get_score().is_none());
+        assert!(response.score().is_none());
     }
 
     #[test]
-    fn get_score_reason_test() {
+    fn score_reason_test() {
         let response = test_response();
         println!("The response: {:?}", response);
 
-        assert!(response.get_score_reason().is_some());
-        match response.get_score_reason() {
+        assert!(response.score_reason().is_some());
+        match response.score_reason() {
             Some(hash_set) => assert!(hash_set.is_empty()),
             None => {}
         }

@@ -8,6 +8,55 @@ use std::collections::HashSet;
 use std::net::IpAddr;
 
 pub use error::Error;
+/// Hcaptcha
+///
+/// # Build the request and verify
+///
+/// The request must include your secret_key and the response submitted
+/// with the posted data. The new method on Hcaptcha requires these values.
+///
+/// The additional optional values of the ip address from the user and the
+/// your site_key can be added to the request using builder functions
+///
+/// Execute verify on the request to confirm.
+///
+/// # Additinal Response Data
+///
+/// Hcaptcha offers additional response data to the success flag and error
+/// codes.
+///
+/// The following can be accessed after a succcessful verification:
+///   timestamp  timestamp of the captcha (ISO: yyyy-MM-dd'T'HH:mm:ssZZ)
+///   hostname   the hostname of the site where the captcha was solved
+///   credit         whether the response will be credited
+///   score          ENTERPRISE feature: a score denoting malicious activity.
+///   score_reason   ENTERPRISE feature: reason(s) for score.
+///
+/// All these values are stored in an Option enum and may not always be present
+/// in the response (see Hcaptcha documentation [here](https://docs.hcaptcha.com/#server)).
+///
+/// # Example
+///
+/// ```
+/// use hcaptcha::Hcaptcha;
+/// use std::net::{IpAddr, Ipv4Addr};
+///
+/// #[tokio::main]
+/// async fn main() {
+///     let remote_ip = IpAddr::V4(Ipv4Addr::new(192, 168, 0, 17));
+///     
+///     let res = Hcaptcha::new("your_private_key", "user_response")
+///                 .set_user_ip(&remote_ip)
+///                 .verify()
+///                 .await;
+///
+///     if res.is_ok() {
+///         println!("Success");
+///     } else {
+///         println!("Failure");
+///     }
+/// }
+/// ```
 
 #[derive(Debug, Default)]
 pub struct Hcaptcha {
@@ -113,7 +162,7 @@ impl Hcaptcha {
     ///
     /// let secret = "0x0000000000000000000000000000000000000000";
     /// let token = "";
-    /// let user_ip = IpAddr::V4(Ipv4Addr::new(192, 168, 0, 17));
+    /// let user_ip = IpAddr::V4(Ipv4Addr::new(123, 123, 123, 123));
     /// let site_key = "10000000-ffff-ffff-ffff-000000000001";
     ///
     /// let response = Hcaptcha::new(secret, token)
@@ -128,10 +177,7 @@ impl Hcaptcha {
     pub async fn verify(&mut self) -> Result<(), Error> {
         self.response = self.request.verify().await?;
 
-        match (
-            self.response.get_success(),
-            self.response.get_error_codes().clone(),
-        ) {
+        match (self.response.success(), self.response.error_codes().clone()) {
             (true, _) => Ok(()),
             (false, Some(errors)) => Err(Error::Codes(errors)),
             (false, _) => Err(Error::Codes(HashSet::new())),
@@ -143,8 +189,8 @@ impl Hcaptcha {
     /// where the captcha was solved
     ///
     #[allow(dead_code)]
-    pub fn get_hostname(&self) -> Option<String> {
-        self.response.get_hostname()
+    pub fn hostname(&self) -> Option<String> {
+        self.response.hostname()
     }
 
     /// Get the timestamp from the response
@@ -152,16 +198,16 @@ impl Hcaptcha {
     /// (ISO format yyyy-MM-dd'T'HH:mm:ssZZ)
     ///
     #[allow(dead_code)]
-    pub fn get_timestamp(&self) -> Option<String> {
-        self.response.get_timestamp()
+    pub fn timestamp(&self) -> Option<String> {
+        self.response.timestamp()
     }
 
     /// Get the credit flag
     /// Optional flag showing whether the response will be credited
     ///
     #[allow(dead_code)]
-    pub fn get_credit(&self) -> Option<bool> {
-        self.response.get_credit()
+    pub fn credit(&self) -> Option<bool> {
+        self.response.credit()
     }
 
     /// Get the score
@@ -169,8 +215,8 @@ impl Hcaptcha {
     /// ENTERPRISE feature: a score denoting malicious activity.
     ///
     #[allow(dead_code)]
-    pub fn get_score(&self) -> Option<f32> {
-        self.response.get_score()
+    pub fn score(&self) -> Option<f32> {
+        self.response.score()
     }
 
     /// Get the reasons for the score
@@ -179,8 +225,8 @@ impl Hcaptcha {
     /// See [BotStop.com](https://BotStop.com) for details.
     ///
     #[allow(dead_code)]
-    pub fn get_score_reason(&self) -> Option<HashSet<String>> {
-        self.response.get_score_reason()
+    pub fn score_reason(&self) -> Option<HashSet<String>> {
+        self.response.score_reason()
     }
 }
 #[cfg(test)]
@@ -213,7 +259,7 @@ mod tests {
         use error::Error::*;
         use std::net::Ipv4Addr;
 
-        let user_ip = IpAddr::V4(Ipv4Addr::new(18, 197, 23, 227));
+        let user_ip = IpAddr::V4(Ipv4Addr::new(123, 123, 123, 123));
 
         let response = Hcaptcha::new("", "").set_user_ip(&user_ip).verify().await;
 
@@ -264,61 +310,61 @@ mod tests {
     }
 
     #[test]
-    fn get_success_test() {
+    fn success_test() {
         let response = test_response();
 
-        assert_eq!(response.get_success(), true);
+        assert_eq!(response.success(), true);
     }
 
     #[test]
-    fn get_timestamp_test() {
+    fn timestamp_test() {
         let response = test_response();
 
         assert_eq!(
-            response.get_timestamp(),
+            response.timestamp(),
             Some("2020-11-11T23:27:00Z".to_owned())
         );
     }
 
     #[test]
-    fn get_hostname_test() {
+    fn hostname_test() {
         let response = test_response();
 
-        assert_eq!(response.get_hostname(), Some("my-host.ie".to_owned()));
+        assert_eq!(response.hostname(), Some("my-host.ie".to_owned()));
     }
 
     #[test]
-    fn get_credit_test() {
+    fn credit_test() {
         let response = test_response();
 
-        assert_eq!(response.get_credit(), Some(false));
+        assert_eq!(response.credit(), Some(false));
     }
 
     #[test]
-    fn get_error_codes_test() {
+    fn error_codes_test() {
         let response = test_response();
 
-        assert!(response.get_error_codes().is_some());
-        match response.get_error_codes() {
+        assert!(response.error_codes().is_some());
+        match response.error_codes() {
             Some(hash_set) => assert_eq!(hash_set.len(), 2),
             None => {}
         }
     }
 
     #[test]
-    fn get_score_test() {
+    fn score_test() {
         let response = test_response();
 
-        assert!(response.get_score().is_none());
+        assert!(response.score().is_none());
     }
 
     #[test]
-    fn get_score_reason_test() {
+    fn score_reason_test() {
         let response = test_response();
         println!("The response: {:?}", response);
 
-        assert!(response.get_score_reason().is_some());
-        match response.get_score_reason() {
+        assert!(response.score_reason().is_some());
+        match response.score_reason() {
             Some(hash_set) => assert!(hash_set.is_empty()),
             None => {}
         }

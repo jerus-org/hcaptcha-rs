@@ -67,7 +67,7 @@ mod tests {
         match response {
             Ok(response) => {
                 println!("{:?}", response);
-                let response = match (response.get_success(), response.get_error_codes().clone()) {
+                let response = match (response.success(), response.error_codes().clone()) {
                     (true, _) => Ok(()),
                     (false, Some(errors)) => Err(Error::Codes(errors)),
                     (false, _) => Err(Error::Codes(HashSet::new())),
@@ -103,7 +103,7 @@ mod tests {
         match response {
             Ok(response) => {
                 println!("{:?}", response);
-                let response = match (response.get_success(), response.get_error_codes().clone()) {
+                let response = match (response.success(), response.error_codes().clone()) {
                     (true, _) => Ok(()),
                     (false, Some(errors)) => Err(Error::Codes(errors)),
                     (false, _) => Err(Error::Codes(HashSet::new())),
@@ -135,7 +135,7 @@ mod tests {
         match response {
             Ok(response) => {
                 println!("{:?}", response);
-                let response = match (response.get_success(), response.get_error_codes().clone()) {
+                let response = match (response.success(), response.error_codes().clone()) {
                     (true, _) => Ok(()),
                     (false, Some(errors)) => Err(Error::Codes(errors)),
                     (false, _) => Err(Error::Codes(HashSet::new())),

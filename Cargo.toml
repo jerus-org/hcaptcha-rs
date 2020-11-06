@@ -3,10 +3,12 @@ name = "hcaptcha"
 description = "hcaptcha response verification"
 version = "0.1.0"
 authors = ["jerusdp <jrussell@jerus.ie>"]
-license = "MIT"
+license = "MIT OR Apache-2.0"
 keywords = ["hcaptcha", "captcha"]
+categories = ["bot protection", "captcha", "security"]
 repository = "https://github.com/jerusdp/hcaptcha-rs"
 edition = "2018"
+readme = "README.md"
 
 [dependencies]
 reqwest = { version = "0.10.8", features = ["json"] }
