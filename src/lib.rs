@@ -1,46 +1,102 @@
-const VERIFY_URL: &str = "https://hcaptcha.com/siteverify";
 pub mod error;
+mod request;
 mod response;
 
-use log::debug;
-use reqwest::{Client, Url};
+use request::HcaptchaRequest;
 use response::HcaptchaResponse;
-use serde_derive::Serialize;
 use std::collections::HashSet;
 use std::net::IpAddr;
 
 pub use error::Error;
 
-#[derive(Debug, Default, Serialize)]
-pub struct HcaptchaRequest {
-    secret: String,
-    token: String,
-    user_ip: Option<String>,
-    site_key: Option<String>,
+#[derive(Debug, Default)]
+pub struct Hcaptcha {
+    request: HcaptchaRequest,
+    response: HcaptchaResponse,
 }
 
-impl HcaptchaRequest {
-    /// Create a new HcaptchaRequest
+impl Hcaptcha {
+    /// Create a new Hcaptcha Request
+    ///
+    /// # Example
+    ///
+    /// ```
+    /// # #[tokio::main]
+    /// # async fn main() {
+    /// # use hcaptcha::Hcaptcha;
+    ///
+    /// let secret = ""; // your secret key
+    /// let token = "";  // user's token
+    ///
+    /// let hcaptcha = Hcaptcha::new(secret, token)
+    ///                 .verify().await;
+    ///
+    /// assert!(hcaptcha.is_err());
+    ///
+    /// # }
+    /// ```
     #[allow(dead_code)]
-    pub fn new(secret: &str, token: &str) -> HcaptchaRequest {
-        HcaptchaRequest {
-            secret: secret.to_owned(),
-            token: token.to_owned(),
-            ..HcaptchaRequest::default()
+    pub fn new(secret: &str, token: &str) -> Hcaptcha {
+        let request = HcaptchaRequest::new(secret, token);
+
+        Hcaptcha {
+            request,
+            ..Hcaptcha::default()
         }
     }
 
     /// Specify the optional ip address value
+    ///
+    /// # Example
+    ///
+    /// ```
+    /// # #[tokio::main]
+    /// # async fn main() {
+    /// # use hcaptcha::Hcaptcha;
+    /// # use std::net::{IpAddr, Ipv4Addr};
+    ///
+    /// let secret = ""; // your secret key
+    /// let token = "";  // user's token
+    /// let user_ip = IpAddr::V4(Ipv4Addr::new(192, 168, 0, 17));
+    ///
+    /// let hcaptcha = Hcaptcha::new(secret, token)
+    ///                 .set_user_ip(&user_ip)  
+    ///                 .verify().await;
+    ///
+    /// assert!(hcaptcha.is_err());
+    ///
+    /// # }
+    /// ```
     #[allow(dead_code)]
-    pub fn set_user_ip(mut self, user_ip: &IpAddr) -> HcaptchaRequest {
-        self.user_ip = Some(user_ip.to_string());
+    pub fn set_user_ip(mut self, user_ip: &IpAddr) -> Hcaptcha {
+        self.request.set_user_ip(user_ip);
         self
     }
 
     /// Specify the optional site key value
+    ///
+    /// # Example
+    ///
+    /// ```
+    /// # #[tokio::main]
+    /// # async fn main() {
+    /// # use hcaptcha::Hcaptcha;
+    ///
+    /// let secret = ""; // your secret key
+    /// let token = "";  // user's token
+    /// let site_key = "10000000-ffff-ffff-ffff-000000000001";
+    ///
+    /// let hcaptcha = Hcaptcha::new(secret, token)
+    ///                 .set_site_key(site_key)  
+    ///                 .verify().await;
+    ///
+    /// assert!(hcaptcha.is_err());
+    ///
+    /// # }
+    /// ```
     #[allow(dead_code)]
-    pub fn set_site_key(mut self, site_key: &str) -> HcaptchaRequest {
-        self.site_key = Some(site_key.to_owned());
+    pub fn set_site_key(mut self, site_key: &str) -> Hcaptcha {
+        self.request.set_site_key(site_key);
         self
     }
 
@@ -51,7 +107,7 @@ impl HcaptchaRequest {
     /// ```
     /// # #[tokio::main]
     /// # async fn main() -> Result<(), hcaptcha::Error> {
-    /// # use hcaptcha::HcaptchaRequest;
+    /// # use hcaptcha::Hcaptcha;
     /// # use hcaptcha::error::Code::*;
     /// # use std::net::{IpAddr, Ipv4Addr};
     ///
@@ -60,7 +116,7 @@ impl HcaptchaRequest {
     /// let user_ip = IpAddr::V4(Ipv4Addr::new(192, 168, 0, 17));
     /// let site_key = "10000000-ffff-ffff-ffff-000000000001";
     ///
-    /// let response = HcaptchaRequest::new(secret, token)
+    /// let response = Hcaptcha::new(secret, token)
     ///                 .set_user_ip(&user_ip)
     ///                 .set_site_key(&site_key)
     ///                 .verify().await;
@@ -69,16 +125,10 @@ impl HcaptchaRequest {
     /// # Ok(())
     /// # }
     /// ```
-    pub async fn verify(self) -> Result<(), Error> {
-        let url = Url::parse(VERIFY_URL).unwrap();
+    pub async fn verify(&mut self) -> Result<(), Error> {
+        self.response = self.request.verify().await?;
 
-        let body = serde_json::to_string(&self)?;
-        debug!("Url {} and body {}", url, body);
-
-        let response = Client::new().post(url).body(body).send().await?;
-        let response = response.json::<HcaptchaResponse>().await?;
-        println!("The response is: {:?}", response);
-        match (response.success, response.error_codes) {
+        match (self.response.success, self.response.error_codes.clone()) {
             (true, _) => Ok(()),
             (false, Some(errors)) => Err(Error::Codes(errors)),
             (false, _) => Err(Error::Codes(HashSet::new())),
@@ -93,7 +143,7 @@ mod tests {
     async fn test_invalid_secret_missing_response() {
         use error::Code::*;
         use error::Error::*;
-        let response = HcaptchaRequest::new("", "").verify().await;
+        let response = Hcaptcha::new("", "").verify().await;
 
         match response {
             Ok(()) => panic!("unexpected response: Ok(())"),
@@ -116,10 +166,7 @@ mod tests {
 
         let user_ip = IpAddr::V4(Ipv4Addr::new(18, 197, 23, 227));
 
-        let response = HcaptchaRequest::new("", "")
-            .set_user_ip(&user_ip)
-            .verify()
-            .await;
+        let response = Hcaptcha::new("", "").set_user_ip(&user_ip).verify().await;
 
         match response {
             Ok(()) => panic!("unexpected response: Ok(())"),
@@ -137,7 +184,7 @@ mod tests {
     async fn test_invalid_secret_missing_response_with_site_key() {
         use error::Code::*;
         use error::Error::*;
-        let response = HcaptchaRequest::new("", "")
+        let response = Hcaptcha::new("", "")
             .set_site_key("10000000-ffff-ffff-ffff-000000000001")
             .verify()
             .await;

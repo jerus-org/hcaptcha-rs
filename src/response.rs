@@ -2,7 +2,7 @@ use crate::error::Code;
 use serde_derive::Deserialize;
 use std::collections::HashSet;
 
-#[derive(Debug, Deserialize)]
+#[derive(Debug, Default, Deserialize)]
 pub struct HcaptchaResponse {
     pub success: bool,
     pub challenge_ts: Option<String>, // timestamp of the captcha (ISO format yyyy-MM-dd'T'HH:mm:ssZZ)

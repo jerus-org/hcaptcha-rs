@@ -34,7 +34,7 @@ impl From<serde_json::Error> for Error {
     }
 }
 
-#[derive(PartialEq, Eq, Hash, Debug)]
+#[derive(PartialEq, Eq, Hash, Clone, Debug)]
 pub enum Code {
     MissingSecret,
     InvalidSecret,
