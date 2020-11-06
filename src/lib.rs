@@ -128,7 +128,10 @@ impl Hcaptcha {
     pub async fn verify(&mut self) -> Result<(), Error> {
         self.response = self.request.verify().await?;
 
-        match (self.response.success, self.response.error_codes.clone()) {
+        match (
+            self.response.get_success(),
+            self.response.get_error_codes().clone(),
+        ) {
             (true, _) => Ok(()),
             (false, Some(errors)) => Err(Error::Codes(errors)),
             (false, _) => Err(Error::Codes(HashSet::new())),
