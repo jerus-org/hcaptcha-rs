@@ -12,6 +12,8 @@ pub enum Error {
     Reqwest(#[cause] reqwest::Error),
     #[fail(display = "{}", _0)]
     Io(#[cause] io::Error),
+    #[fail(display = "{}", _0)]
+    Json(#[cause] serde_json::Error),
 }
 
 impl From<reqwest::Error> for Error {
@@ -23,6 +25,12 @@ impl From<reqwest::Error> for Error {
 impl From<io::Error> for Error {
     fn from(err: io::Error) -> Error {
         Error::Io(err)
+    }
+}
+
+impl From<serde_json::Error> for Error {
+    fn from(err: serde_json::Error) -> Error {
+        Error::Json(err)
     }
 }
 
@@ -52,3 +60,12 @@ impl<'de> Deserialize<'de> for Code {
         })
     }
 }
+/*
+missing-input-secret	Your secret key is missing.
+invalid-input-secret	Your secret key is invalid or malformed.
+missing-input-response	The response parameter (verification token) is missing.
+invalid-input-response	The response parameter (verification token) is invalid or malformed.
+bad-request	The request is invalid or malformed.
+invalid-or-already-seen-response	The response parameter has already been checked, or has another issue.
+sitekey-secret-mismatch	The sitekey is not registered with the provided secret.
+*/
