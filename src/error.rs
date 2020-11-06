@@ -41,6 +41,8 @@ pub enum Code {
     MissingResponse,
     InvalidResponse,
     BadRequest,
+    InvalidAlreadySeen,
+    SiteSecretMismatch,
     Unknown(String),
 }
 
@@ -56,16 +58,9 @@ impl<'de> Deserialize<'de> for Code {
             "missing-input-response" => Code::MissingResponse,
             "invalid-input-response" => Code::InvalidResponse,
             "bad-request" => Code::BadRequest,
+            "invalid-or-already-seen-response" => Code::InvalidAlreadySeen,
+            "sitekey-secret-mismatch" => Code::SiteSecretMismatch,
             _ => Code::Unknown(code),
         })
     }
 }
-/*
-missing-input-secret	Your secret key is missing.
-invalid-input-secret	Your secret key is invalid or malformed.
-missing-input-response	The response parameter (verification token) is missing.
-invalid-input-response	The response parameter (verification token) is invalid or malformed.
-bad-request	The request is invalid or malformed.
-invalid-or-already-seen-response	The response parameter has already been checked, or has another issue.
-sitekey-secret-mismatch	The sitekey is not registered with the provided secret.
-*/
