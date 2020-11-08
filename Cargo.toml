@@ -10,6 +10,11 @@ repository = "https://github.com/jerusdp/hcaptcha-rs"
 edition = "2018"
 readme = "README.md"
 
+include = [
+    "**/*.rs",
+    "Cargo.toml",
+]
+
 [dependencies]
 reqwest = { version = "0.10.8", features = ["json"] }
 serde_derive = "1.0.117"
