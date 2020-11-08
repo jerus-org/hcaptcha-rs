@@ -14,6 +14,8 @@ pub enum Error {
     Io(#[cause] io::Error),
     #[fail(display = "{}", _0)]
     Json(#[cause] serde_json::Error),
+    #[fail(display = "{}", _0)]
+    UrlEncoded(#[cause] serde_urlencoded::ser::Error),
 }
 
 impl From<reqwest::Error> for Error {
@@ -31,6 +33,12 @@ impl From<io::Error> for Error {
 impl From<serde_json::Error> for Error {
     fn from(err: serde_json::Error) -> Error {
         Error::Json(err)
+    }
+}
+
+impl From<serde_urlencoded::ser::Error> for Error {
+    fn from(err: serde_urlencoded::ser::Error) -> Error {
+        Error::UrlEncoded(err)
     }
 }
 

@@ -44,7 +44,7 @@ impl HcaptchaRequest {
     pub async fn verify(&self) -> Result<HcaptchaResponse, Error> {
         let url = Url::parse(VERIFY_URL).unwrap();
 
-        let body = serde_json::to_string(&self)?;
+        let body = serde_urlencoded::to_string(&self)?;
         debug!("Url {} and body {}", url, body);
 
         let response = Client::new().post(url).body(body).send().await?;
