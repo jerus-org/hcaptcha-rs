@@ -1,4 +1,7 @@
 language: rust
+branches:
+  only: 
+    - main
 rust:
   - 1.38.0
   - stable
