@@ -1,5 +1,6 @@
 language: rust
 rust:
+  - stable 1.38
   - stable
   - nightly
 sudo: false
