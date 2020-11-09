@@ -1,7 +1,7 @@
 # hcaptcha-rs 
 [![Build Status](https://travis-ci.org/jerusdp/recaptcha-rs.svg?branch=main)](https://travis-ci.org/jerusdp/hcaptcha-rs) 
 [![Rust 1.39+](https://img.shields.io/badge/rust-1.39+-orange.svg)](https://www.rust-lang.org)
-hcaptcha-rs is a very simple library to verify hcaptcha responses.
+hcaptcha-rs is a library to verify hcaptcha responses.
 
 ## Installation
 To use hcaptcha-rs in your project you can add the following to your `Cargo.toml`:
