@@ -9,8 +9,8 @@ use std::net::IpAddr;
 
 #[derive(Debug, Default, Serialize)]
 pub struct HcaptchaRequest {
+    response: String,
     secret: String,
-    token: String,
     user_ip: Option<String>,
     site_key: Option<String>,
 }
@@ -18,10 +18,10 @@ pub struct HcaptchaRequest {
 impl HcaptchaRequest {
     /// Create a new HcaptchaRequest
     #[allow(dead_code)]
-    pub fn new(secret: &str, token: &str) -> HcaptchaRequest {
+    pub fn new(secret: &str, response: &str) -> HcaptchaRequest {
         HcaptchaRequest {
+            response: response.to_owned(),
             secret: secret.to_owned(),
-            token: token.to_owned(),
             ..HcaptchaRequest::default()
         }
     }
@@ -43,13 +43,9 @@ impl HcaptchaRequest {
     #[allow(dead_code)]
     pub async fn verify(&self) -> Result<HcaptchaResponse, Error> {
         let url = Url::parse(VERIFY_URL).unwrap();
-
-        let body = serde_urlencoded::to_string(&self)?;
-        debug!("Url {} and body {}", url, body);
-
-        let response = Client::new().post(url).body(body).send().await?;
+        let response = Client::new().post(url).form(&self).send().await?;
         let response = response.json::<HcaptchaResponse>().await?;
-        println!("The response is: {:?}", response);
+        debug!("The response is: {:?}", response);
         Ok(response)
     }
 }
