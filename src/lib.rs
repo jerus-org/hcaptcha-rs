@@ -1,7 +1,7 @@
 pub mod error;
 mod request;
 mod response;
-
+#[cfg(feature = "logging")]
 use log::debug;
 use request::HcaptchaRequest;
 use response::HcaptchaResponse;
@@ -58,6 +58,15 @@ pub use error::Error;
 ///     }
 /// }
 /// ```
+///
+/// # Features
+///
+/// ## Logging
+///
+/// The logging feature enbles debug logs of the request and response data.
+///
+///
+///
 
 #[derive(Debug, Default)]
 pub struct Hcaptcha {
@@ -180,6 +189,7 @@ impl Hcaptcha {
     /// # }
     /// ```
     pub async fn verify(&mut self) -> Result<(), Error> {
+        #[cfg(feature = "logging")]
         debug!("State of request: {:?}", self);
         self.response = self.request.verify().await?;
 

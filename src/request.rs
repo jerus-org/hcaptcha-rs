@@ -2,6 +2,7 @@ const VERIFY_URL: &str = "https://hcaptcha.com/siteverify";
 
 pub use super::error::Error;
 use super::response::HcaptchaResponse;
+#[cfg(feature = "logging")]
 use log::debug;
 use reqwest::{Client, Url};
 use serde_derive::Serialize;
@@ -45,6 +46,7 @@ impl HcaptchaRequest {
         let url = Url::parse(VERIFY_URL).unwrap();
         let response = Client::new().post(url).form(&self).send().await?;
         let response = response.json::<HcaptchaResponse>().await?;
+        #[cfg(feature = "logging")]
         debug!("The response is: {:?}", response);
         Ok(response)
     }

@@ -10,7 +10,7 @@ To use hcaptcha-rs in your project you can add the following to your `Cargo.toml
 
 ```toml
 [dependencies.hcaptcha]
-version = "0.1.1"
+version = "0.2.0"
 ```
 
 ## Usage
