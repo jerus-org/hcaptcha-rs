@@ -41,8 +41,6 @@ pub use error::Error;
 /// ```
 /// use hcaptcha::Hcaptcha;
 /// use std::net::{IpAddr, Ipv4Addr};
-/// #[allow(unused_imports)]
-/// use tokio_compat_02::FutureExt;
 ///
 /// #[tokio::main]
 /// async fn main() {
@@ -51,7 +49,6 @@ pub use error::Error;
 ///     let res = Hcaptcha::new("your_private_key", "user_response")
 ///                 .set_user_ip(&remote_ip)
 ///                 .verify()
-///                 .compat()
 ///                 .await;
 ///
 ///     if res.is_ok() {
@@ -110,8 +107,6 @@ impl Hcaptcha {
     /// # #[tokio::main]
     /// # async fn main() {
     /// # use hcaptcha::Hcaptcha;
-    /// # #[allow(unused_imports)]
-    /// # use tokio_compat_02::FutureExt;
     /// # use std::net::{IpAddr, Ipv4Addr};
     ///
     /// let secret = ""; // your secret key
@@ -121,7 +116,6 @@ impl Hcaptcha {
     /// let hcaptcha = Hcaptcha::new(secret, token)
     ///                 .set_user_ip(&user_ip)
     ///                 .verify()
-    ///                 .compat()
     ///                 .await;
     ///
     /// assert!(hcaptcha.is_err());
@@ -142,8 +136,6 @@ impl Hcaptcha {
     /// # #[tokio::main]
     /// # async fn main() {
     /// # use hcaptcha::Hcaptcha;
-    /// # #[allow(unused_imports)]
-    /// # use tokio_compat_02::FutureExt;
     ///
     /// let secret = ""; // your secret key
     /// let token = "";  // user's token
@@ -152,7 +144,6 @@ impl Hcaptcha {
     /// let hcaptcha = Hcaptcha::new(secret, token)
     ///                 .set_site_key(site_key)
     ///                 .verify()
-    ///                 .compat()
     ///                 .await;
     ///
     /// assert!(hcaptcha.is_err());
@@ -174,8 +165,6 @@ impl Hcaptcha {
     /// # async fn main() -> Result<(), hcaptcha::Error> {
     /// # use hcaptcha::Hcaptcha;
     /// # use hcaptcha::error::Code::*;
-    /// # #[allow(unused_imports)]
-    /// # use tokio_compat_02::FutureExt;
     /// # use std::net::{IpAddr, Ipv4Addr};
     ///
     /// let secret = "0x0000000000000000000000000000000000000000";
@@ -187,7 +176,6 @@ impl Hcaptcha {
     ///                 .set_user_ip(&user_ip)
     ///                 .set_site_key(&site_key)
     ///                 .verify()
-    ///                 .compat()
     ///                 .await;
     ///
     /// assert!(response.is_err());
