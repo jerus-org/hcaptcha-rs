@@ -1,9 +1,9 @@
 language: rust
 branches:
-  only: 
+  only:
     - main
 rust:
-  - 1.39.0
+  - 1.45.0
   - stable
   - beta
   - nightly
