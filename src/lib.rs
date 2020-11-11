@@ -74,15 +74,12 @@ impl Hcaptcha {
     /// # #[tokio::main]
     /// # async fn main() {
     /// # use hcaptcha::Hcaptcha;
-    /// # #[allow(unused_imports)]
-    /// # use tokio_compat_02::FutureExt;
     ///
     /// let secret = ""; // your secret key
     /// let token = "";  // user's token
     ///
     /// let hcaptcha = Hcaptcha::new(secret, token)
     ///                 .verify()
-    ///                 .compat()
     ///                 .await;
     ///
     /// assert!(hcaptcha.is_err());
