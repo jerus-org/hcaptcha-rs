@@ -41,6 +41,8 @@ pub use error::Error;
 /// ```
 /// use hcaptcha::Hcaptcha;
 /// use std::net::{IpAddr, Ipv4Addr};
+/// #[allow(unused_imports)]
+/// use tokio_compat_02::FutureExt;
 ///
 /// #[tokio::main]
 /// async fn main() {
@@ -49,6 +51,7 @@ pub use error::Error;
 ///     let res = Hcaptcha::new("your_private_key", "user_response")
 ///                 .set_user_ip(&remote_ip)
 ///                 .verify()
+///                 .compat()
 ///                 .await;
 ///
 ///     if res.is_ok() {
@@ -74,12 +77,16 @@ impl Hcaptcha {
     /// # #[tokio::main]
     /// # async fn main() {
     /// # use hcaptcha::Hcaptcha;
+    /// # #[allow(unused_imports)]
+    /// # use tokio_compat_02::FutureExt;
     ///
     /// let secret = ""; // your secret key
     /// let token = "";  // user's token
     ///
     /// let hcaptcha = Hcaptcha::new(secret, token)
-    ///                 .verify().await;
+    ///                 .verify()
+    ///                 .compat()
+    ///                 .await;
     ///
     /// assert!(hcaptcha.is_err());
     ///
@@ -103,6 +110,8 @@ impl Hcaptcha {
     /// # #[tokio::main]
     /// # async fn main() {
     /// # use hcaptcha::Hcaptcha;
+    /// # #[allow(unused_imports)]
+    /// # use tokio_compat_02::FutureExt;
     /// # use std::net::{IpAddr, Ipv4Addr};
     ///
     /// let secret = ""; // your secret key
@@ -111,7 +120,9 @@ impl Hcaptcha {
     ///
     /// let hcaptcha = Hcaptcha::new(secret, token)
     ///                 .set_user_ip(&user_ip)
-    ///                 .verify().await;
+    ///                 .verify()
+    ///                 .compat()
+    ///                 .await;
     ///
     /// assert!(hcaptcha.is_err());
     ///
@@ -131,6 +142,8 @@ impl Hcaptcha {
     /// # #[tokio::main]
     /// # async fn main() {
     /// # use hcaptcha::Hcaptcha;
+    /// # #[allow(unused_imports)]
+    /// # use tokio_compat_02::FutureExt;
     ///
     /// let secret = ""; // your secret key
     /// let token = "";  // user's token
@@ -138,7 +151,9 @@ impl Hcaptcha {
     ///
     /// let hcaptcha = Hcaptcha::new(secret, token)
     ///                 .set_site_key(site_key)
-    ///                 .verify().await;
+    ///                 .verify()
+    ///                 .compat()
+    ///                 .await;
     ///
     /// assert!(hcaptcha.is_err());
     ///
@@ -159,6 +174,8 @@ impl Hcaptcha {
     /// # async fn main() -> Result<(), hcaptcha::Error> {
     /// # use hcaptcha::Hcaptcha;
     /// # use hcaptcha::error::Code::*;
+    /// # #[allow(unused_imports)]
+    /// # use tokio_compat_02::FutureExt;
     /// # use std::net::{IpAddr, Ipv4Addr};
     ///
     /// let secret = "0x0000000000000000000000000000000000000000";
@@ -169,7 +186,9 @@ impl Hcaptcha {
     /// let response = Hcaptcha::new(secret, token)
     ///                 .set_user_ip(&user_ip)
     ///                 .set_site_key(&site_key)
-    ///                 .verify().await;
+    ///                 .verify()
+    ///                 .compat()
+    ///                 .await;
     ///
     /// assert!(response.is_err());
     /// # Ok(())
@@ -234,13 +253,15 @@ impl Hcaptcha {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use error::Code::*;
+    use error::Error::*;
     use serde_json::json;
+    #[allow(unused_imports)]
+    use tokio_compat_02::FutureExt;
 
     #[tokio::test]
     async fn test_invalid_secret_missing_response() {
-        use error::Code::*;
-        use error::Error::*;
-        let response = Hcaptcha::new("", "").verify().await;
+        let response = Hcaptcha::new("", "").verify().compat().await;
 
         match response {
             Ok(()) => panic!("unexpected response: Ok(())"),
@@ -257,13 +278,15 @@ mod tests {
 
     #[tokio::test]
     async fn test_invalid_secret_missing_response_with_ip() {
-        use error::Code::*;
-        use error::Error::*;
         use std::net::Ipv4Addr;
 
         let user_ip = IpAddr::V4(Ipv4Addr::new(123, 123, 123, 123));
 
-        let response = Hcaptcha::new("", "").set_user_ip(&user_ip).verify().await;
+        let response = Hcaptcha::new("", "")
+            .set_user_ip(&user_ip)
+            .verify()
+            .compat()
+            .await;
 
         match response {
             Ok(()) => panic!("unexpected response: Ok(())"),
@@ -279,11 +302,10 @@ mod tests {
 
     #[tokio::test]
     async fn test_invalid_secret_missing_response_with_site_key() {
-        use error::Code::*;
-        use error::Error::*;
         let response = Hcaptcha::new("", "")
             .set_site_key("10000000-ffff-ffff-ffff-000000000001")
             .verify()
+            .compat()
             .await;
 
         match response {

@@ -52,13 +52,15 @@ impl HcaptchaRequest {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use crate::error::Code::*;
+    use crate::Error::*;
     use std::collections::HashSet;
+    #[allow(unused_imports)]
+    use tokio_compat_02::FutureExt;
 
     #[tokio::test]
     async fn test_invalid_secret_missing_response() {
-        use crate::error::Code::*;
-        use crate::Error::*;
-        let response = HcaptchaRequest::new("", "").verify().await;
+        let response = HcaptchaRequest::new("", "").verify().compat().await;
 
         match response {
             Ok(response) => {
@@ -85,8 +87,6 @@ mod tests {
 
     #[tokio::test]
     async fn test_invalid_secret_missing_response_with_ip() {
-        use crate::error::Code::*;
-        use crate::Error::*;
         use std::net::Ipv4Addr;
 
         let user_ip = IpAddr::V4(Ipv4Addr::new(18, 197, 23, 227));
@@ -94,6 +94,7 @@ mod tests {
         let response = HcaptchaRequest::new("", "")
             .set_user_ip(&user_ip)
             .verify()
+            .compat()
             .await;
 
         match response {
@@ -121,11 +122,10 @@ mod tests {
 
     #[tokio::test]
     async fn test_invalid_secret_missing_response_with_site_key() {
-        use crate::error::Code::*;
-        use crate::Error::*;
         let response = HcaptchaRequest::new("", "")
             .set_site_key("10000000-ffff-ffff-ffff-000000000001")
             .verify()
+            .compat()
             .await;
 
         match response {

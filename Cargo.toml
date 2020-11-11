@@ -1,7 +1,7 @@
 [package]
 name = "hcaptcha"
 description = "hcaptcha response verification"
-version = "0.1.0"
+version = "0.1.1"
 authors = ["jerusdp <jrussell@jerus.ie>"]
 license = "MIT OR Apache-2.0"
 keywords = ["hcaptcha", "captcha", "bot protection", "security"]
@@ -26,4 +26,5 @@ log = { version = "0.4", features = ["max_level_debug", "release_max_level_error
 
 [dev-dependencies]
 # tokio = { version = "0.3.3", features = ["full"] }
-tokio = { version = "0.2.15", features = ["macros"] }
+tokio = { version = "0.3.3", features = ["macros", "rt-multi-thread"] }
+tokio-compat-02 = "0.1.2"
