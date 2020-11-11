@@ -1,5 +1,4 @@
 use failure::Fail;
-use reqwest;
 use serde::{Deserialize, Deserializer};
 use std::collections::HashSet;
 use std::io;
