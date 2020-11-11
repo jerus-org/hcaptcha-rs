@@ -2,6 +2,7 @@ pub mod error;
 mod request;
 mod response;
 
+use log::debug;
 use request::HcaptchaRequest;
 use response::HcaptchaResponse;
 use std::collections::HashSet;
@@ -44,7 +45,7 @@ pub use error::Error;
 /// #[tokio::main]
 /// async fn main() {
 ///     let remote_ip = IpAddr::V4(Ipv4Addr::new(192, 168, 0, 17));
-///     
+///
 ///     let res = Hcaptcha::new("your_private_key", "user_response")
 ///                 .set_user_ip(&remote_ip)
 ///                 .verify()
@@ -85,8 +86,8 @@ impl Hcaptcha {
     /// # }
     /// ```
     #[allow(dead_code)]
-    pub fn new(secret: &str, token: &str) -> Hcaptcha {
-        let request = HcaptchaRequest::new(secret, token);
+    pub fn new(secret: &str, response: &str) -> Hcaptcha {
+        let request = HcaptchaRequest::new(secret, response);
 
         Hcaptcha {
             request,
@@ -109,7 +110,7 @@ impl Hcaptcha {
     /// let user_ip = IpAddr::V4(Ipv4Addr::new(192, 168, 0, 17));
     ///
     /// let hcaptcha = Hcaptcha::new(secret, token)
-    ///                 .set_user_ip(&user_ip)  
+    ///                 .set_user_ip(&user_ip)
     ///                 .verify().await;
     ///
     /// assert!(hcaptcha.is_err());
@@ -136,7 +137,7 @@ impl Hcaptcha {
     /// let site_key = "10000000-ffff-ffff-ffff-000000000001";
     ///
     /// let hcaptcha = Hcaptcha::new(secret, token)
-    ///                 .set_site_key(site_key)  
+    ///                 .set_site_key(site_key)
     ///                 .verify().await;
     ///
     /// assert!(hcaptcha.is_err());
@@ -175,9 +176,10 @@ impl Hcaptcha {
     /// # }
     /// ```
     pub async fn verify(&mut self) -> Result<(), Error> {
+        debug!("State of request: {:?}", self);
         self.response = self.request.verify().await?;
 
-        match (self.response.success(), self.response.error_codes().clone()) {
+        match (self.response.success(), self.response.error_codes()) {
             (true, _) => Ok(()),
             (false, Some(errors)) => Err(Error::Codes(errors)),
             (false, _) => Err(Error::Codes(HashSet::new())),
