@@ -25,6 +25,5 @@ failure = "0.1.8"
 log = { version = "0.4", features = ["max_level_debug", "release_max_level_error"] }
 
 [dev-dependencies]
-# tokio = { version = "0.3.3", features = ["full"] }
 tokio = { version = "0.3.3", features = ["macros", "rt-multi-thread"] }
 tokio-compat-02 = "0.1.2"
