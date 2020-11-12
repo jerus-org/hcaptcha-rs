@@ -1,7 +1,7 @@
 language: rust
-  script:
-    - cargo build --verbose 
-    - cargo test --verbose --lib
+script:
+  - cargo build --verbose 
+  - cargo test --verbose --lib
 branches:
   only:
     - main
