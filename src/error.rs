@@ -1,44 +1,20 @@
-use failure::Fail;
 use serde::{Deserialize, Deserializer};
 use std::collections::HashSet;
 use std::io;
+use thiserror::Error;
 
-#[derive(Fail, Debug)]
-pub enum Error {
-    #[fail(display = "{:?}", _0)]
+#[derive(Error, Debug)]
+pub enum HcaptchaError {
+    #[error("{0:?}")]
     Codes(HashSet<Code>),
-    #[fail(display = "{}", _0)]
-    Reqwest(#[cause] reqwest::Error),
-    #[fail(display = "{}", _0)]
-    Io(#[cause] io::Error),
-    #[fail(display = "{}", _0)]
-    Json(#[cause] serde_json::Error),
-    #[fail(display = "{}", _0)]
-    UrlEncoded(#[cause] serde_urlencoded::ser::Error),
-}
-
-impl From<reqwest::Error> for Error {
-    fn from(err: reqwest::Error) -> Error {
-        Error::Reqwest(err)
-    }
-}
-
-impl From<io::Error> for Error {
-    fn from(err: io::Error) -> Error {
-        Error::Io(err)
-    }
-}
-
-impl From<serde_json::Error> for Error {
-    fn from(err: serde_json::Error) -> Error {
-        Error::Json(err)
-    }
-}
-
-impl From<serde_urlencoded::ser::Error> for Error {
-    fn from(err: serde_urlencoded::ser::Error) -> Error {
-        Error::UrlEncoded(err)
-    }
+    #[error("{0}")]
+    Reqwest(#[from] reqwest::Error),
+    #[error("{0}")]
+    Io(#[from] io::Error),
+    #[error("{0}")]
+    Json(#[from] serde_json::Error),
+    #[error("{0}")]
+    UrlEncoded(#[from] serde_urlencoded::ser::Error),
 }
 
 #[derive(PartialEq, Eq, Hash, Clone, Debug)]

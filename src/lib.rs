@@ -1,3 +1,66 @@
+//! Hcaptcha
+//!
+//! # Build the request and verify
+//!
+//! The request must include your secret_key and the response submitted
+//! with the posted data.
+//!
+//! The `new` method requires the secret_key and response.
+//!
+//! The user's IP address and the site_key are optional values that can be
+//! added using the builder functions set_user_ip() and set_site_key() respectively.
+//!
+//! Execute verify on the request to confirm.
+//!
+//! # Additional Response Data
+//!
+//! Hcaptcha offers further response data to the success flag and error
+//! codes. These data are collected in the HcaptchaResponse struct and can be accessed
+//!
+//! The following can be accessed after a succcessful verification:
+//!   timestamp  timestamp of the captcha (ISO: yyyy-MM-dd'T'HH:mm:ssZZ)
+//!   hostname   the hostname of the site where the captcha was solved
+//!   credit         whether the response will be credited
+//!   score          ENTERPRISE feature: a score denoting malicious activity.
+//!   score_reason   ENTERPRISE feature: reason(s) for score.
+//!
+//! All these values are stored in an Option enum and may not always be present
+//! in the response (see Hcaptcha documentation [here]).
+//!
+//! [here]: https://docs.hcaptcha.com/#server
+//!
+//! # Examples
+//!
+//! ```
+//! use hcaptcha::Hcaptcha;
+//! use std::net::{IpAddr, Ipv4Addr};
+//!
+//! #[tokio::main]
+//! async fn main() {
+//!     let remote_ip = IpAddr::V4(Ipv4Addr::new(192, 168, 0, 17));
+//!
+//!     let res = Hcaptcha::new("your_private_key", "user_response")
+//!                 .set_user_ip(&remote_ip)
+//!                 .verify()
+//!                 .await;
+//!
+//!     if res.is_ok() {
+//!         println!("Success");
+//!     } else {
+//!         println!("Failure");
+//!     }
+//! }
+//! ```
+//!
+//! # Features
+//!
+//! ## Logging
+//!
+//! The logging feature enbles debug logs of the request and response data.
+//!
+//!
+//!
+
 pub mod error;
 mod request;
 mod response;
@@ -8,65 +71,7 @@ use response::HcaptchaResponse;
 use std::collections::HashSet;
 use std::net::IpAddr;
 
-pub use error::Error;
-/// Hcaptcha
-///
-/// # Build the request and verify
-///
-/// The request must include your secret_key and the response submitted
-/// with the posted data. The new method on Hcaptcha requires these values.
-///
-/// The additional optional values of the ip address from the user and the
-/// your site_key can be added to the request using builder functions
-///
-/// Execute verify on the request to confirm.
-///
-/// # Additinal Response Data
-///
-/// Hcaptcha offers additional response data to the success flag and error
-/// codes.
-///
-/// The following can be accessed after a succcessful verification:
-///   timestamp  timestamp of the captcha (ISO: yyyy-MM-dd'T'HH:mm:ssZZ)
-///   hostname   the hostname of the site where the captcha was solved
-///   credit         whether the response will be credited
-///   score          ENTERPRISE feature: a score denoting malicious activity.
-///   score_reason   ENTERPRISE feature: reason(s) for score.
-///
-/// All these values are stored in an Option enum and may not always be present
-/// in the response (see Hcaptcha documentation [here](https://docs.hcaptcha.com/#server)).
-///
-/// # Example
-///
-/// ```
-/// use hcaptcha::Hcaptcha;
-/// use std::net::{IpAddr, Ipv4Addr};
-///
-/// #[tokio::main]
-/// async fn main() {
-///     let remote_ip = IpAddr::V4(Ipv4Addr::new(192, 168, 0, 17));
-///
-///     let res = Hcaptcha::new("your_private_key", "user_response")
-///                 .set_user_ip(&remote_ip)
-///                 .verify()
-///                 .await;
-///
-///     if res.is_ok() {
-///         println!("Success");
-///     } else {
-///         println!("Failure");
-///     }
-/// }
-/// ```
-///
-/// # Features
-///
-/// ## Logging
-///
-/// The logging feature enbles debug logs of the request and response data.
-///
-///
-///
+pub use error::HcaptchaError;
 
 #[derive(Debug, Default)]
 pub struct Hcaptcha {
@@ -188,15 +193,15 @@ impl Hcaptcha {
     /// # Ok(())
     /// # }
     /// ```
-    pub async fn verify(&mut self) -> Result<(), Error> {
+    pub async fn verify(&mut self) -> Result<(), HcaptchaError> {
         #[cfg(feature = "logging")]
         debug!("State of request: {:?}", self);
         self.response = self.request.verify().await?;
 
         match (self.response.success(), self.response.error_codes()) {
             (true, _) => Ok(()),
-            (false, Some(errors)) => Err(Error::Codes(errors)),
-            (false, _) => Err(Error::Codes(HashSet::new())),
+            (false, Some(errors)) => Err(HcaptchaError::Codes(errors)),
+            (false, _) => Err(HcaptchaError::Codes(HashSet::new())),
         }
     }
 
@@ -249,7 +254,7 @@ impl Hcaptcha {
 mod tests {
     use super::*;
     use error::Code::*;
-    use error::Error::*;
+    use error::HcaptchaError::*;
     use serde_json::json;
     #[allow(unused_imports)]
     use tokio_compat_02::FutureExt;

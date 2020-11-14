@@ -1,6 +1,6 @@
 const VERIFY_URL: &str = "https://hcaptcha.com/siteverify";
 
-pub use super::error::Error;
+pub use super::error::HcaptchaError;
 use super::response::HcaptchaResponse;
 #[cfg(feature = "logging")]
 use log::debug;
@@ -42,7 +42,7 @@ impl HcaptchaRequest {
     }
 
     #[allow(dead_code)]
-    pub async fn verify(&self) -> Result<HcaptchaResponse, Error> {
+    pub async fn verify(&self) -> Result<HcaptchaResponse, HcaptchaError> {
         let url = Url::parse(VERIFY_URL).unwrap();
         let response = Client::new().post(url).form(&self).send().await?;
         let response = response.json::<HcaptchaResponse>().await?;
@@ -55,7 +55,7 @@ impl HcaptchaRequest {
 mod tests {
     use super::*;
     use crate::error::Code::*;
-    use crate::Error::*;
+    use crate::HcaptchaError::*;
     use std::collections::HashSet;
     #[allow(unused_imports)]
     use tokio_compat_02::FutureExt;
@@ -69,8 +69,8 @@ mod tests {
                 println!("{:?}", response);
                 let response = match (response.success(), response.error_codes().clone()) {
                     (true, _) => Ok(()),
-                    (false, Some(errors)) => Err(Error::Codes(errors)),
-                    (false, _) => Err(Error::Codes(HashSet::new())),
+                    (false, Some(errors)) => Err(HcaptchaError::Codes(errors)),
+                    (false, _) => Err(HcaptchaError::Codes(HashSet::new())),
                 };
 
                 match response {
@@ -104,8 +104,8 @@ mod tests {
                 println!("{:?}", response);
                 let response = match (response.success(), response.error_codes().clone()) {
                     (true, _) => Ok(()),
-                    (false, Some(errors)) => Err(Error::Codes(errors)),
-                    (false, _) => Err(Error::Codes(HashSet::new())),
+                    (false, Some(errors)) => Err(HcaptchaError::Codes(errors)),
+                    (false, _) => Err(HcaptchaError::Codes(HashSet::new())),
                 };
 
                 match response {
@@ -135,8 +135,8 @@ mod tests {
                 println!("{:?}", response);
                 let response = match (response.success(), response.error_codes().clone()) {
                     (true, _) => Ok(()),
-                    (false, Some(errors)) => Err(Error::Codes(errors)),
-                    (false, _) => Err(Error::Codes(HashSet::new())),
+                    (false, Some(errors)) => Err(HcaptchaError::Codes(errors)),
+                    (false, _) => Err(HcaptchaError::Codes(HashSet::new())),
                 };
 
                 match response {
