@@ -1,18 +1,26 @@
+//! Request module
+//! Provides a struct to collect the data required for
+//! the hcaptcha api request.
+
 const VERIFY_URL: &str = "https://hcaptcha.com/siteverify";
 
-pub use super::error::HcaptchaError;
 use super::response::HcaptchaResponse;
+use super::HcaptchaError;
 #[cfg(feature = "logging")]
 use log::debug;
 use reqwest::{Client, Url};
 use serde_derive::Serialize;
 use std::net::IpAddr;
-
+/// Type to capture the required and optional data for a call to the hcaptcha API
 #[derive(Debug, Default, Serialize)]
 pub struct HcaptchaRequest {
+    /// The response from the client's call to API
     response: String,
+    /// The secret_key for the site_key used by the client to call the API
     secret: String,
+    /// The ip address of the client making the call (optional)
     user_ip: Option<String>,
+    /// The site_key used by the client to make the call (optional, recommended)
     site_key: Option<String>,
 }
 
@@ -41,6 +49,7 @@ impl HcaptchaRequest {
         self
     }
 
+    /// Call the api to verify the response code recieved from the client
     #[allow(dead_code)]
     pub async fn verify(&self) -> Result<HcaptchaResponse, HcaptchaError> {
         let url = Url::parse(VERIFY_URL).unwrap();

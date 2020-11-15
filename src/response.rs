@@ -1,46 +1,73 @@
+//! Structure to capture the response from the hcaptcha api
 use crate::error::Code;
 use serde_derive::Deserialize;
 use std::collections::HashSet;
 
 type Score = f32;
+
+/// Result from call to verify the client's response
 #[derive(Debug, Default, Deserialize, Clone)]
 pub struct HcaptchaResponse {
+    /// verification status: true or false.
+    ///
+    /// Successful verification may have additional information.
+    /// Unsuccessful verification will return a set of error codes.
     success: bool,
+    /// timestamp of the captcha (ISO format yyyy-MM-dd'T'HH:mm:ssZZ)
     challenge_ts: Option<String>, //yyyy-MM-dd'T'HH:mm:ssZZ
+    /// the hostname of the site where the captcha was solved
     hostname: Option<String>,
+    /// optional: whether the response will be credited
     credit: Option<bool>,
+    /// optional: any error codes
     #[serde(rename = "error-codes")]
     error_codes: Option<HashSet<Code>>,
+    /// ENTERPRISE feature: a score denoting malicious activity.
     score: Option<Score>,
+    /// ENTERPRISE feature: reason(s) for score. See [BotStop.com] for details
+    ///
+    /// [BotStop.com]: https://BotStop.com
     score_reason: Option<HashSet<String>>,
 }
 
 impl HcaptchaResponse {
+    /// Get the value of the success field
     #[allow(dead_code)]
     pub fn success(&self) -> bool {
         self.success
     }
 
+    /// Get the value of the hostname field
     #[allow(dead_code)]
     pub fn hostname(&self) -> Option<String> {
         self.hostname.clone()
     }
+
+    /// Get the value of the timestamp field
     #[allow(dead_code)]
     pub fn timestamp(&self) -> Option<String> {
         self.challenge_ts.clone()
     }
+
+    /// Get the value of the credit field
     #[allow(dead_code)]
     pub fn credit(&self) -> Option<bool> {
         self.credit
     }
+
+    /// Get the value of the error_codes field
     #[allow(dead_code)]
     pub fn error_codes(&self) -> Option<HashSet<Code>> {
         self.error_codes.clone()
     }
+
+    /// Get the value of the score field
     #[allow(dead_code)]
-    pub fn score(&self) -> Option<f32> {
+    pub fn score(&self) -> Option<Score> {
         self.score
     }
+
+    /// Get the value of the score_reason field
     #[allow(dead_code)]
     pub fn score_reason(&self) -> Option<HashSet<String>> {
         self.score_reason.clone()

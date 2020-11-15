@@ -2,31 +2,15 @@
 //!
 //! # Build the request and verify
 //!
-//! The request must include your secret_key and the response submitted
-//! with the posted data.
+//! Build the request using the [Hcaptcha] builder.
 //!
-//! The `new` method requires the secret_key and response.
+//! Execute [verify] on the request once to execute.
 //!
-//! The user's IP address and the site_key are optional values that can be
-//! added using the builder functions set_user_ip() and set_site_key() respectively.
+//! Following a successful response the additional response in
+//! [HcaptchaResponse] can be requested from the [Hcapthca] struct.
 //!
-//! Execute verify on the request to confirm.
-//!
-//! # Additional Response Data
-//!
-//! Hcaptcha offers further response data to the success flag and error
-//! codes. These data are collected in the HcaptchaResponse struct and can be accessed
-//!
-//! The following can be accessed after a succcessful verification:
-//!   timestamp  timestamp of the captcha (ISO: yyyy-MM-dd'T'HH:mm:ssZZ)
-//!   hostname   the hostname of the site where the captcha was solved
-//!   credit         whether the response will be credited
-//!   score          ENTERPRISE feature: a score denoting malicious activity.
-//!   score_reason   ENTERPRISE feature: reason(s) for score.
-//!
-//! All these values are stored in an Option enum and may not always be present
-//! in the response (see Hcaptcha documentation [here]).
-//!
+//! [Hcaptcha]: ./struct.Hcaptcha.html
+//! [HcaptchaResponse]: crate::response::HcaptchaResponse
 //! [here]: https://docs.hcaptcha.com/#server
 //!
 //! # Examples
@@ -52,11 +36,9 @@
 //! }
 //! ```
 //!
-//! # Features
+//! # Feature Flags
 //!
-//! ## Logging
-//!
-//! The logging feature enbles debug logs of the request and response data.
+//!  - `logging:` Enbles debug logs for the request and response structs.
 //!
 //!
 //!
@@ -72,7 +54,9 @@ use std::collections::HashSet;
 use std::net::IpAddr;
 
 pub use error::HcaptchaError;
-
+/// Builder to compose a request for the hcaptcha validation endpoint, verify
+/// the request and read the additional information that may be supplied in
+/// the response.
 #[derive(Debug, Default)]
 pub struct Hcaptcha {
     request: HcaptchaRequest,
