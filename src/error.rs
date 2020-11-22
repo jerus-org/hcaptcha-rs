@@ -4,6 +4,7 @@
 
 use serde::{Deserialize, Deserializer};
 use std::collections::HashSet;
+use std::fmt;
 use std::io;
 use thiserror::Error;
 
@@ -28,6 +29,7 @@ pub enum HcaptchaError {
     #[error("{0}")]
     UrlEncoded(#[from] serde_urlencoded::ser::Error),
 }
+
 /// Error code mapping for the error responses from the hcaptcha API.
 /// Returned in the [HcaptchaError] type.
 ///
@@ -72,5 +74,31 @@ impl<'de> Deserialize<'de> for Code {
             "sitekey-secret-mismatch" => Code::SiteSecretMismatch,
             _ => Code::Unknown(code),
         })
+    }
+}
+
+impl fmt::Display for Code {
+    #[allow(unused_variables)]
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        match self {
+            Code::MissingSecret => write!(f, "Your secret key is missing."),
+            Code::InvalidSecret => write!(f, "Your secret key is invalid or malformed."),
+            Code::MissingResponse => {
+                write!(f, "The response parameter (verification token) is missing.")
+            }
+            Code::InvalidResponse => write!(
+                f,
+                "The response parameter (verification token) is invalid or malformed."
+            ),
+            Code::BadRequest => write!(f, "The request is invalid or malformed."),
+            Code::InvalidAlreadySeen => write!(
+                f,
+                "The response parameter has already been checked, or has another issue."
+            ),
+            Code::SiteSecretMismatch => {
+                write!(f, "The sitekey is not registered with the provided secret.")
+            }
+            Code::Unknown(e) => write!(f, "Unkown error: {}", e),
+        }
     }
 }
