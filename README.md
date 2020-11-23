@@ -10,7 +10,7 @@ To use hcaptcha-rs in your project you can add the following to your `Cargo.toml
 
 ```toml
 [dependencies.hcaptcha]
-version = "0.3.0"
+version = "0.4.0"
 ```
 
 ## Usage
@@ -37,6 +37,8 @@ async fn main() {
 }
 
 ```
+
+See examples folder for an AWS Lambda contact form example.
 
 ## License
 

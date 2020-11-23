@@ -2,9 +2,10 @@
 //!
 //! Backend lambda to process the data submitted from a contact form.
 //! The form is protected by hcaptcha and the hcaptcha is verified before
-//! further processsing of the form data. Once verified the form data is
-//! saved and email to the website owner. An acknowledgement is emailed to
-//! the submitter.
+//! further processsing of the form data.
+//! Once verified the form data is sent to the website owner, a noticication
+//! is sent to the submitter and a record of the form saved. The three tasks
+//! are completed concurrently by using async functions.
 //!
 
 use lambda_runtime::lambda;
