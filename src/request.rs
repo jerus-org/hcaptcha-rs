@@ -67,16 +67,15 @@ mod tests {
     use crate::HcaptchaError::*;
     use std::collections::HashSet;
     #[allow(unused_imports)]
-    use tokio_compat_02::FutureExt;
-
+    // use tokio_compat_02::FutureExt;
     #[tokio::test]
     async fn test_invalid_secret_missing_response() {
-        let response = HcaptchaRequest::new("", "").verify().compat().await;
+        let response = HcaptchaRequest::new("", "").verify().await;
 
         match response {
             Ok(response) => {
                 println!("{:?}", response);
-                let response = match (response.success(), response.error_codes().clone()) {
+                let response = match (response.success(), response.error_codes()) {
                     (true, _) => Ok(()),
                     (false, Some(errors)) => Err(HcaptchaError::Codes(errors)),
                     (false, _) => Err(HcaptchaError::Codes(HashSet::new())),
@@ -105,13 +104,13 @@ mod tests {
         let response = HcaptchaRequest::new("", "")
             .set_user_ip(&user_ip)
             .verify()
-            .compat()
+            // .compat()
             .await;
 
         match response {
             Ok(response) => {
                 println!("{:?}", response);
-                let response = match (response.success(), response.error_codes().clone()) {
+                let response = match (response.success(), response.error_codes()) {
                     (true, _) => Ok(()),
                     (false, Some(errors)) => Err(HcaptchaError::Codes(errors)),
                     (false, _) => Err(HcaptchaError::Codes(HashSet::new())),
@@ -136,13 +135,13 @@ mod tests {
         let response = HcaptchaRequest::new("", "")
             .set_site_key("10000000-ffff-ffff-ffff-000000000001")
             .verify()
-            .compat()
+            // .compat()
             .await;
 
         match response {
             Ok(response) => {
                 println!("{:?}", response);
-                let response = match (response.success(), response.error_codes().clone()) {
+                let response = match (response.success(), response.error_codes()) {
                     (true, _) => Ok(()),
                     (false, Some(errors)) => Err(HcaptchaError::Codes(errors)),
                     (false, _) => Err(HcaptchaError::Codes(HashSet::new())),

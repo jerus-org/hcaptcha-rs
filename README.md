@@ -1,7 +1,7 @@
 # hcaptcha-rs
 
 [![Build Status](https://travis-ci.org/jerusdp/recaptcha-rs.svg?branch=main)](https://travis-ci.org/jerusdp/hcaptcha-rs)
-[![Rust 1.45+](https://img.shields.io/badge/rust-1.45+-orange.svg)](https://www.rust-lang.org)
+[![Rust 1.44+](https://img.shields.io/badge/rust-1.44+-orange.svg)](https://www.rust-lang.org)
 hcaptcha-rs is a library to verify hcaptcha responses.
 
 ## Installation
@@ -10,12 +10,12 @@ To use hcaptcha-rs in your project you can add the following to your `Cargo.toml
 
 ```toml
 [dependencies.hcaptcha]
-version = "0.4.0"
+version = "1.0.0"
 ```
 
 ## Usage
 
-Verifying hcaptcha responses is very easy:
+Verifying hcaptcha responses is easy:
 
 ```rust
 
@@ -38,7 +38,7 @@ async fn main() {
 
 ```
 
-See examples folder for an AWS Lambda contact form example.
+See the examples folder for an AWS Lambda contact form example.
 
 ## License
 

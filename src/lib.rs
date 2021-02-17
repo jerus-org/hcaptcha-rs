@@ -157,7 +157,7 @@ impl Hcaptcha {
     ///
     /// ```
     /// # #[tokio::main]
-    /// # async fn main() -> Result<(), hcaptcha::Error> {
+    /// # async fn main() {
     /// # use hcaptcha::Hcaptcha;
     /// # use hcaptcha::error::Code::*;
     /// # use std::net::{IpAddr, Ipv4Addr};
@@ -174,13 +174,13 @@ impl Hcaptcha {
     ///                 .await;
     ///
     /// assert!(response.is_err());
-    /// # Ok(())
     /// # }
     /// ```
     pub async fn verify(&mut self) -> Result<(), HcaptchaError> {
         #[cfg(feature = "logging")]
         debug!("State of request: {:?}", self);
         self.response = self.request.verify().await?;
+        println!("verify response: {:#?}", &self.response);
 
         match (self.response.success(), self.response.error_codes()) {
             (true, _) => Ok(()),
@@ -241,11 +241,10 @@ mod tests {
     use error::HcaptchaError::*;
     use serde_json::json;
     #[allow(unused_imports)]
-    use tokio_compat_02::FutureExt;
-
+    // use tokio_compat_02::FutureExt;
     #[tokio::test]
     async fn test_invalid_secret_missing_response() {
-        let response = Hcaptcha::new("", "").verify().compat().await;
+        let response = Hcaptcha::new("", "").verify().await;
 
         match response {
             Ok(()) => panic!("unexpected response: Ok(())"),
@@ -269,7 +268,7 @@ mod tests {
         let response = Hcaptcha::new("", "")
             .set_user_ip(&user_ip)
             .verify()
-            .compat()
+            // .compat()
             .await;
 
         match response {
@@ -289,7 +288,7 @@ mod tests {
         let response = Hcaptcha::new("", "")
             .set_site_key("10000000-ffff-ffff-ffff-000000000001")
             .verify()
-            .compat()
+            // .compat()
             .await;
 
         match response {
@@ -353,9 +352,8 @@ mod tests {
         let response = test_response();
 
         assert!(response.error_codes().is_some());
-        match response.error_codes() {
-            Some(hash_set) => assert_eq!(hash_set.len(), 2),
-            None => {}
+        if let Some(hash_set) = response.error_codes() {
+            assert_eq!(hash_set.len(), 2)
         }
     }
 
@@ -372,9 +370,8 @@ mod tests {
         println!("The response: {:?}", response);
 
         assert!(response.score_reason().is_some());
-        match response.score_reason() {
-            Some(hash_set) => assert!(hash_set.is_empty()),
-            None => {}
+        if let Some(hash_set) = response.score_reason() {
+            assert!(hash_set.is_empty())
         }
     }
 }
