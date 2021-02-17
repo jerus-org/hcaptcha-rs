@@ -2,10 +2,11 @@
 name = "hcaptcha"
 description = "hcaptcha response verification"
 version = "1.0.0"
-authors = ["jerusdp <jrussell@jerus.ie>"]
+authors = ["Jeremiah Russell <jrussell@jerus.ie>"]
 license = "MIT OR Apache-2.0"
 keywords = ["hcaptcha", "captcha", "security"]
 categories = ["web-programming"]
+keywords = ["hcaptcha captcha backend protection"]
 repository = "https://github.com/jerusdp/hcaptcha-rs"
 edition = "2018"
 readme = "README.md"
@@ -35,4 +36,3 @@ lambda_runtime = "0.2.1"
 simple_logger = "1.11.0"
 rusoto_core = "0.46.0"
 rusoto_ssm = "0.46.0"
-
