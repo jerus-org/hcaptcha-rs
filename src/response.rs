@@ -148,9 +148,8 @@ mod tests {
         let response = test_response();
 
         assert!(response.error_codes().is_some());
-        match response.error_codes() {
-            Some(hash_set) => assert_eq!(hash_set.len(), 2),
-            None => {}
+        if let Some(hash_set) = response.error_codes() {
+            assert_eq!(hash_set.len(), 2)
         }
     }
 
@@ -167,9 +166,8 @@ mod tests {
         println!("The response: {:?}", response);
 
         assert!(response.score_reason().is_some());
-        match response.score_reason() {
-            Some(hash_set) => assert!(hash_set.is_empty()),
-            None => {}
+        if let Some(hash_set) = response.score_reason() {
+            assert!(hash_set.is_empty())
         }
     }
 }

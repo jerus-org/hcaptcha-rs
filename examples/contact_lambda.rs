@@ -8,24 +8,29 @@
 //! are completed concurrently by using async functions.
 //!
 
-use lambda_runtime::lambda;
+use lamedh_runtime::{handler_fn, run, Error};
+#[cfg(feature = "logging")]
 use log::LevelFilter;
+#[cfg(feature = "logging")]
 use simple_logger::SimpleLogger;
-use std::error::Error;
 
-fn main() -> Result<(), Box<dyn Error>> {
+#[tokio::main]
+async fn main() -> Result<(), Error> {
+    #[cfg(feature = "logging")]
     let level = get_environment_level();
+    #[cfg(feature = "logging")]
     println!("The module level will be {}", level);
+    #[cfg(feature = "logging")]
     SimpleLogger::new()
         .with_level(LevelFilter::Off)
         .with_module_level("handler", level)
         .init()?;
 
-    lambda!(handler::my_handler);
+    run(handler_fn(handler::my_handler)).await?;
 
     Ok(())
 }
-
+#[cfg(feature = "logging")]
 fn get_environment_level() -> LevelFilter {
     match std::env::var("LOGGING") {
         Ok(level) => match level.to_uppercase().as_str() {
@@ -43,7 +48,8 @@ fn get_environment_level() -> LevelFilter {
 
 mod handler {
     use hcaptcha::Hcaptcha;
-    use lambda_runtime::{error::HandlerError, Context};
+    use lamedh_runtime::{Context, Error};
+    #[cfg(feature = "logging")]
     use log::{debug, error};
     use rusoto_core::Region;
     use rusoto_ssm::{GetParameterRequest, Ssm, SsmClient};
@@ -92,20 +98,12 @@ mod handler {
     enum MyError {
         #[error("{0}")]
         SsmGetParameter(#[from] rusoto_core::RusotoError<GetParameterError>),
-        // #[error("{0}")]
-        // LambdaError(#[from] lambda_runtime::error::HandlerError),
         #[error("{0}")]
         Hcaptcha(#[from] hcaptcha::HcaptchaError),
     }
 
-    impl From<MyError> for HandlerError {
-        fn from(err: MyError) -> HandlerError {
-            HandlerError::from(err.to_string().as_str())
-        }
-    }
-
-    #[tokio::main]
-    pub async fn my_handler(e: CustomEvent, _c: Context) -> Result<CustomOutput, HandlerError> {
+    pub async fn my_handler(e: CustomEvent, _c: Context) -> Result<CustomOutput, Error> {
+        #[cfg(feature = "logging")]
         debug!("The event logged is: {:?}", e);
 
         let body_str = e.body.unwrap_or_else(|| "".to_owned());
@@ -123,20 +121,24 @@ mod handler {
         // Execute the futures concurrently
         let (info, notification, write) = join!(info_fut, notification_fut, write_fut);
 
+        #[allow(unused_variables)]
         if let Err(e) = notification {
             // Log the error and return error for rework at the client
+            #[cfg(feature = "logging")]
             error!("Notification not sent: {}", e);
             return Err("Notifcation not sent".into());
         }
-
+        #[allow(unused_variables)]
         if let Err(e) = info {
             // Log the error and return error for rework at the client
+            #[cfg(feature = "logging")]
             error!("Info not sent to office: {}", e);
             return Err("Info not sent to office".into());
         }
-
+        #[allow(unused_variables)]
         if let Err(e) = write {
             // Log the error but client will expect success
+            #[cfg(feature = "logging")]
             error!("Contact information not written to database: {}", e);
         }
 
@@ -174,17 +176,17 @@ mod handler {
         Ok(())
     }
 
-    async fn info(contact_form: &ContactForm) -> Result<(), MyError> {
+    async fn info(_contact_form: &ContactForm) -> Result<(), MyError> {
         // Implement SES code to send email to the company info address
         todo!()
     }
 
-    async fn notification(contact_form: &ContactForm) -> Result<(), MyError> {
+    async fn notification(_contact_form: &ContactForm) -> Result<(), MyError> {
         // Implement SES code to send email to the customer
         todo!()
     }
 
-    async fn write(contact_form: &ContactForm) -> Result<(), MyError> {
+    async fn write(_contact_form: &ContactForm) -> Result<(), MyError> {
         // Implement code to record contact
         todo!()
     }
