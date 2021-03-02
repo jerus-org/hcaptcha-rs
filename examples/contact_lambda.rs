@@ -8,14 +8,14 @@
 //! are completed concurrently by using async functions.
 //!
 
-use lambda_runtime::lambda;
+use lamedh_runtime::{handler_fn, run, Error};
 #[cfg(feature = "logging")]
 use log::LevelFilter;
 #[cfg(feature = "logging")]
 use simple_logger::SimpleLogger;
-use std::error::Error;
 
-fn main() -> Result<(), Box<dyn Error>> {
+#[tokio::main]
+async fn main() -> Result<(), Error> {
     #[cfg(feature = "logging")]
     let level = get_environment_level();
     #[cfg(feature = "logging")]
@@ -26,7 +26,7 @@ fn main() -> Result<(), Box<dyn Error>> {
         .with_module_level("handler", level)
         .init()?;
 
-    lambda!(handler::my_handler);
+    run(handler_fn(handler::my_handler)).await?;
 
     Ok(())
 }
@@ -48,7 +48,7 @@ fn get_environment_level() -> LevelFilter {
 
 mod handler {
     use hcaptcha::Hcaptcha;
-    use lambda_runtime::{error::HandlerError, Context};
+    use lamedh_runtime::{Context, Error};
     #[cfg(feature = "logging")]
     use log::{debug, error};
     use rusoto_core::Region;
@@ -98,20 +98,11 @@ mod handler {
     enum MyError {
         #[error("{0}")]
         SsmGetParameter(#[from] rusoto_core::RusotoError<GetParameterError>),
-        // #[error("{0}")]
-        // LambdaError(#[from] lambda_runtime::error::HandlerError),
         #[error("{0}")]
         Hcaptcha(#[from] hcaptcha::HcaptchaError),
     }
 
-    impl From<MyError> for HandlerError {
-        fn from(err: MyError) -> HandlerError {
-            HandlerError::from(err.to_string().as_str())
-        }
-    }
-
-    #[tokio::main]
-    pub async fn my_handler(e: CustomEvent, _c: Context) -> Result<CustomOutput, HandlerError> {
+    pub async fn my_handler(e: CustomEvent, _c: Context) -> Result<CustomOutput, Error> {
         #[cfg(feature = "logging")]
         debug!("The event logged is: {:?}", e);
 
