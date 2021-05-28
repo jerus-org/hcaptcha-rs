@@ -50,7 +50,7 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           args: -- -D warnings
 
-  clippy-1.44.1:
+  clippy-1_44_1:
     name: Clippy
     runs-on: ubuntu-latest
     steps:
