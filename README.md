@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/jerusdp/recaptcha-rs.svg?branch=main)](https://travis-ci.org/jerusdp/hcaptcha-rs)
 ![Rust CI Tests](https://github.com/jerusdp/hcapthc-rs/actions/workflows/general.yml/badge.svg)
-[![Rust 1.44.1+](https://img.shields.io/badge/rust-1.44.1+-orange.svg)](https://www.rust-lang.org)
+[![Rust 1.44+](https://img.shields.io/badge/rust-1.44.1+-orange.svg)](https://www.rust-lang.org)
 hcaptcha-rs is a library to verify hcaptcha responses.
 
 ## Installation
