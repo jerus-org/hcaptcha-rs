@@ -38,6 +38,24 @@ jobs:
   clippy:
     name: Clippy
     runs-on: ubuntu-latest
+    steps:
+      - name: Check Out Code
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+          override: true
+          components: clippy
+      - uses: actions-rs/clippy-check@v1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          args: -- -D warnings
+
+  check:
+    name: Check From Minver
+    runs-on: ubuntu-latest
     strategy:
       matrix:
         rust: [1.45.0, 1.46.0, 1.47.0, 1.48.0, 1.49.0, 1.50.0, 1.51.0]
@@ -50,11 +68,9 @@ jobs:
         with:
           toolchain: ${{ matrix.rust }}
           override: true
-          components: clippy
-      - uses: actions-rs/clippy-check@v1
+      - uses: actions-rs/cargo@v1
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          args: -- -D warnings
+          command: check
 
   coverage:
     name: Code coverage
