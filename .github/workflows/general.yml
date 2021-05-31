@@ -133,54 +133,6 @@ jobs:
         with:
           command: check
 
-  check_1450:
-    name: Check 1.45.0
-    runs-on: ubuntu-latest
-    steps:
-      - name: Check Out Code
-        uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
-      - uses: actions-rs/toolchain@v1
-        with:
-          toolchain: 1.45.0
-          override: true
-      - uses: actions-rs/cargo@v1
-        with:
-          command: check
-
-  check_1441:
-    name: Check 1.44.1
-    runs-on: ubuntu-latest
-    steps:
-      - name: Check Out Code
-        uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
-      - uses: actions-rs/toolchain@v1
-        with:
-          toolchain: 1.44.1
-          override: true
-      - uses: actions-rs/cargo@v1
-        with:
-          command: check
-
-  check_1440:
-    name: Check 1.44.0
-    runs-on: ubuntu-latest
-    steps:
-      - name: Check Out Code
-        uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
-      - uses: actions-rs/toolchain@v1
-        with:
-          toolchain: 1.44.0
-          override: true
-      - uses: actions-rs/cargo@v1
-        with:
-          command: check
-
   coverage:
     name: Code coverage
     runs-on: ubuntu-latest
