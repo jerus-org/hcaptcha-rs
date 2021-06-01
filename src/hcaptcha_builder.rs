@@ -1,5 +1,5 @@
 use crate::request::HcaptchaRequest;
-use crate::response::HcaptchaResponse;
+use crate::request::HcaptchaResponse;
 use crate::HcaptchaError;
 #[cfg(feature = "logging")]
 use log::debug;
@@ -37,13 +37,12 @@ impl Hcaptcha {
     /// # }
     /// ```
     #[allow(dead_code)]
-    pub fn new(secret: &str, response: &str) -> Hcaptcha {
-        let request = HcaptchaRequest::new(secret, response);
-
-        Hcaptcha {
-            request,
+    pub fn new(secret: &str, response: &str) -> Result<Hcaptcha, HcaptchaError> {
+        let r = HcaptchaRequest::new(secret, response);
+        Ok(Hcaptcha {
+            request: r?,
             ..Hcaptcha::default()
-        }
+        })
     }
 
     /// Specify the optional ip address value
@@ -189,71 +188,7 @@ impl Hcaptcha {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::Code::*;
-    use crate::HcaptchaError::*;
     use serde_json::json;
-    #[allow(unused_imports)]
-    // use tokio_compat_02::FutureExt;
-    #[tokio::test]
-    async fn test_invalid_secret_missing_response() {
-        let response = Hcaptcha::new("", "").verify().await;
-
-        match response {
-            Ok(()) => panic!("unexpected response: Ok(())"),
-            Err(Codes(ref errors)) => {
-                println!("Errors found {:?}", errors);
-                assert!(errors.contains(&MissingSecret));
-                assert!(errors.contains(&MissingResponse));
-            }
-            Err(e) => panic!("unexpected error: {}", e),
-        };
-
-        println!("{:?}", response);
-    }
-
-    #[tokio::test]
-    async fn test_invalid_secret_missing_response_with_ip() {
-        use std::net::Ipv4Addr;
-
-        let user_ip = IpAddr::V4(Ipv4Addr::new(123, 123, 123, 123));
-
-        let response = Hcaptcha::new("", "")
-            .set_user_ip(&user_ip)
-            .verify()
-            // .compat()
-            .await;
-
-        match response {
-            Ok(()) => panic!("unexpected response: Ok(())"),
-            Err(Codes(ref errors)) => {
-                assert!(errors.contains(&MissingSecret));
-                assert!(errors.contains(&MissingResponse));
-            }
-            Err(e) => panic!("unexpected error: {}", e),
-        };
-
-        println!("{:?}", response);
-    }
-
-    #[tokio::test]
-    async fn test_invalid_secret_missing_response_with_site_key() {
-        let response = Hcaptcha::new("", "")
-            .set_site_key("10000000-ffff-ffff-ffff-000000000001")
-            .verify()
-            // .compat()
-            .await;
-
-        match response {
-            Ok(()) => panic!("unexpected response: Ok(())"),
-            Err(Codes(ref errors)) => {
-                assert!(errors.contains(&MissingSecret));
-                assert!(errors.contains(&MissingResponse));
-            }
-            Err(e) => panic!("unexpected error: {}", e),
-        };
-
-        println!("{:?}", response);
-    }
 
     fn test_response() -> HcaptchaResponse {
         let response = json!({

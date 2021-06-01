@@ -46,7 +46,6 @@
 mod error;
 mod hcaptcha_builder;
 mod request;
-mod response;
 
 pub use error::Code;
 pub use error::HcaptchaError;

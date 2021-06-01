@@ -170,7 +170,7 @@ mod handler {
             None => hcaptcha_secret = "".to_owned(),
         }
 
-        Hcaptcha::new(&hcaptcha_secret, captcha_response)
+        Hcaptcha::new(&hcaptcha_secret, captcha_response)?
             .verify()
             .await?;
         Ok(())
