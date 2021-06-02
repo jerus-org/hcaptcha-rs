@@ -10,7 +10,6 @@ repository = "https://github.com/jerusdp/hcaptcha-rs"
 edition = "2018"
 readme = "README.md"
 documentation = "https://docs.rs/hcaptcha"
-autoexamples = false
 
 include = [
     "**/*.rs",
@@ -29,6 +28,7 @@ serde_urlencoded = "0.7.0"
 serde = "1.0.117"
 log = { version = "0.4", optional = true }
 thiserror = "1.0"
+uuid = "0.8.2"
 
 [dev-dependencies]
 claim = "0.5.0"

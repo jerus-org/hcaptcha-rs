@@ -1,13 +1,15 @@
 use crate::{Code, HcaptchaError};
 use std::collections::HashSet;
 
+const SECRET_LEN: usize = 42;
+
 #[derive(Debug, Default, serde::Serialize)]
 pub struct HcaptchaSecret(String);
 
 impl HcaptchaSecret {
     pub fn parse(s: String) -> Result<Self, HcaptchaError> {
         let is_empty_or_whitespace = s.trim().is_empty();
-        let is_too_long = s.len() != 22;
+        let is_wrong_length = s.len() != SECRET_LEN;
         let is_not_a_hex_string = !is_hex_string(&s);
 
         let mut codes = HashSet::new();
@@ -15,7 +17,7 @@ impl HcaptchaSecret {
         if is_empty_or_whitespace {
             codes.insert(Code::MissingSecret);
         };
-        if is_too_long || is_not_a_hex_string {
+        if is_wrong_length || is_not_a_hex_string {
             codes.insert(Code::InvalidSecret);
         };
 
@@ -28,7 +30,7 @@ impl HcaptchaSecret {
 }
 
 fn is_hex_string(s: &str) -> bool {
-    if s.len() != 22 {
+    if s.len() != SECRET_LEN {
         return false;
     };
     let start = &s[0..2];
@@ -43,7 +45,7 @@ mod tests {
     use super::HcaptchaSecret;
     use crate::Code;
     use crate::HcaptchaError;
-    use claim::assert_err;
+    use claim::{assert_err, assert_ok};
 
     #[test]
     fn whitespace_only_secrets_are_rejected() {
@@ -58,14 +60,13 @@ mod tests {
     }
 
     #[test]
-    fn secret_longer_than_22_bytes_is_rejected() {
-        let secret = "12345678901234567890123".to_string();
+    fn secret_longer_than_secret_len_is_rejected() {
+        let secret = "1234567890123456789012345678901234567890123".to_string();
         assert_err!(HcaptchaSecret::parse(secret));
     }
-
     #[test]
-    fn secret_shorter_than_22_bytes_is_rejected() {
-        let secret = "123456789012345678901".to_string();
+    fn secret_shorter_than_secret_len_is_rejected() {
+        let secret = "12345678901234567890123456789012345678901".to_string();
         assert_err!(HcaptchaSecret::parse(secret));
     }
     #[test]
@@ -84,9 +85,15 @@ mod tests {
 
     #[test]
     fn error_set_contains_invalid_secret_error() {
-        let secret = "abcdefghijklmnopqrstuv".to_string();
+        let secret = "abcdefghijklmnopqrstuvxyzabcdefghijklmnopq".to_string();
         if let Err(HcaptchaError::Codes(hs)) = HcaptchaSecret::parse(secret) {
             assert!(hs.contains(&Code::InvalidSecret));
         }
+    }
+
+    #[test]
+    fn test_secret_key_is_valid() {
+        let secret = "0x0000000000000000000000000000000000000000".to_string();
+        assert_ok!(HcaptchaSecret::parse(secret));
     }
 }

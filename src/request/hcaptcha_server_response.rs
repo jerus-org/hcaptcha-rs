@@ -7,7 +7,7 @@ type Score = f32;
 
 /// Result from call to verify the client's response
 #[derive(Debug, Default, Deserialize, Clone)]
-pub struct HcaptchaResponse {
+pub struct HcaptchaServerResponse {
     /// verification status: true or false.
     ///
     /// Successful verification may have additional information.
@@ -30,7 +30,7 @@ pub struct HcaptchaResponse {
     score_reason: Option<HashSet<String>>,
 }
 
-impl HcaptchaResponse {
+impl HcaptchaServerResponse {
     /// Get the value of the success field
     #[allow(dead_code)]
     pub fn success(&self) -> bool {
@@ -88,7 +88,7 @@ mod tests {
             "error-codes": ["missing-input-secret", "foo"],
             "hostname": "hostname"
         });
-        let response: HcaptchaResponse = serde_json::from_value(response).unwrap();
+        let response: HcaptchaServerResponse = serde_json::from_value(response).unwrap();
 
         assert!(response.success);
         assert!(response.error_codes.is_some());
@@ -99,7 +99,7 @@ mod tests {
         assert!(errors.contains(&Unknown("foo".to_string())));
     }
 
-    fn test_response() -> HcaptchaResponse {
+    fn test_response() -> HcaptchaServerResponse {
         let response = json!({
             "success": true,
             "challenge_ts": "2020-11-11T23:27:00Z",

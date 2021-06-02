@@ -5,13 +5,14 @@
 const VERIFY_URL: &str = "https://hcaptcha.com/siteverify";
 
 use super::HcaptchaClientResponse;
-use super::HcaptchaResponse;
 use super::HcaptchaSecret;
+use super::HcaptchaServerResponse;
 use crate::HcaptchaError;
 #[cfg(feature = "logging")]
 use log::debug;
 use reqwest::{Client, Url};
 use std::net::IpAddr;
+use uuid::Uuid;
 
 /// Type to capture the required and optional data for a call to the hcaptcha API
 #[derive(Debug, Default, serde::Serialize)]
@@ -46,17 +47,17 @@ impl HcaptchaRequest {
 
     /// Specify the optional site key value
     #[allow(dead_code)]
-    pub fn set_site_key(&mut self, site_key: &str) -> &HcaptchaRequest {
-        self.site_key = Some(site_key.to_owned());
+    pub fn set_site_key(&mut self, site_key: &Uuid) -> &HcaptchaRequest {
+        self.site_key = Some(site_key.to_hyphenated().to_string());
         self
     }
 
     /// Call the api to verify the response code recieved from the client
     #[allow(dead_code)]
-    pub async fn verify(&self) -> Result<HcaptchaResponse, HcaptchaError> {
+    pub async fn verify(&self) -> Result<HcaptchaServerResponse, HcaptchaError> {
         let url = Url::parse(VERIFY_URL).unwrap();
         let response = Client::new().post(url).form(&self).send().await?;
-        let response = response.json::<HcaptchaResponse>().await?;
+        let response = response.json::<HcaptchaServerResponse>().await?;
         #[cfg(feature = "logging")]
         debug!("The response is: {:?}", response);
         Ok(response)

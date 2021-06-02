@@ -1,10 +1,11 @@
 use crate::request::HcaptchaRequest;
-use crate::request::HcaptchaResponse;
+use crate::request::HcaptchaServerResponse;
 use crate::HcaptchaError;
 #[cfg(feature = "logging")]
 use log::debug;
 use std::collections::HashSet;
 use std::net::IpAddr;
+use uuid::Uuid;
 
 /// Builder to compose a request for the hcaptcha validation endpoint, verify
 /// the request and read the additional information that may be supplied in
@@ -12,28 +13,63 @@ use std::net::IpAddr;
 #[derive(Debug, Default)]
 pub struct Hcaptcha {
     request: HcaptchaRequest,
-    response: HcaptchaResponse,
+    response: HcaptchaServerResponse,
 }
 
 impl Hcaptcha {
     /// Create a new Hcaptcha Request
     ///
-    /// # Example
+    /// # Example 1
+    /// In the following example the new method returns an error as the secret
+    /// and response inputs are blank.
+    /// The new method validates these without calling the hcaptcha API.  
+    /// ```should_panic
+    /// use hcaptcha::Hcaptcha;
+    /// # use std::error::Error;
     ///
-    /// ```
     /// # #[tokio::main]
-    /// # async fn main() {
-    /// # use hcaptcha::Hcaptcha;
-    ///
+    /// # async fn main() -> Result<(), hcaptcha::HcaptchaError> {
     /// let secret = ""; // your secret key
     /// let token = "";  // user's token
     ///
-    /// let hcaptcha = Hcaptcha::new(secret, token)
-    ///                 .verify()
-    ///                 .await;
+    /// Hcaptcha::new(secret, token)? // <- returns error
+    ///     .verify()
+    ///     .await
+    /// # }
+    /// ```
+    /// # Example 2
+    /// In the following example the call to new returns an error as the
+    /// response input is blank.
+    /// The new method validates these without calling the hcaptcha API.
+    /// ```should_panic
+    /// use hcaptcha::Hcaptcha;
+    /// # use std::error::Error;
     ///
-    /// assert!(hcaptcha.is_err());
+    /// # #[tokio::main]
+    /// # async fn main() -> Result<(), hcaptcha::HcaptchaError> {
+    /// let secret = ""; // your secret key
+    /// let token = "";  // user's token
     ///
+    /// Hcaptcha::new(secret, token)? // <- returns error
+    ///     .verify()
+    ///     .await
+    /// # }
+    /// ```
+    /// # Example 3
+    /// This example likely fails as the token is specified is unlikely to be
+    /// a valid token. The new function will however pass the input as it
+    /// only validates that the token is not blank or empty.
+    /// ```should_panic no_run
+    /// use hcaptcha::Hcaptcha;
+    ///
+    /// # #[tokio::main]
+    /// # async fn main() -> Result<(), hcaptcha::HcaptchaError> {
+    /// let secret = "0x0000000000000000000000000000000000000000"; // your secret key
+    /// let token = "this_is_likely_invalid";  // user's token
+    ///
+    /// Hcaptcha::new(secret, token)?
+    ///     .verify()
+    ///     .await  // <- likely returns InvalidClientResponse error
     /// # }
     /// ```
     #[allow(dead_code)]
@@ -48,24 +84,23 @@ impl Hcaptcha {
     /// Specify the optional ip address value
     ///
     /// # Example
-    ///
-    /// ```
+    /// This example will most likely fail as the client response token will be
+    /// reported by the hcaptcah API as invalid.
+    /// The sample serves to illustrate the construction of a data structure
+    /// that includes the user ip address using the set_user_ip method.
+    /// ```should_panic no_run
+    /// use hcaptcha::Hcaptcha;
+    /// use std::net::{IpAddr, Ipv4Addr};
     /// # #[tokio::main]
-    /// # async fn main() {
-    /// # use hcaptcha::Hcaptcha;
-    /// # use std::net::{IpAddr, Ipv4Addr};
-    ///
-    /// let secret = ""; // your secret key
-    /// let token = "";  // user's token
+    /// # async fn main() -> Result<(), hcaptcha::HcaptchaError> {
+    /// let secret = "0x0000000000000000000000000000000000000000"; // your secret key
+    /// let token = "this_is_likely_invalid";  // user's token
     /// let user_ip = IpAddr::V4(Ipv4Addr::new(192, 168, 0, 17));
     ///
-    /// let hcaptcha = Hcaptcha::new(secret, token)
-    ///                 .set_user_ip(&user_ip)
-    ///                 .verify()
-    ///                 .await;
-    ///
-    /// assert!(hcaptcha.is_err());
-    ///
+    /// Hcaptcha::new(secret, token)?
+    ///     .set_user_ip(&user_ip)
+    ///     .verify()
+    ///     .await // <- likely returns InvalidClientResponse error
     /// # }
     /// ```
     #[allow(dead_code)]
@@ -73,58 +108,61 @@ impl Hcaptcha {
         self.request.set_user_ip(user_ip);
         self
     }
-
     /// Specify the optional site key value
     ///
     /// # Example
-    ///
-    /// ```
+    /// This example will most likely fail as the client response token will be
+    /// reported by the hcaptcah API as invalid.
+    /// The sample serves to illustrate the construction of a data structure
+    /// that includes the site_key using the set_site_key method.
+    /// ```should_panic no_run
+    /// use hcaptcha::Hcaptcha;
+    /// use uuid::Uuid;
+    /// # use hcaptcha::HcaptchaError;
     /// # #[tokio::main]
-    /// # async fn main() {
-    /// # use hcaptcha::Hcaptcha;
+    /// # async fn main() -> Result<(), HcaptchaError> {
+    /// let secret = "0x0000000000000000000000000000000000000000"; // your secret key
+    /// let token = "this_is_likely_invalid";  // user's token
+    /// let site_key = Uuid::parse_str("10000000-ffff-ffff-ffff-000000000001")?;
     ///
-    /// let secret = ""; // your secret key
-    /// let token = "";  // user's token
-    /// let site_key = "10000000-ffff-ffff-ffff-000000000001";
-    ///
-    /// let hcaptcha = Hcaptcha::new(secret, token)
-    ///                 .set_site_key(site_key)
-    ///                 .verify()
-    ///                 .await;
-    ///
-    /// assert!(hcaptcha.is_err());
-    ///
+    /// Hcaptcha::new(secret, token)?
+    ///     .set_site_key(&site_key)
+    ///     .verify()
+    ///     .await // <- likely returns InvalidClientResponse error
     /// # }
     /// ```
     #[allow(dead_code)]
-    pub fn set_site_key(mut self, site_key: &str) -> Hcaptcha {
+    pub fn set_site_key(mut self, site_key: &Uuid) -> Hcaptcha {
         self.request.set_site_key(site_key);
         self
     }
-
     /// Verify a hcaptcha user response
     ///
     /// # Example
-    ///
-    /// ```
-    /// # #[tokio::main]
-    /// # async fn main() {
+    /// The example illustrates a call to verify the full data structure, including
+    /// the optional user_ip and site_key fields. The example will yield as error
+    /// as the token value will not be valid.
+    /// ```should_panic no_run
     /// # use hcaptcha::Hcaptcha;
     /// # use hcaptcha::Code::*;
     /// # use std::net::{IpAddr, Ipv4Addr};
+    /// # use uuid::Uuid;
     ///
+    /// # #[tokio::main]
+    /// # async fn main() -> Result<(), hcaptcha::HcaptchaError>{
     /// let secret = "0x0000000000000000000000000000000000000000";
-    /// let token = "";
+    /// let token = "this_is_likely_invalid";  // user's token
     /// let user_ip = IpAddr::V4(Ipv4Addr::new(123, 123, 123, 123));
-    /// let site_key = "10000000-ffff-ffff-ffff-000000000001";
+    /// let site_key = Uuid::parse_str("10000000-ffff-ffff-ffff-000000000001")?;
     ///
-    /// let response = Hcaptcha::new(secret, token)
+    /// let response = Hcaptcha::new(secret, token)?
     ///                 .set_user_ip(&user_ip)
     ///                 .set_site_key(&site_key)
     ///                 .verify()
     ///                 .await;
     ///
     /// assert!(response.is_err());
+    /// Ok(())
     /// # }
     /// ```
     pub async fn verify(&mut self) -> Result<(), HcaptchaError> {
@@ -190,7 +228,7 @@ mod tests {
     use super::*;
     use serde_json::json;
 
-    fn test_response() -> HcaptchaResponse {
+    fn test_response() -> HcaptchaServerResponse {
         let response = json!({
             "success": true,
             "challenge_ts": "2020-11-11T23:27:00Z",
