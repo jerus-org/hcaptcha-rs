@@ -72,7 +72,7 @@ impl Hcaptcha {
     ///     .await  // <- likely returns InvalidResponse error
     /// # }
     /// ```
-    #[cfg(feature = tracing)]
+    #[cfg(feature = "trace")]
     #[tracing::instrument(name = "Construct new request with secret and client response.")]
     #[allow(dead_code)]
     pub fn new(secret: &str, response: &str) -> Result<Hcaptcha, HcaptchaError> {
@@ -105,7 +105,7 @@ impl Hcaptcha {
     ///     .await // <- likely returns InvalidResponse error
     /// # }
     /// ```
-    #[cfg(feature = tracing)]
+    #[cfg(feature = "trace")]
     #[tracing::instrument(name = "Add client IP to request.")]
     #[allow(dead_code)]
     pub fn set_user_ip(mut self, user_ip: &IpAddr) -> Hcaptcha {
@@ -135,7 +135,7 @@ impl Hcaptcha {
     ///     .await // <- likely returns InvalidResponse error
     /// # }
     /// ```
-    #[cfg(feature = tracing)]
+    #[cfg(feature = "trace")]
     #[tracing::instrument(name = "Add site key to request.")]
     #[allow(dead_code)]
     pub fn set_site_key(mut self, site_key: &Uuid) -> Hcaptcha {
@@ -171,7 +171,7 @@ impl Hcaptcha {
     /// Ok(())
     /// # }
     /// ```
-    #[cfg(feature = tracing)]
+    #[cfg(feature = "trace")]
     #[tracing::instrument(name = "Submit request to Hcaptcha for verification.")]
     pub async fn verify(&mut self) -> Result<(), HcaptchaError> {
         #[cfg(feature = "logging")]
@@ -190,7 +190,7 @@ impl Hcaptcha {
     /// Option string containig the hostname of the site
     /// where the captcha was solved
     ///
-    #[cfg(feature = tracing)]
+    #[cfg(feature = "trace")]
     #[tracing::instrument(name = "Return hostname from the Hcaptcha API response.")]
     #[allow(dead_code)]
     pub fn hostname(&self) -> Option<String> {
@@ -201,7 +201,7 @@ impl Hcaptcha {
     /// Option string containing the timestamp of the captcha
     /// (ISO format yyyy-MM-dd'T'HH:mm:ssZZ)
     ///
-    #[cfg(feature = tracing)]
+    #[cfg(feature = "trace")]
     #[tracing::instrument(name = "Return timestampt from the Hcaptcha API response.")]
     #[allow(dead_code)]
     pub fn timestamp(&self) -> Option<String> {
@@ -211,7 +211,7 @@ impl Hcaptcha {
     /// Get the credit flag
     /// Optional flag showing whether the response will be credited
     ///
-    #[cfg(feature = tracing)]
+    #[cfg(feature = "trace")]
     #[tracing::instrument(name = "Return credit from the Hcaptcha API response.")]
     #[allow(dead_code)]
     pub fn credit(&self) -> Option<bool> {
@@ -222,7 +222,7 @@ impl Hcaptcha {
     ///
     /// ENTERPRISE feature: a score denoting malicious activity.
     ///
-    #[cfg(feature = tracing)]
+    #[cfg(feature = "trace")]
     #[tracing::instrument(name = "Return score from the Hcaptcha API response.")]
     #[cfg(feature = "enterprise")]
     #[allow(dead_code)]
@@ -235,7 +235,7 @@ impl Hcaptcha {
     /// ENTERPRISE feature: reason(s) for score.
     /// See [BotStop.com](https://BotStop.com) for details.
     ///
-    #[cfg(feature = tracing)]
+    #[cfg(feature = "trace")]
     #[tracing::instrument(name = "Return score reason from the Hcaptcha API response.")]
     #[cfg(feature = "enterprise")]
     #[allow(dead_code)]

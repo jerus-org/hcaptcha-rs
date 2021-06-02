@@ -48,7 +48,7 @@
 //!                             conform to a 40 byte hexadecimal string.
 //!  - `logging`            :   Enbles debug logs for the request and response
 //!                             structs.
-//!  - 'tracing'            :   Enables tracing using the tracing crate.
+//!  - 'trace'            :   Enables tracing using the tracing crate.
 //!
 
 mod error;
