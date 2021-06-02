@@ -31,9 +31,10 @@ log = { version = "0.4", optional = true }
 thiserror = "1.0"
 
 [dev-dependencies]
-tokio = { version = "1.2", features = ["macros", "rt-multi-thread"] }
+claim = "0.5.0"
+fake = "2.4.0"
 lamedh_runtime = "0.3.0"
-simple_logger = "1.11.0"
 rusoto_core = "0.46.0"
 rusoto_ssm = "0.46.0"
-claim = "0.5.0"
+simple_logger = "1.11.0"
+tokio = { version = "1.2", features = ["macros", "rt-multi-thread"] }
