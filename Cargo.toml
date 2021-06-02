@@ -20,6 +20,8 @@ include = [
 default = []
 logging = ["log"]
 extended-validate = []
+enterprise = []
+tracing = ["tracing"]
 
 [dependencies]
 reqwest = { version = "0.11.0", features = ["json"] }
@@ -29,6 +31,7 @@ serde_urlencoded = "0.7.0"
 serde = "1.0.117"
 log = { version = "0.4", optional = true }
 thiserror = "1.0"
+tracing = { version = "0.1.26", features = ["log"], optional = true }
 uuid = "0.8.2"
 
 [dev-dependencies]

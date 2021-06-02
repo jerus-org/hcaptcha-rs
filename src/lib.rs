@@ -42,12 +42,13 @@
 //!
 //! # Feature Flags
 //!
-//!  - `logging`:               Enbles debug logs for the request and response
-//!                             structs.
+//!  - 'enterprise'         :   Enable methods to access enterprise service
+//!                             fields in the response from the Hcaptcha API.
 //!  - `extended-validation`:   Enables additional validation of the secret to
 //!                             conform to a 40 byte hexadecimal string.
-//!
-//!
+//!  - `logging`            :   Enbles debug logs for the request and response
+//!                             structs.
+//!  - 'tracing'            :   Enables tracing using the tracing crate.
 //!
 
 mod error;
