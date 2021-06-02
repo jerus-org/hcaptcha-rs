@@ -1,12 +1,26 @@
 use crate::{Code, HcaptchaError};
 use std::collections::HashSet;
 
+#[cfg(feature = "extended-validate")]
 const SECRET_LEN: usize = 42;
 
 #[derive(Debug, Default, serde::Serialize)]
 pub struct HcaptchaSecret(String);
 
 impl HcaptchaSecret {
+    #[cfg(not(feature = "extended-validate"))]
+    pub fn parse(s: String) -> Result<Self, HcaptchaError> {
+        if s.trim().is_empty() {
+            let mut codes = HashSet::new();
+            codes.insert(Code::MissingSecret);
+
+            Err(HcaptchaError::Codes(codes))
+        } else {
+            Ok(HcaptchaSecret(s))
+        }
+    }
+
+    #[cfg(feature = "extended-validate")]
     pub fn parse(s: String) -> Result<Self, HcaptchaError> {
         let is_empty_or_whitespace = s.trim().is_empty();
         let is_wrong_length = s.len() != SECRET_LEN;
@@ -29,6 +43,7 @@ impl HcaptchaSecret {
     }
 }
 
+#[cfg(feature = "extended-validate")]
 fn is_hex_string(s: &str) -> bool {
     if s.len() != SECRET_LEN {
         return false;
@@ -52,23 +67,26 @@ mod tests {
         let secret = " ".to_string();
         assert_err!(HcaptchaSecret::parse(secret));
     }
-
     #[test]
     fn empty_string_is_rejected() {
         let secret = "".to_string();
         assert_err!(HcaptchaSecret::parse(secret));
     }
-
+    #[cfg(feature = "extended-validate")]
     #[test]
     fn secret_longer_than_secret_len_is_rejected() {
         let secret = "1234567890123456789012345678901234567890123".to_string();
         assert_err!(HcaptchaSecret::parse(secret));
     }
+
+    #[cfg(feature = "extended-validate")]
     #[test]
     fn secret_shorter_than_secret_len_is_rejected() {
         let secret = "12345678901234567890123456789012345678901".to_string();
         assert_err!(HcaptchaSecret::parse(secret));
     }
+
+    #[cfg(feature = "extended-validate")]
     #[test]
     fn secret_that_is_not_a_valid_hex_string_is_rejected() {
         let secret = "abcdefghijklmnopqrstuv".to_string();
@@ -83,6 +101,7 @@ mod tests {
         }
     }
 
+    #[cfg(feature = "extended-validate")]
     #[test]
     fn error_set_contains_invalid_secret_error() {
         let secret = "abcdefghijklmnopqrstuvxyzabcdefghijklmnopq".to_string();

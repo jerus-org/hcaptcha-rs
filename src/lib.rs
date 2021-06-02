@@ -42,7 +42,10 @@
 //!
 //! # Feature Flags
 //!
-//!  - `logging:` Enbles debug logs for the request and response structs.
+//!  - `logging`:               Enbles debug logs for the request and response
+//!                             structs.
+//!  - `extended-validation`:   Enables additional validation of the secret to
+//!                             conform to a 40 byte hexadecimal string.
 //!
 //!
 //!
