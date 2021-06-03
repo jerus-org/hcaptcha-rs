@@ -29,6 +29,9 @@ pub enum HcaptchaError {
     /// Error returned by serde_urlencoded
     #[error("{0}")]
     UrlEncoded(#[from] serde_urlencoded::ser::Error),
+    /// Error returned by uuid
+    #[error("{0}")]
+    Uuid(#[from] uuid::Error),
 }
 
 /// Error code mapping for the error responses from the hcaptcha API.
