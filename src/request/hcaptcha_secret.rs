@@ -1,14 +1,14 @@
 use crate::{Code, HcaptchaError};
 use std::collections::HashSet;
 
-#[cfg(feature = "extended-validate")]
+#[cfg(feature = "ext")]
 const SECRET_LEN: usize = 42;
 
 #[derive(Debug, Default, serde::Serialize)]
 pub struct HcaptchaSecret(String);
 
 impl HcaptchaSecret {
-    #[cfg(not(feature = "extended-validate"))]
+    #[cfg(not(feature = "ext"))]
     pub fn parse(s: String) -> Result<Self, HcaptchaError> {
         if s.trim().is_empty() {
             let mut codes = HashSet::new();
@@ -20,7 +20,7 @@ impl HcaptchaSecret {
         }
     }
 
-    #[cfg(feature = "extended-validate")]
+    #[cfg(feature = "ext")]
     pub fn parse(s: String) -> Result<Self, HcaptchaError> {
         let is_empty_or_whitespace = s.trim().is_empty();
         let is_wrong_length = s.len() != SECRET_LEN;
@@ -43,7 +43,7 @@ impl HcaptchaSecret {
     }
 }
 
-#[cfg(feature = "extended-validate")]
+#[cfg(feature = "ext")]
 fn is_hex_string(s: &str) -> bool {
     if s.len() != SECRET_LEN {
         return false;
