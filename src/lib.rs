@@ -42,10 +42,10 @@
 //!
 //! # Feature Flags
 //!
-//!  - 'enterprise'         :   Enable methods to access enterprise service
-//!                             fields in the response from the Hcaptcha API.
-//!  - `extended-validation`:   Enables additional validation of the secret to
-//!                             conform to a 40 byte hexadecimal string.
+//!  - 'enterprise' :   Enable methods to access enterprise service fields
+//!                     in the response from the Hcaptcha API.
+//!  - `ext`        :   Enables additional validation that the secret conforms
+//!                     to a 40 byte hexadecimal string.
 
 mod error;
 mod hcaptcha_builder;
