@@ -8,7 +8,7 @@
 //! are completed concurrently by using async functions.
 //!
 
-use lamedh_runtime::{handler_fn, run, Error};
+use lambda_runtime::{handler_fn, run, Error};
 #[cfg(feature = "logging")]
 use log::LevelFilter;
 #[cfg(feature = "logging")]
@@ -48,7 +48,7 @@ fn get_environment_level() -> LevelFilter {
 
 mod handler {
     use hcaptcha::Hcaptcha;
-    use lamedh_runtime::{Context, Error};
+    use lambda_runtime::{Context, Error};
     #[cfg(feature = "logging")]
     use log::{debug, error};
     use rusoto_core::Region;
