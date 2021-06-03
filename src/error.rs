@@ -9,6 +9,7 @@ use std::io;
 use thiserror::Error;
 
 /// The error type for hcaptcha.
+#[non_exhaustive]
 #[derive(Error, Debug)]
 pub enum HcaptchaError {
     /// Error(s) returned from the hcaptcha API and mapped to the [Code] enum.
@@ -37,6 +38,7 @@ pub enum HcaptchaError {
 /// Returned in the [HcaptchaError] type.
 ///
 /// [HcaptchaError]: ./enum.HcaptchaError.html
+#[non_exhaustive]
 #[derive(PartialEq, Eq, Hash, Clone, Debug)]
 pub enum Code {
     /// Your secret key is missing.
