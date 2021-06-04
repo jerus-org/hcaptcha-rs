@@ -8,8 +8,6 @@ use super::HcaptchaClientResponse;
 use super::HcaptchaSecret;
 use super::HcaptchaServerResponse;
 use crate::HcaptchaError;
-#[cfg(feature = "logging")]
-use log::debug;
 use reqwest::{Client, Url};
 use std::net::IpAddr;
 use uuid::Uuid;
@@ -58,8 +56,8 @@ impl HcaptchaRequest {
         let url = Url::parse(VERIFY_URL).unwrap();
         let response = Client::new().post(url).form(&self).send().await?;
         let response = response.json::<HcaptchaServerResponse>().await?;
-        #[cfg(feature = "logging")]
-        debug!("The response is: {:?}", response);
+        #[cfg(feature = "trace")]
+        tracing::debug!("The response is: {:?}", response);
         Ok(response)
     }
 }

@@ -1,8 +1,6 @@
 use crate::request::HcaptchaRequest;
 use crate::request::HcaptchaServerResponse;
 use crate::HcaptchaError;
-#[cfg(feature = "logging")]
-use log::debug;
 use std::collections::HashSet;
 use std::net::IpAddr;
 use uuid::Uuid;
@@ -72,7 +70,10 @@ impl Hcaptcha {
     ///     .await  // <- likely returns InvalidResponse error
     /// # }
     /// ```
-    #[tracing::instrument(name = "Construct new request with secret and client response.")]
+    #[cfg_attr(
+        feature = "trace",
+        tracing::instrument(name = "Construct new request with secret and client response.")
+    )]
     #[allow(dead_code)]
     pub fn new(secret: &str, response: &str) -> Result<Hcaptcha, HcaptchaError> {
         let r = HcaptchaRequest::new(secret, response);
@@ -104,7 +105,10 @@ impl Hcaptcha {
     ///     .await // <- likely returns InvalidResponse error
     /// # }
     /// ```
-    #[tracing::instrument(name = "Add client IP to request.")]
+    #[cfg_attr(
+        feature = "trace",
+        tracing::instrument(name = "Add client IP to request.")
+    )]
     #[allow(dead_code)]
     pub fn set_user_ip(mut self, user_ip: &IpAddr) -> Hcaptcha {
         self.request.set_user_ip(user_ip);
@@ -133,7 +137,10 @@ impl Hcaptcha {
     ///     .await // <- likely returns InvalidResponse error
     /// # }
     /// ```
-    #[tracing::instrument(name = "Add site key to request.")]
+    #[cfg_attr(
+        feature = "trace",
+        tracing::instrument(name = "Add site key to request.")
+    )]
     #[allow(dead_code)]
     pub fn set_site_key(mut self, site_key: &Uuid) -> Hcaptcha {
         self.request.set_site_key(site_key);
@@ -168,10 +175,13 @@ impl Hcaptcha {
     /// Ok(())
     /// # }
     /// ```
-    #[tracing::instrument(name = "Submit request to Hcaptcha for verification.")]
+    #[cfg_attr(
+        feature = "trace",
+        tracing::instrument(name = "Submit request to Hcaptcha for verification.")
+    )]
     pub async fn verify(&mut self) -> Result<(), HcaptchaError> {
-        #[cfg(feature = "logging")]
-        debug!("State of request: {:?}", self);
+        #[cfg(feature = "trace")]
+        tracing::debug!("State of request: {:?}", self);
         self.response = self.request.verify().await?;
         println!("verify response: {:#?}", &self.response);
 
@@ -186,7 +196,10 @@ impl Hcaptcha {
     /// Option string containig the hostname of the site
     /// where the captcha was solved
     ///
-    #[tracing::instrument(name = "Return hostname from the Hcaptcha API response.")]
+    #[cfg_attr(
+        feature = "trace",
+        tracing::instrument(name = "Return hostname from the Hcaptcha API response.")
+    )]
     #[allow(dead_code)]
     pub fn hostname(&self) -> Option<String> {
         self.response.hostname()
@@ -196,7 +209,10 @@ impl Hcaptcha {
     /// Option string containing the timestamp of the captcha
     /// (ISO format yyyy-MM-dd'T'HH:mm:ssZZ)
     ///
-    #[tracing::instrument(name = "Return timestampt from the Hcaptcha API response.")]
+    #[cfg_attr(
+        feature = "trace",
+        tracing::instrument(name = "Return timestampt from the Hcaptcha API response.")
+    )]
     #[allow(dead_code)]
     pub fn timestamp(&self) -> Option<String> {
         self.response.timestamp()
@@ -205,7 +221,10 @@ impl Hcaptcha {
     /// Get the credit flag
     /// Optional flag showing whether the response will be credited
     ///
-    #[tracing::instrument(name = "Return credit from the Hcaptcha API response.")]
+    #[cfg_attr(
+        feature = "trace",
+        tracing::instrument(name = "Return credit from the Hcaptcha API response.")
+    )]
     #[allow(dead_code)]
     pub fn credit(&self) -> Option<bool> {
         self.response.credit()
@@ -215,7 +234,10 @@ impl Hcaptcha {
     ///
     /// Provides the score from botstop for the malicious activity.
     ///
-    #[tracing::instrument(name = "Return score from the Hcaptcha API response.")]
+    #[cfg_attr(
+        feature = "trace",
+        tracing::instrument(name = "Return score from the Hcaptcha API response.")
+    )]
     #[cfg(feature = "enterprise")]
     #[cfg_attr(docsrs, doc(cfg(feature = "enterprise")))]
     #[allow(dead_code)]
@@ -227,7 +249,10 @@ impl Hcaptcha {
     /// Provide the reason(s) for the score.
     /// See [BotStop.com](https://BotStop.com) for details.
     ///
-    #[tracing::instrument(name = "Return score reason from the Hcaptcha API response.")]
+    #[cfg_attr(
+        feature = "trace",
+        tracing::instrument(name = "Return score reason from the Hcaptcha API response.")
+    )]
     #[cfg(feature = "enterprise")]
     #[cfg_attr(docsrs, doc(cfg(feature = "enterprise")))]
     #[allow(dead_code)]

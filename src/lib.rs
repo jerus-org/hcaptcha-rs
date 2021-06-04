@@ -56,6 +56,8 @@
 //!  - `ext`
 //!     Enables additional validation that the secret conforms to a 40 byte
 //!     hexadecimal string.
+//! - 'trace'
+//!     Enables instrumentation of all functions by tracing.
 //!
 
 mod error;
