@@ -213,22 +213,23 @@ impl Hcaptcha {
 
     /// Get the score
     ///
-    /// ENTERPRISE feature: a score denoting malicious activity.
+    /// Provides the score from botstop for the malicious activity.
     ///
     #[tracing::instrument(name = "Return score from the Hcaptcha API response.")]
     #[cfg(feature = "enterprise")]
+    #[cfg_attr(docsrs, doc(cfg(feature = "enterprise")))]
     #[allow(dead_code)]
     pub fn score(&self) -> Option<f32> {
         self.response.score()
     }
-
     /// Get the reasons for the score
     ///
-    /// ENTERPRISE feature: reason(s) for score.
+    /// Provide the reason(s) for the score.
     /// See [BotStop.com](https://BotStop.com) for details.
     ///
     #[tracing::instrument(name = "Return score reason from the Hcaptcha API response.")]
     #[cfg(feature = "enterprise")]
+    #[cfg_attr(docsrs, doc(cfg(feature = "enterprise")))]
     #[allow(dead_code)]
     pub fn score_reason(&self) -> Option<HashSet<String>> {
         self.response.score_reason()
