@@ -54,21 +54,19 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           args: -- -D warnings
 
-  check_minrust:
-    name: Check ${{ env.minrust }}
+  minrust:
+    name: minrust
     runs-on: ubuntu-latest
     steps:
       - name: Check Out Code
         uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
       - uses: actions-rs/toolchain@v1
         with:
           toolchain: ${{ env.minrust }}
           override: true
       - uses: actions-rs/cargo@v1
         with:
-          command: check
+          command: check --all-features
 
   docs:
     name: Docs
