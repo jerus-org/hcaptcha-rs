@@ -9,18 +9,13 @@
 //!
 
 use lambda_runtime::{handler_fn, run, Error};
-#[cfg(feature = "logging")]
 use log::LevelFilter;
-#[cfg(feature = "logging")]
 use simple_logger::SimpleLogger;
 
 #[tokio::main]
 async fn main() -> Result<(), Error> {
-    #[cfg(feature = "logging")]
     let level = get_environment_level();
-    #[cfg(feature = "logging")]
     println!("The module level will be {}", level);
-    #[cfg(feature = "logging")]
     SimpleLogger::new()
         .with_level(LevelFilter::Off)
         .with_module_level("handler", level)
@@ -30,7 +25,6 @@ async fn main() -> Result<(), Error> {
 
     Ok(())
 }
-#[cfg(feature = "logging")]
 fn get_environment_level() -> LevelFilter {
     match std::env::var("LOGGING") {
         Ok(level) => match level.to_uppercase().as_str() {
@@ -49,7 +43,6 @@ fn get_environment_level() -> LevelFilter {
 mod handler {
     use hcaptcha::Hcaptcha;
     use lambda_runtime::{Context, Error};
-    #[cfg(feature = "logging")]
     use log::{debug, error};
     use rusoto_core::Region;
     use rusoto_ssm::{GetParameterRequest, Ssm, SsmClient};
@@ -103,7 +96,6 @@ mod handler {
     }
 
     pub async fn my_handler(e: CustomEvent, _c: Context) -> Result<CustomOutput, Error> {
-        #[cfg(feature = "logging")]
         debug!("The event logged is: {:?}", e);
 
         let body_str = e.body.unwrap_or_else(|| "".to_owned());
@@ -124,21 +116,18 @@ mod handler {
         #[allow(unused_variables)]
         if let Err(e) = notification {
             // Log the error and return error for rework at the client
-            #[cfg(feature = "logging")]
             error!("Notification not sent: {}", e);
             return Err("Notifcation not sent".into());
         }
         #[allow(unused_variables)]
         if let Err(e) = info {
             // Log the error and return error for rework at the client
-            #[cfg(feature = "logging")]
             error!("Info not sent to office: {}", e);
             return Err("Info not sent to office".into());
         }
         #[allow(unused_variables)]
         if let Err(e) = write {
             // Log the error but client will expect success
-            #[cfg(feature = "logging")]
             error!("Contact information not written to database: {}", e);
         }
 
