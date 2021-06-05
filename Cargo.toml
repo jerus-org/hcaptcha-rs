@@ -40,3 +40,4 @@ rusoto_core = "0.46.0"
 rusoto_ssm = "0.46.0"
 simple_logger = "1.11.0"
 tokio = { version = "1.2", features = ["macros", "rt-multi-thread"] }
+log = "0.4.14"
