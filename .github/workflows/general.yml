@@ -20,6 +20,7 @@ jobs:
       - uses: actions-rs/cargo@v1
         with:
           command: test
+          args: --all-features
 
   fmt:
     name: Rustfmt
@@ -52,7 +53,7 @@ jobs:
       - uses: actions-rs/clippy-check@v1
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          args: -- -D warnings
+          args: --all --tests --all-features -- -D warnings
 
   minrust:
     name: minrust
@@ -64,9 +65,8 @@ jobs:
         with:
           toolchain: ${{ env.minrust }}
           override: true
-      - uses: actions-rs/cargo@v1
-        with:
-          command: check --all-features
+      - name: "check --all-features"
+        run: cargo check --all-features
 
   docs:
     name: Docs
