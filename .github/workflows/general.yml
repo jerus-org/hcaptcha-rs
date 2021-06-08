@@ -4,7 +4,7 @@ on: [push, pull_request]
 
 env:
   CARGO_TERM_COLOR: always
-  minrust: 1.45.2
+  minrust: 1.46.0
 
 jobs:
   test:
