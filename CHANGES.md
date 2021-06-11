@@ -26,7 +26,7 @@ The input to .site_key(site_key) has been changed to take a reference to a Uuid 
 
 The previous version provided logging behind a feature flag. The log crate has been removed and replaced with tracing. Tracing has been instrumented for all public functions. Tracing is enabled by selected the "trace" feature.
 
-Tracing is enabled at the info logging level. Additional messages are available at the Debug log level.
+Tracing is enabled at the info logging level for public methods. Additional tracing instrumentation and messages are available at the Debug log level.
 
 The trace crates log feature is enabled so that log records are emitted if a tracing subscriber is not found.
 
