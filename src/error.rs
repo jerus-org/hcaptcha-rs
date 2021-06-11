@@ -55,6 +55,10 @@ pub enum Code {
     InvalidAlreadySeen,
     /// The sitekey is not registered with the provided secret.
     SiteSecretMismatch,
+    /// Extended secret check reports that the secret string is the wrong length.
+    InvalidSecretExtWrongLen,
+    /// Extended secret check reports that the secret string is not a hex string.
+    InvalidSecretExtNotHex,
     /// Collect any new error codes issued by the API.
     Unknown(String),
 }
@@ -88,6 +92,10 @@ impl fmt::Display for Code {
         match self {
             Code::MissingSecret => write!(f, "Your secret key is missing."),
             Code::InvalidSecret => write!(f, "Your secret key is invalid or malformed."),
+            Code::InvalidSecretExtWrongLen => {
+                write!(f, "Your secret key is not the correct length.")
+            }
+            Code::InvalidSecretExtNotHex => write!(f, "Your secret key is not a hex string."),
             Code::MissingResponse => {
                 write!(f, "The response parameter (verification token) is missing.")
             }
