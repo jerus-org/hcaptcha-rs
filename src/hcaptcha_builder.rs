@@ -72,13 +72,15 @@ impl Hcaptcha {
     /// ```
     #[cfg_attr(
         feature = "trace",
-        tracing::instrument(name = "Construct new request with secret and client response.")
+        tracing::instrument(
+            name = "Construct new request with secret and client response.",
+            skip(secret)
+        )
     )]
     #[allow(dead_code)]
     pub fn new(secret: &str, response: &str) -> Result<Hcaptcha, HcaptchaError> {
-        let r = HcaptchaRequest::new(secret, response);
         Ok(Hcaptcha {
-            request: r?,
+            request: HcaptchaRequest::new(secret, response)?,
             ..Hcaptcha::default()
         })
     }
@@ -107,7 +109,7 @@ impl Hcaptcha {
     /// ```
     #[cfg_attr(
         feature = "trace",
-        tracing::instrument(name = "Add client IP to request.")
+        tracing::instrument(name = "Add client IP to request.", skip(self, user_ip))
     )]
     #[allow(dead_code)]
     pub fn set_user_ip(mut self, user_ip: &IpAddr) -> Hcaptcha {
@@ -139,7 +141,7 @@ impl Hcaptcha {
     /// ```
     #[cfg_attr(
         feature = "trace",
-        tracing::instrument(name = "Add site key to request.")
+        tracing::instrument(name = "Add site key to request.", skip(self, site_key))
     )]
     #[allow(dead_code)]
     pub fn set_site_key(mut self, site_key: &Uuid) -> Hcaptcha {
