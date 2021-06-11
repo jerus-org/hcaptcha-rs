@@ -177,18 +177,30 @@ impl Hcaptcha {
     /// ```
     #[cfg_attr(
         feature = "trace",
-        tracing::instrument(name = "Submit request to Hcaptcha for verification.")
+        tracing::instrument(
+            name = "Submit request to Hcaptcha for verification.",
+            skip(self),
+            fields(response = %self.response),
+        )
     )]
     pub async fn verify(&mut self) -> Result<(), HcaptchaError> {
-        #[cfg(feature = "trace")]
-        tracing::debug!("State of request: {:?}", self);
         self.response = self.request.verify().await?;
-        println!("verify response: {:#?}", &self.response);
-
         match (self.response.success(), self.response.error_codes()) {
-            (true, _) => Ok(()),
-            (false, Some(errors)) => Err(HcaptchaError::Codes(errors)),
-            (false, _) => Err(HcaptchaError::Codes(HashSet::new())),
+            (true, _) => {
+                #[cfg(feature = "trace")]
+                tracing::debug!("Validated successfully");
+                Ok(())
+            }
+            (false, Some(errors)) => {
+                #[cfg(feature = "trace")]
+                tracing::debug!("Validation failed with known errors: {:?}", errors);
+                Err(HcaptchaError::Codes(errors))
+            }
+            (false, _) => {
+                #[cfg(feature = "trace")]
+                tracing::debug!("Validation failed with and unkown error.");
+                Err(HcaptchaError::Codes(HashSet::new()))
+            }
         }
     }
 
