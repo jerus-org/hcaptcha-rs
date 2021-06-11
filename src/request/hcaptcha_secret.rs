@@ -11,7 +11,7 @@ impl HcaptchaSecret {
     #[cfg(not(feature = "ext"))]
     #[cfg_attr(
         feature = "trace",
-        tracing::instrument(name = "Simple check of secret.", skip(s),)
+        tracing::instrument(name = "Simple check of secret.", skip(s), level = "debug")
     )]
     pub fn parse(s: String) -> Result<Self, HcaptchaError> {
         if s.trim().is_empty() {
@@ -29,7 +29,7 @@ impl HcaptchaSecret {
     #[cfg(feature = "ext")]
     #[cfg_attr(
         feature = "trace",
-        tracing::instrument(name = "Extended check of secret.", skip(s))
+        tracing::instrument(name = "Extended check of secret.", skip(s), level = "debug")
     )]
     pub fn parse(s: String) -> Result<Self, HcaptchaError> {
         let is_empty_or_whitespace = s.trim().is_empty();
@@ -58,7 +58,7 @@ impl HcaptchaSecret {
 #[cfg(feature = "ext")]
 #[cfg_attr(
     feature = "trace",
-    tracing::instrument(name = "Check for hex string.", skip(s))
+    tracing::instrument(name = "Check for hex string.", skip(s), level = "debug")
 )]
 fn is_hex_string(s: &str) -> bool {
     if s.len() != SECRET_LEN {
