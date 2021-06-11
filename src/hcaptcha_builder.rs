@@ -212,7 +212,7 @@ impl Hcaptcha {
     ///
     #[cfg_attr(
         feature = "trace",
-        tracing::instrument(name = "Return hostname from the Hcaptcha API response.")
+        tracing::instrument(name = "Return hostname from the Hcaptcha API response.", skip(self))
     )]
     #[allow(dead_code)]
     pub fn hostname(&self) -> Option<String> {
@@ -225,7 +225,10 @@ impl Hcaptcha {
     ///
     #[cfg_attr(
         feature = "trace",
-        tracing::instrument(name = "Return timestampt from the Hcaptcha API response.")
+        tracing::instrument(
+            name = "Return timestampt from the Hcaptcha API response.",
+            skip(self)
+        )
     )]
     #[allow(dead_code)]
     pub fn timestamp(&self) -> Option<String> {
@@ -237,7 +240,7 @@ impl Hcaptcha {
     ///
     #[cfg_attr(
         feature = "trace",
-        tracing::instrument(name = "Return credit from the Hcaptcha API response.")
+        tracing::instrument(name = "Return credit from the Hcaptcha API response.", skip(self))
     )]
     #[allow(dead_code)]
     pub fn credit(&self) -> Option<bool> {
@@ -250,7 +253,7 @@ impl Hcaptcha {
     ///
     #[cfg_attr(
         feature = "trace",
-        tracing::instrument(name = "Return score from the Hcaptcha API response.")
+        tracing::instrument(name = "Return score from the Hcaptcha API response.", skip(self))
     )]
     #[cfg(feature = "enterprise")]
     #[cfg_attr(docsrs, doc(cfg(feature = "enterprise")))]
@@ -265,7 +268,10 @@ impl Hcaptcha {
     ///
     #[cfg_attr(
         feature = "trace",
-        tracing::instrument(name = "Return score reason from the Hcaptcha API response.")
+        tracing::instrument(
+            name = "Return score reason from the Hcaptcha API response.",
+            skip(self)
+        )
     )]
     #[cfg(feature = "enterprise")]
     #[cfg_attr(docsrs, doc(cfg(feature = "enterprise")))]
