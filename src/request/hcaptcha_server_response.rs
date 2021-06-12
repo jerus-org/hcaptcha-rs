@@ -2,6 +2,7 @@
 use crate::error::Code;
 use serde_derive::Deserialize;
 use std::collections::HashSet;
+use std::fmt;
 
 type Score = f32;
 
@@ -28,6 +29,48 @@ pub struct HcaptchaServerResponse {
     ///
     /// [BotStop.com]: https://BotStop.com
     score_reason: Option<HashSet<String>>,
+}
+
+impl fmt::Display for HcaptchaServerResponse {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        write!(
+            f,
+            r#"
+        Status:         {}
+        Timestamp:      {}
+        Hostname:       {}
+        Credit:         {}
+        Error Codes:    {}
+        Score:          {}
+        Score Reason:   {}
+        "#,
+            self.success,
+            match self.timestamp() {
+                Some(v) => v,
+                None => "".to_owned(),
+            },
+            match self.hostname() {
+                Some(v) => v,
+                None => "".to_owned(),
+            },
+            match self.credit() {
+                Some(v) => format!("{}", v),
+                None => "".to_owned(),
+            },
+            match self.error_codes() {
+                Some(v) => format!("{:?}", v),
+                None => "".to_owned(),
+            },
+            match self.score() {
+                Some(v) => format!("{}", v),
+                None => "".to_owned(),
+            },
+            match self.score_reason() {
+                Some(v) => format!("{:?}", v),
+                None => "".to_owned(),
+            },
+        )
+    }
 }
 
 impl HcaptchaServerResponse {
