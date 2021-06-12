@@ -52,8 +52,16 @@ impl HcaptchaRequest {
 
     /// Call the api to verify the response code recieved from the client
     #[allow(dead_code)]
+    #[cfg_attr(
+        feature = "trace",
+        tracing::instrument(
+            name = "Request verification from hcaptcha.",
+            skip(self),
+            level = "debug"
+        )
+    )]
     pub async fn verify(&self) -> Result<HcaptchaServerResponse, HcaptchaError> {
-        let url = Url::parse(VERIFY_URL).unwrap();
+        let url = Url::parse(VERIFY_URL)?;
         let response = Client::new().post(url).form(&self).send().await?;
         let response = response.json::<HcaptchaServerResponse>().await?;
         #[cfg(feature = "trace")]
