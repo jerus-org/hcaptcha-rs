@@ -32,6 +32,9 @@ pub enum HcaptchaError {
     /// Error returned by uuid
     #[error("{0}")]
     Uuid(#[from] uuid::Error),
+    /// Error returned by url parser
+    #[error("{0}")]
+    Url(#[from] url::ParseError),
 }
 
 /// Error code mapping for the error responses from the hcaptcha API.
