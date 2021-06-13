@@ -3,7 +3,9 @@
 [![Build Status](https://travis-ci.org/jerusdp/recaptcha-rs.svg?branch=main)](https://travis-ci.org/jerusdp/hcaptcha-rs)
 ![Rust CI Tests](https://github.com/jerusdp/hcapthc-rs/actions/workflows/general.yml/badge.svg)
 [![Rust 1.46+](https://img.shields.io/badge/rust-1.44.1+-orange.svg)](https://www.rust-lang.org)
-hcaptcha-rs is a library to verify hcaptcha responses.
+[![FOSSA Status](https://app.fossa.com/api/projects/custom%2B22707%2Fgithub.com%2Fjerusdp%2Fhcaptcha-rs.svg?type=shield)](https://app.fossa.com/projects/custom%2B22707%2Fgithub.com%2Fjerusdp%2Fhcaptcha-rs?ref=badge_shield)
+
+Hcaptcha is a library that you use with your backend service to verify the hcaptcha response provided from the client.
 
 ## Installation
 
