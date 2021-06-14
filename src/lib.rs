@@ -271,10 +271,13 @@
 //!     Enables instrumentation of all functions by tracing.
 //!
 
-mod error;
-mod hcaptcha_builder;
-mod request;
+mod hcaptcha_client;
+mod hcaptcha_error;
+mod hcaptcha_request;
+mod hcaptcha_response;
 
-pub use error::Code;
-pub use error::HcaptchaError;
-pub use hcaptcha_builder::*;
+pub use hcaptcha_client::HcaptchaClient;
+pub use hcaptcha_error::Code;
+pub use hcaptcha_error::HcaptchaError;
+pub use hcaptcha_request::HcaptchaRequest;
+pub use hcaptcha_response::HcaptchaResponse;

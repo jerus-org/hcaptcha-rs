@@ -1,5 +1,6 @@
 //! Structure to capture the response from the hcaptcha api
-use crate::error::Code;
+use crate::Code;
+use crate::HcaptchaError;
 use serde_derive::Deserialize;
 use std::collections::HashSet;
 use std::fmt;
@@ -8,7 +9,7 @@ type Score = f32;
 
 /// Result from call to verify the client's response
 #[derive(Debug, Default, Deserialize, Clone)]
-pub struct HcaptchaServerResponse {
+pub struct HcaptchaResponse {
     /// verification status: true or false.
     ///
     /// Successful verification may have additional information.
@@ -31,7 +32,7 @@ pub struct HcaptchaServerResponse {
     score_reason: Option<HashSet<String>>,
 }
 
-impl fmt::Display for HcaptchaServerResponse {
+impl fmt::Display for HcaptchaResponse {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         write!(
             f,
@@ -73,7 +74,27 @@ impl fmt::Display for HcaptchaServerResponse {
     }
 }
 
-impl HcaptchaServerResponse {
+impl HcaptchaResponse {
+    /// Check error
+    ///
+    /// Check succcess of API call and return HcaptchaError
+    /// with the error codes if not successful.
+    ///
+    pub fn check_error(&self) -> Result<(), HcaptchaError> {
+        if !self.success() {
+            match &self.error_codes {
+                Some(codes) => Err(HcaptchaError::Codes(codes.clone())),
+                None => {
+                    let mut codes = HashSet::new();
+                    codes.insert(Code::Unknown("No error codes returned".to_owned()));
+                    Err(HcaptchaError::Codes(codes))
+                }
+            }
+        } else {
+            Ok(())
+        }
+    }
+
     /// Get the value of the success field
     #[allow(dead_code)]
     pub fn success(&self) -> bool {
@@ -119,19 +140,19 @@ impl HcaptchaServerResponse {
 
 #[cfg(test)]
 mod tests {
-    use super::*;
+    use crate::HcaptchaResponse;
     use serde_json::json;
 
     #[test]
     fn decoding_test() {
-        use crate::error::Code::*;
+        use crate::Code::*;
 
         let response = json!({
             "success": true,
             "error-codes": ["missing-input-secret", "foo"],
             "hostname": "hostname"
         });
-        let response: HcaptchaServerResponse = serde_json::from_value(response).unwrap();
+        let response: HcaptchaResponse = serde_json::from_value(response).unwrap();
 
         assert!(response.success);
         assert!(response.error_codes.is_some());
@@ -142,7 +163,7 @@ mod tests {
         assert!(errors.contains(&Unknown("foo".to_string())));
     }
 
-    fn test_response() -> HcaptchaServerResponse {
+    fn test_response() -> HcaptchaResponse {
         let response = json!({
             "success": true,
             "challenge_ts": "2020-11-11T23:27:00Z",

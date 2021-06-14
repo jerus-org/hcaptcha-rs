@@ -1,5 +1,6 @@
 use crate::{Code, HcaptchaError};
 use std::collections::HashSet;
+use std::fmt;
 
 #[derive(Debug, Default, serde::Serialize)]
 pub struct HcaptchaClientResponse(String);
@@ -14,6 +15,12 @@ impl HcaptchaClientResponse {
         } else {
             Ok(HcaptchaClientResponse(s))
         }
+    }
+}
+
+impl fmt::Display for HcaptchaClientResponse {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        write!(f, "{}", self.0)
     }
 }
 
