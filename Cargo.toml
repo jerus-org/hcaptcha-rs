@@ -38,8 +38,13 @@ url = "2.2.2"
 [dev-dependencies]
 claim = "0.5.0"
 lambda_runtime = "0.3.0"
-rusoto_core = "0.46.0"
-rusoto_ssm = "0.46.0"
 simple_logger = "1.11.0"
 tokio = { version = "1.2", features = ["macros", "rt-multi-thread"] }
 log = "0.4.14"
+tracing = "0.1.26"
+tracing-appender = "0.1.2"
+tracing-bunyan-formatter = "0.2.4"
+tracing-log = "0.1.2"
+tracing-subscriber = { version = "0.2.18", features = ["env-filter"] }
+rusoto_core = {version = "0.46.0", default_features = false, features=["rustls"]}
+rusoto_ses = {version = "0.46.0", default_features = false, features=["rustls"]}
