@@ -8,7 +8,8 @@
 - Constrain site_key string to a Uuid
 - Place methods to access Enterprise only response data behind "enterprise" feature flag
 - Replace logging with tracing; remove logging feature flag
-- Revision of documentation and enhancement to documentation examples
+- Revise documentation and enhance examples
+- Adopt Request/Response/Error and Trait structure
 
 ### Notes
 

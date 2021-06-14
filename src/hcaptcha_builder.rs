@@ -261,6 +261,7 @@ impl Hcaptcha {
     pub fn score(&self) -> Option<f32> {
         self.response.score()
     }
+
     /// Get the reasons for the score
     ///
     /// Provide the reason(s) for the score.
