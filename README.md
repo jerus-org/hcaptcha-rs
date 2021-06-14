@@ -1,8 +1,24 @@
 # Rust library hcaptcha
 
-[![Rust](https://github.com/jerusdp/hcaptcha-rs/actions/workflows/general.yml/badge.svg?branch=main)](https://github.com/jerusdp/hcaptcha-rs/actions/workflows/general.yml)
-[![Rust 1.46+](https://img.shields.io/badge/rust-1.46+-orange.svg)](https://www.rust-lang.org)
-[![FOSSA Status](https://app.fossa.com/api/projects/custom%2B22707%2Fgithub.com%2Fjerusdp%2Fhcaptcha-rs.svg?type=shield)](https://app.fossa.com/projects/custom%2B22707%2Fgithub.com%2Fjerusdp%2Fhcaptcha-rs?ref=badge_shield)
+[![Crates.io][crates-badge]][crates-url]
+[![MIT licensed][mit-badge]][mit-url]
+[![Build Status][actions-badge]][actions-url]
+[![Rust 1.46+][version-badge]][version-url]
+[![FOSSA Status][fossa-badge]][fossa-url]
+[![Docs][docs-badge]][docs-url]
+
+[crates-badge]: https://img.shields.io/crates/v/hcaptcha.svg
+[crates-url]: https://crates.io/crates/hcaptcha
+[mit-badge]: https://img.shields.io/badge/license-MIT-blue.svg
+[mit-url]: https://github.com/jerusdp/hcaptcha-rs/blob/main/LICENSE
+[actions-badge]: https://github.com/jerusdp/hcaptcha-rs/actions/workflows/general.yml/badge.svg?branch=main
+[actions-url]: https://github.com/jerusdp/hcaptcha-rs/actions/workflows/general.yml
+[version-badge]: https://img.shields.io/badge/rust-1.46+-orange.svg
+[version-url]: https://www.rust-lang.org
+[fossa-badge]: https://app.fossa.com/api/projects/custom%2B22707%2Fgithub.com%2Fjerusdp%2Fhcaptcha-rs.svg?type=shield
+[fossa-url]: https://app.fossa.com/projects/custom%2B22707%2Fgithub.com%2Fjerusdp%2Fhcaptcha-rs?ref=badge_shield
+[docs-badge]:  https://docs.rs/hcaptcha/badge.svg
+[docs-url]:  https://docs.rs/hcapatcha
 
 The rust library hcaptcha is used with your backend service to verify the hcaptcha response provided from the client.
 
@@ -12,7 +28,7 @@ To use hcaptcha-rs in your project you can add the following to your `Cargo.toml
 
 ```toml
 [dependencies.hcaptcha]
-version = "1.0.0"
+version = "2.0.0"
 ```
 
 ## Usage
@@ -44,14 +60,8 @@ See the examples folder for an AWS Lambda contact form example.
 
 ## License
 
-Licensed under either of
-
-* Apache License, Version 2.0
-  ([LICENSE-APACHE](LICENSE-APACHE) or <http://www.apache.org/licenses/LICENSE-2.0>)
 * MIT license
   ([LICENSE-MIT](LICENSE-MIT) or <http://opensource.org/licenses/MIT>)
-
-at your option.
 
 ## Contribution
 
