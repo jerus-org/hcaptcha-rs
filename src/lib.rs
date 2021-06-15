@@ -276,6 +276,7 @@ mod hcaptcha_error;
 mod hcaptcha_request;
 mod hcaptcha_response;
 
+pub use hcaptcha_client::Hcaptcha;
 pub use hcaptcha_client::HcaptchaClient;
 pub use hcaptcha_error::Code;
 pub use hcaptcha_error::HcaptchaError;

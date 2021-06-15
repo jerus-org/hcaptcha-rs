@@ -1,11 +1,9 @@
 mod error;
+mod hcaptcha_validate;
 mod param;
 mod record;
 mod send;
 
-const HCAPTCHA_SECRET: &str = "/hcaptcha/secret";
-
-use hcaptcha::Hcaptcha;
 use lambda_runtime::{Context, Error};
 use send::ContactForm;
 use serde_derive::{Deserialize, Serialize};
@@ -54,11 +52,7 @@ pub async fn my_handler(e: CustomEvent, _c: Context) -> Result<CustomOutput, Err
     let body_str = e.body.unwrap_or_else(|| "".to_owned());
     let captcha: Captcha = serde_json::from_str(&body_str)?;
 
-    let hcaptcha_secret = param::get_paramater(HCAPTCHA_SECRET).await?;
-
-    Hcaptcha::new(&hcaptcha_secret, &captcha.captcha_response)?
-        .verify()
-        .await?;
+    hcaptcha_validate::response_valid(&captcha.captcha_response).await?;
 
     let contact_form: ContactForm = serde_json::from_str(&body_str)?;
 

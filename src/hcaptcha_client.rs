@@ -10,7 +10,7 @@ use reqwest::{Client, Url};
 const VERIFY_URL: &str = "https://hcaptcha.com/siteverify";
 
 mod hcaptcha;
-use hcaptcha::Hcaptcha;
+pub use hcaptcha::Hcaptcha;
 
 /// Builder to compose a request for the hcaptcha validation endpoint, verify
 /// the request and read the additional information that may be supplied in
