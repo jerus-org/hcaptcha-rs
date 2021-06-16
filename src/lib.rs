@@ -275,7 +275,7 @@
 //!     Enables instrumentation of all functions by tracing.
 //!
 
-pub mod hcaptcha_client;
+mod hcaptcha_client;
 mod hcaptcha_error;
 mod hcaptcha_request;
 mod hcaptcha_response;
