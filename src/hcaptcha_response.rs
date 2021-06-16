@@ -8,6 +8,7 @@ use std::fmt;
 type Score = f32;
 
 /// Result from call to verify the client's response
+#[allow(missing_doc_code_examples)]
 #[derive(Debug, Default, Deserialize, Clone)]
 pub struct HcaptchaResponse {
     /// verification status: true or false.
@@ -32,7 +33,9 @@ pub struct HcaptchaResponse {
     score_reason: Option<HashSet<String>>,
 }
 
+#[allow(missing_doc_code_examples)]
 impl fmt::Display for HcaptchaResponse {
+    #[allow(missing_doc_code_examples)]
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         write!(
             f,
@@ -123,13 +126,14 @@ impl HcaptchaResponse {
     }
 
     /// Get the value of the score field
+    #[cfg(feature = "enterprise")]
     #[allow(dead_code)]
     pub fn score(&self) -> Option<Score> {
         self.score
     }
-
     /// Get the value of the score_reason field
     #[allow(dead_code)]
+    #[cfg(feature = "enterprise")]
     pub fn score_reason(&self) -> Option<HashSet<String>> {
         self.score_reason.clone()
     }

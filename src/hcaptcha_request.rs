@@ -1,5 +1,4 @@
-//! Request module
-//! Provides a struct to collect the data required for
+//! Provides a struct to collect the required and optional parameters for
 //! the hcaptcha api request.
 
 use crate::HcaptchaError;
@@ -13,6 +12,7 @@ use hcaptcha_client_response::HcaptchaClientResponse;
 use hcaptcha_secret::HcaptchaSecret;
 
 /// Type to capture the required and optional data for a call to the hcaptcha API
+#[allow(missing_doc_code_examples)]
 #[derive(Debug, Default, serde::Serialize)]
 pub struct HcaptchaRequest {
     /// The response from the client's call to API
@@ -28,18 +28,30 @@ pub struct HcaptchaRequest {
 impl HcaptchaRequest {
     /// Create a new HcaptchaRequest
     ///
-    /// #Input
+    /// # Input
     ///
     /// The Hcaptcha API has two mandatory paramaters:
     ///     secret:     The client's secret key for authentication
     ///     response:   The response code to validate
     ///
-    /// #Output
+    /// # Output
     ///
     /// A HcaptchaRequest struct is returned if the input strings are valid.
     /// A HcaptchaError is returned if the validation fails.
     ///
-    /// #Logging
+    /// # Example
+    ///
+    /// ```no_run
+    /// use hcaptcha::HcaptchaRequest;
+    /// # main() {
+    /// let secret = get_seret_from_store();
+    /// let response = get_response_from_client();
+    ///  
+    /// let request = HcaptchaRequest::new(secret, response);
+    ///
+    /// # }
+    /// ```
+    /// # Logging
     ///
     /// If the tracing feature is enabled a debug level span is set for the
     /// method.

@@ -66,11 +66,9 @@ pub enum Code {
     Unknown(String),
 }
 
-/// Custom deserialize to map the hcaptcha API error codes for reporting in
-/// the [HcaptchaError].
-///
-/// [HcaptchaError]: ./enum.HcaptchaError.html
 impl<'de> Deserialize<'de> for Code {
+    /// Custom deserialize to map the hcaptcha API error codes for reporting in
+    /// the [HcaptchaError].
     fn deserialize<D>(de: D) -> Result<Self, D::Error>
     where
         D: Deserializer<'de>,

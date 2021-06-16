@@ -1,11 +1,45 @@
+//!
+//! # Hcaptcha Client
+//!
+//! The Hcaptcha Client struct provides an http client to connect to
+//! the Hcaptcha API.
+//!
+//! The url for the API is stored in the url field of the struct.
+//! A default url is stored in the const VERIFY_URL.
+//! The new_with method allows the specification of an alternative url.
+//!
+//! # Examples
+//! Create client to connect to default API endpoint.
+//! ```
+//!     use hcaptcha::HcaptchaClient;
+//!     let client = HcaptchaClient::new();
+//! ```
+//!
+//! Create a client and submit for verification.
+//!```no_run
+//!     use hcaptcha::{HcaptchaClient, HcaptchaRequest};
+//!
+//! # #[tokio::main]
+//! # async fn main() -> Result<(), hcaptcha::HcaptchaError> {
+//! #    let secret = ""; // your secret key
+//! #    let token = "";  // user's token
+//! #   let request = HcaptchaRequest::new(secret, token)?; // <- returns error
+//!     let client = HcaptchaClient::new();
+//!     let response = client.verify_client_response(request).await?;
+//! # Ok(())
+//! # }
+//! ```
+
 use crate::HcaptchaError;
 use crate::HcaptchaRequest;
 use crate::HcaptchaResponse;
 use reqwest::{Client, Url};
 
-const VERIFY_URL: &str = "https://hcaptcha.com/siteverify";
+/// Endpoint url for the Hcaptcha siteverify API.
+pub const VERIFY_URL: &str = "https://hcaptcha.com/siteverify";
 
 /// Client to submit a request to a Hcaptcha validation endpoint.
+#[allow(missing_doc_code_examples)]
 #[derive(Debug)]
 pub struct HcaptchaClient {
     /// HTTP Client to submit request to endpoint and read the response.
@@ -14,27 +48,23 @@ pub struct HcaptchaClient {
     url: Url,
 }
 
+#[allow(missing_doc_code_examples)]
 impl Default for HcaptchaClient {
     fn default() -> HcaptchaClient {
         HcaptchaClient::new()
     }
 }
 
+#[allow(missing_doc_code_examples)]
 impl HcaptchaClient {
-    /// Create a new Hcaptcha Client.
-    ///
-    /// New implements a client to connect to the Hcaptcha siteverify
-    /// API (https://hcaptcha.com/siteverify)
+    /// Create a new Hcaptcha Client to connect with the default Hcaptcha
+    /// siteverify API endpoint specified in [VERIFY_URL].
     ///
     /// # Example
-    /// Initialise client to connect to default Hcaptcha API
+    /// Initialise client to connect to default API endpoint.
     /// ```
-    /// use hcaptcha::HcaptchaClient;
-    /// # fn main() {
-    ///
+    ///     use hcaptcha::HcaptchaClient;
     ///     let client = HcaptchaClient::new();
-    ///
-    /// # }
     /// ```
     /// # Panic
     ///
@@ -56,14 +86,12 @@ impl HcaptchaClient {
     /// # Example
     /// Initialise client to connect to custom Hcaptcha API
     /// ```
-    /// use hcaptcha::HcaptchaClient;
-    /// use url::Url;
-    /// # fn main() {
+    ///     use hcaptcha::HcaptchaClient;
+    ///     use url::Url;
     ///
     ///     if let Ok(url) = Url::parse("https://domain.com/siteverify") {
     ///         let client = HcaptchaClient::new_with(url);
     ///     };
-    /// # }
     /// ```
     pub fn new_with(url: Url) -> HcaptchaClient {
         HcaptchaClient {
@@ -72,9 +100,9 @@ impl HcaptchaClient {
         }
     }
 
-    /// Verify the client token with the Hcaptcha API
+    /// Verify the client token with the Hcaptcha API.
     ///
-    /// Call the Hcaptcha api providing a HcaptchaRequest structure.
+    /// Call the Hcaptcha api providing a [HcaptchaRequest] struct.
     ///
     /// # Inputs
     ///
@@ -84,36 +112,43 @@ impl HcaptchaClient {
     ///
     /// # Outputs
     ///
-    /// This method returns HcaptchaResponse if successful and HcaptchaError if
+    /// This method returns [HcaptchaResponse] if successful and [HcaptchaError] if
     /// unsuccessful.
     ///
-    /// Example
+    /// # Example
     ///
-    ///  ```should_panic
-    /// use hcaptcha::{HcaptchaClient, HcaptchaRequest};
-    /// # use std::error::Error;
+    ///
+    ///  ```no_run should_panic
+    ///     use hcaptcha::{HcaptchaClient, HcaptchaRequest};
     ///
     /// # #[tokio::main]
     /// # async fn main() -> Result<(), hcaptcha::HcaptchaError> {
-    /// let secret = ""; // your secret key
-    /// let token = "";  // user's token
+    ///     let secret = get_your_secret(); // your secret key
+    ///     let bad_token = get_your_token();  // user's token
     ///
-    /// let request = HcaptchaRequest::new(secret, token)?; // <- returns error
+    ///     let request = HcaptchaRequest::new(&secret, &bad_token)?; // <- returns error
     ///
-    /// let client = HcaptchaClient::new();
+    ///     let client = HcaptchaClient::new();
     ///
-    /// let response = client.verify_client_response(request).await?;
+    ///     let response = client.verify_client_response(request).await?;
     ///
-    /// let score = response.score();
-    /// let score_reasons = response.score_reason();
+    ///     let score = response.score();
+    ///     let score_reasons = response.score_reason();
     ///
     /// # Ok(())
+    /// # }
+    /// # fn get_your_secret() -> String {
+    /// #   "0x123456789abcde0f123456789abcdef012345678".to_string()
+    /// # }
+    /// # fn get_your_token() -> String {
+    /// #    "thisisnotapropertoken".to_string()
     /// # }
     /// ```
     ///
     /// # Logging
+    #[cfg(feature = "trace")]
     ///
-    /// If the tracing features is enabled a debug level span is set for the
+    /// If the `trace` feature is enabled a debug level span is set for the
     /// method and an event logs the response.
     ///
     #[allow(dead_code)]
@@ -414,77 +449,46 @@ impl HcaptchaClient {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use crate::Code;
     use serde_json::json;
 
-    fn test_response() -> HcaptchaResponse {
-        let response = json!({
+    #[test]
+    fn test_success_response() {
+        let api_response = json!({
             "success": true,
             "challenge_ts": "2020-11-11T23:27:00Z",
             "hostname": "my-host.ie",
-            "credit": false,
-            "error-codes": ["missing-input-secret", "foo"],
+            "credit": true,
+            "error-codes": [],
             "score": null,
             "score_reason": [],
         });
-        serde_json::from_value(response).unwrap()
-    }
-
-    #[test]
-    fn success_test() {
-        let response = test_response();
-
-        assert_eq!(response.success(), true);
-    }
-
-    #[test]
-    fn timestamp_test() {
-        let response = test_response();
-
+        let response: HcaptchaResponse = serde_json::from_value(api_response).unwrap();
+        assert!(response.success());
         assert_eq!(
             response.timestamp(),
             Some("2020-11-11T23:27:00Z".to_owned())
         );
-    }
-
-    #[test]
-    fn hostname_test() {
-        let response = test_response();
-
         assert_eq!(response.hostname(), Some("my-host.ie".to_owned()));
     }
-
     #[test]
-    fn credit_test() {
-        let response = test_response();
-
-        assert_eq!(response.credit(), Some(false));
-    }
-
-    #[test]
-    fn error_codes_test() {
-        let response = test_response();
-
+    fn test_error_response() {
+        let api_response = json!({
+            "success": false,
+            "challenge_ts": null,
+            "hostname": null,
+            "credit": null,
+            "error-codes": ["missing-input-secret", "foo"],
+            "score": null,
+            "score_reason": [],
+        });
+        let response: HcaptchaResponse = serde_json::from_value(api_response).unwrap();
+        assert!(!response.success());
         assert!(response.error_codes().is_some());
         if let Some(hash_set) = response.error_codes() {
-            assert_eq!(hash_set.len(), 2)
-        }
-    }
-
-    #[test]
-    fn score_test() {
-        let response = test_response();
-
-        assert!(response.score().is_none());
-    }
-
-    #[test]
-    fn score_reason_test() {
-        let response = test_response();
-        println!("The response: {:?}", response);
-
-        assert!(response.score_reason().is_some());
-        if let Some(hash_set) = response.score_reason() {
-            assert!(hash_set.is_empty())
+            assert_eq!(hash_set.len(), 2);
+            assert!(hash_set.contains(&Code::MissingSecret));
+            assert!(hash_set.contains(&Code::Unknown("foo".to_owned())));
         }
     }
 }
