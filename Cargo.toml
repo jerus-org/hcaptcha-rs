@@ -22,6 +22,7 @@ default = ["ext"]
 ext = ["hex"]
 enterprise = []
 trace = ["tracing"]
+nightly = []
 
 [dependencies]
 async-trait = "0.1.50"
