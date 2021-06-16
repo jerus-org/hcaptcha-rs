@@ -1,7 +1,6 @@
 #![cfg_attr(docsrs, feature(doc_cfg))]
 #![warn(missing_docs)]
 #![warn(missing_doc_code_examples)]
-#![warn(private_doc_tests)]
 #![warn(invalid_codeblock_attributes)]
 
 //! Hcaptcha
