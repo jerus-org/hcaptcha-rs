@@ -1,4 +1,38 @@
 //! Structure to capture the response from the hcaptcha api
+//!
+//! # Example
+//!
+//! ```no_run
+//! #   use hcaptcha::{HcaptchaRequest, HcaptchaClient};
+//! # #[tokio::main]
+//! # async fn main() -> Result<(), hcaptcha::HcaptchaError> {
+//! # let request = HcaptchaRequest::new(
+//! #    "0x123456789abcedf0123456789abcdef012345678",
+//! #    "response"
+//! # )?;
+//! # let client = HcaptchaClient::new();
+//!     let response = client.verify_client_response(request).await?;
+//!
+//!     if let Some(timestamp) = response.timestamp() {
+//!         println!("Timestamp: {}", timestamp);
+//!     };
+//!     if let Some(hostname) = response.hostname() {
+//!         println!("Timestamp: {}", hostname);
+//!     };
+//!     if let Some(credit) = response.credit() {
+//!         println!("Timestamp: {}", credit);
+//!     };
+//!     // Only available with an Enterprise subscription to Hcaptcha
+//!     if let Some(score) = response.score() {
+//!         println!("Score: {}", score);
+//!     };
+//!     if let Some(score_reason) = response.score_reason() {
+//!         println!("Score reasons: {:?}", score_reason);
+//!     };
+//!
+//! # Ok(())
+//! # }
+//! ```
 use crate::Code;
 use crate::HcaptchaError;
 use serde_derive::Deserialize;
@@ -25,11 +59,13 @@ pub struct HcaptchaResponse {
     /// optional: any error codes
     #[serde(rename = "error-codes")]
     error_codes: Option<HashSet<Code>>,
-    /// ENTERPRISE feature: a score denoting malicious activity.
+    /// `enterprise` feature: a score denoting malicious activity.
+    #[cfg_attr(docsrs, doc(cfg(feature = "enterprise")))]
     score: Option<Score>,
-    /// ENTERPRISE feature: reason(s) for score. See [BotStop.com] for details
+    /// `enterprise` feature: reason(s) for score. See [BotStop.com] for details
     ///
     /// [BotStop.com]: https://BotStop.com
+    #[cfg_attr(docsrs, doc(cfg(feature = "enterprise")))]
     score_reason: Option<HashSet<String>>,
 }
 
@@ -77,10 +113,11 @@ impl fmt::Display for HcaptchaResponse {
     }
 }
 
+#[allow(missing_doc_code_examples)]
 impl HcaptchaResponse {
     /// Check succcess of API call and return HcaptchaError
     /// with the error codes if not successful.
-    pub fn check_error(&self) -> Result<(), HcaptchaError> {
+    pub(crate) fn check_error(&self) -> Result<(), HcaptchaError> {
         if !self.success() {
             match &self.error_codes {
                 Some(codes) => Err(HcaptchaError::Codes(codes.clone())),
@@ -96,24 +133,97 @@ impl HcaptchaResponse {
     }
 
     /// Get the value of the success field
+    ///
+    /// # Example
+    /// ```no_run
+    /// #   use hcaptcha::{HcaptchaRequest, HcaptchaClient};
+    /// # #[tokio::main]
+    /// # async fn main() -> Result<(), hcaptcha::HcaptchaError> {
+    /// # let request = HcaptchaRequest::new(
+    /// #    "0x123456789abcedf0123456789abcdef012345678",
+    /// #    "response"
+    /// # )?;
+    /// # let client = HcaptchaClient::new();
+    ///     let response = client.verify_client_response(request).await?;
+    ///     println!("Success returns true: {}", response.success());
+    /// # Ok(())
+    /// # }
+
     #[allow(dead_code)]
     pub fn success(&self) -> bool {
         self.success
     }
 
     /// Get the value of the hostname field
+    ///
+    /// # Example
+    /// ```no_run
+    /// #   use hcaptcha::{HcaptchaRequest, HcaptchaClient};
+    /// # #[tokio::main]
+    /// # async fn main() -> Result<(), hcaptcha::HcaptchaError> {
+    /// # let request = HcaptchaRequest::new(
+    /// #    "0x123456789abcedf0123456789abcdef012345678",
+    /// #    "response"
+    /// # )?;
+    /// # let client = HcaptchaClient::new();
+    ///     let response = client.verify_client_response(request).await?;
+    ///
+    ///     if let Some(hostname) = response.hostname() {
+    ///         println!("Timestamp: {}", hostname);
+    ///     };
+    /// # Ok(())
+    /// # }
+
     #[allow(dead_code)]
     pub fn hostname(&self) -> Option<String> {
         self.hostname.clone()
     }
 
     /// Get the value of the timestamp field
+    ///
+    /// # Example
+    /// ```no_run
+    /// #   use hcaptcha::{HcaptchaRequest, HcaptchaClient};
+    /// # #[tokio::main]
+    /// # async fn main() -> Result<(), hcaptcha::HcaptchaError> {
+    /// # let request = HcaptchaRequest::new(
+    /// #    "0x123456789abcedf0123456789abcdef012345678",
+    /// #    "response"
+    /// # )?;
+    /// # let client = HcaptchaClient::new();
+    ///     let response = client.verify_client_response(request).await?;
+    ///
+    ///     if let Some(timestamp) = response.timestamp() {
+    ///         println!("Timestamp: {}", timestamp);
+    ///     };
+    /// # Ok(())
+    /// # }
     #[allow(dead_code)]
     pub fn timestamp(&self) -> Option<String> {
         self.challenge_ts.clone()
     }
 
     /// Get the value of the credit field
+    ///
+    /// # Example
+    /// ```no_run
+    /// #   use hcaptcha::{HcaptchaRequest, HcaptchaClient};
+    /// # #[tokio::main]
+    /// # async fn main() -> Result<(), hcaptcha::HcaptchaError> {
+    /// # let request = HcaptchaRequest::new(
+    /// #    "0x123456789abcedf0123456789abcdef012345678",
+    /// #    "response"
+    /// # )?;
+    /// # let client = HcaptchaClient::new();
+    ///     let response = client.verify_client_response(request).await?;
+    ///
+    ///     if let Some(credit) = response.credit() {
+    ///         println!("Timestamp: {}", credit);
+    ///     };
+    ///
+    /// # Ok(())
+    /// # }
+
     #[allow(dead_code)]
     pub fn credit(&self) -> Option<bool> {
         self.credit
@@ -121,19 +231,62 @@ impl HcaptchaResponse {
 
     /// Get the value of the error_codes field
     #[allow(dead_code)]
-    pub fn error_codes(&self) -> Option<HashSet<Code>> {
+    pub(crate) fn error_codes(&self) -> Option<HashSet<Code>> {
         self.error_codes.clone()
     }
 
     /// Get the value of the score field
+    ///
+    /// # Example
+    /// ```no_run
+    /// #   use hcaptcha::{HcaptchaRequest, HcaptchaClient};
+    /// # #[tokio::main]
+    /// # async fn main() -> Result<(), hcaptcha::HcaptchaError> {
+    /// # let request = HcaptchaRequest::new(
+    /// #    "0x123456789abcedf0123456789abcdef012345678",
+    /// #    "response"
+    /// # )?;
+    /// # let client = HcaptchaClient::new();
+    ///     let response = client.verify_client_response(request).await?;
+    ///
+    ///     if let Some(score) = response.score() {
+    ///         println!("Score: {}", score);
+    ///     };
+    ///
+    /// # Ok(())
+    /// # }
+
     #[cfg(feature = "enterprise")]
+    #[cfg_attr(docsrs, doc(cfg(feature = "enterprise")))]
     #[allow(dead_code)]
     pub fn score(&self) -> Option<Score> {
         self.score
     }
+
     /// Get the value of the score_reason field
+    ///
+    /// # Example
+    /// ```no_run
+    /// #   use hcaptcha::{HcaptchaRequest, HcaptchaClient};
+    /// # #[tokio::main]
+    /// # async fn main() -> Result<(), hcaptcha::HcaptchaError> {
+    /// # let request = HcaptchaRequest::new(
+    /// #    "0x123456789abcedf0123456789abcdef012345678",
+    /// #    "response"
+    /// # )?;
+    /// # let client = HcaptchaClient::new();
+    ///     let response = client.verify_client_response(request).await?;
+    ///
+    ///     if let Some(score_reason) = response.score_reason() {
+    ///         println!("Score reasons: {:?}", score_reason);
+    ///     };
+    ///
+    /// # Ok(())
+    /// # }
+    ///
     #[allow(dead_code)]
     #[cfg(feature = "enterprise")]
+    #[cfg_attr(docsrs, doc(cfg(feature = "enterprise")))]
     pub fn score_reason(&self) -> Option<HashSet<String>> {
         self.score_reason.clone()
     }
