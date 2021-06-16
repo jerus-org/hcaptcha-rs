@@ -41,7 +41,7 @@ impl HcaptchaClient {
     /// If the default API url constant is corrupted the function with
     /// will panic.
     #[allow(unknown_lints)]
-    #[allow(non_autolinks)]
+    #[allow(bare_urls)]
     pub fn new() -> HcaptchaClient {
         HcaptchaClient {
             client: Client::new(),
@@ -90,7 +90,7 @@ impl HcaptchaClient {
     /// Example
     ///
     ///  ```should_panic
-    /// use hcaptcha::{Hcaptcha, HcaptchaClient, HcaptchaRequest};
+    /// use hcaptcha::{HcaptchaClient, HcaptchaRequest};
     /// # use std::error::Error;
     ///
     /// # #[tokio::main]
