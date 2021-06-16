@@ -75,11 +75,8 @@ impl fmt::Display for HcaptchaResponse {
 }
 
 impl HcaptchaResponse {
-    /// Check error
-    ///
     /// Check succcess of API call and return HcaptchaError
     /// with the error codes if not successful.
-    ///
     pub fn check_error(&self) -> Result<(), HcaptchaError> {
         if !self.success() {
             match &self.error_codes {

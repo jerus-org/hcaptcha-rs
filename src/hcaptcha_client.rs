@@ -1,23 +1,18 @@
+#![allow(rustdoc::non_autolinks)]
 use crate::HcaptchaError;
 use crate::HcaptchaRequest;
 use crate::HcaptchaResponse;
 use async_trait::async_trait;
 use reqwest::{Client, Url};
-// use std::collections::HashSet;
-// use std::net::IpAddr;
-// use uuid::Uuid;
 
 const VERIFY_URL: &str = "https://hcaptcha.com/siteverify";
 
-mod hcaptcha;
-pub use hcaptcha::Hcaptcha;
-
-/// Builder to compose a request for the hcaptcha validation endpoint, verify
-/// the request and read the additional information that may be supplied in
-/// the response.
+/// Client to submit a request to a Hcaptcha validation endpoint.
 #[derive(Debug)]
 pub struct HcaptchaClient {
+    /// HTTP Client to submit request to endpoint and read the response.
     client: Client,
+    /// Url for the endpoint.
     url: Url,
 }
 
@@ -30,9 +25,19 @@ impl Default for HcaptchaClient {
 impl HcaptchaClient {
     /// Create a new Hcaptcha Client.
     ///
-    /// New implements a client to connect to the hcaptcha siteverify API:
-    ///     https://hcaptcha.com/siteverify
+    /// New implements a client to connect to the Hcaptcha siteverify
+    /// API (https://hcaptcha.com/siteverify)
     ///
+    /// # Example
+    /// Initialise client to connect to default Hcaptcha API
+    /// ```
+    /// use hcaptcha::HcaptchaClient;
+    /// # fn main() {
+    ///
+    ///     let client = HcaptchaClient::new();
+    ///
+    /// # }
+    /// ```
     /// # Panic
     ///
     /// If the default API url constant is corrupted the function with
@@ -48,6 +53,18 @@ impl HcaptchaClient {
     ///
     /// Specify the url for the hcaptcha API.
     ///
+    /// # Example
+    /// Initialise client to connect to custom Hcaptcha API
+    /// ```
+    /// use hcaptcha::HcaptchaClient;
+    /// use url::Url;
+    /// # fn main() {
+    ///
+    ///     if let Ok(url) = Url::parse("https://domain.com/siteverify") {
+    ///         let client = HcaptchaClient::new_with(url);
+    ///     };
+    /// # }
+    /// ```
     pub fn new_with(url: Url) -> HcaptchaClient {
         HcaptchaClient {
             client: Client::new(),
@@ -76,7 +93,7 @@ impl Hcaptcha for HcaptchaClient {
     /// Example
     ///
     ///  ```should_panic
-    /// use hcaptcha::Hcaptcha;
+    /// use hcaptcha::{Hcaptcha, HcaptchaClient, HcaptchaRequest};
     /// # use std::error::Error;
     ///
     /// # #[tokio::main]
@@ -91,8 +108,9 @@ impl Hcaptcha for HcaptchaClient {
     /// let response = client.verify_client_response(request).await?;
     ///
     /// let score = response.score();
-    /// let score_reasons = responbse.score_reasons()
+    /// let score_reasons = response.score_reason();
     ///
+    /// # Ok(())
     /// # }
     /// ```
     ///
@@ -395,6 +413,17 @@ impl Hcaptcha for HcaptchaClient {
 //         self.response.score_reason()
 //     }
 // }
+
+/// Trait representing the capabilities of the Hcaptcha api.
+/// This trait is implemented by the HcaptchaClient struct.
+#[async_trait]
+pub trait Hcaptcha {
+    async fn verify_client_response(
+        &self,
+        client_response: HcaptchaRequest,
+    ) -> Result<HcaptchaResponse, HcaptchaError>;
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;

@@ -107,6 +107,23 @@ impl HcaptchaRequest {
     ///
     ///     Updated HcaptchaRequest structure.
     ///
+    /// # Example
+    /// Create a new request and set the user_ip fied in the request.
+    /// ```should_panic no_run
+    /// use hcaptcha::HcaptchaRequest;
+    /// use std::net::{IpAddr, Ipv4Addr};
+    /// # #[tokio::main]
+    /// # async fn main() -> Result<(), hcaptcha::HcaptchaError> {
+    /// let secret = "0x0000000000000000000000000000000000000000"; // your secret key
+    /// let token = "this_is_likely_invalid";  // user's token
+    /// let user_ip = IpAddr::V4(Ipv4Addr::new(192, 168, 0, 17));
+    ///
+    /// let request = HcaptchaRequest::new(secret, token)?
+    ///     .set_user_ip(&user_ip);
+    ///
+    /// # }
+    /// ```
+    ///
     /// #Logging
     ///
     /// If the tracing feature is enabled a debug level span is set for the

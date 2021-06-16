@@ -1,4 +1,10 @@
 #![cfg_attr(docsrs, feature(doc_cfg))]
+#![warn(missing_docs)]
+#![warn(rustdoc::missing_doc_code_examples)]
+#![warn(rustdoc::private_doc_tests)]
+#![warn(rustdoc::invalid_codeblock_attributes)]
+#![allow(rustdoc::non_autolinks)]
+
 //! Hcaptcha
 //!
 //! # Build the request and verify
