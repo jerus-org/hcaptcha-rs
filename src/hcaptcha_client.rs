@@ -1,8 +1,6 @@
-#![allow(rustdoc::non_autolinks)]
 use crate::HcaptchaError;
 use crate::HcaptchaRequest;
 use crate::HcaptchaResponse;
-use async_trait::async_trait;
 use reqwest::{Client, Url};
 
 const VERIFY_URL: &str = "https://hcaptcha.com/siteverify";
@@ -42,6 +40,8 @@ impl HcaptchaClient {
     ///
     /// If the default API url constant is corrupted the function with
     /// will panic.
+    #[allow(unknown_lints)]
+    #[allow(non_autolinks)]
     pub fn new() -> HcaptchaClient {
         HcaptchaClient {
             client: Client::new(),
@@ -71,10 +71,7 @@ impl HcaptchaClient {
             url,
         }
     }
-}
 
-#[async_trait]
-impl Hcaptcha for HcaptchaClient {
     /// Verify the client token with the Hcaptcha API
     ///
     /// Call the Hcaptcha api providing a HcaptchaRequest structure.
@@ -128,7 +125,7 @@ impl Hcaptcha for HcaptchaClient {
             level = "debug"
         )
     )]
-    async fn verify_client_response(
+    pub async fn verify_client_response(
         &self,
         client_response: HcaptchaRequest,
     ) -> Result<HcaptchaResponse, HcaptchaError> {
@@ -413,16 +410,6 @@ impl Hcaptcha for HcaptchaClient {
 //         self.response.score_reason()
 //     }
 // }
-
-/// Trait representing the capabilities of the Hcaptcha api.
-/// This trait is implemented by the HcaptchaClient struct.
-#[async_trait]
-pub trait Hcaptcha {
-    async fn verify_client_response(
-        &self,
-        client_response: HcaptchaRequest,
-    ) -> Result<HcaptchaResponse, HcaptchaError>;
-}
 
 #[cfg(test)]
 mod tests {

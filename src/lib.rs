@@ -1,8 +1,8 @@
 #![cfg_attr(docsrs, feature(doc_cfg))]
 #![warn(missing_docs)]
-#![cfg_attr(feature = "nightly", warn(rustdoc::missing_doc_code_examples))]
-#![cfg_attr(feature = "nightly", warn(rustdoc::private_doc_tests))]
-#![cfg_attr(feature = "nightly", warn(rustdoc::invalid_codeblock_attributes))]
+#![warn(missing_doc_code_examples)]
+#![warn(private_doc_tests)]
+#![warn(invalid_codeblock_attributes)]
 
 //! Hcaptcha
 //!
@@ -281,7 +281,6 @@ mod hcaptcha_error;
 mod hcaptcha_request;
 mod hcaptcha_response;
 
-pub use hcaptcha_client::Hcaptcha;
 pub use hcaptcha_client::HcaptchaClient;
 pub use hcaptcha_error::Code;
 pub use hcaptcha_error::HcaptchaError;

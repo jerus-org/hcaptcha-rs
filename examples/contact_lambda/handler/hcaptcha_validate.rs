@@ -1,6 +1,6 @@
 use super::error::LambdaContactError;
 use super::param;
-use hcaptcha::{Hcaptcha, HcaptchaClient, HcaptchaRequest, HcaptchaResponse};
+use hcaptcha::{HcaptchaClient, HcaptchaRequest, HcaptchaResponse};
 
 const HCAPTCHA_SECRET: &str = "/hcaptcha/secret";
 
