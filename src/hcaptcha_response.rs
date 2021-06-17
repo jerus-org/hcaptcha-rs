@@ -381,15 +381,12 @@ mod tests {
     #[test]
     fn score_reason_test() {
         let response = test_response();
-        use itertools::Itertools;
 
         assert!(response.score_reason().is_some());
         if let Some(hash_set) = response.score_reason() {
             assert!(!hash_set.is_empty());
-            assert_eq!(
-                "first-reason, second-reason".to_owned(),
-                hash_set.iter().join(", ")
-            );
+            assert!(hash_set.contains("first-reason"));
+            assert!(hash_set.contains("second-reason"));
         }
     }
 }
