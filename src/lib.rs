@@ -20,32 +20,48 @@
 //! # Examples
 //! Token needs to be supplied by the client.
 //! This example will fail as a client-provided token is not used.
-//! ```should_panic no_run
-//! use hcaptcha::Hcaptcha;
-//! use std::net::{IpAddr, Ipv4Addr};
+//! ```no_run
+//!     use hcaptcha::{HcaptchaClient, HcaptchaRequest};
+//! # use itertools::Itertools;
 //!
-//! #[tokio::main]
-//! async fn main() -> Result<(), hcaptcha::HcaptchaError> {
-//!     let secret = "0x0000000000000000000000000000000000000000";
-//!     let token = "client_response";
-//!     let remote_ip = IpAddr::V4(Ipv4Addr::new(192, 168, 0, 17));
+//! # #[tokio::main]
+//! # async fn main() -> Result<(), hcaptcha::HcaptchaError> {
+//!     let secret = get_your_secret();
+//!     let token = get_user_token();
+//!     let remote_ip = get_user_ip_address();
 //!
-//!     let mut hc = Hcaptcha::new(secret, token)?
-//!         .set_user_ip(&remote_ip);
+//!     let request = HcaptchaRequest::new(&secret, &token)?
+//!         .set_user_ip(remote_ip);
 //!
-//!     hc.verify().await?;
+//!     let client = HcaptchaClient::new();
 //!
-//!     let score = match hc.score() {
-//!         Some(v) => v,
+//!     let response = client.verify_client_response(request).await?;
+//!
+//!     let score = match &response.score() {
+//!         Some(v) => *v,
 //!         None => 0.0,
 //!     };
-//!     let score_reasons = match &hc.score_reasons() {
+//!     let score_reasons = match &response.score_reason() {
 //!         Some(v) => v.iter().join(", "),
 //!         None => "".to_owned(),
 //!     };
 //!     println!("\tScore: {:?}\n\tReasons: {:?}", score, score_reasons);
 //!     # Ok(())
-//! }
+//! # }
+//! # fn get_your_secret() -> String {
+//! #   "0x123456789abcde0f123456789abcdef012345678".to_string()
+//! # }
+//! # fn get_user_token() -> String {
+//! #    "thisisnotapropertoken".to_string()
+//! # }
+//! # use std::net::{IpAddr, Ipv4Addr};
+//! # fn get_user_ip_address() -> IpAddr {
+//! #    IpAddr::V4(Ipv4Addr::new(192, 168, 0, 17))
+//! # }
+//! # use uuid::Uuid;
+//! # fn get_your_site_key() -> Uuid {
+//! #    Uuid::new_v4()
+//! # }
 //! ```
 //!
 //! Lambda backend implemetation. See examples for more detail.
@@ -56,7 +72,7 @@
 //! # use tracing_subscriber::layer::SubscriberExt;
 //! # use tracing_subscriber::{EnvFilter, Registry};
 //! #
-//! # mod handler {
+//! mod handler {
 //! #     mod error {
 //! #         use thiserror::Error;
 //! #         #[derive(Error, Debug)]
@@ -150,7 +166,7 @@
 //!
 //! #     const HCAPTCHA_SECRET: &str = "/hcaptcha/secret";
 //! #
-//! #     use hcaptcha::Hcaptcha;
+//! #     use hcaptcha::{HcaptchaClient, HcaptchaRequest};
 //! #     use lambda_runtime::{Context, Error};
 //! #     use send::ContactForm;
 //! #     use serde_derive::{Deserialize, Serialize};
@@ -201,9 +217,11 @@
 //!
 //!         let hcaptcha_secret = param::get_paramater(HCAPTCHA_SECRET).await?;
 //!
-//!         Hcaptcha::new(&hcaptcha_secret, &captcha.captcha_response)?
-//!             .verify()
-//!             .await?;
+//!         let request = HcaptchaRequest::new(&hcaptcha_secret,
+//!             &captcha.captcha_response)?;
+//!         
+//!         let client = HcaptchaClient::new();
+//!         let _response = client.verify_client_response(request).await?;
 //!
 //!         let contact_form: ContactForm = serde_json::from_str(&body_str)?;
 //!
@@ -257,23 +275,22 @@
 //! ```
 //! # Feature Flags
 //!
-//! The default library includes the extended validation for the secret
-//! field. You can disable this validation by setting default-features = false.
+//! The default library includes extended validation for the secret field.
+//! Disable this validation by setting default-features = false.
 //!
 //! ```toml
 //! [dependency]
 //! hcaptcha = { version = "2.0.0", default-features = false }
 //! ```
 //!
-//!  - 'enterprise'
-//!     Enable methods to access enterprise service fields in the response
-//!     from the Hcaptcha API.
-//!  - `ext`
-//!     Enables additional validation that the secret conforms to a 40 byte
-//!     hexadecimal string.
-//! - 'trace'
-//!     Enables instrumentation of all functions by tracing.
+//! The following feature flags are available:
+//! * `enterprise` - Enable methods to access enterprise service fields in the  `HcaptchaResponse`
+//! * `ext` - Enables extended validation of secret
+//! * `trace` - Enables tracing instrumentation on all functions. Traces are logged at the debug level. The value of the secret is not logged.
 //!
+//! # Rust Version
+//!
+//! This version of hcaptcha requires Rust v1.46 or later.
 
 mod hcaptcha_client;
 mod hcaptcha_error;

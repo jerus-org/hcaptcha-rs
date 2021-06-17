@@ -8,7 +8,7 @@
 //! # #[tokio::main]
 //! # async fn main() -> Result<(), hcaptcha::HcaptchaError> {
 //!     let secret = get_your_secret();         // your secret key
-//!     let bad_token = get_your_token();       // user's response token
+//!     let bad_token = get_user_token();       // user's response token
 //!     let site_key = get_your_site_key();     // your site key
 //!     let user_ip = get_user_ip_address();    // user's ip address
 //!
@@ -20,7 +20,7 @@
 //! # fn get_your_secret() -> String {
 //! #   "0x123456789abcde0f123456789abcdef012345678".to_string()
 //! # }
-//! # fn get_your_token() -> String {
+//! # fn get_user_token() -> String {
 //! #    "thisisnotapropertoken".to_string()
 //! # }
 //! # use std::net::{IpAddr, Ipv4Addr};
@@ -79,7 +79,7 @@ impl HcaptchaRequest {
     ///     use hcaptcha::HcaptchaRequest;
     /// # fn main() -> Result<(), hcaptcha::HcaptchaError>{
     ///     let secret = get_your_secret();     // your secret key
-    ///     let bad_token = get_your_token();   // user's token
+    ///     let bad_token = get_user_token();   // user's token
     ///
     ///     let request = HcaptchaRequest::new(&secret, &bad_token)?; // <- returns error
     /// # Ok(())
@@ -87,7 +87,7 @@ impl HcaptchaRequest {
     /// # fn get_your_secret() -> String {
     /// #   "0x123456789abcde0f123456789abcdef012345678".to_string()
     /// # }
-    /// # fn get_your_token() -> String {
+    /// # fn get_user_token() -> String {
     /// #    "thisisnotapropertoken".to_string()
     /// # }
     ///  ```
@@ -124,7 +124,7 @@ impl HcaptchaRequest {
     /// # #[tokio::main]
     /// # async fn main() -> Result<(), hcaptcha::HcaptchaError> {
     ///     let secret = get_your_secret();         // your secret key
-    ///     let bad_token = get_your_token();       // user's response token
+    ///     let bad_token = get_user_token();       // user's response token
     ///     let user_ip = get_user_ip_address();    // user's ip address
     ///
     ///     let request = HcaptchaRequest::new(&secret, &bad_token)? // <- returns error
@@ -134,7 +134,7 @@ impl HcaptchaRequest {
     /// # fn get_your_secret() -> String {
     /// #   "0x123456789abcde0f123456789abcdef012345678".to_string()
     /// # }
-    /// # fn get_your_token() -> String {
+    /// # fn get_user_token() -> String {
     /// #    "thisisnotapropertoken".to_string()
     /// # }
     /// # use std::net::{IpAddr, Ipv4Addr};
@@ -176,7 +176,7 @@ impl HcaptchaRequest {
     /// # #[tokio::main]
     /// # async fn main() -> Result<(), hcaptcha::HcaptchaError> {
     ///     let secret = get_your_secret();     // your secret key
-    ///     let bad_token = get_your_token();   // user's token
+    ///     let bad_token = get_user_token();   // user's token
     ///     let site_key = get_your_site_key(); // your site key
     ///
     ///     let request = HcaptchaRequest::new(&secret, &bad_token)? // <- returns error
@@ -186,7 +186,7 @@ impl HcaptchaRequest {
     /// # fn get_your_secret() -> String {
     /// #   "0x123456789abcde0f123456789abcdef012345678".to_string()
     /// # }
-    /// # fn get_your_token() -> String {
+    /// # fn get_user_token() -> String {
     /// #    "thisisnotapropertoken".to_string()
     /// # }
     /// # use uuid::Uuid;

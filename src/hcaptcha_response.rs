@@ -325,7 +325,7 @@ mod tests {
             "credit": false,
             "error-codes": ["missing-input-secret", "foo"],
             "score": null,
-            "score_reason": [],
+            "score_reason": ["first-reason", "second-reason"],
         });
         serde_json::from_value(response).unwrap()
     }
@@ -381,11 +381,15 @@ mod tests {
     #[test]
     fn score_reason_test() {
         let response = test_response();
-        println!("The response: {:?}", response);
+        use itertools::Itertools;
 
         assert!(response.score_reason().is_some());
         if let Some(hash_set) = response.score_reason() {
-            assert!(hash_set.is_empty())
+            assert!(!hash_set.is_empty());
+            assert_eq!(
+                "first-reason, second-reason".to_owned(),
+                hash_set.iter().join(", ")
+            );
         }
     }
 }

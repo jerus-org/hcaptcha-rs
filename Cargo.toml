@@ -38,10 +38,11 @@ url = "2.2.2"
 
 [dev-dependencies]
 claim = "0.5.0"
+itertools = "0.10.1"
 lambda_runtime = "0.3.0"
+log = "0.4.14"
 simple_logger = "1.11.0"
 tokio = { version = "1.2", features = ["macros", "rt-multi-thread"] }
-log = "0.4.14"
 tracing = "0.1.26"
 tracing-appender = "0.1.2"
 tracing-bunyan-formatter = "0.2.4"
