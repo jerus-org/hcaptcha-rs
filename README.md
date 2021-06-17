@@ -36,32 +36,48 @@ version = "2.0.0"
 Verifying hcaptcha responses is easy:
 
 ```rust
-
-use hcaptcha::Hcaptcha;
-use std::net::{IpAddr, Ipv4Addr};
-#[tokio::main]
-async fn main() {
-    let remote_ip = IpAddr::V4(Ipv4Addr::new(192, 168, 0, 17));
-
-    let res = Hcaptcha::new("your_private_key", "user_response")
-                .set_user_ip(&remote_ip)
-                .verify()
-                .await;
-    if res.is_ok() {
-        println!("Success");
-    } else {
-        println!("Failure");
-    }
-}
-
+use hcaptcha::{HcaptchaClient, HcaptchaRequest};
+# use itertools::Itertools;
+# #[tokio::main]
+# async fn main() -> Result<(), hcaptcha::HcaptchaError> {
+    let secret = get_your_secret();
+    let token = get_user_token();
+    let remote_ip = get_user_ip_address();
+    let request = HcaptchaRequest::new(&secret, &token)?
+        .set_user_ip(remote_ip);
+    let client = HcaptchaClient::new();
+    let response = client.verify_client_response(request).await?;
+    let score = match &response.score() {
+        Some(v) => *v,
+        None => 0.0,
+    };
+    let score_reasons = match &response.score_reason() {
+        Some(v) => v.iter().join(", "),
+        None => "".to_owned(),
+    };
+    println!("\tScore: {:?}\n\tReasons: {:?}", score, score_reasons);
+    # Ok(())
+# }
+# fn get_your_secret() -> String {
+#   "0x123456789abcde0f123456789abcdef012345678".to_string()
+# }
+# fn get_user_token() -> String {
+#    "thisisnotapropertoken".to_string()
+# }
+# use std::net::{IpAddr, Ipv4Addr};
+# fn get_user_ip_address() -> IpAddr {
+#    IpAddr::V4(Ipv4Addr::new(192, 168, 0, 17))
+# }
 ```
 
 See the examples folder for an AWS Lambda contact form example.
 
 ## License
 
-* MIT license
-  ([LICENSE-MIT](LICENSE-MIT) or <http://opensource.org/licenses/MIT>)
+Licensed under either of
+* Apache License, Version 2.0 (LICENSE-APACHE or <http://www.apache.org/licenses/LICENSE-2.0>)
+*MIT license (LICENSE-MIT or <http://opensource.org/licenses/MIT>)
+at your option.
 
 ## Contribution
 
@@ -71,4 +87,4 @@ dual licensed as above, without any additional terms or conditions.
 
 ## Credits
 
-Based on [recaptcha-rs](https://github.com/panicbit/recaptcha-rs) by panicbit.
+Initial version based on [recaptcha-rs](https://github.com/panicbit/recaptcha-rs) by panicbit.
