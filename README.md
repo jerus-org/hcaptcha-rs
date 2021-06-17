@@ -6,6 +6,7 @@
 [![Rust 1.46+][version-badge]][version-url]
 [![FOSSA Status][fossa-badge]][fossa-url]
 [![Docs][docs-badge]][docs-url]
+[![BuyMeaCoffee][bmac-badge]][bmacs-url]
 
 [crates-badge]: https://img.shields.io/crates/v/hcaptcha.svg
 [crates-url]: https://crates.io/crates/hcaptcha
@@ -19,6 +20,8 @@
 [fossa-url]: https://app.fossa.com/projects/custom%2B22707%2Fgithub.com%2Fjerusdp%2Fhcaptcha-rs?ref=badge_shield
 [docs-badge]:  https://docs.rs/hcaptcha/badge.svg
 [docs-url]:  https://docs.rs/hcapatcha
+[bmac-badge]: https://badgen.net/badge/icon/buymeacoffee?color=yellow&icon=buymeacoffee&label
+[bmac-url]: buymeacoffee.com/jerusdp
 
 The rust library hcaptcha is used with your backend service to verify the hcaptcha response provided from the client.
 
