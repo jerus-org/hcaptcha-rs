@@ -14,7 +14,7 @@
 //!
 //!     let request = HcaptchaRequest::new(&secret, &bad_token)? // <- returns error
 //!         .set_site_key(site_key)
-//!         .set_user_ip(user_ip);
+//!         .set_user_ip(&user_ip)?;
 //! # Ok(())
 //! # }
 //! # fn get_your_secret() -> String {
@@ -24,8 +24,8 @@
 //! #    "thisisnotapropertoken".to_string()
 //! # }
 //! # use std::net::{IpAddr, Ipv4Addr};
-//! # fn get_user_ip_address() -> IpAddr {
-//! #    IpAddr::V4(Ipv4Addr::new(192, 168, 0, 17))
+//! # fn get_user_ip_address() -> String {
+//! #    "192.168.71.17".to_string()
 //! # }
 //! # use uuid::Uuid;
 //! # fn get_your_site_key() -> Uuid {
@@ -35,14 +35,15 @@
 //! ```
 
 use crate::HcaptchaError;
-use std::net::IpAddr;
 use uuid::Uuid;
 
 mod hcaptcha_client_response;
 mod hcaptcha_secret;
+mod hcaptcha_user_ip;
 
 use hcaptcha_client_response::HcaptchaClientResponse;
 use hcaptcha_secret::HcaptchaSecret;
+use hcaptcha_user_ip::HcaptchaUserIp;
 
 /// Type to capture the required and optional data for a call to the hcaptcha API
 #[allow(missing_doc_code_examples)]
@@ -53,7 +54,7 @@ pub struct HcaptchaRequest {
     /// The secret_key related to the site_key used to capture the response.
     secret: HcaptchaSecret,
     /// Optional: The ip address of the client providing the response.
-    user_ip: Option<IpAddr>,
+    user_ip: Option<HcaptchaUserIp>,
     /// Optional: The site_key used by the client to generate the response (recommended).
     site_key: Option<String>,
 }
@@ -128,7 +129,7 @@ impl HcaptchaRequest {
     ///     let user_ip = get_user_ip_address();    // user's ip address
     ///
     ///     let request = HcaptchaRequest::new(&secret, &bad_token)? // <- returns error
-    ///         .set_user_ip(user_ip);
+    ///         .set_user_ip(&user_ip)?;
     /// # Ok(())
     /// # }
     /// # fn get_your_secret() -> String {
@@ -138,8 +139,8 @@ impl HcaptchaRequest {
     /// #    "thisisnotapropertoken".to_string()
     /// # }
     /// # use std::net::{IpAddr, Ipv4Addr};
-    /// # fn get_user_ip_address() -> IpAddr {
-    /// #    IpAddr::V4(Ipv4Addr::new(192, 168, 0, 17))
+    /// # fn get_user_ip_address() -> String {
+    /// #    "192.168.71.17".to_string()
     /// # }
     ///
     /// ```
@@ -160,9 +161,9 @@ impl HcaptchaRequest {
             level = "debug"
         )
     )]
-    pub fn set_user_ip(mut self, user_ip: IpAddr) -> HcaptchaRequest {
-        self.user_ip = Some(user_ip);
-        self
+    pub fn set_user_ip(mut self, user_ip: &str) -> Result<Self, HcaptchaError> {
+        self.user_ip = Some(HcaptchaUserIp::parse(user_ip.to_owned())?);
+        Ok(self)
     }
 
     /// Specify the optional site_key value

@@ -28,10 +28,10 @@
 //! # async fn main() -> Result<(), hcaptcha::HcaptchaError> {
 //!     let secret = get_your_secret();
 //!     let token = get_user_token();
-//!     let remote_ip = get_user_ip_address();
+//!     let user_ip = get_user_ip_address();
 //!
 //!     let request = HcaptchaRequest::new(&secret, &token)?
-//!         .set_user_ip(remote_ip);
+//!         .set_user_ip(&user_ip)?;
 //!
 //!     let client = HcaptchaClient::new();
 //!
@@ -54,9 +54,8 @@
 //! # fn get_user_token() -> String {
 //! #    "thisisnotapropertoken".to_string()
 //! # }
-//! # use std::net::{IpAddr, Ipv4Addr};
-//! # fn get_user_ip_address() -> IpAddr {
-//! #    IpAddr::V4(Ipv4Addr::new(192, 168, 0, 17))
+//! # fn get_user_ip_address() -> String {
+//! #    "192.168.0.17".to_string()
 //! # }
 //! # use uuid::Uuid;
 //! # fn get_your_site_key() -> Uuid {

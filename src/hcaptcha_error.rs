@@ -40,10 +40,14 @@ pub enum HcaptchaError {
 #[non_exhaustive]
 #[derive(PartialEq, Eq, Hash, Clone, Debug)]
 pub enum Code {
-    /// Your secret key is missing.
+    /// Secret key is missing.
     MissingSecret,
-    /// Your secret key is invalid or malformed.
+    /// Secret key is invalid or malformed.
     InvalidSecret,
+    /// User ip string is missing.
+    MissingUserIp,
+    /// User ip is invalid or malformed.
+    InvalidUserIp,
     /// The response parameter (verification token) is missing.
     MissingResponse,
     /// The response parameter (verification token) is invalid or malformed.
@@ -87,12 +91,14 @@ impl fmt::Display for Code {
     #[allow(unused_variables)]
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         match self {
-            Code::MissingSecret => write!(f, "Your secret key is missing."),
-            Code::InvalidSecret => write!(f, "Your secret key is invalid or malformed."),
+            Code::MissingSecret => write!(f, "Secret key is missing."),
+            Code::InvalidSecret => write!(f, "Secret key is invalid or malformed."),
+            Code::MissingUserIp => write!(f, "User ip string is missing."),
+            Code::InvalidUserIp => write!(f, "User ip string is invalid."),
             Code::InvalidSecretExtWrongLen => {
-                write!(f, "Your secret key is not the correct length.")
+                write!(f, "Secret key is not the correct length.")
             }
-            Code::InvalidSecretExtNotHex => write!(f, "Your secret key is not a hex string."),
+            Code::InvalidSecretExtNotHex => write!(f, "Secret key is not a hex string."),
             Code::MissingResponse => {
                 write!(f, "The response parameter (verification token) is missing.")
             }
