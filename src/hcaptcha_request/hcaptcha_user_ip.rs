@@ -13,6 +13,7 @@ impl HcaptchaUserIp {
     )]
     pub fn parse(s: String) -> Result<Self, HcaptchaError> {
         empty_ip_string(&s)?;
+        invalid_ip_string(&s)?;
 
         Ok(HcaptchaUserIp(s))
     }
@@ -82,7 +83,11 @@ mod tests {
     #[test]
     fn error_set_contains_invalid_ip_string_error() {
         let ip_string = "1922.20".to_string();
-        if let Err(HcaptchaError::Codes(hs)) = HcaptchaUserIp::parse(ip_string) {
+        let res = HcaptchaUserIp::parse(ip_string);
+        assert_err!(&res);
+
+        if let Err(HcaptchaError::Codes(hs)) = res {
+            println!("Error Codes: {:?}", &hs);
             assert!(hs.contains(&Code::InvalidUserIp));
         }
     }
