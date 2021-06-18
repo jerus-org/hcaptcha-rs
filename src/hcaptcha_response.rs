@@ -334,7 +334,7 @@ mod tests {
     fn success_test() {
         let response = test_response();
 
-        assert_eq!(response.success(), true);
+        assert!(response.success());
     }
 
     #[test]
