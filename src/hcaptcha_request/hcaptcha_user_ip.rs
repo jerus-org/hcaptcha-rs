@@ -46,7 +46,7 @@ fn invalid_ip_string(s: &str) -> Result<(), HcaptchaError> {
         codes.insert(Code::InvalidUserIp);
 
         #[cfg(feature = "trace")]
-        tracing::debug!("UserIP string is missing");
+        tracing::debug!("UserIP string is invalid");
         Err(HcaptchaError::Codes(codes))
     } else {
         Ok(())

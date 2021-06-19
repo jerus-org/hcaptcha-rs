@@ -13,7 +13,7 @@
 //!     let user_ip = get_user_ip_address();    // user's ip address
 //!
 //!     let request = HcaptchaRequest::new(&secret, &bad_token)? // <- returns error
-//!         .set_site_key(site_key)
+//!         .set_site_key(&site_key)?
 //!         .set_user_ip(&user_ip)?;
 //! # Ok(())
 //! # }
@@ -23,26 +23,26 @@
 //! # fn get_user_token() -> String {
 //! #    "thisisnotapropertoken".to_string()
 //! # }
-//! # use std::net::{IpAddr, Ipv4Addr};
 //! # fn get_user_ip_address() -> String {
 //! #    "192.168.71.17".to_string()
 //! # }
 //! # use uuid::Uuid;
-//! # fn get_your_site_key() -> Uuid {
-//! #    Uuid::new_v4()
+//! # fn get_your_site_key() -> String {
+//! #    Uuid::new_v4().to_string()
 //! # }
 //!
 //! ```
 
 use crate::HcaptchaError;
-use uuid::Uuid;
 
 mod hcaptcha_client_response;
 mod hcaptcha_secret;
+mod hcaptcha_site_key;
 mod hcaptcha_user_ip;
 
 use hcaptcha_client_response::HcaptchaClientResponse;
 use hcaptcha_secret::HcaptchaSecret;
+use hcaptcha_site_key::HcaptchaSiteKey;
 use hcaptcha_user_ip::HcaptchaUserIp;
 
 /// Type to capture the required and optional data for a call to the hcaptcha API
@@ -56,7 +56,7 @@ pub struct HcaptchaRequest {
     /// Optional: The ip address of the client providing the response.
     user_ip: Option<HcaptchaUserIp>,
     /// Optional: The site_key used by the client to generate the response (recommended).
-    site_key: Option<String>,
+    site_key: Option<HcaptchaSiteKey>,
 }
 
 #[allow(missing_doc_code_examples)]
@@ -181,7 +181,7 @@ impl HcaptchaRequest {
     ///     let site_key = get_your_site_key(); // your site key
     ///
     ///     let request = HcaptchaRequest::new(&secret, &bad_token)? // <- returns error
-    ///         .set_site_key(site_key);
+    ///         .set_site_key(&site_key);
     /// # Ok(())
     /// # }
     /// # fn get_your_secret() -> String {
@@ -191,8 +191,8 @@ impl HcaptchaRequest {
     /// #    "thisisnotapropertoken".to_string()
     /// # }
     /// # use uuid::Uuid;
-    /// # fn get_your_site_key() -> Uuid {
-    /// #    Uuid::new_v4()
+    /// # fn get_your_site_key() -> String {
+    /// #    Uuid::new_v4().to_string()
     /// # }
     ///
     /// ```
@@ -212,9 +212,9 @@ impl HcaptchaRequest {
             level = "debug"
         )
     )]
-    pub fn set_site_key(mut self, site_key: Uuid) -> HcaptchaRequest {
-        self.site_key = Some(site_key.to_hyphenated().to_string());
-        self
+    pub fn set_site_key(mut self, site_key: &str) -> Result<Self, HcaptchaError> {
+        self.site_key = Some(HcaptchaSiteKey::parse(site_key.to_owned())?);
+        Ok(self)
     }
 }
 #[cfg(test)]

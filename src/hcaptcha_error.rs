@@ -44,10 +44,14 @@ pub enum Code {
     MissingSecret,
     /// Secret key is invalid or malformed.
     InvalidSecret,
-    /// User ip string is missing.
+    /// User IP string is missing.
     MissingUserIp,
-    /// User ip is invalid or malformed.
+    /// User IP is invalid or malformed.
     InvalidUserIp,
+    /// Site Key string is missing.
+    MissingSiteKey,
+    /// Site Key is invalid or malformed.
+    InvalidSiteKey,
     /// The response parameter (verification token) is missing.
     MissingResponse,
     /// The response parameter (verification token) is invalid or malformed.
@@ -93,8 +97,10 @@ impl fmt::Display for Code {
         match self {
             Code::MissingSecret => write!(f, "Secret key is missing."),
             Code::InvalidSecret => write!(f, "Secret key is invalid or malformed."),
-            Code::MissingUserIp => write!(f, "User ip string is missing."),
-            Code::InvalidUserIp => write!(f, "User ip string is invalid."),
+            Code::MissingUserIp => write!(f, "User IP string is missing."),
+            Code::InvalidUserIp => write!(f, "User IP string is invalid."),
+            Code::MissingSiteKey => write!(f, "Site Key string is missing."),
+            Code::InvalidSiteKey => write!(f, "Site Key string is invalid."),
             Code::InvalidSecretExtWrongLen => {
                 write!(f, "Secret key is not the correct length.")
             }
