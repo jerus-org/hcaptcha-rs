@@ -3,8 +3,10 @@
 ## v2.0.0
 
 - Restore lambda_runtime as crate has been updated
-- Validate client response before submission to hCaptcha API
-- Validate secret before submission to hCapthca API
+- Validate client response before submission to Hcaptcha API
+- Validate secret before submission to Hcaptcha API
+- Validate user_ip as a v4 or v6 IP address before submission to Hcaptcha API
+- Validate site_key as a UUID before submission to Hcaptcha API
 - Constrain site_key string to a Uuid
 - Place methods to access Enterprise only response data behind "enterprise" feature flag
 - Replace logging with tracing; remove logging feature flag
