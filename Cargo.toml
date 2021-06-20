@@ -38,6 +38,7 @@ url = "2.2.2"
 
 [dev-dependencies]
 claim = "0.5.0"
+fakeit ="1.1.1"
 itertools = "0.10.1"
 lambda_runtime = "0.3.0"
 log = "0.4.14"

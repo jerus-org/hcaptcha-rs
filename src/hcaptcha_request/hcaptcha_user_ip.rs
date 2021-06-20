@@ -1,6 +1,6 @@
 use crate::{Code, HcaptchaError};
 use std::collections::HashSet;
-use std::net::Ipv4Addr;
+use std::net::{Ipv4Addr, Ipv6Addr};
 use std::str::FromStr;
 
 #[derive(Debug, Default, serde::Serialize)]
@@ -41,7 +41,9 @@ fn empty_ip_string(s: &str) -> Result<(), HcaptchaError> {
     tracing::instrument(name = "Return error if not an ip string.", skip(s), level = "debug")
 )]
 fn invalid_ip_string(s: &str) -> Result<(), HcaptchaError> {
-    if Ipv4Addr::from_str(s).is_err() {
+    let invalid_ip4 = Ipv4Addr::from_str(s).is_err();
+    let invalid_ip6 = Ipv6Addr::from_str(s).is_err();
+    if invalid_ip4 && invalid_ip6 {
         let mut codes = HashSet::new();
         codes.insert(Code::InvalidUserIp);
 
@@ -93,8 +95,14 @@ mod tests {
     }
 
     #[test]
-    fn test_ip_string_key_is_valid() {
-        let ip_string = "192.168.32.23".to_string();
+    fn test_ip_string_key_is_valid_ip4() {
+        let ip_string = fakeit::internet::ipv4_address();
+        assert_ok!(HcaptchaUserIp::parse(ip_string));
+    }
+
+    #[test]
+    fn test_ip_string_key_is_valid_ip6() {
+        let ip_string = fakeit::internet::ipv6_address();
         assert_ok!(HcaptchaUserIp::parse(ip_string));
     }
 }
