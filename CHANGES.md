@@ -12,6 +12,7 @@
 - Replace logging with tracing; remove logging feature flag
 - Revise documentation and enhance examples
 - Adopt Request/Response/Error and Trait structure
+- Struct HcaptchaCaptcha for client response (response, site_key and user_ip) and new_with(captcha) to construct request using the HcaptchCaptcha struct.
 
 ### Notes
 
@@ -23,7 +24,9 @@ Basic validation for both inputs ensures that the value is not empty or composed
 
 Extended validation for the secret key requires it to conform to "0x" followed by a 40 character hexadecimal string. The extended validation is feature flagged and can be disabled. The flag is enabled by default. To disable load the library with default-features = false.
 
-The input to .site_key(site_key) has been changed to take a reference to a Uuid data structure. This ensures that the string provided conforms with the correct format.
+The input to .site_key(site_key) has been changed to validate that the string slice supplied is a valid UUID.
+
+The input to the .user_ip(user_ip) has been changed to validate that the string slice supplier is a valid ipv4 or ipv6 address.
 
 #### Logging / Tracing
 
