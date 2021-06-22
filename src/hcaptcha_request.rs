@@ -304,7 +304,6 @@ mod tests {
             .unwrap()
             .set_site_key(&fakeit::unique::uuid_v4())
             .unwrap()
-            .clone()
     }
 
     #[test]

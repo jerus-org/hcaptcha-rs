@@ -73,7 +73,6 @@ mod tests {
             .unwrap()
             .set_site_key(&fakeit::unique::uuid_v4())
             .unwrap()
-            .clone()
     }
     #[test]
     fn response_cannot_be_empty_or_blank() {
@@ -97,7 +96,7 @@ mod tests {
     fn user_ip_is_optional() {
         let captcha = HcaptchaCaptcha::new("response_string")
             .unwrap()
-            .set_user_ip(&fakeit::internet::ipv4_address().to_string())
+            .set_user_ip(&fakeit::internet::ipv4_address())
             .unwrap();
 
         assert_some!(captcha.user_ip);
@@ -107,7 +106,7 @@ mod tests {
     fn valid_user_id_is_accepted() {
         assert_ok!(HcaptchaCaptcha::new("response_string")
             .unwrap()
-            .set_user_ip(&fakeit::internet::ipv4_address().to_string()));
+            .set_user_ip(&fakeit::internet::ipv4_address()));
     }
 
     #[test]
@@ -125,7 +124,7 @@ mod tests {
     fn site_key_is_optional() {
         let captcha = HcaptchaCaptcha::new("response_string")
             .unwrap()
-            .set_site_key(&fakeit::unique::uuid_v4().to_string())
+            .set_site_key(&fakeit::unique::uuid_v4())
             .unwrap();
 
         assert_some!(captcha.site_key);
@@ -135,7 +134,7 @@ mod tests {
     fn valid_site_key_is_accepted() {
         let captcha = HcaptchaCaptcha::new("response_string")
             .unwrap()
-            .set_site_key(&fakeit::unique::uuid_v4().to_string())
+            .set_site_key(&fakeit::unique::uuid_v4())
             .unwrap();
 
         assert_some!(captcha.site_key());
