@@ -60,6 +60,9 @@ mod tests {
     use crate::HcaptchaError;
     use claim::{assert_err, assert_ok};
 
+    // const CYAN: &str = "\u{001b}[36m";
+    // const RESET: &str = "\u{001b}[0m";
+
     #[test]
     fn whitespace_only_site_keys_are_rejected() {
         let site_key = " ".to_string();
@@ -93,8 +96,7 @@ mod tests {
 
     #[test]
     fn valid_site_key_key_is_valid() {
-        let site_key = uuid::Uuid::new_v4().to_string();
-        println!("Site key: {}", &site_key);
+        let site_key = fakeit::unique::uuid_v4();
 
         assert_ok!(HcaptchaSiteKey::parse(site_key));
     }

@@ -291,11 +291,14 @@
 //!
 //! This version of hcaptcha requires Rust v1.46 or later.
 
+mod domain;
+mod hcaptcha_captcha;
 mod hcaptcha_client;
 mod hcaptcha_error;
 mod hcaptcha_request;
 mod hcaptcha_response;
 
+pub use hcaptcha_captcha::HcaptchaCaptcha;
 pub use hcaptcha_client::HcaptchaClient;
 pub use hcaptcha_client::VERIFY_URL;
 pub use hcaptcha_error::Code;

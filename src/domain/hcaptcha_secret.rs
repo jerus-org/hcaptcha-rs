@@ -53,6 +53,10 @@ impl HcaptchaSecret {
             Err(HcaptchaError::Codes(codes))
         }
     }
+
+    pub fn as_str(&self) -> &str {
+        &self.0
+    }
 }
 
 #[cfg(feature = "ext")]
