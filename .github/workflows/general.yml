@@ -50,10 +50,8 @@ jobs:
           toolchain: stable
           override: true
           components: clippy
-      - uses: actions-rs/clippy-check@v1
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          args: --all --tests --all-features -- -D warnings
+      - name: "clippy --all --tests --all-features"
+        run: cargo clippy --all --tests --all-features -- -D warnings
 
   minrust:
     name: minrust
