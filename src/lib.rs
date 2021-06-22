@@ -291,7 +291,7 @@
 //!
 //! This version of hcaptcha requires Rust v1.46 or later.
 
-mod domain;
+pub(crate) mod domain;
 mod hcaptcha_captcha;
 mod hcaptcha_client;
 mod hcaptcha_error;

@@ -204,23 +204,9 @@ impl HcaptchaRequest {
             level = "debug"
         )
     )]
-    pub fn set_user_ip(self, user_ip: &str) -> Result<Self, HcaptchaError> {
-        let get_string = |x| -> &str {
-            if let Some(y) = x {
-                y.as_str()
-            } else {
-                ""
-            }
-        };
-
-        let site_key = get_string(&self.captcha.site_key());
-        let user_ip = get_string(&self.captcha.user_ip());
-
-        let captcha = HcaptchaCaptcha::new(&self.captcha.response().as_str()).set_site_key;
-        let request = HcaptchaRequest::new(&self.secret().as_str(), captcha);
-
-        &self.captcha.set_user_ip(user_ip)?;
-        Ok(request)
+    pub fn set_user_ip(mut self, user_ip: &str) -> Result<Self, HcaptchaError> {
+        self.captcha.set_user_ip(user_ip)?;
+        Ok(self)
     }
 
     /// Specify the optional site_key value
@@ -274,8 +260,9 @@ impl HcaptchaRequest {
         Ok(self)
     }
 
+    #[allow(dead_code)]
     pub(crate) fn secret(&self) -> HcaptchaSecret {
-        self.secret
+        self.secret.clone()
     }
 }
 #[cfg(test)]
@@ -317,6 +304,7 @@ mod tests {
             .unwrap()
             .set_site_key(&fakeit::unique::uuid_v4())
             .unwrap()
+            .clone()
     }
 
     #[test]
@@ -334,9 +322,16 @@ mod tests {
 
         let request = HcaptchaRequest::new_from_response(&secret, &response).unwrap();
 
-        assert_eq!(&secret, &request.secret().as_str());
-        assert_eq!(&response, &request.captcha.response().as_str());
-        assert_none!(&request.captcha.user_ip());
-        assert_none!(&request.captcha.site_key());
+        assert_eq!(&secret, &request.secret().to_string().as_str());
+
+        let HcaptchaCaptcha {
+            response: resp,
+            user_ip: ip,
+            site_key: key,
+        } = request.captcha;
+
+        assert_eq!(response, resp.to_string());
+        assert_none!(ip);
+        assert_none!(key);
     }
 }

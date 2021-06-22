@@ -1,11 +1,18 @@
 use crate::{Code, HcaptchaError};
 use std::collections::HashSet;
+use std::fmt;
 
 #[cfg(feature = "ext")]
 const SECRET_LEN: usize = 42;
 
-#[derive(Debug, Default, serde::Serialize)]
+#[derive(Debug, Default, Clone, serde::Serialize)]
 pub struct HcaptchaSecret(String);
+
+impl fmt::Display for HcaptchaSecret {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        write!(f, "{}", self.0)
+    }
+}
 
 impl HcaptchaSecret {
     #[cfg(not(feature = "ext"))]
@@ -52,10 +59,6 @@ impl HcaptchaSecret {
             tracing::debug!("Extended check found errors in secret string: {:?}", &codes);
             Err(HcaptchaError::Codes(codes))
         }
-    }
-
-    pub fn as_str(&self) -> &str {
-        &self.0
     }
 }
 

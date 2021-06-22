@@ -1,10 +1,17 @@
 use crate::{Code, HcaptchaError};
 use std::collections::HashSet;
+use std::fmt;
 use std::net::{Ipv4Addr, Ipv6Addr};
 use std::str::FromStr;
 
-#[derive(Debug, Default, serde::Serialize)]
+#[derive(Debug, Default, Clone, serde::Serialize)]
 pub struct HcaptchaUserIp(String);
+
+impl fmt::Display for HcaptchaUserIp {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        write!(f, "{}", self.0)
+    }
+}
 
 impl HcaptchaUserIp {
     #[cfg_attr(

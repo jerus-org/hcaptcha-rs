@@ -2,7 +2,7 @@ use crate::{Code, HcaptchaError};
 use std::collections::HashSet;
 use std::fmt;
 
-#[derive(Debug, Default, serde::Serialize)]
+#[derive(Debug, Default, Clone, serde::Serialize)]
 pub struct HcaptchaClientResponse(String);
 
 impl HcaptchaClientResponse {

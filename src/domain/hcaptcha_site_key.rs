@@ -1,10 +1,17 @@
 use crate::{Code, HcaptchaError};
 use std::collections::HashSet;
+use std::fmt;
 use std::str::FromStr;
 use uuid::Uuid;
 
-#[derive(Debug, Default, serde::Serialize)]
+#[derive(Debug, Default, Clone, serde::Serialize)]
 pub struct HcaptchaSiteKey(String);
+
+impl fmt::Display for HcaptchaSiteKey {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        write!(f, "{}", self.0)
+    }
+}
 
 impl HcaptchaSiteKey {
     #[cfg_attr(
