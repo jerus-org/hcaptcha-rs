@@ -5,15 +5,15 @@ use std::net::{Ipv4Addr, Ipv6Addr};
 use std::str::FromStr;
 
 #[derive(Debug, Default, Clone, serde::Deserialize, serde::Serialize)]
-pub struct HcaptchaUserIp(String);
+pub struct HcaptchaRemoteip(String);
 
-impl fmt::Display for HcaptchaUserIp {
+impl fmt::Display for HcaptchaRemoteip {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         write!(f, "{}", self.0)
     }
 }
 
-impl HcaptchaUserIp {
+impl HcaptchaRemoteip {
     #[cfg_attr(
         feature = "trace",
         tracing::instrument(name = "Validate User IP.", skip(s), level = "debug")
@@ -22,7 +22,7 @@ impl HcaptchaUserIp {
         empty_ip_string(&s)?;
         invalid_ip_string(&s)?;
 
-        Ok(HcaptchaUserIp(s))
+        Ok(HcaptchaRemoteip(s))
     }
 }
 
@@ -64,7 +64,7 @@ fn invalid_ip_string(s: &str) -> Result<(), HcaptchaError> {
 
 #[cfg(test)]
 mod tests {
-    use super::HcaptchaUserIp;
+    use super::HcaptchaRemoteip;
     use crate::Code;
     use crate::HcaptchaError;
     use claim::{assert_err, assert_ok};
@@ -72,19 +72,19 @@ mod tests {
     #[test]
     fn whitespace_only_ip_strings_are_rejected() {
         let ip_string = " ".to_string();
-        assert_err!(HcaptchaUserIp::parse(ip_string));
+        assert_err!(HcaptchaRemoteip::parse(ip_string));
     }
 
     #[test]
     fn empty_string_is_rejected() {
         let ip_string = "".to_string();
-        assert_err!(HcaptchaUserIp::parse(ip_string));
+        assert_err!(HcaptchaRemoteip::parse(ip_string));
     }
 
     #[test]
     fn error_set_contains_missing_ip_string_error() {
         let ip_string = "".to_string();
-        if let Err(HcaptchaError::Codes(hs)) = HcaptchaUserIp::parse(ip_string) {
+        if let Err(HcaptchaError::Codes(hs)) = HcaptchaRemoteip::parse(ip_string) {
             assert!(hs.contains(&Code::MissingUserIp));
         }
     }
@@ -92,7 +92,7 @@ mod tests {
     #[test]
     fn error_set_contains_invalid_ip_string_error() {
         let ip_string = "1922.20".to_string();
-        let res = HcaptchaUserIp::parse(ip_string);
+        let res = HcaptchaRemoteip::parse(ip_string);
         assert_err!(&res);
 
         if let Err(HcaptchaError::Codes(hs)) = res {
@@ -104,12 +104,12 @@ mod tests {
     #[test]
     fn test_ip_string_key_is_valid_ip4() {
         let ip_string = fakeit::internet::ipv4_address();
-        assert_ok!(HcaptchaUserIp::parse(ip_string));
+        assert_ok!(HcaptchaRemoteip::parse(ip_string));
     }
 
     #[test]
     fn test_ip_string_key_is_valid_ip6() {
         let ip_string = fakeit::internet::ipv6_address();
-        assert_ok!(HcaptchaUserIp::parse(ip_string));
+        assert_ok!(HcaptchaRemoteip::parse(ip_string));
     }
 }

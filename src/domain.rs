@@ -1,9 +1,9 @@
 mod hcaptcha_client_response;
+mod hcaptcha_remoteip;
 mod hcaptcha_secret;
-mod hcaptcha_site_key;
-mod hcaptcha_user_ip;
+mod hcaptcha_sitekey;
 
 pub use hcaptcha_client_response::HcaptchaClientResponse;
+pub use hcaptcha_remoteip::HcaptchaRemoteip;
 pub use hcaptcha_secret::HcaptchaSecret;
-pub use hcaptcha_site_key::HcaptchaSiteKey;
-pub use hcaptcha_user_ip::HcaptchaUserIp;
+pub use hcaptcha_sitekey::HcaptchaSitekey;

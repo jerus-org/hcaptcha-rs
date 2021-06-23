@@ -5,14 +5,14 @@
 - Restore lambda_runtime as crate has been updated
 - Validate client response before submission to Hcaptcha API
 - Validate secret before submission to Hcaptcha API
-- Validate user_ip as a v4 or v6 IP address before submission to Hcaptcha API
-- Validate site_key as a UUID before submission to Hcaptcha API
-- Constrain site_key string to a Uuid
+- Validate remoteip as a v4 or v6 IP address before submission to Hcaptcha API
+- Validate sitekey as a UUID before submission to Hcaptcha API
+- Constrain sitekey string to a Uuid
 - Place methods to access Enterprise only response data behind "enterprise" feature flag
 - Replace logging with tracing; remove logging feature flag
 - Revise documentation and enhance examples
 - Adopt Request/Response/Error and Trait structure
-- Struct HcaptchaCaptcha for client response (response, site_key and user_ip) and new_with(captcha) to construct request using the HcaptchCaptcha struct.
+- Struct HcaptchaCaptcha for client response (response, sitekey and remoteip) and new_with(captcha) to construct request using the HcaptchCaptcha struct.
 
 ### Notes
 
@@ -24,9 +24,9 @@ Basic validation for both inputs ensures that the value is not empty or composed
 
 Extended validation for the secret key requires it to conform to "0x" followed by a 40 character hexadecimal string. The extended validation is feature flagged and can be disabled. The flag is enabled by default. To disable load the library with default-features = false.
 
-The input to .site_key(site_key) has been changed to validate that the string slice supplied is a valid UUID.
+The input to .sitekey(sitekey) has been changed to validate that the string slice supplied is a valid UUID.
 
-The input to the .user_ip(user_ip) has been changed to validate that the string slice supplier is a valid ipv4 or ipv6 address.
+The input to the .remoteip(remoteip) has been changed to validate that the string slice supplier is a valid ipv4 or ipv6 address.
 
 #### Logging / Tracing
 

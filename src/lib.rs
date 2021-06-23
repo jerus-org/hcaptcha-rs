@@ -28,10 +28,10 @@
 //! # async fn main() -> Result<(), hcaptcha::HcaptchaError> {
 //! #   let secret = get_your_secret();
 //! #   let captcha = get_captcha();
-//! #   let user_ip = get_user_ip_address();
+//! #   let remoteip = get_remoteip_address();
 //!
 //!     let request = HcaptchaRequest::new(&secret, captcha)?
-//!         .set_user_ip(&user_ip)?;
+//!         .set_remoteip(&remoteip)?;
 //!
 //!     let client = HcaptchaClient::new();
 //!
@@ -66,16 +66,16 @@
 //! # fn get_captcha() -> HcaptchaCaptcha {
 //! #    HcaptchaCaptcha::new(&random_response())
 //! #       .unwrap()
-//! #       .set_user_ip(&fakeit::internet::ipv4_address())
+//! #       .set_remoteip(&fakeit::internet::ipv4_address())
 //! #       .unwrap()
-//! #       .set_site_key(&fakeit::unique::uuid_v4())
+//! #       .set_sitekey(&fakeit::unique::uuid_v4())
 //! #       .unwrap()
 //! #       }
-//! # fn get_user_ip_address() -> String {
+//! # fn get_remoteip_address() -> String {
 //! #    "192.168.0.17".to_string()
 //! # }
 //! # use uuid::Uuid;
-//! # fn get_your_site_key() -> Uuid {
+//! # fn get_your_sitekey() -> Uuid {
 //! #    Uuid::new_v4()
 //! # }
 //! ```

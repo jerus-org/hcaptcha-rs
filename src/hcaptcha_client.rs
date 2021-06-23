@@ -46,9 +46,9 @@
 //! # fn dummy_captcha() -> HcaptchaCaptcha {
 //! #    HcaptchaCaptcha::new(&random_response())
 //! #       .unwrap()
-//! #       .set_user_ip(&fakeit::internet::ipv4_address())
+//! #       .set_remoteip(&fakeit::internet::ipv4_address())
 //! #       .unwrap()
-//! #       .set_site_key(&fakeit::unique::uuid_v4())
+//! #       .set_sitekey(&fakeit::unique::uuid_v4())
 //! #       .unwrap()
 //! #       }
 //!
@@ -178,9 +178,9 @@ impl HcaptchaClient {
     /// # fn get_captcha() -> HcaptchaCaptcha {
     /// #    HcaptchaCaptcha::new(&random_response())
     /// #       .unwrap()
-    /// #       .set_user_ip(&fakeit::internet::ipv4_address())
+    /// #       .set_remoteip(&fakeit::internet::ipv4_address())
     /// #       .unwrap()
-    /// #       .set_site_key(&fakeit::unique::uuid_v4())
+    /// #       .set_sitekey(&fakeit::unique::uuid_v4())
     /// #       .unwrap()
     /// #       }
     /// ```

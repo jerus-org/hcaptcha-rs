@@ -45,9 +45,9 @@ use hcaptcha::{HcaptchaClient, HcaptchaRequest};
 # async fn main() -> Result<(), hcaptcha::HcaptchaError> {
     let secret = get_your_secret();
     let token = get_user_token();
-    let remote_ip = get_user_ip_address();
+    let remote_ip = get_remoteip_address();
     let request = HcaptchaRequest::new(&secret, &token)?
-        .set_user_ip(remote_ip);
+        .set_remoteip(remote_ip);
     let client = HcaptchaClient::new();
     let response = client.verify_client_response(request).await?;
     let score = match &response.score() {
@@ -68,7 +68,7 @@ use hcaptcha::{HcaptchaClient, HcaptchaRequest};
 #    "thisisnotapropertoken".to_string()
 # }
 # use std::net::{IpAddr, Ipv4Addr};
-# fn get_user_ip_address() -> IpAddr {
+# fn get_remoteip_address() -> IpAddr {
 #    IpAddr::V4(Ipv4Addr::new(192, 168, 0, 17))
 # }
 ```

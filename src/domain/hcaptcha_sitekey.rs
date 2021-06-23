@@ -5,24 +5,24 @@ use std::str::FromStr;
 use uuid::Uuid;
 
 #[derive(Debug, Default, Clone, serde::Deserialize, serde::Serialize)]
-pub struct HcaptchaSiteKey(String);
+pub struct HcaptchaSitekey(String);
 
-impl fmt::Display for HcaptchaSiteKey {
+impl fmt::Display for HcaptchaSitekey {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         write!(f, "{}", self.0)
     }
 }
 
-impl HcaptchaSiteKey {
+impl HcaptchaSitekey {
     #[cfg_attr(
         feature = "trace",
         tracing::instrument(name = "Validate Site Key.", skip(s), level = "debug")
     )]
     pub fn parse(s: String) -> Result<Self, HcaptchaError> {
-        empty_site_key(&s)?;
-        invalid_site_key(&s)?;
+        empty_sitekey(&s)?;
+        invalid_sitekey(&s)?;
 
-        Ok(HcaptchaSiteKey(s))
+        Ok(HcaptchaSitekey(s))
     }
 }
 
@@ -30,7 +30,7 @@ impl HcaptchaSiteKey {
     feature = "trace",
     tracing::instrument(name = "Return error on empty string.", skip(s), level = "debug")
 )]
-fn empty_site_key(s: &str) -> Result<(), HcaptchaError> {
+fn empty_sitekey(s: &str) -> Result<(), HcaptchaError> {
     if s.trim().is_empty() {
         let mut codes = HashSet::new();
         codes.insert(Code::MissingSiteKey);
@@ -47,7 +47,7 @@ fn empty_site_key(s: &str) -> Result<(), HcaptchaError> {
     feature = "trace",
     tracing::instrument(name = "Return error if not an ip string.", skip(s), level = "debug")
 )]
-fn invalid_site_key(s: &str) -> Result<(), HcaptchaError> {
+fn invalid_sitekey(s: &str) -> Result<(), HcaptchaError> {
     if Uuid::from_str(s).is_err() {
         let mut codes = HashSet::new();
         codes.insert(Code::InvalidSiteKey);
@@ -62,7 +62,7 @@ fn invalid_site_key(s: &str) -> Result<(), HcaptchaError> {
 
 #[cfg(test)]
 mod tests {
-    use super::HcaptchaSiteKey;
+    use super::HcaptchaSitekey;
     use crate::Code;
     use crate::HcaptchaError;
     use claim::{assert_err, assert_ok};
@@ -71,29 +71,29 @@ mod tests {
     // const RESET: &str = "\u{001b}[0m";
 
     #[test]
-    fn whitespace_only_site_keys_are_rejected() {
-        let site_key = " ".to_string();
-        assert_err!(HcaptchaSiteKey::parse(site_key));
+    fn whitespace_only_sitekeys_are_rejected() {
+        let sitekey = " ".to_string();
+        assert_err!(HcaptchaSitekey::parse(sitekey));
     }
 
     #[test]
     fn empty_string_is_rejected() {
-        let site_key = "".to_string();
-        assert_err!(HcaptchaSiteKey::parse(site_key));
+        let sitekey = "".to_string();
+        assert_err!(HcaptchaSitekey::parse(sitekey));
     }
 
     #[test]
-    fn error_set_contains_missing_site_key_error() {
-        let site_key = "".to_string();
-        if let Err(HcaptchaError::Codes(hs)) = HcaptchaSiteKey::parse(site_key) {
+    fn error_set_contains_missing_sitekey_error() {
+        let sitekey = "".to_string();
+        if let Err(HcaptchaError::Codes(hs)) = HcaptchaSitekey::parse(sitekey) {
             assert!(hs.contains(&Code::MissingSiteKey));
         }
     }
 
     #[test]
-    fn error_set_contains_invalid_site_key_error() {
-        let site_key = "1922.20".to_string();
-        let res = HcaptchaSiteKey::parse(site_key);
+    fn error_set_contains_invalid_sitekey_error() {
+        let sitekey = "1922.20".to_string();
+        let res = HcaptchaSitekey::parse(sitekey);
         assert_err!(&res);
 
         if let Err(HcaptchaError::Codes(hs)) = res {
@@ -102,9 +102,9 @@ mod tests {
     }
 
     #[test]
-    fn valid_site_key_key_is_valid() {
-        let site_key = fakeit::unique::uuid_v4();
+    fn valid_sitekey_key_is_valid() {
+        let sitekey = fakeit::unique::uuid_v4();
 
-        assert_ok!(HcaptchaSiteKey::parse(site_key));
+        assert_ok!(HcaptchaSitekey::parse(sitekey));
     }
 }

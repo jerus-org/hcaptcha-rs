@@ -8,12 +8,12 @@
 //! # async fn main() -> Result<(), hcaptcha::HcaptchaError> {
 //!     let secret = get_your_secret();         // your secret key
 //!     let captcha = get_captcha();            // user's response token
-//!     let site_key = get_your_site_key();     // your site key
-//!     let user_ip = get_user_ip_address();    // user's ip address
+//!     let sitekey = get_your_sitekey();     // your site key
+//!     let remoteip = get_remoteip_address();    // user's ip address
 //!
 //!     let request = HcaptchaRequest::new(&secret, captcha)?
-//!         .set_site_key(&site_key)?
-//!         .set_user_ip(&user_ip)?;
+//!         .set_sitekey(&sitekey)?
+//!         .set_remoteip(&remoteip)?;
 //! # Ok(())
 //! # }
 //! # fn get_your_secret() -> String {
@@ -34,16 +34,16 @@
 //! # fn get_captcha() -> HcaptchaCaptcha {
 //! #    HcaptchaCaptcha::new(&random_response())
 //! #       .unwrap()
-//! #       .set_user_ip(&fakeit::internet::ipv4_address())
+//! #       .set_remoteip(&fakeit::internet::ipv4_address())
 //! #       .unwrap()
-//! #       .set_site_key(&fakeit::unique::uuid_v4())
+//! #       .set_sitekey(&fakeit::unique::uuid_v4())
 //! #       .unwrap()
 //! #       }
-//! # fn get_user_ip_address() -> String {
+//! # fn get_remoteip_address() -> String {
 //! #    "192.168.71.17".to_string()
 //! # }
 //! # use uuid::Uuid;
-//! # fn get_your_site_key() -> String {
+//! # fn get_your_sitekey() -> String {
 //! #    Uuid::new_v4().to_string()
 //! # }
 //!
@@ -57,10 +57,10 @@ use crate::HcaptchaError;
 #[allow(missing_doc_code_examples)]
 #[derive(Debug, Default, serde::Serialize)]
 pub struct HcaptchaRequest {
-    /// [HcaptchaCaptcha] captures the response and, optionally, the user_ip
-    /// and site_key reported by the client.
+    /// [HcaptchaCaptcha] captures the response and, optionally, the remoteip
+    /// and sitekey reported by the client.
     captcha: HcaptchaCaptcha,
-    /// The secret_key related to the site_key used to capture the response.
+    /// The secret_key related to the sitekey used to capture the response.
     secret: HcaptchaSecret,
 }
 
@@ -108,9 +108,9 @@ impl HcaptchaRequest {
     /// # fn get_captcha() -> HcaptchaCaptcha {
     /// #    HcaptchaCaptcha::new(&random_response())
     /// #       .unwrap()
-    /// #       .set_user_ip(&fakeit::internet::ipv4_address())
+    /// #       .set_remoteip(&fakeit::internet::ipv4_address())
     /// #       .unwrap()
-    /// #       .set_site_key(&fakeit::unique::uuid_v4())
+    /// #       .set_sitekey(&fakeit::unique::uuid_v4())
     /// #       .unwrap()
     /// #       }
     ///  ```
@@ -209,10 +209,10 @@ impl HcaptchaRequest {
     /// # async fn main() -> Result<(), hcaptcha::HcaptchaError> {
     ///     let secret = get_your_secret();         // your secret key
     ///     let response = get_response();          // user's response token
-    ///     let user_ip = get_user_ip_address();    // user's ip address
+    ///     let remoteip = get_remoteip_address();    // user's ip address
     ///
     ///     let request = HcaptchaRequest::new_from_response(&secret, &response)?
-    ///         .set_user_ip(&user_ip)?;
+    ///         .set_remoteip(&remoteip)?;
     /// # Ok(())
     /// # }
     /// # fn get_your_secret() -> String {
@@ -231,7 +231,7 @@ impl HcaptchaRequest {
     /// #        .collect()
     /// # }
     /// # use std::net::{IpAddr, Ipv4Addr};
-    /// # fn get_user_ip_address() -> String {
+    /// # fn get_remoteip_address() -> String {
     /// #    "192.168.71.17".to_string()
     /// # }
     ///
@@ -253,27 +253,27 @@ impl HcaptchaRequest {
             level = "debug"
         )
     )]
-    pub fn set_user_ip(mut self, user_ip: &str) -> Result<Self, HcaptchaError> {
-        self.captcha.set_user_ip(user_ip)?;
+    pub fn set_remoteip(mut self, remoteip: &str) -> Result<Self, HcaptchaError> {
+        self.captcha.set_remoteip(remoteip)?;
         Ok(self)
     }
 
-    /// Specify the optional site_key value
+    /// Specify the optional sitekey value
     ///
-    /// Update the site_key.
+    /// Update the sitekey.
     ///
     /// # Example
-    /// Create a new request and set the site_key field in the request.
+    /// Create a new request and set the sitekey field in the request.
     /// ```
     ///     use hcaptcha::HcaptchaRequest;
     /// # #[tokio::main]
     /// # async fn main() -> Result<(), hcaptcha::HcaptchaError> {
     ///     let secret = get_your_secret();     // your secret key
     ///     let captcha = get_captcha();        // captcha
-    ///     let site_key = get_your_site_key(); // your site key
+    ///     let sitekey = get_your_sitekey(); // your site key
     ///
     ///     let request = HcaptchaRequest::new(&secret, captcha)?
-    ///         .set_site_key(&site_key);
+    ///         .set_sitekey(&sitekey);
     /// # Ok(())
     /// # }
     /// # fn get_your_secret() -> String {
@@ -294,13 +294,13 @@ impl HcaptchaRequest {
     /// # fn get_captcha() -> HcaptchaCaptcha {
     /// #    HcaptchaCaptcha::new(&random_response())
     /// #       .unwrap()
-    /// #       .set_user_ip(&fakeit::internet::ipv4_address())
+    /// #       .set_remoteip(&fakeit::internet::ipv4_address())
     /// #       .unwrap()
-    /// #       .set_site_key(&fakeit::unique::uuid_v4())
+    /// #       .set_sitekey(&fakeit::unique::uuid_v4())
     /// #       .unwrap()
     /// #       }
     /// # use uuid::Uuid;
-    /// # fn get_your_site_key() -> String {
+    /// # fn get_your_sitekey() -> String {
     /// #    Uuid::new_v4().to_string()
     /// # }
     ///
@@ -321,8 +321,8 @@ impl HcaptchaRequest {
             level = "debug"
         )
     )]
-    pub fn set_site_key(mut self, site_key: &str) -> Result<Self, HcaptchaError> {
-        self.captcha.set_site_key(site_key)?;
+    pub fn set_sitekey(mut self, sitekey: &str) -> Result<Self, HcaptchaError> {
+        self.captcha.set_sitekey(sitekey)?;
         Ok(self)
     }
 
@@ -363,9 +363,9 @@ mod tests {
     fn dummy_captcha() -> HcaptchaCaptcha {
         HcaptchaCaptcha::new(&random_response())
             .unwrap()
-            .set_user_ip(&fakeit::internet::ipv4_address())
+            .set_remoteip(&fakeit::internet::ipv4_address())
             .unwrap()
-            .set_site_key(&fakeit::unique::uuid_v4())
+            .set_sitekey(&fakeit::unique::uuid_v4())
             .unwrap()
     }
 
@@ -388,8 +388,8 @@ mod tests {
 
         let HcaptchaCaptcha {
             response: resp,
-            user_ip: ip,
-            site_key: key,
+            remoteip: ip,
+            sitekey: key,
         } = request.captcha;
 
         assert_eq!(response, resp.to_string());
