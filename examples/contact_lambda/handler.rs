@@ -4,6 +4,7 @@ mod param;
 mod record;
 mod send;
 
+use hcaptcha::HcaptchaCaptcha;
 use lambda_runtime::{Context, Error};
 use send::ContactForm;
 use serde_derive::{Deserialize, Serialize};
@@ -40,19 +41,13 @@ impl CustomOutput {
     }
 }
 
-#[derive(Deserialize, Serialize, Clone, Debug, Default)]
-struct Captcha {
-    #[serde(rename = "captchaResponse")]
-    captcha_response: String,
-}
-
 pub async fn my_handler(e: CustomEvent, _c: Context) -> Result<CustomOutput, Error> {
     debug!("The event logged is: {:?}", e);
 
     let body_str = e.body.unwrap_or_else(|| "".to_owned());
-    let captcha: Captcha = serde_json::from_str(&body_str)?;
+    let captcha: HcaptchaCaptcha = serde_json::from_str(&body_str)?;
 
-    hcaptcha_validate::response_valid(&captcha.captcha_response).await?;
+    hcaptcha_validate::response_valid(captcha).await?;
 
     let contact_form: ContactForm = serde_json::from_str(&body_str)?;
 
