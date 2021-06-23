@@ -26,11 +26,11 @@
 //!
 //! # #[tokio::main]
 //! # async fn main() -> Result<(), hcaptcha::HcaptchaError> {
-//!     let secret = get_your_secret();
-//!     let token = get_user_token();
-//!     let user_ip = get_user_ip_address();
+//! #   let secret = get_your_secret();
+//! #   let captcha = get_captcha();
+//! #   let user_ip = get_user_ip_address();
 //!
-//!     let request = HcaptchaRequest::new(&secret, &token)?
+//!     let request = HcaptchaRequest::new(&secret, captcha)?
 //!         .set_user_ip(&user_ip)?;
 //!
 //!     let client = HcaptchaClient::new();
@@ -51,9 +51,26 @@
 //! # fn get_your_secret() -> String {
 //! #   "0x123456789abcde0f123456789abcdef012345678".to_string()
 //! # }
-//! # fn get_user_token() -> String {
-//! #    "thisisnotapropertoken".to_string()
+//! # use hcaptcha::HcaptchaCaptcha;
+//! # use rand::distributions::Alphanumeric;
+//! # use rand::{thread_rng, Rng};
+//! # use std::iter;
+//! # fn random_response() -> String {
+//! #    let mut rng = thread_rng();
+//! #    iter::repeat(())
+//! #        .map(|()| rng.sample(Alphanumeric))
+//! #        .map(char::from)
+//! #        .take(100)
+//! #        .collect()
 //! # }
+//! # fn get_captcha() -> HcaptchaCaptcha {
+//! #    HcaptchaCaptcha::new(&random_response())
+//! #       .unwrap()
+//! #       .set_user_ip(&fakeit::internet::ipv4_address())
+//! #       .unwrap()
+//! #       .set_site_key(&fakeit::unique::uuid_v4())
+//! #       .unwrap()
+//! #       }
 //! # fn get_user_ip_address() -> String {
 //! #    "192.168.0.17".to_string()
 //! # }
@@ -165,7 +182,7 @@
 //!
 //! #     const HCAPTCHA_SECRET: &str = "/hcaptcha/secret";
 //! #
-//! #     use hcaptcha::{HcaptchaClient, HcaptchaRequest};
+//! #     use hcaptcha::{HcaptchaCaptcha, HcaptchaClient, HcaptchaRequest};
 //! #     use lambda_runtime::{Context, Error};
 //! #     use send::ContactForm;
 //! #     use serde_derive::{Deserialize, Serialize};
@@ -202,22 +219,17 @@
 //! #         }
 //! #     }
 //! #
-//! #     #[derive(Deserialize, Serialize, Clone, Debug, Default)]
-//! #     struct Captcha {
-//! #         #[serde(rename = "captchaResponse")]
-//! #         captcha_response: String,
-//! #     }
 //! #
 //!     pub async fn my_handler(e: CustomEvent, _c: Context) -> Result<CustomOutput,  Error> {
 //!         debug!("The event logged is: {:?}", e);
 //!
 //!         let body_str = e.body.unwrap_or_else(|| "".to_owned());
-//!         let captcha: Captcha = serde_json::from_str(&body_str)?;
+//!         let captcha: HcaptchaCaptcha = serde_json::from_str(&body_str)?;
 //!
 //!         let hcaptcha_secret = param::get_paramater(HCAPTCHA_SECRET).await?;
 //!
 //!         let request = HcaptchaRequest::new(&hcaptcha_secret,
-//!             &captcha.captcha_response)?;
+//!             captcha)?;
 //!         
 //!         let client = HcaptchaClient::new();
 //!         let _response = client.verify_client_response(request).await?;

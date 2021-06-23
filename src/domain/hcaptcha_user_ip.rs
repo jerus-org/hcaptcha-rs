@@ -4,7 +4,7 @@ use std::fmt;
 use std::net::{Ipv4Addr, Ipv6Addr};
 use std::str::FromStr;
 
-#[derive(Debug, Default, Clone, serde::Serialize)]
+#[derive(Debug, Default, Clone, serde::Deserialize, serde::Serialize)]
 pub struct HcaptchaUserIp(String);
 
 impl fmt::Display for HcaptchaUserIp {

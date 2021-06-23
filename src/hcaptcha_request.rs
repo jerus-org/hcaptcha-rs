@@ -1,5 +1,4 @@
-//! Provides a struct to collect the required and optional parameters for
-//! the hcaptcha api request.
+//! Collect the required and optional parameters for the hcaptcha api request.
 //!
 //! # Example
 //!
@@ -8,11 +7,11 @@
 //! # #[tokio::main]
 //! # async fn main() -> Result<(), hcaptcha::HcaptchaError> {
 //!     let secret = get_your_secret();         // your secret key
-//!     let bad_token = get_user_token();       // user's response token
+//!     let captcha = get_captcha();            // user's response token
 //!     let site_key = get_your_site_key();     // your site key
 //!     let user_ip = get_user_ip_address();    // user's ip address
 //!
-//!     let request = HcaptchaRequest::new(&secret, &bad_token)? // <- returns error
+//!     let request = HcaptchaRequest::new(&secret, captcha)?
 //!         .set_site_key(&site_key)?
 //!         .set_user_ip(&user_ip)?;
 //! # Ok(())
@@ -20,9 +19,26 @@
 //! # fn get_your_secret() -> String {
 //! #   "0x123456789abcde0f123456789abcdef012345678".to_string()
 //! # }
-//! # fn get_user_token() -> String {
-//! #    "thisisnotapropertoken".to_string()
+//! # use hcaptcha::HcaptchaCaptcha;
+//! # use rand::distributions::Alphanumeric;
+//! # use rand::{thread_rng, Rng};
+//! # use std::iter;
+//! # fn random_response() -> String {
+//! #    let mut rng = thread_rng();
+//! #    iter::repeat(())
+//! #        .map(|()| rng.sample(Alphanumeric))
+//! #        .map(char::from)
+//! #        .take(100)
+//! #        .collect()
 //! # }
+//! # fn get_captcha() -> HcaptchaCaptcha {
+//! #    HcaptchaCaptcha::new(&random_response())
+//! #       .unwrap()
+//! #       .set_user_ip(&fakeit::internet::ipv4_address())
+//! #       .unwrap()
+//! #       .set_site_key(&fakeit::unique::uuid_v4())
+//! #       .unwrap()
+//! #       }
 //! # fn get_user_ip_address() -> String {
 //! #    "192.168.71.17".to_string()
 //! # }
@@ -37,13 +53,12 @@ use crate::domain::HcaptchaSecret;
 use crate::HcaptchaCaptcha;
 use crate::HcaptchaError;
 
-/// Type to capture the required and optional data for a call to the hcaptcha API
+/// Capture the required and optional data for a call to the hcaptcha API
 #[allow(missing_doc_code_examples)]
 #[derive(Debug, Default, serde::Serialize)]
 pub struct HcaptchaRequest {
-    /// The Hcaptcha response data returned from the client's call to
-    /// Hcaptcha client side API. May include user_ip and site_key from
-    /// the client.
+    /// [HcaptchaCaptcha] captures the response and, optionally, the user_ip
+    /// and site_key reported by the client.
     captcha: HcaptchaCaptcha,
     /// The secret_key related to the site_key used to capture the response.
     secret: HcaptchaSecret,
@@ -56,13 +71,13 @@ impl HcaptchaRequest {
     /// # Input
     ///
     /// The Hcaptcha API has two mandatory paramaters:
-    ///     secret:     The client's secret key for authentication
-    ///     captcha:    [HcaptchaCaptch] struct including response
+    ///     `secret`:     The client's secret key for authentication
+    ///     `captcha`:    [HcaptchaCaptcha] (including response token)
     ///
     /// # Output
     ///
-    /// A HcaptchaRequest struct is returned if the input strings are valid.
-    /// A HcaptchaError is returned if the validation fails.
+    /// HcaptchaRequest is returned if the input strings are valid.
+    /// [HcaptchaError] is returned if the validation fails.
     ///
     /// # Example
     ///
@@ -70,7 +85,7 @@ impl HcaptchaRequest {
     ///     use hcaptcha::HcaptchaRequest;
     /// # fn main() -> Result<(), hcaptcha::HcaptchaError>{
     ///     let secret = get_your_secret();     // your secret key
-    ///     let captcha = get_captcha();        // captcha struct with user's token
+    ///     let captcha = get_captcha();        // captcha with response token
     ///
     ///     let request = HcaptchaRequest::new(&secret, captcha)?;
     /// # Ok(())
@@ -78,9 +93,26 @@ impl HcaptchaRequest {
     /// # fn get_your_secret() -> String {
     /// #   "0x123456789abcde0f123456789abcdef012345678".to_string()
     /// # }
-    /// # fn get_user_token() -> HcaptchaCaptcha {
-    /// #    HcaptchaCaptcha::new("thisisnotapropertoken")
+    /// # use hcaptcha::HcaptchaCaptcha;
+    /// # use rand::distributions::Alphanumeric;
+    /// # use rand::{thread_rng, Rng};
+    /// # use std::iter;
+    /// # fn random_response() -> String {
+    /// #    let mut rng = thread_rng();
+    /// #    iter::repeat(())
+    /// #        .map(|()| rng.sample(Alphanumeric))
+    /// #        .map(char::from)
+    /// #        .take(100)
+    /// #        .collect()
     /// # }
+    /// # fn get_captcha() -> HcaptchaCaptcha {
+    /// #    HcaptchaCaptcha::new(&random_response())
+    /// #       .unwrap()
+    /// #       .set_user_ip(&fakeit::internet::ipv4_address())
+    /// #       .unwrap()
+    /// #       .set_site_key(&fakeit::unique::uuid_v4())
+    /// #       .unwrap()
+    /// #       }
     ///  ```
     /// # Logging
     ///
@@ -114,8 +146,8 @@ impl HcaptchaRequest {
     ///
     /// # Output
     ///
-    /// A HcaptchaRequest struct is returned if the inputs are valid.
-    /// A HcaptchaError is returned if the validation fails.
+    /// HcaptchaRequest is returned if the inputs are valid.
+    /// [HcaptchaError] is returned if the validation fails.
     ///
     /// # Example
     ///
@@ -123,16 +155,24 @@ impl HcaptchaRequest {
     ///     use hcaptcha::HcaptchaRequest;
     /// # fn main() -> Result<(), hcaptcha::HcaptchaError>{
     ///     let secret = get_your_secret();     // your secret key
-    ///     let response = get_user_token();    // Hcaptcha client response
+    ///     let response = get_response();    // Hcaptcha client response
     ///
-    ///     let request = HcaptchaRequest::new(&secret, &response)?;
+    ///     let request = HcaptchaRequest::new_from_response(&secret, &response)?;
     /// # Ok(())
     /// # }
     /// # fn get_your_secret() -> String {
     /// #   "0x123456789abcde0f123456789abcdef012345678".to_string()
     /// # }
-    /// # fn get_user_token() -> String {
-    /// #    "response_string".to_owend()
+    /// # use rand::distributions::Alphanumeric;
+    /// # use rand::{thread_rng, Rng};
+    /// # use std::iter;
+    /// # fn get_response() -> String {
+    /// #    let mut rng = thread_rng();
+    /// #    iter::repeat(())
+    /// #        .map(|()| rng.sample(Alphanumeric))
+    /// #        .map(char::from)
+    /// #        .take(100)
+    /// #        .collect()
     /// # }
     ///  ```
     /// # Logging
@@ -168,7 +208,7 @@ impl HcaptchaRequest {
     /// # #[tokio::main]
     /// # async fn main() -> Result<(), hcaptcha::HcaptchaError> {
     ///     let secret = get_your_secret();         // your secret key
-    ///     let response  = get_response();       // user's response token
+    ///     let response = get_response();          // user's response token
     ///     let user_ip = get_user_ip_address();    // user's ip address
     ///
     ///     let request = HcaptchaRequest::new_from_response(&secret, &response)?
@@ -178,8 +218,17 @@ impl HcaptchaRequest {
     /// # fn get_your_secret() -> String {
     /// #   "0x123456789abcde0f123456789abcdef012345678".to_string()
     /// # }
-    /// # fn get_user_token() -> String {
-    /// #    "thisisnotapropertoken".to_string()
+    /// # use hcaptcha::HcaptchaCaptcha;
+    /// # use rand::distributions::Alphanumeric;
+    /// # use rand::{thread_rng, Rng};
+    /// # use std::iter;
+    /// # fn get_response() -> String {
+    /// #    let mut rng = thread_rng();
+    /// #    iter::repeat(())
+    /// #        .map(|()| rng.sample(Alphanumeric))
+    /// #        .map(char::from)
+    /// #        .take(100)
+    /// #        .collect()
     /// # }
     /// # use std::net::{IpAddr, Ipv4Addr};
     /// # fn get_user_ip_address() -> String {
@@ -230,9 +279,26 @@ impl HcaptchaRequest {
     /// # fn get_your_secret() -> String {
     /// #   "0x123456789abcde0f123456789abcdef012345678".to_string()
     /// # }
-    /// # fn get_captcha() -> HcaptchaCaptcha {
-    /// #    HcaptchaCaptcha::new("thisisnotapropertoken")
+    /// # use hcaptcha::HcaptchaCaptcha;
+    /// # use rand::distributions::Alphanumeric;
+    /// # use rand::{thread_rng, Rng};
+    /// # use std::iter;
+    /// # fn random_response() -> String {
+    /// #    let mut rng = thread_rng();
+    /// #    iter::repeat(())
+    /// #        .map(|()| rng.sample(Alphanumeric))
+    /// #        .map(char::from)
+    /// #        .take(100)
+    /// #        .collect()
     /// # }
+    /// # fn get_captcha() -> HcaptchaCaptcha {
+    /// #    HcaptchaCaptcha::new(&random_response())
+    /// #       .unwrap()
+    /// #       .set_user_ip(&fakeit::internet::ipv4_address())
+    /// #       .unwrap()
+    /// #       .set_site_key(&fakeit::unique::uuid_v4())
+    /// #       .unwrap()
+    /// #       }
     /// # use uuid::Uuid;
     /// # fn get_your_site_key() -> String {
     /// #    Uuid::new_v4().to_string()
@@ -268,9 +334,6 @@ impl HcaptchaRequest {
 #[cfg(test)]
 mod tests {
     use super::*;
-    // use crate::error::Code::*;
-    // use crate::HcaptchaError::*;
-    // use std::collections::HashSet;
     use crate::HcaptchaCaptcha;
     use claim::{assert_none, assert_ok};
     use rand::distributions::Alphanumeric;

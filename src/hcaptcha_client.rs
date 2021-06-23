@@ -17,17 +17,41 @@
 //!
 //! Create a client and submit for verification.
 //!```no_run
-//!     use hcaptcha::{HcaptchaClient, HcaptchaRequest};
+//!     use hcaptcha::{HcaptchaCaptcha, HcaptchaClient, HcaptchaRequest};
 //!
 //! # #[tokio::main]
 //! # async fn main() -> Result<(), hcaptcha::HcaptchaError> {
-//! #    let secret = ""; // your secret key
-//! #    let token = "";  // user's token
-//! #   let request = HcaptchaRequest::new(secret, token)?; // <- returns error
+//! #   let secret = get_your_secret();
+//! #   let captcha = dummy_captcha();
+//! #   let request = HcaptchaRequest::new(&secret, captcha)?; // <- returns error
 //!     let client = HcaptchaClient::new();
 //!     let response = client.verify_client_response(request).await?;
 //! # Ok(())
 //! # }
+//!
+//! # fn get_your_secret() -> String {
+//! #   "0x123456789abcde0f123456789abcdef012345678".to_string()
+//! # }
+//! # use rand::distributions::Alphanumeric;
+//! # use rand::{thread_rng, Rng};
+//! # use std::iter;
+//! # fn random_response() -> String {
+//! #    let mut rng = thread_rng();
+//! #    iter::repeat(())
+//! #        .map(|()| rng.sample(Alphanumeric))
+//! #        .map(char::from)
+//! #        .take(100)
+//! #        .collect()
+//! # }
+//! # fn dummy_captcha() -> HcaptchaCaptcha {
+//! #    HcaptchaCaptcha::new(&random_response())
+//! #       .unwrap()
+//! #       .set_user_ip(&fakeit::internet::ipv4_address())
+//! #       .unwrap()
+//! #       .set_site_key(&fakeit::unique::uuid_v4())
+//! #       .unwrap()
+//! #       }
+//!
 //! ```
 
 use crate::HcaptchaError;
@@ -120,13 +144,16 @@ impl HcaptchaClient {
     ///
     ///  ```no_run
     ///     use hcaptcha::{HcaptchaClient, HcaptchaRequest};
-    ///
+    /// # use hcaptcha::HcaptchaCaptcha;
+    /// # use rand::distributions::Alphanumeric;
+    /// # use rand::{thread_rng, Rng};
+    /// # use std::iter;
     /// # #[tokio::main]
     /// # async fn main() -> Result<(), hcaptcha::HcaptchaError> {
     ///     let secret = get_your_secret(); // your secret key
-    ///     let bad_token = get_user_token();  // user's token
+    ///     let captcha = get_captcha();  // user's token
     ///
-    ///     let request = HcaptchaRequest::new(&secret, &bad_token)?; // <- returns error
+    ///     let request = HcaptchaRequest::new(&secret, captcha)?;
     ///
     ///     let client = HcaptchaClient::new();
     ///
@@ -140,9 +167,22 @@ impl HcaptchaClient {
     /// # fn get_your_secret() -> String {
     /// #   "0x123456789abcde0f123456789abcdef012345678".to_string()
     /// # }
-    /// # fn get_user_token() -> String {
-    /// #    "thisisnotapropertoken".to_string()
+    /// # fn random_response() -> String {
+    /// #    let mut rng = thread_rng();
+    /// #    iter::repeat(())
+    /// #        .map(|()| rng.sample(Alphanumeric))
+    /// #        .map(char::from)
+    /// #        .take(100)
+    /// #        .collect()
     /// # }
+    /// # fn get_captcha() -> HcaptchaCaptcha {
+    /// #    HcaptchaCaptcha::new(&random_response())
+    /// #       .unwrap()
+    /// #       .set_user_ip(&fakeit::internet::ipv4_address())
+    /// #       .unwrap()
+    /// #       .set_site_key(&fakeit::unique::uuid_v4())
+    /// #       .unwrap()
+    /// #       }
     /// ```
     ///
     /// # Logging

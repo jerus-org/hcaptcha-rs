@@ -4,7 +4,7 @@ use std::fmt;
 use std::str::FromStr;
 use uuid::Uuid;
 
-#[derive(Debug, Default, Clone, serde::Serialize)]
+#[derive(Debug, Default, Clone, serde::Deserialize, serde::Serialize)]
 pub struct HcaptchaSiteKey(String);
 
 impl fmt::Display for HcaptchaSiteKey {

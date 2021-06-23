@@ -8,7 +8,7 @@
 //! # async fn main() -> Result<(), hcaptcha::HcaptchaError> {
 //! # let request = HcaptchaRequest::new(
 //! #    "0x123456789abcedf0123456789abcdef012345678",
-//! #    "response"
+//! #    get_captcha(),
 //! # )?;
 //! # let client = HcaptchaClient::new();
 //!     let response = client.verify_client_response(request).await?;
@@ -32,6 +32,27 @@
 //!
 //! # Ok(())
 //! # }
+//! # use hcaptcha::HcaptchaCaptcha;
+//! # use rand::distributions::Alphanumeric;
+//! # use rand::{thread_rng, Rng};
+//! # use std::iter;
+//! # fn random_response() -> String {
+//! #    let mut rng = thread_rng();
+//! #    iter::repeat(())
+//! #        .map(|()| rng.sample(Alphanumeric))
+//! #        .map(char::from)
+//! #        .take(100)
+//! #        .collect()
+//! # }
+//! # fn get_captcha() -> HcaptchaCaptcha {
+//! #    HcaptchaCaptcha::new(&random_response())
+//! #       .unwrap()
+//! #       .set_user_ip(&fakeit::internet::ipv4_address())
+//! #       .unwrap()
+//! #       .set_site_key(&fakeit::unique::uuid_v4())
+//! #       .unwrap()
+//! #       }
+
 //! ```
 use crate::Code;
 use crate::HcaptchaError;
@@ -141,13 +162,33 @@ impl HcaptchaResponse {
     /// # async fn main() -> Result<(), hcaptcha::HcaptchaError> {
     /// # let request = HcaptchaRequest::new(
     /// #    "0x123456789abcedf0123456789abcdef012345678",
-    /// #    "response"
+    /// #    get_captcha(),
     /// # )?;
     /// # let client = HcaptchaClient::new();
     ///     let response = client.verify_client_response(request).await?;
     ///     println!("Success returns true: {}", response.success());
     /// # Ok(())
     /// # }
+    /// # use hcaptcha::HcaptchaCaptcha;
+    /// # use rand::distributions::Alphanumeric;
+    /// # use rand::{thread_rng, Rng};
+    /// # use std::iter;
+    /// # fn random_response() -> String {
+    /// #    let mut rng = thread_rng();
+    /// #    iter::repeat(())
+    /// #        .map(|()| rng.sample(Alphanumeric))
+    /// #        .map(char::from)
+    /// #        .take(100)
+    /// #        .collect()
+    /// # }
+    /// # fn get_captcha() -> HcaptchaCaptcha {
+    /// #    HcaptchaCaptcha::new(&random_response())
+    /// #       .unwrap()
+    /// #       .set_user_ip(&fakeit::internet::ipv4_address())
+    /// #       .unwrap()
+    /// #       .set_site_key(&fakeit::unique::uuid_v4())
+    /// #       .unwrap()
+    /// #       }
 
     #[allow(dead_code)]
     pub fn success(&self) -> bool {
@@ -163,7 +204,7 @@ impl HcaptchaResponse {
     /// # async fn main() -> Result<(), hcaptcha::HcaptchaError> {
     /// # let request = HcaptchaRequest::new(
     /// #    "0x123456789abcedf0123456789abcdef012345678",
-    /// #    "response"
+    /// #    get_captcha(),
     /// # )?;
     /// # let client = HcaptchaClient::new();
     ///     let response = client.verify_client_response(request).await?;
@@ -173,6 +214,26 @@ impl HcaptchaResponse {
     ///     };
     /// # Ok(())
     /// # }
+    /// # use hcaptcha::HcaptchaCaptcha;
+    /// # use rand::distributions::Alphanumeric;
+    /// # use rand::{thread_rng, Rng};
+    /// # use std::iter;
+    /// # fn random_response() -> String {
+    /// #    let mut rng = thread_rng();
+    /// #    iter::repeat(())
+    /// #        .map(|()| rng.sample(Alphanumeric))
+    /// #        .map(char::from)
+    /// #        .take(100)
+    /// #        .collect()
+    /// # }
+    /// # fn get_captcha() -> HcaptchaCaptcha {
+    /// #    HcaptchaCaptcha::new(&random_response())
+    /// #       .unwrap()
+    /// #       .set_user_ip(&fakeit::internet::ipv4_address())
+    /// #       .unwrap()
+    /// #       .set_site_key(&fakeit::unique::uuid_v4())
+    /// #       .unwrap()
+    /// #       }
 
     #[allow(dead_code)]
     pub fn hostname(&self) -> Option<String> {
@@ -188,7 +249,7 @@ impl HcaptchaResponse {
     /// # async fn main() -> Result<(), hcaptcha::HcaptchaError> {
     /// # let request = HcaptchaRequest::new(
     /// #    "0x123456789abcedf0123456789abcdef012345678",
-    /// #    "response"
+    /// #    get_captcha(),
     /// # )?;
     /// # let client = HcaptchaClient::new();
     ///     let response = client.verify_client_response(request).await?;
@@ -198,6 +259,27 @@ impl HcaptchaResponse {
     ///     };
     /// # Ok(())
     /// # }
+    /// # use hcaptcha::HcaptchaCaptcha;
+    /// # use rand::distributions::Alphanumeric;
+    /// # use rand::{thread_rng, Rng};
+    /// # use std::iter;
+    /// # fn random_response() -> String {
+    /// #    let mut rng = thread_rng();
+    /// #    iter::repeat(())
+    /// #        .map(|()| rng.sample(Alphanumeric))
+    /// #        .map(char::from)
+    /// #        .take(100)
+    /// #        .collect()
+    /// # }
+    /// # fn get_captcha() -> HcaptchaCaptcha {
+    /// #    HcaptchaCaptcha::new(&random_response())
+    /// #       .unwrap()
+    /// #       .set_user_ip(&fakeit::internet::ipv4_address())
+    /// #       .unwrap()
+    /// #       .set_site_key(&fakeit::unique::uuid_v4())
+    /// #       .unwrap()
+    /// #       }
+
     #[allow(dead_code)]
     pub fn timestamp(&self) -> Option<String> {
         self.challenge_ts.clone()
@@ -212,7 +294,7 @@ impl HcaptchaResponse {
     /// # async fn main() -> Result<(), hcaptcha::HcaptchaError> {
     /// # let request = HcaptchaRequest::new(
     /// #    "0x123456789abcedf0123456789abcdef012345678",
-    /// #    "response"
+    /// #    get_captcha(),
     /// # )?;
     /// # let client = HcaptchaClient::new();
     ///     let response = client.verify_client_response(request).await?;
@@ -222,6 +304,26 @@ impl HcaptchaResponse {
     ///     };
     ///
     /// # Ok(())
+    /// # }
+    /// # use hcaptcha::HcaptchaCaptcha;
+    /// # use rand::distributions::Alphanumeric;
+    /// # use rand::{thread_rng, Rng};
+    /// # use std::iter;
+    /// # fn random_response() -> String {
+    /// #    let mut rng = thread_rng();
+    /// #    iter::repeat(())
+    /// #        .map(|()| rng.sample(Alphanumeric))
+    /// #        .map(char::from)
+    /// #        .take(100)
+    /// #        .collect()
+    /// # }
+    /// # fn get_captcha() -> HcaptchaCaptcha {
+    /// #    HcaptchaCaptcha::new(&random_response())
+    /// #       .unwrap()
+    /// #       .set_user_ip(&fakeit::internet::ipv4_address())
+    /// #       .unwrap()
+    /// #       .set_site_key(&fakeit::unique::uuid_v4())
+    /// #       .unwrap()
     /// # }
 
     #[allow(dead_code)]
@@ -244,7 +346,7 @@ impl HcaptchaResponse {
     /// # async fn main() -> Result<(), hcaptcha::HcaptchaError> {
     /// # let request = HcaptchaRequest::new(
     /// #    "0x123456789abcedf0123456789abcdef012345678",
-    /// #    "response"
+    /// #    get_captcha(),
     /// # )?;
     /// # let client = HcaptchaClient::new();
     ///     let response = client.verify_client_response(request).await?;
@@ -255,6 +357,26 @@ impl HcaptchaResponse {
     ///
     /// # Ok(())
     /// # }
+    /// # use hcaptcha::HcaptchaCaptcha;
+    /// # use rand::distributions::Alphanumeric;
+    /// # use rand::{thread_rng, Rng};
+    /// # use std::iter;
+    /// # fn random_response() -> String {
+    /// #    let mut rng = thread_rng();
+    /// #    iter::repeat(())
+    /// #        .map(|()| rng.sample(Alphanumeric))
+    /// #        .map(char::from)
+    /// #        .take(100)
+    /// #        .collect()
+    /// # }
+    /// # fn get_captcha() -> HcaptchaCaptcha {
+    /// #    HcaptchaCaptcha::new(&random_response())
+    /// #       .unwrap()
+    /// #       .set_user_ip(&fakeit::internet::ipv4_address())
+    /// #       .unwrap()
+    /// #       .set_site_key(&fakeit::unique::uuid_v4())
+    /// #       .unwrap()
+    /// #       }
 
     #[cfg(feature = "enterprise")]
     #[cfg_attr(docsrs, doc(cfg(feature = "enterprise")))]
@@ -272,7 +394,7 @@ impl HcaptchaResponse {
     /// # async fn main() -> Result<(), hcaptcha::HcaptchaError> {
     /// # let request = HcaptchaRequest::new(
     /// #    "0x123456789abcedf0123456789abcdef012345678",
-    /// #    "response"
+    /// #    get_captcha(),
     /// # )?;
     /// # let client = HcaptchaClient::new();
     ///     let response = client.verify_client_response(request).await?;
@@ -283,7 +405,27 @@ impl HcaptchaResponse {
     ///
     /// # Ok(())
     /// # }
-    ///
+    /// # use hcaptcha::HcaptchaCaptcha;
+    /// # use rand::distributions::Alphanumeric;
+    /// # use rand::{thread_rng, Rng};
+    /// # use std::iter;
+    /// # fn random_response() -> String {
+    /// #    let mut rng = thread_rng();
+    /// #    iter::repeat(())
+    /// #        .map(|()| rng.sample(Alphanumeric))
+    /// #        .map(char::from)
+    /// #        .take(100)
+    /// #        .collect()
+    /// # }
+    /// # fn get_captcha() -> HcaptchaCaptcha {
+    /// #    HcaptchaCaptcha::new(&random_response())
+    /// #       .unwrap()
+    /// #       .set_user_ip(&fakeit::internet::ipv4_address())
+    /// #       .unwrap()
+    /// #       .set_site_key(&fakeit::unique::uuid_v4())
+    /// #       .unwrap()
+    /// #       }
+
     #[allow(dead_code)]
     #[cfg(feature = "enterprise")]
     #[cfg_attr(docsrs, doc(cfg(feature = "enterprise")))]
