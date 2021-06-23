@@ -91,6 +91,7 @@ pub struct HcaptchaResponse {
 }
 
 #[allow(missing_doc_code_examples)]
+#[cfg(feature = "enterprise")]
 impl fmt::Display for HcaptchaResponse {
     #[allow(missing_doc_code_examples)]
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
@@ -127,6 +128,40 @@ impl fmt::Display for HcaptchaResponse {
                 None => "".to_owned(),
             },
             match self.score_reason() {
+                Some(v) => format!("{:?}", v),
+                None => "".to_owned(),
+            },
+        )
+    }
+}
+
+#[cfg(not(feature = "enterprise"))]
+impl fmt::Display for HcaptchaResponse {
+    #[allow(missing_doc_code_examples)]
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        write!(
+            f,
+            r#"
+        Status:         {}
+        Timestamp:      {}
+        Hostname:       {}
+        Credit:         {}
+        Error Codes:    {}
+        "#,
+            self.success,
+            match self.timestamp() {
+                Some(v) => v,
+                None => "".to_owned(),
+            },
+            match self.hostname() {
+                Some(v) => v,
+                None => "".to_owned(),
+            },
+            match self.credit() {
+                Some(v) => format!("{}", v),
+                None => "".to_owned(),
+            },
+            match self.error_codes() {
                 Some(v) => format!("{:?}", v),
                 None => "".to_owned(),
             },
