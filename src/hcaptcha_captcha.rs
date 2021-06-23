@@ -87,7 +87,6 @@ impl HcaptchaCaptcha {
     ///
     /// If the tracing feature is enabled a debug level span is set for the
     /// method.
-    /// The secret field will not be logged.
     ///
     #[allow(dead_code)]
     #[cfg_attr(
@@ -122,6 +121,7 @@ impl HcaptchaCaptcha {
     ///
     /// ```no_run
     ///     use hcaptcha::HcaptchaCaptcha;
+    /// # use claim::assert_some;
     /// # #[derive(serde::Deserialize, serde::Serialize, Clone, Debug, Default)]
     /// # struct CustomEvent {
     /// #   body: Option<String>,
@@ -141,14 +141,19 @@ impl HcaptchaCaptcha {
     /// #         body: Some("{\"response\":\"thisisthelonglistofcharactersthatformsaresponse\",\"user_ip\":\"10.10.20.10\"}".to_owned()),
     // //! #         body: None,
     /// # };
-    ///     // Get the body JSON string from the event.
-    ///     let body_str = e.body.unwrap_or_else(|| "".to_owned());
-    ///     // Get the form data from the body string.
-    ///     let form: Form = serde_json::from_str(&body_str)?;
+    /// #     // Get the body JSON string from the event.
+    /// #    let body_str = e.body.unwrap_or_else(|| "".to_owned());
+    /// #    // Get the form data from the body string.
+    /// #    let form: Form = serde_json::from_str(&body_str)?;
     ///     let user_ip = get_user_ip_address();
     ///
     ///     let captcha = HcaptchaCaptcha::new(&form.response)?
     ///                     .set_user_ip(&user_ip)?;
+    ///
+    ///     assert_some!(captcha.user_ip());
+    ///     if let Some(sk) = captcha.user_ip() {
+    ///             assert_eq!(user_ip, sk.to_string());
+    ///     };
     ///  # Ok(())
     /// # }
     /// # fn get_user_ip_address() -> String {
@@ -159,7 +164,6 @@ impl HcaptchaCaptcha {
     ///
     /// If the tracing feature is enabled a debug level span is set for the
     /// method.
-    /// The secret field will not be logged.
     ///
     #[allow(dead_code)]
     #[cfg_attr(
@@ -236,7 +240,6 @@ impl HcaptchaCaptcha {
     ///
     /// If the tracing feature is enabled a debug level span is set for the
     /// method.
-    /// The secret field will not be logged.
     ///
     #[allow(dead_code)]
     #[cfg_attr(
@@ -299,7 +302,6 @@ impl HcaptchaCaptcha {
     ///
     /// If the tracing feature is enabled a debug level span is set for the
     /// method.
-    /// The secret field will not be logged.
     ///
     #[allow(dead_code)]
     #[cfg_attr(
@@ -360,7 +362,6 @@ impl HcaptchaCaptcha {
     ///
     /// If the tracing feature is enabled a debug level span is set for the
     /// method.
-    /// The secret field will not be logged.
     ///
     #[allow(dead_code)]
     #[cfg_attr(
@@ -421,7 +422,6 @@ impl HcaptchaCaptcha {
     ///
     /// If the tracing feature is enabled a debug level span is set for the
     /// method.
-    /// The secret field will not be logged.
     ///
     #[allow(dead_code)]
     #[cfg_attr(
