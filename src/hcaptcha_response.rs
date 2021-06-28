@@ -548,6 +548,7 @@ mod tests {
         }
     }
 
+    #[cfg(feature = "enterprise")]
     #[test]
     fn score_test() {
         let response = test_response();
@@ -555,6 +556,7 @@ mod tests {
         assert!(response.score().is_none());
     }
 
+    #[cfg(feature = "enterprise")]
     #[test]
     fn score_reason_test() {
         let response = test_response();
