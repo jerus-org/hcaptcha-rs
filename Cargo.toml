@@ -50,8 +50,8 @@ tracing-appender = "0.1.2"
 tracing-bunyan-formatter = "0.2.4"
 tracing-log = "0.1.2"
 tracing-subscriber = { version = "0.2.18", features = ["env-filter"] }
+tracing-test = "0.1.0"
 rusoto_core = {version = "0.46.0", default_features = false, features=["rustls"]}
 rusoto_ses = {version = "0.46.0", default_features = false, features=["rustls"]}
-# uuid = { version = "0.8.2", features = ["v4"] }
 wiremock = "0.5.3"
 chrono = "0.4.19"

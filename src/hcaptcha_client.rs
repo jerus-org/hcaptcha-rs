@@ -210,6 +210,8 @@ impl HcaptchaClient {
         request: HcaptchaRequest,
     ) -> Result<HcaptchaResponse, HcaptchaError> {
         let form: HcaptchaForm = request.into();
+        #[cfg(feature = "trace")]
+        tracing::debug!("The form to submit to Hcaptcha API: {:?}", form);
         let response = self
             .client
             .post(self.url.clone())
@@ -235,6 +237,7 @@ mod tests {
     use rand::{thread_rng, Rng};
     use serde_json::json;
     use std::iter;
+    use tracing_test::traced_test;
     use wiremock::matchers::{body_string, method, path};
     use wiremock::{Mock, MockServer, ResponseTemplate};
 
@@ -253,6 +256,7 @@ mod tests {
     }
 
     #[tokio::test]
+    #[traced_test]
     async fn hcaptcha_mock() {
         let token = random_string(100);
         let secret = format!("0x{}", hex::encode(random_string(20)));
@@ -285,6 +289,8 @@ mod tests {
         let response = response.unwrap();
         assert!(&response.success());
         assert_eq!(&response.timestamp().unwrap(), &timestamp);
+        assert!(logs_contain("Hcaptcha API"));
+        assert!(logs_contain("The response is"));
     }
 
     #[test]
