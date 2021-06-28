@@ -54,10 +54,17 @@
 //!
 //! ```
 
+// const CYAN: &str = "\u{001b}[35m";
+// const RESET: &str = "\u{001b}[0m";
+
 use crate::HcaptchaError;
 use crate::HcaptchaRequest;
 use crate::HcaptchaResponse;
 use reqwest::{Client, Url};
+
+mod hcaptcha_form;
+
+use hcaptcha_form::HcaptchaForm;
 
 /// Endpoint url for the Hcaptcha siteverify API.
 pub const VERIFY_URL: &str = "https://hcaptcha.com/siteverify";
@@ -113,15 +120,14 @@ impl HcaptchaClient {
     ///     use hcaptcha::HcaptchaClient;
     ///     use url::Url;
     ///
-    ///     if let Ok(url) = Url::parse("https://domain.com/siteverify") {
-    ///         let client = HcaptchaClient::new_with(url);
-    ///     };
+    ///     let url = "https://domain.com/siteverify";
+    ///     let _client = HcaptchaClient::new_with(url);
     /// ```
-    pub fn new_with(url: Url) -> HcaptchaClient {
-        HcaptchaClient {
+    pub fn new_with(url: &str) -> Result<HcaptchaClient, url::ParseError> {
+        Ok(HcaptchaClient {
             client: Client::new(),
-            url,
-        }
+            url: Url::parse(url)?,
+        })
     }
 
     /// Verify the client token with the Hcaptcha API.
@@ -201,15 +207,17 @@ impl HcaptchaClient {
     )]
     pub async fn verify_client_response(
         &self,
-        client_response: HcaptchaRequest,
+        request: HcaptchaRequest,
     ) -> Result<HcaptchaResponse, HcaptchaError> {
+        let form: HcaptchaForm = request.into();
         let response = self
             .client
             .post(self.url.clone())
-            .form(&client_response)
+            .form(&form)
             .send()
+            .await?
+            .json::<HcaptchaResponse>()
             .await?;
-        let response = response.json::<HcaptchaResponse>().await?;
         #[cfg(feature = "trace")]
         tracing::debug!("The response is: {:?}", response);
         response.check_error()?;
@@ -221,7 +229,63 @@ impl HcaptchaClient {
 mod tests {
     use super::*;
     use crate::Code;
+    use chrono::{Duration, Utc};
+    use claim::assert_ok;
+    use rand::distributions::Alphanumeric;
+    use rand::{thread_rng, Rng};
     use serde_json::json;
+    use std::iter;
+    use wiremock::matchers::{body_string, method, path};
+    use wiremock::{Mock, MockServer, ResponseTemplate};
+
+    // const RED: &str = "\t\u{001b}[31m";
+    // const GREEN: &str = "\t\u{001b}[32m";
+    // const CYAN: &str = "\t\u{001b}[36m";
+    // const RESET: &str = "\t\u{001b}[0m";
+
+    fn random_string(characters: usize) -> String {
+        let mut rng = thread_rng();
+        iter::repeat(())
+            .map(|()| rng.sample(Alphanumeric))
+            .map(char::from)
+            .take(characters)
+            .collect()
+    }
+
+    #[tokio::test]
+    async fn hcaptcha_mock() {
+        let token = random_string(100);
+        let secret = format!("0x{}", hex::encode(random_string(20)));
+        let request = HcaptchaRequest::new_from_response(&secret, &token).unwrap();
+
+        let expected_body = format!("response={}&secret={}", &token, &secret);
+
+        let timestamp = Utc::now()
+            .checked_sub_signed(Duration::minutes(10))
+            .unwrap()
+            .to_rfc3339();
+
+        let response_template = ResponseTemplate::new(200).set_body_json(json!({
+            "success": true,
+            "challenge_ts": timestamp,
+            "hostname": "test-host",
+        }));
+        let mock_server = MockServer::start().await;
+        Mock::given(method("POST"))
+            .and(path("/siteverify"))
+            .and(body_string(&expected_body))
+            .respond_with(response_template)
+            .mount(&mock_server)
+            .await;
+        let uri = format!("{}{}", mock_server.uri(), "/siteverify");
+
+        let client = HcaptchaClient::new_with(&uri).unwrap();
+        let response = client.verify_client_response(request).await;
+        assert_ok!(&response);
+        let response = response.unwrap();
+        assert!(&response.success());
+        assert_eq!(&response.timestamp().unwrap(), &timestamp);
+    }
 
     #[test]
     fn test_success_response() {
