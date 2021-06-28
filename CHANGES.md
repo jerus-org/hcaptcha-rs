@@ -2,6 +2,7 @@
 
 ## v2.0.0
 
+- Rename user_ip and site_key to comform to Hcaptcha API documentation (remoteip and sitekey)
 - Restore lambda_runtime as crate has been updated
 - Validate client response before submission to Hcaptcha API
 - Validate secret before submission to Hcaptcha API
