@@ -211,7 +211,10 @@ impl HcaptchaClient {
     ) -> Result<HcaptchaResponse, HcaptchaError> {
         let form: HcaptchaForm = request.into();
         #[cfg(feature = "trace")]
-        tracing::debug!("The form to submit to Hcaptcha API: {:?}", form);
+        tracing::debug!(
+            "The form to submit to Hcaptcha API: {:?}",
+            serde_urlencoded::to_string(&form).unwrap_or_else(|_| "form corrupted".to_owned())
+        );
         let response = self
             .client
             .post(self.url.clone())
@@ -263,6 +266,96 @@ mod tests {
         let request = HcaptchaRequest::new_from_response(&secret, &token).unwrap();
 
         let expected_body = format!("response={}&secret={}", &token, &secret);
+
+        let timestamp = Utc::now()
+            .checked_sub_signed(Duration::minutes(10))
+            .unwrap()
+            .to_rfc3339();
+
+        let response_template = ResponseTemplate::new(200).set_body_json(json!({
+            "success": true,
+            "challenge_ts": timestamp,
+            "hostname": "test-host",
+        }));
+        let mock_server = MockServer::start().await;
+        Mock::given(method("POST"))
+            .and(path("/siteverify"))
+            .and(body_string(&expected_body))
+            .respond_with(response_template)
+            .mount(&mock_server)
+            .await;
+        let uri = format!("{}{}", mock_server.uri(), "/siteverify");
+
+        let client = HcaptchaClient::new_with(&uri).unwrap();
+        let response = client.verify_client_response(request).await;
+        assert_ok!(&response);
+        let response = response.unwrap();
+        assert!(&response.success());
+        assert_eq!(&response.timestamp().unwrap(), &timestamp);
+        assert!(logs_contain("Hcaptcha API"));
+        assert!(logs_contain("The response is"));
+    }
+
+    #[tokio::test]
+    #[traced_test]
+    async fn hcaptcha_mock_with_remoteip() {
+        let token = random_string(100);
+        let secret = format!("0x{}", hex::encode(random_string(20)));
+        let remoteip = fakeit::internet::ipv4_address();
+        let request = HcaptchaRequest::new_from_response(&secret, &token)
+            .unwrap()
+            .set_remoteip(&remoteip)
+            .unwrap();
+
+        let expected_body = format!(
+            "response={}&remoteip={}&secret={}",
+            &token, &remoteip, &secret
+        );
+
+        let timestamp = Utc::now()
+            .checked_sub_signed(Duration::minutes(10))
+            .unwrap()
+            .to_rfc3339();
+
+        let response_template = ResponseTemplate::new(200).set_body_json(json!({
+            "success": true,
+            "challenge_ts": timestamp,
+            "hostname": "test-host",
+        }));
+        let mock_server = MockServer::start().await;
+        Mock::given(method("POST"))
+            .and(path("/siteverify"))
+            .and(body_string(&expected_body))
+            .respond_with(response_template)
+            .mount(&mock_server)
+            .await;
+        let uri = format!("{}{}", mock_server.uri(), "/siteverify");
+
+        let client = HcaptchaClient::new_with(&uri).unwrap();
+        let response = client.verify_client_response(request).await;
+        assert_ok!(&response);
+        let response = response.unwrap();
+        assert!(&response.success());
+        assert_eq!(&response.timestamp().unwrap(), &timestamp);
+        assert!(logs_contain("Hcaptcha API"));
+        assert!(logs_contain("The response is"));
+    }
+
+    #[tokio::test]
+    #[traced_test]
+    async fn hcaptcha_mock_with_sitekey() {
+        let token = random_string(100);
+        let secret = format!("0x{}", hex::encode(random_string(20)));
+        let sitekey = fakeit::unique::uuid_v4();
+        let request = HcaptchaRequest::new_from_response(&secret, &token)
+            .unwrap()
+            .set_sitekey(&sitekey)
+            .unwrap();
+
+        let expected_body = format!(
+            "response={}&sitekey={}&secret={}",
+            &token, &sitekey, &secret
+        );
 
         let timestamp = Utc::now()
             .checked_sub_signed(Duration::minutes(10))
