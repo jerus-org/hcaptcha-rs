@@ -330,6 +330,11 @@ impl HcaptchaRequest {
     pub(crate) fn secret(&self) -> HcaptchaSecret {
         self.secret.clone()
     }
+
+    #[allow(dead_code)]
+    pub(crate) fn captcha(&self) -> HcaptchaCaptcha {
+        self.captcha.clone()
+    }
 }
 #[cfg(test)]
 mod tests {
