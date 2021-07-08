@@ -1,7 +1,7 @@
 #![cfg_attr(docsrs, feature(doc_cfg))]
 #![warn(missing_docs)]
-#![warn(missing_doc_code_examples)]
-#![warn(invalid_codeblock_attributes)]
+#![warn(rustdoc::missing_doc_code_examples)]
+#![warn(rustdoc::invalid_codeblock_attributes)]
 
 //! Hcaptcha
 //!
