@@ -405,6 +405,7 @@ mod tests {
         );
         assert_eq!(response.hostname(), Some("my-host.ie".to_owned()));
     }
+
     #[test]
     fn test_error_response() {
         let api_response = json!({
