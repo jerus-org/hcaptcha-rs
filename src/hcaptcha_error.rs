@@ -1,6 +1,4 @@
-//! Error module for hcaptcha
-//! Provides an error type to capture error codes from the hcaptcha api
-//! and errors output from crates used by the library.
+//! Error types for hcaptcha
 
 use serde::{Deserialize, Deserializer};
 use std::collections::HashSet;
@@ -9,11 +7,12 @@ use std::io;
 use thiserror::Error;
 
 /// The error type for hcaptcha.
+/// Provides error types to capture error codes from the Hcaptcha API
+/// and errors output from crates used by the library.
+#[non_exhaustive]
 #[derive(Error, Debug)]
 pub enum HcaptchaError {
     /// Error(s) returned from the hcaptcha API and mapped to the [Code] enum.
-    ///
-    /// [Code]: ./enum.Code.html
     #[error("{0:?}")]
     Codes(HashSet<Code>),
     /// Error returned by reqwest
@@ -28,18 +27,31 @@ pub enum HcaptchaError {
     /// Error returned by serde_urlencoded
     #[error("{0}")]
     UrlEncoded(#[from] serde_urlencoded::ser::Error),
+    /// Error returned by uuid
+    #[error("{0}")]
+    Uuid(#[from] uuid::Error),
+    /// Error returned by url parser
+    #[error("{0}")]
+    Url(#[from] url::ParseError),
 }
 
 /// Error code mapping for the error responses from the hcaptcha API.
 /// Returned in the [HcaptchaError] type.
-///
-/// [HcaptchaError]: ./enum.HcaptchaError.html
+#[non_exhaustive]
 #[derive(PartialEq, Eq, Hash, Clone, Debug)]
 pub enum Code {
-    /// Your secret key is missing.
+    /// Secret key is missing.
     MissingSecret,
-    /// Your secret key is invalid or malformed.
+    /// Secret key is invalid or malformed.
     InvalidSecret,
+    /// User IP string is missing.
+    MissingUserIp,
+    /// User IP is invalid or malformed.
+    InvalidUserIp,
+    /// Site Key string is missing.
+    MissingSiteKey,
+    /// Site Key is invalid or malformed.
+    InvalidSiteKey,
     /// The response parameter (verification token) is missing.
     MissingResponse,
     /// The response parameter (verification token) is invalid or malformed.
@@ -50,15 +62,17 @@ pub enum Code {
     InvalidAlreadySeen,
     /// The sitekey is not registered with the provided secret.
     SiteSecretMismatch,
+    /// Extended secret check reports that the secret string is the wrong length.
+    InvalidSecretExtWrongLen,
+    /// Extended secret check reports that the secret string is not a hex string.
+    InvalidSecretExtNotHex,
     /// Collect any new error codes issued by the API.
     Unknown(String),
 }
 
-/// Custom deserialize to map the hcaptcha API error codes for reporting in
-/// the [HcaptchaError].
-///
-/// [HcaptchaError]: ./enum.HcaptchaError.html
 impl<'de> Deserialize<'de> for Code {
+    /// Custom deserialize to map the hcaptcha API error codes for reporting as
+    /// a [Code] in [HcaptchaError].
     fn deserialize<D>(de: D) -> Result<Self, D::Error>
     where
         D: Deserializer<'de>,
@@ -81,8 +95,16 @@ impl fmt::Display for Code {
     #[allow(unused_variables)]
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         match self {
-            Code::MissingSecret => write!(f, "Your secret key is missing."),
-            Code::InvalidSecret => write!(f, "Your secret key is invalid or malformed."),
+            Code::MissingSecret => write!(f, "Secret key is missing."),
+            Code::InvalidSecret => write!(f, "Secret key is invalid or malformed."),
+            Code::MissingUserIp => write!(f, "User IP string is missing."),
+            Code::InvalidUserIp => write!(f, "User IP string is invalid."),
+            Code::MissingSiteKey => write!(f, "Site Key string is missing."),
+            Code::InvalidSiteKey => write!(f, "Site Key string is invalid."),
+            Code::InvalidSecretExtWrongLen => {
+                write!(f, "Secret key is not the correct length.")
+            }
+            Code::InvalidSecretExtNotHex => write!(f, "Secret key is not a hex string."),
             Code::MissingResponse => {
                 write!(f, "The response parameter (verification token) is missing.")
             }
