@@ -54,7 +54,7 @@ use crate::HcaptchaCaptcha;
 use crate::HcaptchaError;
 
 /// Capture the required and optional data for a call to the hcaptcha API
-#[allow(rustdoc::missing_doc_code_examples)]
+#[cfg_attr(docsrs, allow(rustdoc::missing_doc_code_examples))]
 #[derive(Debug, Default, serde::Serialize)]
 pub struct HcaptchaRequest {
     /// [HcaptchaCaptcha] captures the response and, optionally, the remoteip
@@ -64,7 +64,7 @@ pub struct HcaptchaRequest {
     secret: HcaptchaSecret,
 }
 
-#[allow(rustdoc::missing_doc_code_examples)]
+#[cfg_attr(docsrs, allow(rustdoc::missing_doc_code_examples))]
 impl HcaptchaRequest {
     /// Create a new HcaptchaRequest
     ///

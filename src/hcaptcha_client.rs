@@ -70,7 +70,7 @@ use hcaptcha_form::HcaptchaForm;
 pub const VERIFY_URL: &str = "https://hcaptcha.com/siteverify";
 
 /// Client to submit a request to a Hcaptcha validation endpoint.
-#[allow(rustdoc::missing_doc_code_examples)]
+#[cfg_attr(docsrs, allow(rustdoc::missing_doc_code_examples))]
 #[derive(Debug)]
 pub struct HcaptchaClient {
     /// HTTP Client to submit request to endpoint and read the response.
@@ -79,14 +79,14 @@ pub struct HcaptchaClient {
     url: Url,
 }
 
-#[allow(rustdoc::missing_doc_code_examples)]
+#[cfg_attr(docsrs, allow(rustdoc::missing_doc_code_examples))]
 impl Default for HcaptchaClient {
     fn default() -> HcaptchaClient {
         HcaptchaClient::new()
     }
 }
 
-#[allow(rustdoc::missing_doc_code_examples)]
+#[cfg_attr(docsrs, allow(rustdoc::missing_doc_code_examples))]
 impl HcaptchaClient {
     /// Create a new Hcaptcha Client to connect with the default Hcaptcha
     /// siteverify API endpoint specified in [VERIFY_URL].
@@ -102,7 +102,7 @@ impl HcaptchaClient {
     /// If the default API url constant is corrupted the function with
     /// will panic.
     #[allow(unknown_lints)]
-    #[allow(rustdoc::bare_urls)]
+    #[cfg_attr(docsrs, allow(rustdoc::bare_urls))]
     pub fn new() -> HcaptchaClient {
         HcaptchaClient {
             client: Client::new(),

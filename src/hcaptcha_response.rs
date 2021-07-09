@@ -63,7 +63,7 @@ use std::fmt;
 type Score = f32;
 
 /// Result from call to verify the client's response
-#[allow(rustdoc::missing_doc_code_examples)]
+#[cfg_attr(docsrs, allow(rustdoc::missing_doc_code_examples))]
 #[derive(Debug, Default, Deserialize, Clone)]
 pub struct HcaptchaResponse {
     /// verification status: true or false.
@@ -90,10 +90,10 @@ pub struct HcaptchaResponse {
     score_reason: Option<HashSet<String>>,
 }
 
-#[allow(rustdoc::missing_doc_code_examples)]
+#[cfg_attr(docsrs, allow(rustdoc::missing_doc_code_examples))]
 #[cfg(feature = "enterprise")]
 impl fmt::Display for HcaptchaResponse {
-    #[allow(rustdoc::missing_doc_code_examples)]
+    #[cfg_attr(docsrs, allow(rustdoc::missing_doc_code_examples))]
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         write!(
             f,
@@ -137,7 +137,7 @@ impl fmt::Display for HcaptchaResponse {
 
 #[cfg(not(feature = "enterprise"))]
 impl fmt::Display for HcaptchaResponse {
-    #[allow(rustdoc::missing_doc_code_examples)]
+    #[cfg_attr(docsrs, allow(rustdoc::missing_doc_code_examples))]
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         write!(
             f,
@@ -169,7 +169,7 @@ impl fmt::Display for HcaptchaResponse {
     }
 }
 
-#[allow(rustdoc::missing_doc_code_examples)]
+#[cfg_attr(docsrs, allow(rustdoc::missing_doc_code_examples))]
 impl HcaptchaResponse {
     /// Check succcess of API call and return HcaptchaError
     /// with the error codes if not successful.

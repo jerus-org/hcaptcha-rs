@@ -37,6 +37,7 @@ uuid = "0.8.2"
 url = "2.2.2"
 
 [dev-dependencies]
+chrono = "0.4.19"
 claim = "0.5.0"
 fakeit ="1.1.1"
 itertools = "0.10.1"
@@ -54,4 +55,7 @@ tracing-test = "0.1.0"
 rusoto_core = {version = "0.46.0", default_features = false, features=["rustls"]}
 rusoto_ses = {version = "0.46.0", default_features = false, features=["rustls"]}
 wiremock = "0.5.3"
-chrono = "0.4.19"
+
+[package.metadata.docs.rs]
+all-features = true
+rustdoc-args = ["--cfg", "docsrs"]
