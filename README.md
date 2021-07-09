@@ -6,7 +6,8 @@
 [![Rust 1.46+][version-badge]][version-url]
 [![FOSSA Status][fossa-badge]][fossa-url]
 [![Docs][docs-badge]][docs-url]
-[![BuyMeaCoffee][bmac-badge]][bmacs-url]
+[![BuyMeaCoffee][bmac-badge]][bmac-url]
+[![GitHubSponsors][ghub-badge]][ghub-url]
 
 [crates-badge]: https://img.shields.io/crates/v/hcaptcha.svg
 [crates-url]: https://crates.io/crates/hcaptcha
@@ -21,7 +22,9 @@
 [docs-badge]:  https://docs.rs/hcaptcha/badge.svg
 [docs-url]:  https://docs.rs/hcapatcha
 [bmac-badge]: https://badgen.net/badge/icon/buymeacoffee?color=yellow&icon=buymeacoffee&label
-[bmac-url]: buymeacoffee.com/jerusdp
+[bmac-url]: https://buymeacoffee.com/jerusdp
+[ghub-badge]: https://img.shields.io/badge/sponsor-30363D?logo=GitHub-Sponsors&logoColor=#white
+[ghub-url]: https://github.com/sponsors/jerusdp
 
 The rust library hcaptcha is used with your backend service to verify the hcaptcha response provided from the client.
 
