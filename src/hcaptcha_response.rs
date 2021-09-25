@@ -56,7 +56,7 @@
 //! ```
 use crate::Code;
 use crate::HcaptchaError;
-use serde_derive::Deserialize;
+use serde::Deserialize;
 use std::collections::HashSet;
 use std::fmt;
 
@@ -171,7 +171,7 @@ impl fmt::Display for HcaptchaResponse {
 
 #[cfg_attr(docsrs, allow(rustdoc::missing_doc_code_examples))]
 impl HcaptchaResponse {
-    /// Check succcess of API call and return HcaptchaError
+    /// Check success of API call and return HcaptchaError
     /// with the error codes if not successful.
     pub(crate) fn check_error(&self) -> Result<(), HcaptchaError> {
         if !self.success() {
