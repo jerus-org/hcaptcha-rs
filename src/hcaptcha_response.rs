@@ -81,11 +81,13 @@ pub struct HcaptchaResponse {
     #[serde(rename = "error-codes")]
     error_codes: Option<HashSet<Code>>,
     /// `enterprise` feature: a score denoting malicious activity.
+    #[allow(dead_code)]
     #[cfg_attr(docsrs, doc(cfg(feature = "enterprise")))]
     score: Option<Score>,
     /// `enterprise` feature: reason(s) for score. See [BotStop.com] for details
     ///
     /// [BotStop.com]: https://BotStop.com
+    #[allow(dead_code)]
     #[cfg_attr(docsrs, doc(cfg(feature = "enterprise")))]
     score_reason: Option<HashSet<String>>,
 }

@@ -15,7 +15,7 @@
 //! requested from the [`Hcaptcha`] struct.
 //!
 //! [`Hcaptcha`]: ./struct.hcaptcha_request.Hcaptcha.html
-//! [`verify`]: ./function.hcapthca_request.verify.html
+//! [`verify`]: ./function.hcaptcha_request.verify.html
 //!
 //! # Examples
 //! Token needs to be supplied by the client.
@@ -80,7 +80,7 @@
 //! # }
 //! ```
 //!
-//! Lambda backend implemetation. See examples for more detail.
+//! Lambda backend implementation. See examples for more detail.
 //! ``` no_run
 //! # use lambda_runtime::Error;
 //! # use tracing_bunyan_formatter::{BunyanFormattingLayer, JsonStorageLayer};
@@ -110,7 +110,7 @@
 //! #         use super::error::LambdaContactError;
 //! #         use tracing::instrument;
 //! #         #[instrument(name = "get the secret key from parameter store")]
-//! #         pub async fn get_paramater(key: &str) -> Result<String, LambdaContactError> {
+//! #         pub async fn get_parameter(key: &str) -> Result<String, LambdaContactError> {
 //! #             // Extract the secret key from your parameter store
 //! #             Ok("0x123456789abcedf0123456789abcedf012345678".to_owned())
 //! #         }
@@ -158,7 +158,7 @@
 //! #         pub async fn notify_office(
 //! #             _contact_form: &ContactForm,
 //! #         ) -> Result<SendEmailResponse, LambdaContactError> {
-//! #             // Constuct email and send message to the office info mailbox
+//! #             // Construct email and send message to the office info mailbox
 //! #
 //! #             let res = SendEmailResponse {
 //! #                 message_id: "generated_message_id".to_owned(),
@@ -226,7 +226,7 @@
 //!         let body_str = e.body.unwrap_or_else(|| "".to_owned());
 //!         let captcha: HcaptchaCaptcha = serde_json::from_str(&body_str)?;
 //!
-//!         let hcaptcha_secret = param::get_paramater(HCAPTCHA_SECRET).await?;
+//!         let hcaptcha_secret = param::get_parameter(HCAPTCHA_SECRET).await?;
 //!
 //!         let request = HcaptchaRequest::new(&hcaptcha_secret,
 //!             captcha)?;
@@ -245,7 +245,7 @@
 //!
 //!         if let Err(e) = notify_contact {
 //!             error!("Notification to the contact not sent: {}", e);
-//!             return Err("Notifcation not sent".into());
+//!             return Err("Notification not sent".into());
 //!         }
 //!
 //!         if let Err(e) = notify_office {
@@ -318,3 +318,7 @@ pub use hcaptcha_error::Code;
 pub use hcaptcha_error::HcaptchaError;
 pub use hcaptcha_request::HcaptchaRequest;
 pub use hcaptcha_response::HcaptchaResponse;
+
+pub use domain::HcaptchaClientResponse;
+pub use domain::HcaptchaRemoteip;
+pub use domain::HcaptchaSitekey;

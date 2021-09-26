@@ -2,6 +2,7 @@ use super::error::LambdaContactError;
 use rusoto_ses::{SendEmailResponse, SendTemplatedEmailResponse};
 use serde::{Deserialize, Serialize};
 use tracing::instrument;
+use hcaptcha::{HcaptchaClientResponse, HcaptchaRemoteip, HcaptchaSitekey};
 
 #[derive(Deserialize, Serialize, Clone, Debug, Default)]
 pub struct ContactForm {
@@ -17,7 +18,18 @@ pub struct ContactForm {
     pub page: String,
     #[serde(default)]
     pub site: String,
+    pub hcaptcha: HcaptchaClientResponse,
+    pub remoteip: HcaptchaRemoteip,
+    pub sitekey: HcaptchaSitekey,
 }
+
+// impl Hcaptcha for ContactForm {
+impl ContactForm {
+    pub async fn valid_response(&self) -> Result<(), LambdaContactError> {
+        todo!()
+    }
+}
+
 
 #[instrument(name = "send notification to info mailbox", skip(_contact_form))]
 pub async fn notify_office(

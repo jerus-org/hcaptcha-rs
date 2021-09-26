@@ -2,6 +2,10 @@
     "rust-analyzer.rustcSource": null,
     "cSpell.words": [
         "dd'T'HH",
-        "fakeit"
+        "fakeit",
+        "itertools",
+        "Itertools",
+        "lamedh",
+        "Struct"
     ]
 }

@@ -16,6 +16,15 @@ pub struct CustomEvent {
     body: Option<String>,
 }
 
+impl CustomEvent {
+    fn body_string(&self) -> &str {
+        match &self.body {
+            Some(s) => &s,
+            None =>  "",
+        }
+    }
+}
+
 #[derive(Deserialize, Serialize, Clone, Default)]
 pub struct Recaptcha {
     #[serde(rename = "reCaptchaResponse")]
@@ -43,13 +52,10 @@ impl CustomOutput {
 
 pub async fn my_handler(e: CustomEvent, _c: Context) -> Result<CustomOutput, Error> {
     debug!("The event logged is: {:?}", e);
-
-    let body_str = e.body.unwrap_or_else(|| "".to_owned());
-    let captcha: HcaptchaCaptcha = serde_json::from_str(&body_str)?;
-
-    hcaptcha_validate::response_valid(captcha).await?;
-
-    let contact_form: ContactForm = serde_json::from_str(&body_str)?;
+    
+    let contact_form: ContactForm = serde_json::from_str(e.body_string())?;
+    
+    contact_form.valid_response().await?;
 
     let notify_office_fut = send::notify_office(&contact_form);
     let notify_contact_fut = send::notify_contact(&contact_form);
