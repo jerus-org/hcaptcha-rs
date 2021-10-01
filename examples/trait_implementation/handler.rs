@@ -1,15 +1,16 @@
 mod error;
-mod hcaptcha_validate;
 mod param;
 mod record;
 mod send;
 
-use hcaptcha::HcaptchaCaptcha;
+use hcaptcha::Hcaptcha;
 use lambda_runtime::{Context, Error};
 use send::ContactForm;
 use serde::{Deserialize, Serialize};
 use tokio::join;
 use tracing::{debug, error};
+
+const HCAPTCHA_SECRET: &str = "/hcaptcha/secret";
 
 #[derive(Deserialize, Serialize, Clone, Debug, Default)]
 pub struct CustomEvent {
@@ -20,7 +21,7 @@ impl CustomEvent {
     fn body_string(&self) -> &str {
         match &self.body {
             Some(s) => &s,
-            None =>  "",
+            None => "",
         }
     }
 }
@@ -52,10 +53,10 @@ impl CustomOutput {
 
 pub async fn my_handler(e: CustomEvent, _c: Context) -> Result<CustomOutput, Error> {
     debug!("The event logged is: {:?}", e);
-    
+
     let contact_form: ContactForm = serde_json::from_str(e.body_string())?;
-    
-    contact_form.valid_response().await?;
+    let secret = param::get_parameter(HCAPTCHA_SECRET).await?;
+    contact_form.valid_response(&secret).await?;
 
     let notify_office_fut = send::notify_office(&contact_form);
     let notify_contact_fut = send::notify_contact(&contact_form);
