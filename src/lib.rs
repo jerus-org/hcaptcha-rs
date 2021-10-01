@@ -305,6 +305,7 @@
 
 #[doc(hidden)]
 pub(crate) mod domain;
+mod hcaptcha;
 mod hcaptcha_captcha;
 mod hcaptcha_client;
 mod hcaptcha_error;
@@ -319,6 +320,4 @@ pub use hcaptcha_error::HcaptchaError;
 pub use hcaptcha_request::HcaptchaRequest;
 pub use hcaptcha_response::HcaptchaResponse;
 
-pub use domain::HcaptchaClientResponse;
-pub use domain::HcaptchaRemoteip;
-pub use domain::HcaptchaSitekey;
+pub use hcaptcha::Hcaptcha;

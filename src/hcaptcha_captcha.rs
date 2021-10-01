@@ -2,7 +2,7 @@
 //! hcaptcha api request.
 //!
 //! # Example
-//! Create HcaptcaCaptcha struct from the body of JSON submitted as an event.
+//! Create HcaptchaCaptcha struct from the body of JSON submitted as an event.
 //! ```no_run
 //!     use hcaptcha::HcaptchaCaptcha;
 //! # #[derive(serde::Deserialize, serde::Serialize, Clone, Debug, Default)]
@@ -256,7 +256,7 @@ impl HcaptchaCaptcha {
         Ok(self.clone())
     }
 
-    /// Return the valud of the response field.
+    /// Return the value of the response field.
     ///
     /// # Output
     ///
