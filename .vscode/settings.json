@@ -6,6 +6,7 @@
         "itertools",
         "Itertools",
         "lamedh",
+        "siteverify",
         "Struct"
     ]
 }
