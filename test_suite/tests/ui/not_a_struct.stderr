@@ -1,0 +1,14 @@
+error: Must derive on a struct
+
+  = help: This macro can only be implemented on a struct.
+
+        #[derive(Hcaptcha)]
+        struct MyStruct {
+            #[captcha]
+            hcaptcha: String,
+        }
+
+ --> $DIR/not_a_struct.rs:5:6
+  |
+5 | enum Test {
+  |      ^^^^
