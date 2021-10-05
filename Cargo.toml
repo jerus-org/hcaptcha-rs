@@ -1,2 +1,2 @@
 [workspace]
-members = ["hcaptcha", "hcaptcha_derive"]
+members = ["hcaptcha", "hcaptcha_derive" , "test_suite"]
