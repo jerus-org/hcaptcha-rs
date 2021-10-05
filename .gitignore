@@ -13,3 +13,5 @@
 
 # Used locally only
 /.fossa.yml
+
+scratchpad/
