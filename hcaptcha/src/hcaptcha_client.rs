@@ -130,6 +130,26 @@ impl HcaptchaClient {
         })
     }
 
+    /// Set the url.
+    ///
+    /// Specify the url for the hcaptcha API. This method is useful
+    /// during testing to provide a mock url.
+    ///
+    /// # Example
+    /// Initialise client to connect to custom Hcaptcha API
+    /// ```
+    ///     use hcaptcha::HcaptchaClient;
+    ///     use url::Url;
+    ///
+    ///     let url = "https://domain.com/siteverify";
+    ///     let client = HcaptchaClient::new()
+    ///                        .set_url(url)?;
+    /// ```
+    pub fn set_url(mut self, url: &str) -> Result<Self, HcaptchaError> {
+        self.url = Url::parse(url)?;
+        Ok(self)
+    }
+
     /// Verify the client token with the Hcaptcha API.
     ///
     /// Call the Hcaptcha api providing a [HcaptchaRequest] struct.
@@ -206,7 +226,7 @@ impl HcaptchaClient {
         )
     )]
     pub async fn verify_client_response(
-        &self,
+        self,
         request: HcaptchaRequest,
     ) -> Result<HcaptchaResponse, HcaptchaError> {
         let form: HcaptchaForm = request.into();
@@ -240,6 +260,7 @@ mod tests {
     use rand::{thread_rng, Rng};
     use serde_json::json;
     use std::iter;
+    #[cfg(feature = "trace")]
     use tracing_test::traced_test;
     use wiremock::matchers::{body_string, method, path};
     use wiremock::{Mock, MockServer, ResponseTemplate};
@@ -259,7 +280,7 @@ mod tests {
     }
 
     #[tokio::test]
-    #[traced_test]
+    #[cfg_attr(feature = "trace", traced_test)]
     async fn hcaptcha_mock() {
         let token = random_string(100);
         let secret = format!("0x{}", hex::encode(random_string(20)));
@@ -292,12 +313,14 @@ mod tests {
         let response = response.unwrap();
         assert!(&response.success());
         assert_eq!(&response.timestamp().unwrap(), &timestamp);
+        #[cfg(feature = "trace")]
         assert!(logs_contain("Hcaptcha API"));
+        #[cfg(feature = "trace")]
         assert!(logs_contain("The response is"));
     }
 
     #[tokio::test]
-    #[traced_test]
+    #[cfg_attr(feature = "trace", traced_test)]
     async fn hcaptcha_mock_with_remoteip() {
         let token = random_string(100);
         let secret = format!("0x{}", hex::encode(random_string(20)));
@@ -337,12 +360,14 @@ mod tests {
         let response = response.unwrap();
         assert!(&response.success());
         assert_eq!(&response.timestamp().unwrap(), &timestamp);
+        #[cfg(feature = "trace")]
         assert!(logs_contain("Hcaptcha API"));
+        #[cfg(feature = "trace")]
         assert!(logs_contain("The response is"));
     }
 
     #[tokio::test]
-    #[traced_test]
+    #[cfg_attr(feature = "trace", traced_test)]
     async fn hcaptcha_mock_with_sitekey() {
         let token = random_string(100);
         let secret = format!("0x{}", hex::encode(random_string(20)));
@@ -382,7 +407,9 @@ mod tests {
         let response = response.unwrap();
         assert!(&response.success());
         assert_eq!(&response.timestamp().unwrap(), &timestamp);
+        #[cfg(feature = "trace")]
         assert!(logs_contain("Hcaptcha API"));
+        #[cfg(feature = "trace")]
         assert!(logs_contain("The response is"));
     }
 

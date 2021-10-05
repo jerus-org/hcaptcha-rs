@@ -195,12 +195,12 @@ impl HcaptchaRequest {
         response: &str,
     ) -> Result<HcaptchaRequest, HcaptchaError> {
         let captcha = HcaptchaCaptcha::new(response)?;
-        Ok(HcaptchaRequest::new(secret, captcha)?)
+        HcaptchaRequest::new(secret, captcha)
     }
 
     /// Specify the optional ip address value
     ///
-    /// Update client IP adress.
+    /// Update client IP address.
     ///
     /// # Example
     /// ``` no_run

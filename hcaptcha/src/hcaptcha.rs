@@ -1,10 +1,14 @@
 //! Hcaptcha Trait
 use crate::{HcaptchaError, HcaptchaResponse};
-use async_trait::async_trait;
+// use async_trait::async_trait;
+use std::{future::Future, pin::Pin};
 
 /// Hcaptcha trait
-#[async_trait]
 pub trait Hcaptcha {
     /// valid response function
-    async fn valid_response(&self, secret: &str) -> Result<HcaptchaResponse, HcaptchaError>;
+    fn valid_response(
+        &self,
+        secret: &str,
+        uri: Option<String>,
+    ) -> Pin<Box<dyn Future<Output = Result<HcaptchaResponse, HcaptchaError>> + Send>>;
 }

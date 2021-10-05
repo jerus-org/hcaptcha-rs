@@ -135,7 +135,7 @@
 //! #     mod send {
 //! #         use super::error::LambdaContactError;
 //! #         use rusoto_ses::{SendEmailResponse, SendTemplatedEmailResponse};
-//! #         use serde_derive::{Deserialize, Serialize};
+//! #         use serde::{Deserialize, Serialize};
 //! #         use tracing::instrument;
 //! #
 //! #         #[derive(Deserialize, Serialize, Clone, Debug, Default)]
@@ -185,7 +185,7 @@
 //! #     use hcaptcha::{HcaptchaCaptcha, HcaptchaClient, HcaptchaRequest};
 //! #     use lambda_runtime::{Context, Error};
 //! #     use send::ContactForm;
-//! #     use serde_derive::{Deserialize, Serialize};
+//! #     use serde::{Deserialize, Serialize};
 //! #     use tokio::join;
 //! #     use tracing::{debug, error};
 //! #
@@ -320,4 +320,5 @@ pub use hcaptcha_error::HcaptchaError;
 pub use hcaptcha_request::HcaptchaRequest;
 pub use hcaptcha_response::HcaptchaResponse;
 
-pub use hcaptcha::Hcaptcha;
+pub use crate::hcaptcha::Hcaptcha;
+pub use hcaptcha_derive::*;
