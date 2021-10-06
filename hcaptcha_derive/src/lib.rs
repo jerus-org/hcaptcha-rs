@@ -67,7 +67,7 @@ fn impl_hcaptcha(ast: &DeriveInput) -> TokenStream {
             fn valid_response(&self, secret: &str, uri: Option<String>) -> std::pin::Pin<Box<dyn std::future::Future<Output = Result<hcaptcha::HcaptchaResponse, hcaptcha::HcaptchaError>> + Send>>  {
                 let mut client = hcaptcha::HcaptchaClient::new();
                 if let Some(u) = uri {
-                        match client.set_url(&u) 
+                        match client.set_url(&u)
                          {
                             Ok(c) => client = c,
                             Err(e) => {
@@ -79,7 +79,6 @@ fn impl_hcaptcha(ast: &DeriveInput) -> TokenStream {
                 #captcha
                 #remoteip
                 #sitekey;
-
                 let request;
                 match hcaptcha::HcaptchaRequest::new(&secret, captcha) {
                     Ok(r) => request = r,
@@ -87,7 +86,6 @@ fn impl_hcaptcha(ast: &DeriveInput) -> TokenStream {
                         return Box::pin(async { Err(e) } );
                     }
                 };
-
                 Box::pin(client.verify_client_response(request))
             }
         }
