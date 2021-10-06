@@ -3,7 +3,6 @@ use rand::distributions::Alphanumeric;
 use rand::{thread_rng, Rng};
 use hcaptcha::HcaptchaCaptcha;
 
-
 pub fn random_response() -> String {
     let mut rng = thread_rng();
     iter::repeat(())

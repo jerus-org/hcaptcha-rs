@@ -7,19 +7,24 @@ use wiremock::{Mock, MockServer, ResponseTemplate};
 use claim::assert_ok;
 use chrono::{Duration, Utc};
 
-#[derive(Hcaptcha)]
+#[derive(Debug, Hcaptcha)]
 struct Test {
     #[captcha]
-    hcaptcha: String
+    hcaptcha: String,
+    #[sitekey]
+    sitekey: String,
 }
 
 #[tokio::main]
 async fn main() {
     // Setup
+    // env_logger::init();
+
     let token = helper::random_string(100);
+    let sitekey = fakeit::unique::uuid_v4();
     let secret = format!("0x{}", hex::encode(helper::random_string(20)));
 
-    let expected_body = format!("response={}&secret={}", &token, &secret);
+    let expected_body = format!("response={}&sitekey={}&secret={}", &token, &sitekey, &secret);
 
     let timestamp = Utc::now()
         .checked_sub_signed(Duration::minutes(10))
@@ -42,17 +47,11 @@ async fn main() {
 
     let uri = format!("{}{}", mock_server.uri(), "/siteverify");
 
-    let form = Test { hcaptcha: token };
+    let form = Test { hcaptcha: token, sitekey };
     let response = form.valid_response(&secret, Some(uri)).await;
-
 
     assert_ok!(&response);
     let response = response.unwrap();
     assert!(&response.success());
     assert_eq!(&response.timestamp().unwrap(), &timestamp);
-    #[cfg(feature = "trace")]
-    assert!(logs_contain("Hcaptcha API"));
-    #[cfg(feature = "trace")]
-    assert!(logs_contain("The response is"));
-
 }
