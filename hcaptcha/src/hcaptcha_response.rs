@@ -383,7 +383,7 @@ impl HcaptchaResponse {
     ///     let response = client.verify_client_response(request).await?;
     ///
     ///     if let Some(error_codes) = response.error_codes() {
-    ///         println!("Error Codes: {}", error_codes);
+    ///         println!("Error Codes: {:?}", error_codes);
     ///     };
     ///
     /// # Ok(())
@@ -408,7 +408,6 @@ impl HcaptchaResponse {
     /// #       .set_sitekey(&fakeit::unique::uuid_v4())
     /// #       .unwrap()
     /// #       }
-
     #[allow(dead_code)]
     pub fn error_codes(&self) -> Option<HashSet<Code>> {
         self.error_codes.clone()
