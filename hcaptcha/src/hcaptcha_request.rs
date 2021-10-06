@@ -70,7 +70,7 @@ impl HcaptchaRequest {
     ///
     /// # Input
     ///
-    /// The Hcaptcha API has two mandatory paramaters:
+    /// The Hcaptcha API has two mandatory parameters:
     ///     `secret`:     The client's secret key for authentication
     ///     `captcha`:    [HcaptchaCaptcha] (including response token)
     ///
@@ -140,7 +140,7 @@ impl HcaptchaRequest {
     ///
     /// # Input
     ///
-    /// The Hcaptcha API has two mandatory paramaters:
+    /// The Hcaptcha API has two mandatory parameters:
     ///     secret:     The client's secret key for authentication
     ///     response:    The response code to validate
     ///
