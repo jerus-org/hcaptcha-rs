@@ -369,8 +369,48 @@ impl HcaptchaResponse {
     }
 
     /// Get the value of the error_codes field
+    ///
+    /// # Example
+    /// ```no_run
+    /// #   use hcaptcha::{HcaptchaRequest, HcaptchaClient};
+    /// # #[tokio::main]
+    /// # async fn main() -> Result<(), hcaptcha::HcaptchaError> {
+    /// # let request = HcaptchaRequest::new(
+    /// #    "0x123456789abcedf0123456789abcdef012345678",
+    /// #    get_captcha(),
+    /// # )?;
+    /// # let client = HcaptchaClient::new();
+    ///     let response = client.verify_client_response(request).await?;
+    ///
+    ///     if let Some(error_codes) = response.error_codes() {
+    ///         println!("Error Codes: {}", error_codes);
+    ///     };
+    ///
+    /// # Ok(())
+    /// # }
+    /// # use hcaptcha::HcaptchaCaptcha;
+    /// # use rand::distributions::Alphanumeric;
+    /// # use rand::{thread_rng, Rng};
+    /// # use std::iter;
+    /// # fn random_response() -> String {
+    /// #    let mut rng = thread_rng();
+    /// #    iter::repeat(())
+    /// #        .map(|()| rng.sample(Alphanumeric))
+    /// #        .map(char::from)
+    /// #        .take(100)
+    /// #        .collect()
+    /// # }
+    /// # fn get_captcha() -> HcaptchaCaptcha {
+    /// #    HcaptchaCaptcha::new(&random_response())
+    /// #       .unwrap()
+    /// #       .set_remoteip(&fakeit::internet::ipv4_address())
+    /// #       .unwrap()
+    /// #       .set_sitekey(&fakeit::unique::uuid_v4())
+    /// #       .unwrap()
+    /// #       }
+
     #[allow(dead_code)]
-    pub(crate) fn error_codes(&self) -> Option<HashSet<Code>> {
+    pub fn error_codes(&self) -> Option<HashSet<Code>> {
         self.error_codes.clone()
     }
 
