@@ -137,13 +137,16 @@ impl HcaptchaClient {
     ///
     /// # Example
     /// Initialise client to connect to custom Hcaptcha API
-    /// ```
+    /// ```no_run
+    /// # main() -> Result<(), hcaptcha::HcaptchaError> {
     ///     use hcaptcha::HcaptchaClient;
     ///     use url::Url;
     ///
     ///     let url = "https://domain.com/siteverify";
     ///     let client = HcaptchaClient::new()
     ///                        .set_url(url)?;
+    /// #    Ok(())
+    /// # }
     /// ```
     pub fn set_url(mut self, url: &str) -> Result<Self, HcaptchaError> {
         self.url = Url::parse(url)?;
