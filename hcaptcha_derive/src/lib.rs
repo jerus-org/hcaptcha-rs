@@ -3,6 +3,90 @@
 #![cfg_attr(docsrs, warn(rustdoc::missing_doc_code_examples))]
 #![cfg_attr(docsrs, warn(rustdoc::invalid_codeblock_attributes))]
 
+//! Derive macro for hcaptcha::Hcaptcha
+//!
+//! Derives the Hcaptcha trait requirements for a struct such as in the example
+//! below of a contact form providing the hcaptcha response token, the
+//! client ip address of the client and the Hcaptcha service sitekey.
+//!
+//! ```rust
+//! use hcaptcha::Hcaptcha;
+//!
+//! #[derive(Hcaptcha)]
+//! pub struct ContactForm {
+//!     name: String,
+//!     phone: String,
+//!     email: String,
+//!     message: String,
+//!     #[captcha]
+//!     hcaptcha: String,
+//!     #[remoteip]
+//!     ip: String,
+//!     #[sitekey]
+//!     key: String,
+//! }
+//!```
+//!
+//! The derive macro provides code such as the following:
+//!
+//!```rust
+//! impl Hcaptcha for ContactForm {
+//!     fn valid_response(
+//!         &self,
+//!         secret: &str,
+//!         uri: Option<String>,
+//!     ) -> std::pin::Pin<
+//!         Box<
+//!             dyn std::future::Future<
+//!                     Output = Result<hcaptcha::HcaptchaResponse,
+//!                                     hcaptcha::HcaptchaError>,
+//!                                     > + Send,
+//!         >,
+//!     > {
+//!         let mut client = hcaptcha::HcaptchaClient::new();
+//!         if let Some(u) = uri {
+//!             match client.set_url(&u) {
+//!                 Ok(c) => client = c,
+//!                 Err(e) => {
+//!                     return Box::pin(async { Err(e) });
+//!                 }
+//!             };
+//!         };
+//!         #[allow(unused_mut)]
+//!         let mut captcha;
+//!         match hcaptcha::HcaptchaCaptcha::new(&self.hcaptcha) {
+//!             Ok(c) => captcha = c,
+//!             Err(e) => {
+//!                 return Box::pin(async { Err(e) });
+//!             }
+//!         };
+//!         match captcha.set_remoteip(&self.ip) {
+//!             Ok(c) => captcha = c,
+//!             Err(e) => {
+//!                 return Box::pin(async { Err(e) });
+//!             }
+//!         };
+//!         match captcha.set_sitekey(&self.key) {
+//!             Ok(c) => captcha = c,
+//!             Err(e) => {
+//!                 return Box::pin(async { Err(e) });
+//!             }
+//!         };
+//!         let request;
+//!         match hcaptcha::HcaptchaRequest::new(&secret, captcha) {
+//!             Ok(r) => request = r,
+//!             Err(e) => {
+//!                 return Box::pin(async { Err(e) });
+//!             }
+//!         };
+//!         Box::pin(client.verify_client_response(request))
+//!     }
+//! }
+//!```
+
+
+
+
 extern crate proc_macro;
 
 use std::collections::HashMap;
@@ -10,8 +94,10 @@ use std::collections::HashMap;
 use proc_macro::TokenStream;
 use proc_macro_error::proc_macro_error;
 use quote::quote;
-use syn::DeriveInput;
+use syn::{DataStruct, Data, DeriveInput};
+use proc_macro2::Ident;
 
+/// Derive the Hcaptcha trait for a struct.
 #[proc_macro_error]
 #[proc_macro_derive(Hcaptcha, attributes(captcha, remoteip, sitekey))]
 pub fn hcaptcha_derive(input: TokenStream) -> TokenStream {
@@ -29,38 +115,9 @@ fn impl_hcaptcha(ast: &DeriveInput) -> TokenStream {
     let (impl_generics, ty_generics, where_clause) = generics.split_for_impl();
     let data = &ast.data;
 
-    let data_struct = match data {
-        syn::Data::Struct(s) => s,
-        _ => {
-            let example = r#"
-        #[derive(Hcaptcha)]
-        struct MyStruct {
-            #[captcha]
-            hcaptcha: String,
-        }"#;
-            proc_macro_error::abort! {name,
-                "Must derive on a struct";
-                help = "This macro can only be implemented on a struct.
-                {}", &example;
-            };
-        }
-    };
+    let data_struct = get_struct_data(data, name);
 
-    let mut attributes = HashMap::new();
-
-    let _: Vec<String> = data_struct
-        .fields
-        .iter()
-        .filter(|f| !f.attrs.is_empty())
-        .map(|f| {
-            let a = f.attrs[0].path.get_ident().unwrap().to_string();
-            if let Some(i) = &f.ident {
-                // let n = i.to_string();
-                attributes.insert(a.clone(), i);
-            }
-            a
-        })
-        .collect();
+    let attributes = get_attributes(data_struct);
 
     let captcha = get_required_attribute(&attributes, "captcha", name);
 
@@ -141,7 +198,7 @@ fn get_optional_attribute(
 /// # Output
 ///
 /// Token stream for the method if the named attributed is found
-/// Error if not found
+/// Generate compiler error if not found
 ///
 fn get_required_attribute(
     attributes: &HashMap<String, &proc_macro2::Ident>,
@@ -176,4 +233,48 @@ fn get_required_attribute(
             };
         }
     }
+}
+
+/// Extract the tokens for the Struct from the data
+/// If the data is not stored in the Struct variant abort compilation
+/// with an error.
+fn get_struct_data<'a>(data: &'a Data, name: &Ident) -> &'a DataStruct {
+    let data_struct = match data {
+        Data::Struct(s) => s,
+        _ => {
+            let example = r#"
+        #[derive(Hcaptcha)]
+        struct MyStruct {
+            #[captcha]
+            hcaptcha: String,
+        }"#;
+            proc_macro_error::abort! {name,
+                "Must derive on a struct";
+                help = "This macro can only be implemented on a struct.
+                {}", &example;
+            };
+        }
+    };
+    data_struct
+}
+
+/// Iterate through the fields in the struct to find the attributes
+/// that identify the fields relevant to the hcaptcha processing
+fn get_attributes(data_struct: &DataStruct) -> HashMap<String, &Ident> {
+    let mut attributes = HashMap::new();
+    
+    let _: Vec<String> = data_struct
+    .fields
+    .iter()
+    .filter(|f| !f.attrs.is_empty())
+    .map(|f| {
+        let a = f.attrs[0].path.get_ident().unwrap().to_string();
+        if let Some(i) = &f.ident {
+            attributes.insert(a.clone(), i);
+        }
+        a
+    })
+    .collect();
+
+    attributes
 }
