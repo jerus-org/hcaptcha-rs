@@ -1,16 +1,16 @@
 mod helper;
 
+use chrono::{Duration, Utc};
+use claim::assert_ok;
 use hcaptcha::Hcaptcha;
 use serde_json::json;
 use wiremock::matchers::{body_string, method, path};
 use wiremock::{Mock, MockServer, ResponseTemplate};
-use claim::assert_ok;
-use chrono::{Duration, Utc};
 
 #[derive(Hcaptcha)]
 struct Test {
     #[captcha]
-    hcaptcha: String
+    hcaptcha: String,
 }
 
 #[tokio::main]
@@ -45,7 +45,6 @@ async fn main() {
     let form = Test { hcaptcha: token };
     let response = form.valid_response(&secret, Some(uri)).await;
 
-
     assert_ok!(&response);
     let response = response.unwrap();
     assert!(&response.success());
@@ -54,5 +53,4 @@ async fn main() {
     assert!(logs_contain("Hcaptcha API"));
     #[cfg(feature = "trace")]
     assert!(logs_contain("The response is"));
-
 }

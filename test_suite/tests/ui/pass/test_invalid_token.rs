@@ -1,10 +1,10 @@
 mod helper;
 
-use hcaptcha::{Hcaptcha, Code};
+use chrono::{Duration, Utc};
+use hcaptcha::{Code, Hcaptcha};
 use serde_json::json;
 use wiremock::matchers::{body_string, method, path};
 use wiremock::{Mock, MockServer, ResponseTemplate};
-use chrono::{Duration, Utc};
 
 #[derive(Debug, Hcaptcha)]
 struct Test {
@@ -20,12 +20,15 @@ struct Test {
 async fn main() {
     // Setup
     let token = "    ".to_string(); // String containing only spaces
-    // let token = helper::random_string(100);
+                                    // let token = helper::random_string(100);
     let remoteip = fakeit::internet::ipv4_address();
     let sitekey = fakeit::unique::uuid_v4();
     let secret = format!("0x{}", hex::encode(helper::random_string(20)));
 
-    let expected_body = format!("response={}&remoteip={}&sitekey={}&secret={}", &token, &remoteip, &sitekey, &secret);
+    let expected_body = format!(
+        "response={}&remoteip={}&sitekey={}&secret={}",
+        &token, &remoteip, &sitekey, &secret
+    );
 
     let timestamp = Utc::now()
         .checked_sub_signed(Duration::minutes(10))
@@ -48,12 +51,15 @@ async fn main() {
 
     let uri = format!("{}{}", mock_server.uri(), "/siteverify");
 
-    let form = Test { hcaptcha: token, sitekey, ip: remoteip };
+    let form = Test {
+        hcaptcha: token,
+        sitekey,
+        ip: remoteip,
+    };
     let response = form.valid_response(&secret, Some(uri)).await;
 
-    
     claim::assert_err!(&response);
-    
+
     if let Err(codes) = response {
         match codes {
             hcaptcha::HcaptchaError::Codes(hash_set) => {

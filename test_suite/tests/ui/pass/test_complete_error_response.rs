@@ -1,6 +1,6 @@
 mod helper;
 
-use hcaptcha::{Hcaptcha, Code};
+use hcaptcha::{Code, Hcaptcha};
 use serde_json::json;
 use wiremock::matchers::{body_string, method, path};
 use wiremock::{Mock, MockServer, ResponseTemplate};
@@ -23,7 +23,10 @@ async fn main() {
     let sitekey = fakeit::unique::uuid_v4();
     let secret = format!("0x{}", hex::encode(helper::random_string(20)));
 
-    let expected_body = format!("response={}&remoteip={}&sitekey={}&secret={}", &token, &remoteip, &sitekey, &secret);
+    let expected_body = format!(
+        "response={}&remoteip={}&sitekey={}&secret={}",
+        &token, &remoteip, &sitekey, &secret
+    );
 
     let response_template = ResponseTemplate::new(200).set_body_json(json!({
         "success": false,
@@ -37,15 +40,19 @@ async fn main() {
 
     let mock_server = MockServer::start().await;
     Mock::given(method("POST"))
-    .and(path("/siteverify"))
-    .and(body_string(&expected_body))
-    .respond_with(response_template)
-    .mount(&mock_server)
-    .await;
+        .and(path("/siteverify"))
+        .and(body_string(&expected_body))
+        .respond_with(response_template)
+        .mount(&mock_server)
+        .await;
 
     let uri = format!("{}{}", mock_server.uri(), "/siteverify");
 
-    let form = Test { hcaptcha: token,sitekey, ip: remoteip };
+    let form = Test {
+        hcaptcha: token,
+        sitekey,
+        ip: remoteip,
+    };
     let response = form.valid_response(&secret, Some(uri)).await;
 
     claim::assert_err!(&response);
