@@ -1,6 +1,7 @@
 {
     "rust-analyzer.rustcSource": null,
     "cSpell.words": [
+        "compilefail",
         "dd'T'HH",
         "fakeit",
         "invalidhcaptchastring",
