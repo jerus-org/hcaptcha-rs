@@ -37,14 +37,17 @@
 //!
 //!     let response = client.verify_client_response(request).await?;
 //!
+//! # #[cfg(feature = "enterprise")]
 //!     let score = match &response.score() {
 //!         Some(v) => *v,
 //!         None => 0.0,
 //!     };
+//! # #[cfg(feature = "enterprise")]
 //!     let score_reasons = match &response.score_reason() {
 //!         Some(v) => v.iter().join(", "),
 //!         None => "".to_owned(),
 //!     };
+//! # #[cfg(feature = "enterprise")]
 //!     println!("\tScore: {:?}\n\tReasons: {:?}", score, score_reasons);
 //!     # Ok(())
 //! # }

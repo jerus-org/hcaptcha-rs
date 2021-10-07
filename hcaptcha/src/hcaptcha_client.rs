@@ -138,7 +138,7 @@ impl HcaptchaClient {
     /// # Example
     /// Initialise client to connect to custom Hcaptcha API
     /// ```no_run
-    /// # main() -> Result<(), hcaptcha::HcaptchaError> {
+    /// # fn main() -> Result<(), hcaptcha::HcaptchaError> {
     ///     use hcaptcha::HcaptchaClient;
     ///     use url::Url;
     ///
@@ -188,7 +188,9 @@ impl HcaptchaClient {
     ///
     ///     let response = client.verify_client_response(request).await?;
     ///
+    /// # #[cfg(feature = "enterprise")]
     ///     let score = response.score();
+    /// # #[cfg(feature = "enterprise")]
     ///     let score_reasons = response.score_reason();
     ///
     /// # Ok(())

@@ -23,9 +23,11 @@
 //!         println!("Timestamp: {}", credit);
 //!     };
 //!     // Only available with an Enterprise subscription to Hcaptcha
+//! # #[cfg(feature = "enterprise")]
 //!     if let Some(score) = response.score() {
 //!         println!("Score: {}", score);
 //!     };
+//! # #[cfg(feature = "enterprise")]
 //!     if let Some(score_reason) = response.score_reason() {
 //!         println!("Score reasons: {:?}", score_reason);
 //!     };
