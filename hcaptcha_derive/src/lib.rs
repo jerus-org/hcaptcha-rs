@@ -106,6 +106,22 @@ use quote::quote;
 use syn::{Data, DataStruct, DeriveInput};
 
 /// Derive the Hcaptcha trait for a struct.
+///
+/// # Example
+///
+/// ```rust
+/// use hcaptcha::Hcaptcha;
+///
+/// #[derive(Hcaptcha)]
+/// pub struct ContactForm {
+///     name: String,
+///     email: String,
+///     phone: String,
+///     message: String,
+///     #[captcha]
+///     token: String,
+/// }
+/// ```
 #[proc_macro_error]
 #[proc_macro_derive(Hcaptcha, attributes(captcha, remoteip, sitekey))]
 pub fn hcaptcha_derive(input: TokenStream) -> TokenStream {
