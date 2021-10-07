@@ -95,18 +95,15 @@
 //! }
 //!```
 
-
-
-
 extern crate proc_macro;
 
 use std::collections::HashMap;
 
 use proc_macro::TokenStream;
+use proc_macro2::Ident;
 use proc_macro_error::proc_macro_error;
 use quote::quote;
-use syn::{DataStruct, Data, DeriveInput};
-use proc_macro2::Ident;
+use syn::{Data, DataStruct, DeriveInput};
 
 /// Derive the Hcaptcha trait for a struct.
 #[proc_macro_error]
@@ -273,19 +270,19 @@ fn get_struct_data<'a>(data: &'a Data, name: &Ident) -> &'a DataStruct {
 /// that identify the fields relevant to the hcaptcha processing
 fn get_attributes(data_struct: &DataStruct) -> HashMap<String, &Ident> {
     let mut attributes = HashMap::new();
-    
+
     let _: Vec<String> = data_struct
-    .fields
-    .iter()
-    .filter(|f| !f.attrs.is_empty())
-    .map(|f| {
-        let a = f.attrs[0].path.get_ident().unwrap().to_string();
-        if let Some(i) = &f.ident {
-            attributes.insert(a.clone(), i);
-        }
-        a
-    })
-    .collect();
+        .fields
+        .iter()
+        .filter(|f| !f.attrs.is_empty())
+        .map(|f| {
+            let a = f.attrs[0].path.get_ident().unwrap().to_string();
+            if let Some(i) = &f.ident {
+                attributes.insert(a.clone(), i);
+            }
+            a
+        })
+        .collect();
 
     attributes
 }
