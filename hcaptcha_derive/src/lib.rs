@@ -30,6 +30,17 @@
 //! The derive macro provides code such as the following:
 //!
 //!```rust
+//! # use hcaptcha::Hcaptcha;
+//! #
+//! # pub struct ContactForm {
+//! #     name: String,
+//! #     phone: String,
+//! #     email: String,
+//! #     message: String,
+//! #     hcaptcha: String,
+//! #     ip: String,
+//! #     key: String,
+//! # }
 //! impl Hcaptcha for ContactForm {
 //!     fn valid_response(
 //!         &self,
