@@ -1,7 +1,21 @@
 [package]
 name = "hcaptcha_derive"
 version = "0.1.0"
-edition = "2018"
+edition = "2021"
+description = """
+Derive macro for hCaptcha. Please use hcaptcha crate.
+"""
+authors = ["Jeremiah Russell <jrussell@jerus.ie>"]
+license = "MIT OR Apache-2.0"
+repository = "https://github.com/jerusdp/hcaptcha-rs"
+readme = "README.md"
+documentation = "https://docs.rs/hcaptcha_derive"
+categories = ["web-programming"]
+keywords = ["hcaptcha", "captcha", "security", "backend", "protection"]
+include = [
+    "**/*.rs",
+    "Cargo.toml",
+]
 
 [lib]
 name= "hcaptcha_derive"
@@ -15,3 +29,7 @@ proc-macro-error = "1"
 
 [dev-dependencies]
 hcaptcha = {path = "../hcaptcha" }
+
+[package.metadata.docs.rs]
+all-features = true
+rustdoc-args = ["--cfg", "docsrs"]
