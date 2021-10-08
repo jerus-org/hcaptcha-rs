@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/sh +eux
 clear
 # Parameters
 DEP_VERSION="v3"
@@ -12,12 +12,12 @@ DEP_FILE_NAME="lambda-contact-${DEP_VERSION}"
 
 describe_local_variables()
 {
-YELLOW=`tput setaf 6`
-BOLD=`tput bold`
-RESET=`tput sgr0`
-echo "\n${YELLOW}${BOLD}The following local variables are set:${RESET}${YELLOW}"
+YELLOW=$(tput setaf 6)
+BOLD=$(tput bold)
+RESET=$(tput sgr0)
+printf "\n%s%sThe following local variables are set:%s%s" "$YELLOW" "$BOLD" "$RESET" "$YELLOW"
 set | grep DEP | sed 's/^/    /'
-echo "${RESET}\n"
+printf "%s\n" "$RESET"
 }
 
 set_terraform_variables()
@@ -50,16 +50,16 @@ fi
 delete_KILLME_if_exits()
 {
     if [ -f "${DEP_KILLME}" ]; then
-        rm -f ${DEP_KILLME}
+        rm -f "${DEP_KILLME}"
     fi
 }
 
 check_environment()
 {
 
-    DEP_ENVIRON_CAPS=$(echo "${DEP_ENVIRON}" | tr a-z A-Z)
+    DEP_ENVIRON_CAPS=$(echo "${DEP_ENVIRON}" | tr '[:lower:]' '[:upper:]')
 
-    if [ ${DEP_ENVIRON_CAPS} = "PROD" ]; then
+    if [ "${DEP_ENVIRON_CAPS}" = "PROD" ]; then
         DEP_APIGW="jerus-website"
         AWS_PROFILE="jerus-prod-tf"
         export AWS_PROFILE="jerus-prod-tf"
@@ -69,7 +69,7 @@ check_environment()
         export AWS_PROFILE="jerus-dev-tf"
     fi
 
-    DEP_ENVIRON_FILE=.$(echo "${DEP_ENVIRON}" | tr A-Z a-z)
+    DEP_ENVIRON_FILE=.$(echo "${DEP_ENVIRON}" | tr '[:lower:]' '[:upper:]')
     if [ ! -f "$DEP_ENVIRON_FILE" ]; then 
         rm -rf .terraform
         if [ "$DEP_ENVIRON_FILE" = ".test" ]; then
@@ -77,32 +77,32 @@ check_environment()
         else DEP_KILLME=".test"
         fi
         delete_KILLME_if_exits
-        touch $DEP_ENVIRON_FILE
+        touch "$DEP_ENVIRON_FILE"
     fi
 }
 
 check_aws_profile_set()
 {
 if [ -z "${AWS_PROFILE}" ]; then
-    echo "AWS_PROFILE not set"
+    printf "AWS_PROFILE not set"
     exit 1
 fi
-AWS_ACCOUNT_ID=`aws sts get-caller-identity | jq -r ".Account"`
+AWS_ACCOUNT_ID=$(aws sts get-caller-identity | jq -r ".Account")
 }
 
 describe_variables()
 {
-YELLOW=`tput setaf 3`
-BOLD=`tput bold`
-RESET=`tput sgr0`
-echo "\n${YELLOW}${BOLD}The following terraform variables are set:${RESET}${YELLOW}"
+YELLOW=$(tput setaf 3)
+BOLD=$(tput bold)
+RESET=$(tput sgr0)
+printf "\n%s%sThe following terraform variables are set:%s%s" "${YELLOW}" "${BOLD}" "${RESET}" "${YELLOW}"
 env | grep TF_VAR | sed 's/^/    /'
-echo "${RESET}\n"
+printf "%s\n" "${RESET}"
 }
 
 create_config()
 {
-cat > ${DEP_ENVIRON}.config << EOF
+cat > "${DEP_ENVIRON}".config << EOF
 key="${DEP_ENVIRON_CAPS}/${DEP_FILE_NAME}.tfstate"
 bucket="${DEP_TERRAFORM_BUCKET}"
 region="${DEP_AWS_REGION}"
@@ -111,7 +111,7 @@ EOF
 
 create_tfvars()
 {
-cat > ${DEP_ENVIRON}.tfvars << EOF
+cat > "${DEP_ENVIRON}".tfvars << EOF
 region              = "${DEP_AWS_REGION}"
 remote_state_key    = "${DEP_ENVIRON_CAPS}/${DEP_FILE_NAME}.tfstate"
 remote_state_bucket = "${DEP_TERRAFORM_BUCKET}"
@@ -120,24 +120,24 @@ EOF
 
 cmd_help()
 {
-echo "USAGAE: deploy.sh <cmd> [environment] [no-auto]\n"
-echo "COMMANDS"
-echo "  init        Re-initialise terraform by removing .terraform and running terraform init."
-echo "  validate    Run terraform init and terraform validate."
-echo "  plan        Run terraform init and terraform plan."
-echo "  deploy      Run terraform init and terraform apply to deploy changes in AWS"
-echo "  build       Build code and deploy"
-echo "  destroy     Run terraform init and terraform destroy decomission AWS infrastructure\n"
-echo "  "
-echo "FLAGS"
-echo "  no-auto     removes automatic application of terraform apply and terraform destroy\n"
-echo "NOTES"
-echo "On script changes:" | sed 's/^/  /'
-echo "* run init to ensure all providers correctly configured" | sed 's/^/    /'
-echo "* run validate to validate the script." | sed 's/^/    /'
-echo "* run plan confirm the expected  impact." | sed 's/^/    /'
-echo "* run deploy  no-auto flag to find errors when change on AWS is attempted.\n" | sed 's/^/    /'
-echo "Once scripts have been validated they can be run by automation and applied automatically." | sed 's/^/  /'
+printf "USAGAE: deploy.sh <cmd> [no-auto]\n"
+printf "COMMANDS"
+printf "  init        Re-initialise terraform by removing .terraform and running terraform init."
+printf "  validate    Run terraform init and terraform validate."
+printf "  plan        Run terraform init and terraform plan."
+printf "  deploy      Run terraform init and terraform apply to deploy changes in AWS"
+printf "  build       Build code and deploy"
+printf "  destroy     Run terraform init and terraform destroy decomission AWS infrastructure\n"
+printf "  "
+printf "FLAGS"
+printf "  no-auto     removes automatic application of terraform apply and terraform destroy\n"
+printf "NOTES"
+printf "On script changes:" | sed 's/^/  /'
+printf "* run init to ensure all providers correctly configured" | sed 's/^/    /'
+printf "* run validate to validate the script." | sed 's/^/    /'
+printf "* run plan confirm the expected  impact." | sed 's/^/    /'
+printf "* run deploy  no-auto flag to find errors when change on AWS is attempted.\n" | sed 's/^/    /'
+printf "Once scripts have been validated they can be run by automation and applied automatically." | sed 's/^/  /'
 }
 
 cmd_init()
@@ -146,7 +146,7 @@ check_aws_profile_set
 create_config
 set_terraform_variables
 rm -rf .terraform
-echo terraform init -backend-config="${DEP_ENVIRON}.config"
+printf 'terraform init -backend-config="%s.config"' "${DEP_ENVIRON}"
 terraform init -backend-config="${DEP_ENVIRON}.config"
 }
 
@@ -188,7 +188,7 @@ check_aws_profile_set
 create_tfvars
 set_terraform_variables
 terraform init -backend-config="${DEP_ENVIRON}.config"
-terraform apply -var-file="${DEP_ENVIRON}.tfvars" ${AUTO_APPROVE}
+terraform apply -var-file="${DEP_ENVIRON}.tfvars" "${AUTO_APPROVE}"
 }
 
 cmd_destroy()
@@ -198,7 +198,7 @@ check_aws_profile_set
 create_tfvars
 set_terraform_variables
 terraform init -backend-config="${DEP_ENVIRON}.config"
-terraform destroy -var-file="${DEP_ENVIRON}.tfvars" ${AUTO_APPROVE}
+terraform destroy -var-file="${DEP_ENVIRON}.tfvars" "${AUTO_APPROVE}"
 }
 
 cmd_build()
@@ -206,31 +206,31 @@ cmd_build()
 RET=${PWD}
 cd ..
 ./build.sh
-cd ${RET}
+cd "${RET}" || exit
 cmd_deploy
 }
 
 CMD=$1
-DEP_ENVIRON=$2
+DEP_ENVIRON="test"
 
 check_environment
 
-if [ -z "${CMD}" ]; then 
+if [ -z "${CMD}" ]; then
     CMD=help
-elif [ ! ${CMD} =  "init" -a ! "${CMD}" = "plan" -a ! "${CMD}" = "validate" -a ! "${CMD}" = "deploy" -a ! "${CMD}" = "destroy"  -a ! "${CMD}" = "build"  -a ! "${CMD}" = "import" ]; then
+elif [ ! ${CMD} =  "init" ] && [ ! "${CMD}" = "plan" ] && [ ! "${CMD}" = "validate" ] && [ ! "${CMD}" = "deploy" ] && [ ! "${CMD}" = "destroy"  ] && [ ! "${CMD}" = "build"  ] && [ ! "${CMD}" = "import" ]; then
     CMD=help
 fi
 
-if [ "${CMD}" = "init" -o "${CMD}" = "validate" -o "${CMD}" = "plan" -o "${CMD}" = "deploy" -o "${CMD}" = "build" -o "${CMD}" = "destroy" ]; then
+if [ "${CMD}" = "init" ] || [ "${CMD}" = "validate" ] || [ "${CMD}" = "plan" ] || [ "${CMD}" = "deploy" ] || [ "${CMD}" = "build" ] || [ "${CMD}" = "destroy" ]; then
     if [ -z "${DEP_ENVIRON}" ]; then
-        echo "Environment not specified. Please specify build environment."
+        printf "Environment not specified. Please specify build environment."
         exit 1
     fi
 fi
 
 AUTO_APPROVE="-auto-approve"
 
-if [ "$3" = "no-auto" ]; then
+if [ "$2" = "no-auto" ]; then
     AUTO_APPROVE=""
 fi
 
