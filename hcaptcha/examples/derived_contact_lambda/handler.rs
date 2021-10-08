@@ -5,19 +5,17 @@ mod send;
 
 use hcaptcha::Hcaptcha;
 use lambda_runtime::{Context, Error};
-use send::ContactForm;
 use serde::{Deserialize, Serialize};
 use tokio::join;
-use tracing::{debug, error};
 
 const HCAPTCHA_SECRET: &str = "/hcaptcha/secret";
 
 #[derive(Deserialize, Serialize, Clone, Debug, Default)]
-pub struct CustomEvent {
+pub struct ApiGatewayEvent {
     body: Option<String>,
 }
 
-impl CustomEvent {
+impl ApiGatewayEvent {
     fn body_string(&self) -> &str {
         match &self.body {
             Some(s) => &s,
@@ -26,14 +24,18 @@ impl CustomEvent {
     }
 }
 
-#[derive(Deserialize, Serialize, Clone, Default)]
-pub struct Recaptcha {
-    #[serde(rename = "reCaptchaResponse")]
-    re_captcha_response: String,
+#[derive(Debug, Deserialize, Hcaptcha)]
+pub struct ContactForm {
+    name: String,
+    phone: String,
+    email: String,
+    message: String,
+    #[captcha]
+    token: String,
 }
 
 #[derive(Serialize, Clone, Debug, PartialEq)]
-pub struct CustomOutput {
+pub struct GatewayResponse {
     #[serde(rename = "isBase64Encoded")]
     is_base64_encoded: bool,
     #[serde(rename = "statusCode")]
@@ -41,9 +43,9 @@ pub struct CustomOutput {
     body: String,
 }
 
-impl CustomOutput {
-    fn new(status_code: u16, body: String) -> CustomOutput {
-        CustomOutput {
+impl GatewayResponse {
+    fn new(status_code: u16, body: String) -> GatewayResponse {
+        GatewayResponse {
             is_base64_encoded: false,
             status_code,
             body,
@@ -51,12 +53,15 @@ impl CustomOutput {
     }
 }
 
-pub async fn my_handler(e: CustomEvent, _c: Context) -> Result<CustomOutput, Error> {
-    debug!("The event logged is: {:?}", e);
+#[tracing::instrument (name = "Handle submitted contact form", skip(e,c) fields(request_id = %c.request_id))]
+pub async fn my_handler(e: ApiGatewayEvent, c: Context) -> Result<GatewayResponse, Error> {
+    tracing::debug!("The event logged is: {:?}", e);
 
     let contact_form: ContactForm = serde_json::from_str(e.body_string())?;
+    tracing::info!("Request {} is process for the contact {}.", c.request_id, contact_form.name);
     let secret = param::get_parameter(HCAPTCHA_SECRET).await?;
-    contact_form.valid_response(&secret).await?;
+
+    contact_form.valid_response(&secret, None).await?;
 
     let notify_office_fut = send::notify_office(&contact_form);
     let notify_contact_fut = send::notify_contact(&contact_form);
@@ -66,20 +71,20 @@ pub async fn my_handler(e: CustomEvent, _c: Context) -> Result<CustomOutput, Err
         join!(notify_office_fut, notify_contact_fut, write_fut);
 
     if let Err(e) = notify_contact {
-        error!("Notification to the contact not sent: {}", e);
+        tracing::error!("Notification to the contact not sent: {}", e);
         return Err("Notification not sent".into());
     }
 
     if let Err(e) = notify_office {
-        error!("Notification to the office not sent: {}", e);
+        tracing::error!("Notification to the office not sent: {}", e);
         return Err("Info not sent to office".into());
     }
 
     if let Err(e) = write {
-        error!("Contact information not written to database: {}", e);
+        tracing::error!("Contact information not written to database: {}", e);
     }
 
-    Ok(CustomOutput::new(
+    Ok(GatewayResponse::new(
         200,
         format!("{}, thank you for your contact request.", contact_form.name),
     ))

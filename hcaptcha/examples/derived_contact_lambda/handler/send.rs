@@ -1,23 +1,7 @@
-use super::error::LambdaContactError;
+use crate::handler::error::LambdaContactError;
+use crate::handler::ContactForm;
 use rusoto_ses::{SendEmailResponse, SendTemplatedEmailResponse};
-use serde::{Deserialize, Serialize};
 use tracing::instrument;
-
-#[derive(Deserialize, Serialize, Clone, Debug, Default)]
-pub struct ContactForm {
-    #[serde(default)]
-    pub name: String,
-    #[serde(default)]
-    pub phone: String,
-    #[serde(default)]
-    pub email: String,
-    #[serde(default)]
-    pub message: String,
-    #[serde(default)]
-    pub page: String,
-    #[serde(default)]
-    pub site: String,
-}
 
 #[instrument(name = "send notification to info mailbox", skip(_contact_form))]
 pub async fn notify_office(

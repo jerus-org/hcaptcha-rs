@@ -1,5 +1,5 @@
-use super::error::LambdaContactError;
-use super::send::ContactForm;
+use crate::handler::error::LambdaContactError;
+use crate::handler::ContactForm;
 use tracing::instrument;
 
 #[instrument(

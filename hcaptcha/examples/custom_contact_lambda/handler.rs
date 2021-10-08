@@ -12,7 +12,7 @@ use tokio::join;
 use tracing::{debug, error};
 
 #[derive(Deserialize, Serialize, Clone, Debug, Default)]
-pub struct CustomEvent {
+pub struct ApiGatewayEvent {
     body: Option<String>,
 }
 
@@ -23,7 +23,7 @@ pub struct Recaptcha {
 }
 
 #[derive(Serialize, Clone, Debug, PartialEq)]
-pub struct CustomOutput {
+pub struct GatewayResponse {
     #[serde(rename = "isBase64Encoded")]
     is_base64_encoded: bool,
     #[serde(rename = "statusCode")]
@@ -31,9 +31,9 @@ pub struct CustomOutput {
     body: String,
 }
 
-impl CustomOutput {
-    fn new(status_code: u16, body: String) -> CustomOutput {
-        CustomOutput {
+impl GatewayResponse {
+    fn new(status_code: u16, body: String) -> GatewayResponse {
+        GatewayResponse {
             is_base64_encoded: false,
             status_code,
             body,
@@ -41,7 +41,8 @@ impl CustomOutput {
     }
 }
 
-pub async fn my_handler(e: CustomEvent, _c: Context) -> Result<CustomOutput, Error> {
+#[tracing::instrument (name = "Handle submitted contact form", skip(e,c) fields(request_id = %c.request_id))]
+pub async fn my_handler(e: ApiGatewayEvent, c: Context) -> Result<GatewayResponse, Error> {
     debug!("The event logged is: {:?}", e);
 
     let body_str = e.body.unwrap_or_else(|| "".to_owned());
@@ -50,6 +51,8 @@ pub async fn my_handler(e: CustomEvent, _c: Context) -> Result<CustomOutput, Err
     hcaptcha_validate::response_valid(captcha).await?;
 
     let contact_form: ContactForm = serde_json::from_str(&body_str)?;
+
+    tracing::info!("Request {} is process for the contact {}.", c.request_id, contact_form.name);
 
     let notify_office_fut = send::notify_office(&contact_form);
     let notify_contact_fut = send::notify_contact(&contact_form);
@@ -72,7 +75,7 @@ pub async fn my_handler(e: CustomEvent, _c: Context) -> Result<CustomOutput, Err
         error!("Contact information not written to database: {}", e);
     }
 
-    Ok(CustomOutput::new(
+    Ok(GatewayResponse::new(
         200,
         format!("{}, thank you for your contact request.", contact_form.name),
     ))
