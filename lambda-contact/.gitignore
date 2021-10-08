@@ -1,0 +1,8 @@
+**/target
+**/.terraform
+**/*.config
+**/*.tfvars
+**/rust.zip
+**/.test
+**/.prod
+**/hcaptcha

@@ -1,0 +1,1 @@
+{"errorType":"\u0026alloc::boxed::Box\u003cdyn std::error::Error+core::marker::Send+core::marker::Sync\u003e","errorMessage":"Couldn't find AWS credentials in environment, credentials file, or IAM role."}
