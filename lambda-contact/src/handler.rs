@@ -1,19 +1,31 @@
+mod contact_form;
 mod dynamo_items;
 mod error;
+mod param;
 mod record;
 mod send;
-mod validate;
-mod contact_form;
 
-use lambda_runtime::{Context, Error};
-use send::ContactForm;
+use contact_form::ContactForm;
+use error::LambdaContactError;
+use hcaptcha::Hcaptcha;
+use lambda_runtime::Context;
 use serde_derive::{Deserialize, Serialize};
 use tokio::join;
-use tracing::{debug, error, info, instrument};
+
+const HCAPTCHA_SECRET: &str = "/website/hcaptcha/secret_key";
 
 #[derive(Deserialize, Serialize, Clone, Debug, Default)]
 pub struct ApiGatewayEvent {
     body: Option<String>,
+}
+
+impl ApiGatewayEvent {
+    fn body_str(&self) -> &str {
+        match &self.body {
+            Some(s) => s,
+            None => "",
+        }
+    }
 }
 
 #[derive(Serialize, Clone, Debug, PartialEq)]
@@ -35,53 +47,74 @@ impl ApiResponse {
     }
 }
 
-#[instrument(name = "API Gateway event handler", skip(e, _c), fields(request_id = %c.request_id))]
-pub async fn my_handler(e: ApiGatewayEvent, c: Context) -> Result<ApiResponse, Error> {
-    debug!("The event logged is: {:?}", e);
+#[tracing::instrument(name = "API Gateway event handler", skip(e, c), fields(request_id = %c.request_id))]
+pub async fn my_handler(e: ApiGatewayEvent, c: Context) -> Result<ApiResponse, LambdaContactError> {
+    tracing::debug!("The event logged is: {:?}", e);
 
-    let body_str = e.body.unwrap_or_else(|| "".to_owned());
-    info!("About to validate the response code.");
-    
+    tracing::debug!("About to validate the response code.");
+    let contact_form: ContactForm = serde_json::from_str(e.body_str())?;
+    tracing::info!(
+        "Request {} is process for the contact {}.",
+        c.request_id,
+        contact_form.name
+    );
+    let secret = param::get_parameter(HCAPTCHA_SECRET, true).await?;
 
-    let response = validate::valid_captcha(&body_str).await?;
-    info!("Response code valid! Response: {:?}", response);
+    let response = contact_form.valid_response(&secret, None).await?;
+
+    tracing::debug!("Response code valid! Response: {:?}", response);
 
     if let Some(hostname) = response.hostname() {
-        info!("Response hostname: {:?}", hostname);
+        tracing::debug!("Response hostname: {:?}", hostname);
     };
     if let Some(credit) = response.credit() {
-        info!("Response credit: {:?}", credit);
+        tracing::debug!("Response credit: {:?}", credit);
     };
     if let Some(timestamp) = response.timestamp() {
-        info!("Response timestamp: {:?}", timestamp);
+        tracing::debug!("Response timestamp: {:?}", timestamp);
     };
     let success = response.success();
-    info!("Response success: {:?}", success);
+    tracing::debug!("Response success: {:?}", success);
 
-    let contact_form: ContactForm = serde_json::from_str(&body_str)?;
+    if success {
+        let info_fut = send::notify(&contact_form);
+        let notification_fut = send::acknowledge(&contact_form);
+        let write_fut = record::write(&contact_form);
 
-    let info_fut = send::notify(&contact_form);
-    let notification_fut = send::acknowledge(&contact_form);
-    let write_fut = record::write(&contact_form);
+        let (info, notification, write) = join!(info_fut, notification_fut, write_fut);
 
-    let (info, notification, write) = join!(info_fut, notification_fut, write_fut);
+        if let Err(e) = notification {
+            tracing::error!("Notification not sent: {}", e);
+            return Err(LambdaContactError::Processing("Notification not sent".into()));
+        }
 
-    if let Err(e) = notification {
-        error!("Notification not sent: {}", e);
-        return Err("Notification not sent".into());
+        if let Err(e) = info {
+            tracing::error!("Info not sent to office: {}", e);
+            return Err(LambdaContactError::Processing("Info not sent to office".into()));
+        }
+
+        if let Err(e) = write {
+            tracing::error!("Contact information not written to database: {}", e);
+        }
+
+        Ok(ApiResponse::new(
+            200,
+            format!("{}, thank you for your contact request.", contact_form.name),
+        ))
+    } else {
+        match response.error_codes() {
+            Some(hs) => {
+                let mut errors = String::new();
+                for item in hs.iter() {
+                    if errors.is_empty() {
+                        errors = item.to_string();
+                    } else {
+                        errors = format!("{}, {}", errors, item);
+                    }
+                }
+                Err(LambdaContactError::Processing(errors))
+            }
+            None => Err(LambdaContactError::Processing("no errors".to_string())),
+        }
     }
-
-    if let Err(e) = info {
-        error!("Info not sent to office: {}", e);
-        return Err("Info not sent to office".into());
-    }
-
-    if let Err(e) = write {
-        error!("Contact information not written to database: {}", e);
-    }
-
-    Ok(ApiResponse::new(
-        200,
-        format!("{}, thank you for your contact request.", contact_form.name),
-    ))
 }

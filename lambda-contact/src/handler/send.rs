@@ -1,13 +1,13 @@
-use super::error::LambdaContactError;
+use crate::handler::contact_form::ContactForm;
+use crate::handler::error::LambdaContactError;
 use rusoto_core::Region;
 use rusoto_ses::{
     Body, Content, Destination, Message, SendEmailRequest, SendEmailResponse,
     SendTemplatedEmailRequest, SendTemplatedEmailResponse, Ses, SesClient,
 };
 use serde_derive::{Deserialize, Serialize};
-use tracing::{debug, instrument};
 
-#[instrument(name = "notify contact details", skip(contact_form))]
+#[tracing::instrument(name = "notify contact details", skip(contact_form))]
 pub async fn notify(contact_form: &ContactForm) -> Result<SendEmailResponse, LambdaContactError> {
     const RECIEVER: &str = "info@jerus.ie";
     const SENDER: &str = "info@jerus.ie";
@@ -22,8 +22,8 @@ pub async fn notify(contact_form: &ContactForm) -> Result<SendEmailResponse, Lam
         cc_addresses: None,
         to_addresses: Some(destinations),
     };
-    let message = create_message(&contact_form);
-    debug!("The prepared message is: {:#?}", message);
+    let message = create_message(contact_form);
+    tracing::debug!("The prepared message is: {:#?}", message);
     let send_mail_request = SendEmailRequest {
         configuration_set_name: Some(CONFIG_SET.to_string()),
         destination: send_to,
@@ -31,9 +31,9 @@ pub async fn notify(contact_form: &ContactForm) -> Result<SendEmailResponse, Lam
         source: SENDER.to_string(),
         ..Default::default()
     };
-    debug!("The request: {:#?}", send_mail_request);
+    tracing::debug!("The request: {:#?}", send_mail_request);
     let res = client.send_email(send_mail_request).await?;
-    debug!("Successful result?: {:#?}", res);
+    tracing::debug!("Successful result?: {:#?}", res);
 
     Ok(res)
 }
@@ -51,7 +51,7 @@ impl From<&ContactForm> for NotificationTemplate {
     }
 }
 
-#[instrument(name = "Send acknowledgement to contact", skip(contact_form))]
+#[tracing::instrument(name = "Send acknowledgement to contact", skip(contact_form))]
 pub async fn acknowledge(
     contact_form: &ContactForm,
 ) -> Result<SendTemplatedEmailResponse, LambdaContactError> {
@@ -77,15 +77,15 @@ pub async fn acknowledge(
         ..Default::default()
     };
 
-    debug!("Request: {:#?}", send_templated_mail_request);
+    tracing::debug!("Request: {:#?}", send_templated_mail_request);
     let res = client
         .send_templated_email(send_templated_mail_request)
         .await?;
-    debug!("Successful result?: {:#?}", res);
+    tracing::debug!("Successful result?: {:#?}", res);
     Ok(res)
 }
 
-#[instrument(name = "create the message", skip(contact_form))]
+#[tracing::instrument(name = "create the message", skip(contact_form))]
 fn create_message(contact_form: &ContactForm) -> Message {
     let body_text = format!(
         "Name:   {}\nEmail:  {}\nPhone:  {}\nMessage\n{}",

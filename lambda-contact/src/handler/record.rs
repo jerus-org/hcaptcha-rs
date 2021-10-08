@@ -1,13 +1,12 @@
-use super::dynamo_items::DynamoItems;
-use super::error::LambdaContactError;
-use super::send::ContactForm;
+use crate::handler::contact_form::ContactForm;
+use crate::handler::dynamo_items::DynamoItems;
+use crate::handler::error::LambdaContactError;
 use chrono::{Duration, Utc};
 use regex::Regex;
 use rusoto_core::Region;
 use rusoto_dynamodb::{AttributeValue, DynamoDb, DynamoDbClient, PutItemInput};
 use std::borrow::Cow;
 use std::collections::HashMap;
-use tracing::{debug, instrument};
 use url::Url;
 use uuid::Uuid;
 
@@ -18,7 +17,7 @@ pub struct Contact {
 }
 
 impl From<&ContactForm> for Contact {
-    #[instrument(name = "convert contact form to contact record", skip(item))]
+    #[tracing::instrument(name = "convert contact form to contact record", skip(item))]
     fn from(item: &ContactForm) -> Self {
         let contact_id = Uuid::new_v4();
         let now = Utc::now();
@@ -36,9 +35,9 @@ impl From<&ContactForm> for Contact {
                 clean_site = String::from(&cap[1]);
             }
         }
-        debug!("The site is {:?}", clean_site);
+        tracing::debug!("The site is {:?}", clean_site);
 
-        debug!("The full sites is: {:?}", &item.site);
+        tracing::debug!("The full sites is: {:?}", &item.site);
         let (event, referer, reference) = check_trackers(&item.site);
 
         Contact {
@@ -59,7 +58,7 @@ impl From<&ContactForm> for Contact {
     }
 }
 
-#[instrument(
+#[tracing::instrument(
     name = "Write record to database"
     skip(form)
     fields(email = %form.email)
@@ -77,13 +76,13 @@ pub async fn write(form: &ContactForm) -> Result<(), LambdaContactError> {
         ..PutItemInput::default()
     };
 
-    debug!("The contact record: {:?}", rec);
+    tracing::debug!("The contact record: {:?}", rec);
 
     client.put_item(input).await?;
     Ok(())
 }
 
-#[instrument(name = "Check for trackers")]
+#[tracing::instrument(name = "Check for trackers")]
 fn check_trackers(site: &str) -> (String, String, String) {
     let parsed_url = Url::parse(site).unwrap();
     let mut pairs = parsed_url.query_pairs();
