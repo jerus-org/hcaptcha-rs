@@ -4,5 +4,6 @@
 **/*.tfvars
 **/rust.zip
 **/.test
+**/.TEST
 **/.prod
 **/hcaptcha
