@@ -3,11 +3,11 @@ name = "hcaptcha"
 description = """
 hCaptcha client response verification. Validate the hCaptcha response submitted from to your server from the client.
 """
-version = "2.0.0"
+version = "2.0.1"
 authors = ["Jeremiah Russell <jrussell@jerus.ie>"]
 license = "MIT OR Apache-2.0"
 repository = "https://github.com/jerusdp/hcaptcha-rs"
-edition = "2021"
+edition = "2018"
 readme = "README.md"
 documentation = "https://docs.rs/hcaptcha"
 categories = ["web-programming"]
