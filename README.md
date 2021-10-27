@@ -34,46 +34,39 @@ To use hcaptcha-rs in your project you can add the following to your `Cargo.toml
 
 ```toml
 [dependencies.hcaptcha]
-version = "2.0.0"
+version = "2.0.1"
 ```
 
 ## Usage
 
-Verifying hcaptcha responses is easy:
+Derive a validation method on the data structure representing your data, marking the captcha components in the data structure.
 
-```rust
-use hcaptcha::{HcaptchaClient, HcaptchaRequest};
-# use itertools::Itertools;
-# #[tokio::main]
-# async fn main() -> Result<(), hcaptcha::HcaptchaError> {
-    let secret = get_your_secret();
-    let token = get_user_token();
-    let remote_ip = get_remoteip_address();
-    let request = HcaptchaRequest::new(&secret, &token)?
-        .set_remoteip(remote_ip);
-    let client = HcaptchaClient::new();
-    let response = client.verify_client_response(request).await?;
-    let score = match &response.score() {
-        Some(v) => *v,
-        None => 0.0,
-    };
-    let score_reasons = match &response.score_reason() {
-        Some(v) => v.iter().join(", "),
-        None => "".to_owned(),
-    };
-    println!("\tScore: {:?}\n\tReasons: {:?}", score, score_reasons);
-    # Ok(())
-# }
-# fn get_your_secret() -> String {
-#   "0x123456789abcde0f123456789abcdef012345678".to_string()
-# }
-# fn get_user_token() -> String {
-#    "thisisnotapropertoken".to_string()
-# }
-# use std::net::{IpAddr, Ipv4Addr};
-# fn get_remoteip_address() -> IpAddr {
-#    IpAddr::V4(Ipv4Addr::new(192, 168, 0, 17))
-# }
+``` rust
+# use hcaptcha::Hcaptcha;
+
+#[derive(Debug, Deserialize, Hcaptcha)]
+pub struct ContactForm {
+    name: String,
+    phone: String,
+    email: String,
+    message: String,
+    #[captcha]
+    token: String,
+}
+```
+
+Validate the captcha data.
+
+``` rust
+    # #[tokio::main]
+    # async main() -> Result<(), Box<dyn std::error::Error>> {
+    let contact_form: ContactForm = serde_json::from_str(e.body_string())?;
+    contact_form.valid_response(&secret, None).await?;
+    # }
+    # fn get_your_secret() -> String {
+    #   "0x123456789abcde0f123456789abcdef012345678".to_string()
+    # }
+
 ```
 
 See the examples folder for an AWS Lambda contact form example.
@@ -85,6 +78,12 @@ Licensed under either of
 * Apache License, Version 2.0 (LICENSE-APACHE or <http://www.apache.org/licenses/LICENSE-2.0>)
 * MIT license (LICENSE-MIT or <http://opensource.org/licenses/MIT>)
 at your option.
+
+### Third Party Licenses
+
+A summary of third party licenses can be found [here][fossa-report-url]
+
+[fossa-report-url]: https://app.fossa.com/attribution/524389e4-8ef2-4dd1-9453-d07c39efa929
 
 ## Contribution
 

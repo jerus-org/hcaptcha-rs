@@ -8,8 +8,10 @@
         "itertools",
         "Itertools",
         "lamedh",
+        "panicbit",
         "sitekeys",
         "siteverify",
-        "Struct"
+        "Struct",
+        "thisisnotapropertoken"
     ]
 }
