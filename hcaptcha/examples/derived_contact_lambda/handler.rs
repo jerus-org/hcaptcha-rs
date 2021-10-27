@@ -58,7 +58,11 @@ pub async fn my_handler(e: ApiGatewayEvent, c: Context) -> Result<GatewayRespons
     tracing::debug!("The event logged is: {:?}", e);
 
     let contact_form: ContactForm = serde_json::from_str(e.body_string())?;
-    tracing::info!("Request {} is process for the contact {}.", c.request_id, contact_form.name);
+    tracing::info!(
+        "Request {} is process for the contact {}.",
+        c.request_id,
+        contact_form.name
+    );
     let secret = param::get_parameter(HCAPTCHA_SECRET).await?;
 
     contact_form.valid_response(&secret, None).await?;

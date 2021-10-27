@@ -52,7 +52,11 @@ pub async fn my_handler(e: ApiGatewayEvent, c: Context) -> Result<GatewayRespons
 
     let contact_form: ContactForm = serde_json::from_str(&body_str)?;
 
-    tracing::info!("Request {} is process for the contact {}.", c.request_id, contact_form.name);
+    tracing::info!(
+        "Request {} is process for the contact {}.",
+        c.request_id,
+        contact_form.name
+    );
 
     let notify_office_fut = send::notify_office(&contact_form);
     let notify_contact_fut = send::notify_contact(&contact_form);
