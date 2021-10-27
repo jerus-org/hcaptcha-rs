@@ -261,7 +261,6 @@ mod tests {
     use crate::Code;
     use chrono::{Duration, Utc};
     use claim::assert_ok;
-    use hex;
     use rand::distributions::Alphanumeric;
     use rand::{thread_rng, Rng};
     use serde_json::json;

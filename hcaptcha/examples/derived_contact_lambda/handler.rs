@@ -18,7 +18,7 @@ pub struct ApiGatewayEvent {
 impl ApiGatewayEvent {
     fn body_string(&self) -> &str {
         match &self.body {
-            Some(s) => &s,
+            Some(s) => s,
             None => "",
         }
     }

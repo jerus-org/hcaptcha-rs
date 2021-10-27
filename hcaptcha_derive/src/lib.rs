@@ -263,7 +263,7 @@ fn get_required_attribute(
 /// If the data is not stored in the Struct variant abort compilation
 /// with an error.
 fn get_struct_data<'a>(data: &'a Data, name: &Ident) -> &'a DataStruct {
-    let data_struct = match data {
+    match data {
         Data::Struct(s) => s,
         _ => {
             let example = r#"
@@ -278,8 +278,7 @@ fn get_struct_data<'a>(data: &'a Data, name: &Ident) -> &'a DataStruct {
                 {}", &example;
             };
         }
-    };
-    data_struct
+    }
 }
 
 /// Iterate through the fields in the struct to find the attributes

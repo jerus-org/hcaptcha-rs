@@ -266,12 +266,10 @@ impl HcaptchaCaptcha {
     ///
     /// ```no_run
     ///     use hcaptcha::HcaptchaCaptcha;
-    /// # fn main() {
     ///     let (response, captcha) = get_captcha();
-    ///     
+    ///
     ///     assert_eq!(response, captcha.response().to_string());
     ///
-    /// # }
     /// # use rand::distributions::Alphanumeric;
     /// # use rand::{thread_rng, Rng};
     /// # use std::iter;
@@ -324,7 +322,6 @@ impl HcaptchaCaptcha {
     /// ```no_run
     ///     use hcaptcha::HcaptchaCaptcha;
     /// # use claim::assert_some;
-    /// # fn main() {
     ///     let (remoteip, captcha) = get_captcha();
     ///     
     ///     let value = captcha.remoteip();
@@ -334,7 +331,6 @@ impl HcaptchaCaptcha {
     ///         assert_eq!(remoteip, v.to_string());
     ///     }
     ///
-    /// # }
     /// # use rand::distributions::Alphanumeric;
     /// # use rand::{thread_rng, Rng};
     /// # use std::iter;
@@ -384,7 +380,6 @@ impl HcaptchaCaptcha {
     /// ```no_run
     ///     use hcaptcha::HcaptchaCaptcha;
     /// # use claim::assert_some;
-    /// # fn main() {
     ///     let (sitekey, captcha) = get_captcha();
     ///
     ///     let value = captcha.sitekey();
@@ -394,7 +389,6 @@ impl HcaptchaCaptcha {
     ///         assert_eq!(sitekey, v.to_string());
     ///     };
     ///
-    /// # }
     /// # use rand::distributions::Alphanumeric;
     /// # use rand::{thread_rng, Rng};
     /// # use std::iter;
