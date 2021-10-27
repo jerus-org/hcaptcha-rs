@@ -3,7 +3,7 @@ name = "hcaptcha"
 description = """
 hCaptcha client response verification. Validate the hCaptcha response submitted from to your server from the client.
 """
-version = "2.0.1"
+version = "2.0.0"
 authors = ["Jeremiah Russell <jrussell@jerus.ie>"]
 license = "MIT OR Apache-2.0"
 repository = "https://github.com/jerusdp/hcaptcha-rs"
@@ -15,6 +15,10 @@ keywords = ["hcaptcha", "captcha", "security", "backend", "protection"]
 include = [
     "**/*.rs",
     "Cargo.toml",
+    "README.md",
+    "LICENSE-APACHE",
+    "LICENSE-MIT",
+    "CHANGES.md",
 ]
 
 [features]
