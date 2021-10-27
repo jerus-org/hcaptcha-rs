@@ -8,7 +8,16 @@ jobs:
   security_audit:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions-rs/audit-check@v1
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+            - name: Checkout repository
+              uses: actions/checkout@v2
+
+            - name: Install cargo-audit
+              uses: actions-rs/install@v0.1.2
+              with:
+                  crate: cargo-audit
+                  version: latest
+
+            - name: Audit
+              # TEMP: Ignore the time/chrono segfault CVEs since there are no known
+              # good workarounds, and we want logs etc to be in local time.
+              run: cargo audit --ignore RUSTSEC-2020-0159 --ignore RUSTSEC-2020-0071
