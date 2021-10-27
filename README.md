@@ -6,7 +6,7 @@
 [![Rust 1.46+][version-badge]][version-url]
 [![FOSSA Status][fossa-badge]][fossa-url]
 [![Docs][docs-badge]][docs-url]
-[![BuyMeaCoffee][bmac-badge]][bmac-url]
+[![BuyMeaCoffee][bmac-badge][bmac-url]
 [![GitHubSponsors][ghub-badge]][ghub-url]
 
 [crates-badge]: https://img.shields.io/crates/v/hcaptcha.svg
