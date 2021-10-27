@@ -39,7 +39,7 @@ thiserror = "1.0"
 tracing = { version = "0.1.26", features = ["log", "attributes"], optional = true }
 uuid = "0.8.2"
 url = "2.2.2"
-hcaptcha_derive = { version = "0.1.0", path = "../hcaptcha_derive" }
+hcaptcha_derive = { version = "2.0.0", path = "../hcaptcha_derive" }
 
 [dev-dependencies]
 chrono = "0.4.19"
