@@ -1,3 +1,10 @@
 [workspace]
 members = ["hcaptcha", "hcaptcha_derive" , "test_suite"]
 exclude = ["lambda-contact"]
+
+resolver = "2"
+
+[profile.release]
+debug = 1
+incremental = true
+lto = "off"
