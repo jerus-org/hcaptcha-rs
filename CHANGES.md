@@ -1,8 +1,31 @@
 # Change Log
 
+All notable changes to this project will be documented in this file.
+
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
+and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
+## Unreleased
+
+### Changed
+
+- Update to edition 2021
+
+## v2.0.1 - 2021-10-27
+
+### Added
+
+- trait_implementation example
+- trait implementation
+- derive macro
+
+### Fixed
+
+- Spelling errors
+
 ## v2.0.0
 
-- Rename user_ip and site_key to comform to Hcaptcha API documentation (remoteip and sitekey)
+- Rename user_ip and site_key to conform to Hcaptcha API documentation (remoteip and sitekey)
 - Restore lambda_runtime as crate has been updated
 - Validate client response before submission to Hcaptcha API
 - Validate secret before submission to Hcaptcha API
@@ -13,7 +36,7 @@
 - Replace logging with tracing; remove logging feature flag
 - Revise documentation and enhance examples
 - Adopt Request/Response/Error and Trait structure
-- Struct HcaptchaCaptcha for client response (response, sitekey and remoteip) and new_with(captcha) to construct request using the HcaptchCaptcha struct.
+- Struct HcaptchaCaptcha for client response (response, sitekey and remoteip) and new_with(captcha) to construct request using the HcaptchaCaptcha struct.
 
 ### Notes
 
@@ -21,7 +44,7 @@
 
 Validation of secret and response inputs makes hcaptcha::new(secret, response) fallible. The function returns a result to address any validation failure.
 
-Basic validation for both inputs ensures that the value is not empty or composed of only whitepsace.
+Basic validation for both inputs ensures that the value is not empty or composed of only whitespace.
 
 Extended validation for the secret key requires it to conform to "0x" followed by a 40 character hexadecimal string. The extended validation is feature flagged and can be disabled. The flag is enabled by default. To disable load the library with default-features = false.
 

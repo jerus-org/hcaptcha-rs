@@ -81,22 +81,3 @@ jobs:
         run: cargo doc --lib --no-deps --all-features --document-private-items
         env:
           RUSTDOCFLAGS: --cfg docsrs -Dwarnings
-
-
-  coverage:
-    name: Code coverage
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
-
-      - name: Install stable toolchain
-        uses: actions-rs/toolchain@v1
-        with:
-          toolchain: stable
-          override: true
-      - name: Run cargo-tarpaulin
-        uses: actions-rs/tarpaulin@v0.1
-        with:
-          version: "0.16.0"
-          args: '--ignore-tests --all-features'
