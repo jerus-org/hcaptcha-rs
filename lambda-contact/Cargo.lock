@@ -485,7 +485,7 @@ checksum = "d7afe4a420e3fe79967a00898cc1f4db7c8a49a9333a29f8a4bd76a253d5cd04"
 
 [[package]]
 name = "hcaptcha"
-version = "2.0.0"
+version = "2.1.0"
 dependencies = [
  "async-trait",
  "hcaptcha_derive",
@@ -502,7 +502,7 @@ dependencies = [
 
 [[package]]
 name = "hcaptcha_derive"
-version = "2.0.0"
+version = "2.1.0"
 dependencies = [
  "proc-macro-error",
  "proc-macro2",
@@ -1555,9 +1555,9 @@ dependencies = [
 
 [[package]]
 name = "tokio"
-version = "1.12.0"
+version = "1.13.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "c2c2416fdedca8443ae44b4527de1ea633af61d8f7169ffa6e72c5b53d24efcc"
+checksum = "588b2d10a336da58d877567cd8fb8a14b463e2104910f8132cd054b4b96e29ee"
 dependencies = [
  "autocfg",
  "bytes 1.0.1",
