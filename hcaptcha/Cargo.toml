@@ -51,7 +51,7 @@ lambda_runtime = "0.4.1"
 log = "0.4.14"
 rand= "0.8.4"
 simple_logger = "1.13.0"
-tokio = { version = "1.2", features = ["macros", "rt-multi-thread"] }
+tokio = { version = "1.12", features = ["macros", "rt-multi-thread"] }
 tracing = "0.1.29"
 tracing-appender = "0.2.0"
 tracing-bunyan-formatter = "0.3.0"
