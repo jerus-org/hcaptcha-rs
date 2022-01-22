@@ -12,7 +12,7 @@ publish = false
 lambda_runtime = "0.4.1"
 serde = "^1"
 serde_json = "^1"
-serde_urlencoded = "0.7.0"
+serde_urlencoded = "0.7.1"
 serde_derive = "^1"
 tracing = { version = "0.1.29", features = ["attributes"] }
 tracing-appender = "0.2.0"
