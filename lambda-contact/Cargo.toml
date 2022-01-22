@@ -28,7 +28,7 @@ tokio = { version = "1.15.0", features = [ "rt-multi-thread", "macros" ] }
 hcaptcha = {path = "../hcaptcha", features = ["trace"] }
 # hcaptcha = "0.3"
 uuid = {version = "~0.8", features = ["v4"] }
-futures = "0.3.17"
+futures = "0.3.19"
 regex = "~1.5.4"
 thiserror = "1.0"
 url = "2.2.2"
