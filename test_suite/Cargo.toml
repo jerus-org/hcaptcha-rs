@@ -15,9 +15,9 @@ hcaptcha_derive = { path = "../hcaptcha_derive" }
 tokio = { version = "1", features = ["rt-multi-thread", "macros"] }
 claim = "0.5.0"
 fakeit = "1.1.1"
-itertools = "0.10.1"
+itertools = "0.10.3"
 rand = "0.8"
-wiremock = "0.5.8"
+wiremock = "0.5.10"
 serde_json = "1"
 hex = "0.4"
 chrono = "0.4.19"
