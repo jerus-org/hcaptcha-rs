@@ -27,8 +27,10 @@ impl ApiGatewayEvent {
 #[derive(Debug, Deserialize, Hcaptcha)]
 pub struct ContactForm {
     name: String,
+    #[allow(dead_code)]
     phone: String,
     email: String,
+    #[allow(dead_code)]
     message: String,
     #[captcha]
     token: String,
