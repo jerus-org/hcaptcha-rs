@@ -24,6 +24,8 @@ jobs:
           toolchain: stable
           override: true
       - uses: actions-rs/cargo@v1
+        env:
+          TRYBUILD: overwrite
         with:
           command: test
           args: --all-features
