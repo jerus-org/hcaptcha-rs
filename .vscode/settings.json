@@ -17,6 +17,7 @@
     "conventionalCommits.scopes": [
         "lambda-contact",
         "Tests",
-        "dependencies"
+        "dependencies",
+        "security"
     ]
 }

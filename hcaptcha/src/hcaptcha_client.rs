@@ -46,9 +46,9 @@
 //! # fn dummy_captcha() -> HcaptchaCaptcha {
 //! #    HcaptchaCaptcha::new(&random_response())
 //! #       .unwrap()
-//! #       .set_remoteip(&fakeit::internet::ipv4_address())
+//! #       .set_remoteip(&mockd::internet::ipv4_address())
 //! #       .unwrap()
-//! #       .set_sitekey(&fakeit::unique::uuid_v4())
+//! #       .set_sitekey(&mockd::unique::uuid_v4())
 //! #       .unwrap()
 //! #       }
 //!
@@ -209,9 +209,9 @@ impl HcaptchaClient {
     /// # fn get_captcha() -> HcaptchaCaptcha {
     /// #    HcaptchaCaptcha::new(&random_response())
     /// #       .unwrap()
-    /// #       .set_remoteip(&fakeit::internet::ipv4_address())
+    /// #       .set_remoteip(&mockd::internet::ipv4_address())
     /// #       .unwrap()
-    /// #       .set_sitekey(&fakeit::unique::uuid_v4())
+    /// #       .set_sitekey(&mockd::unique::uuid_v4())
     /// #       .unwrap()
     /// #       }
     /// ```
@@ -329,7 +329,7 @@ mod tests {
     async fn hcaptcha_mock_with_remoteip() {
         let token = random_string(100);
         let secret = format!("0x{}", hex::encode(random_string(20)));
-        let remoteip = fakeit::internet::ipv4_address();
+        let remoteip = mockd::internet::ipv4_address();
         let request = HcaptchaRequest::new_from_response(&secret, &token)
             .unwrap()
             .set_remoteip(&remoteip)
@@ -376,7 +376,7 @@ mod tests {
     async fn hcaptcha_mock_with_sitekey() {
         let token = random_string(100);
         let secret = format!("0x{}", hex::encode(random_string(20)));
-        let sitekey = fakeit::unique::uuid_v4();
+        let sitekey = mockd::unique::uuid_v4();
         let request = HcaptchaRequest::new_from_response(&secret, &token)
             .unwrap()
             .set_sitekey(&sitekey)

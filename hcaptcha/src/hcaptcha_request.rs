@@ -34,9 +34,9 @@
 //! # fn get_captcha() -> HcaptchaCaptcha {
 //! #    HcaptchaCaptcha::new(&random_response())
 //! #       .unwrap()
-//! #       .set_remoteip(&fakeit::internet::ipv4_address())
+//! #       .set_remoteip(&mockd::internet::ipv4_address())
 //! #       .unwrap()
-//! #       .set_sitekey(&fakeit::unique::uuid_v4())
+//! #       .set_sitekey(&mockd::unique::uuid_v4())
 //! #       .unwrap()
 //! #       }
 //! # fn get_remoteip_address() -> String {
@@ -108,9 +108,9 @@ impl HcaptchaRequest {
     /// # fn get_captcha() -> HcaptchaCaptcha {
     /// #    HcaptchaCaptcha::new(&random_response())
     /// #       .unwrap()
-    /// #       .set_remoteip(&fakeit::internet::ipv4_address())
+    /// #       .set_remoteip(&mockd::internet::ipv4_address())
     /// #       .unwrap()
-    /// #       .set_sitekey(&fakeit::unique::uuid_v4())
+    /// #       .set_sitekey(&mockd::unique::uuid_v4())
     /// #       .unwrap()
     /// #       }
     ///  ```
@@ -294,9 +294,9 @@ impl HcaptchaRequest {
     /// # fn get_captcha() -> HcaptchaCaptcha {
     /// #    HcaptchaCaptcha::new(&random_response())
     /// #       .unwrap()
-    /// #       .set_remoteip(&fakeit::internet::ipv4_address())
+    /// #       .set_remoteip(&mockd::internet::ipv4_address())
     /// #       .unwrap()
-    /// #       .set_sitekey(&fakeit::unique::uuid_v4())
+    /// #       .set_sitekey(&mockd::unique::uuid_v4())
     /// #       .unwrap()
     /// #       }
     /// # use uuid::Uuid;
@@ -368,9 +368,9 @@ mod tests {
     fn dummy_captcha() -> HcaptchaCaptcha {
         HcaptchaCaptcha::new(&random_response())
             .unwrap()
-            .set_remoteip(&fakeit::internet::ipv4_address())
+            .set_remoteip(&mockd::internet::ipv4_address())
             .unwrap()
-            .set_sitekey(&fakeit::unique::uuid_v4())
+            .set_sitekey(&mockd::unique::uuid_v4())
             .unwrap()
     }
 

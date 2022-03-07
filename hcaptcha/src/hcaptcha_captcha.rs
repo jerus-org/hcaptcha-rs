@@ -157,7 +157,7 @@ impl HcaptchaCaptcha {
     ///  # Ok(())
     /// # }
     /// # fn get_remoteip_address() -> String {
-    /// #    fakeit::internet::ipv4_address()
+    /// #    mockd::internet::ipv4_address()
     /// # }
     /// ```
     /// # Logging
@@ -233,7 +233,7 @@ impl HcaptchaCaptcha {
     ///  # Ok(())
     /// # }
     /// # fn get_sitekey() -> String {
-    /// #    fakeit::unique::uuid_v4()
+    /// #    mockd::unique::uuid_v4()
     /// # }
     /// ```
     /// # Logging
@@ -286,14 +286,14 @@ impl HcaptchaCaptcha {
     /// #     let response = random_response();
     /// #     let captcha = HcaptchaCaptcha::new(&response)
     /// #         .unwrap()
-    /// #         .set_remoteip(&fakeit::internet::ipv4_address())
+    /// #         .set_remoteip(&mockd::internet::ipv4_address())
     /// #         .unwrap()
-    /// #         .set_sitekey(&fakeit::unique::uuid_v4())
+    /// #         .set_sitekey(&mockd::unique::uuid_v4())
     /// #         .unwrap();
     /// #     (response, captcha)
     /// # }
     /// # fn get_sitekey() -> String {
-    /// #    fakeit::unique::uuid_v4()
+    /// #    mockd::unique::uuid_v4()
     /// # }
     /// ```
     /// # Logging
@@ -344,12 +344,12 @@ impl HcaptchaCaptcha {
     /// # }
     /// #
     /// # fn get_captcha() -> (String, HcaptchaCaptcha) {
-    /// #     let remoteip = fakeit::internet::ipv4_address();
+    /// #     let remoteip = mockd::internet::ipv4_address();
     /// #     let captcha = HcaptchaCaptcha::new(&random_response())
     /// #         .unwrap()
     /// #         .set_remoteip(&remoteip)
     /// #         .unwrap()
-    /// #         .set_sitekey(&fakeit::unique::uuid_v4())
+    /// #         .set_sitekey(&mockd::unique::uuid_v4())
     /// #         .unwrap();
     /// #     (remoteip, captcha)
     /// # }
@@ -402,10 +402,10 @@ impl HcaptchaCaptcha {
     /// # }
     /// #
     /// # fn get_captcha() -> (String, HcaptchaCaptcha) {
-    /// #     let sitekey = fakeit::unique::uuid_v4();
+    /// #     let sitekey = mockd::unique::uuid_v4();
     /// #     let captcha = HcaptchaCaptcha::new(&random_response())
     /// #         .unwrap()
-    /// #         .set_remoteip(&fakeit::internet::ipv4_address())
+    /// #         .set_remoteip(&mockd::internet::ipv4_address())
     /// #         .unwrap()
     /// #         .set_sitekey(&sitekey)
     /// #         .unwrap();
@@ -448,9 +448,9 @@ mod tests {
     fn dummy_captcha() -> HcaptchaCaptcha {
         HcaptchaCaptcha::new(&random_response())
             .unwrap()
-            .set_remoteip(&fakeit::internet::ipv4_address())
+            .set_remoteip(&mockd::internet::ipv4_address())
             .unwrap()
-            .set_sitekey(&fakeit::unique::uuid_v4())
+            .set_sitekey(&mockd::unique::uuid_v4())
             .unwrap()
     }
 
@@ -466,7 +466,7 @@ mod tests {
     fn fail_if_remoteip_not_valid_v4_or_v6_address() {
         let captcha = HcaptchaCaptcha::new("response_string")
             .unwrap()
-            .set_remoteip(&fakeit::words::word());
+            .set_remoteip(&mockd::words::word());
         assert_err!(&captcha);
         if let Err(HcaptchaError::Codes(hs)) = captcha {
             assert!(hs.contains(&Code::InvalidUserIp));
@@ -476,7 +476,7 @@ mod tests {
     fn remoteip_is_optional() {
         let captcha = HcaptchaCaptcha::new("response_string")
             .unwrap()
-            .set_remoteip(&fakeit::internet::ipv4_address())
+            .set_remoteip(&mockd::internet::ipv4_address())
             .unwrap();
 
         assert_some!(captcha.remoteip);
@@ -486,14 +486,14 @@ mod tests {
     fn valid_user_id_is_accepted() {
         assert_ok!(HcaptchaCaptcha::new("response_string")
             .unwrap()
-            .set_remoteip(&fakeit::internet::ipv4_address()));
+            .set_remoteip(&mockd::internet::ipv4_address()));
     }
 
     #[test]
     fn fail_if_sitekey_not_valid_uuid() {
         let captcha = HcaptchaCaptcha::new("response_string")
             .unwrap()
-            .set_sitekey(&fakeit::words::word());
+            .set_sitekey(&mockd::words::word());
 
         assert_err!(&captcha);
         if let Err(HcaptchaError::Codes(hs)) = captcha {
@@ -504,7 +504,7 @@ mod tests {
     fn sitekey_is_optional() {
         let captcha = HcaptchaCaptcha::new("response_string")
             .unwrap()
-            .set_sitekey(&fakeit::unique::uuid_v4())
+            .set_sitekey(&mockd::unique::uuid_v4())
             .unwrap();
 
         assert_some!(captcha.sitekey);
@@ -514,7 +514,7 @@ mod tests {
     fn valid_sitekey_is_accepted() {
         let captcha = HcaptchaCaptcha::new("response_string")
             .unwrap()
-            .set_sitekey(&fakeit::unique::uuid_v4())
+            .set_sitekey(&mockd::unique::uuid_v4())
             .unwrap();
 
         assert_some!(captcha.sitekey());

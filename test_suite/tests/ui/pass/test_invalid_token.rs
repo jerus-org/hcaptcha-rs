@@ -21,8 +21,8 @@ async fn main() {
     // Setup
     let token = "    ".to_string(); // String containing only spaces
                                     // let token = helper::random_string(100);
-    let remoteip = fakeit::internet::ipv4_address();
-    let sitekey = fakeit::unique::uuid_v4();
+    let remoteip = mockd::internet::ipv4_address();
+    let sitekey = mockd::unique::uuid_v4();
     let secret = format!("0x{}", hex::encode(helper::random_string(20)));
 
     let expected_body = format!(
