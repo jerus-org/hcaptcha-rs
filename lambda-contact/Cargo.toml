@@ -18,7 +18,7 @@ tracing = { version = "0.1.29", features = ["attributes"] }
 tracing-appender = "0.2.0"
 tracing-bunyan-formatter = "0.3.2"
 tracing-log = "0.1.2"
-tracing-subscriber = { version = "0.3.8", features = ["env-filter"] }
+tracing-subscriber = { version = "0.3.9", features = ["env-filter"] }
 chrono = "0.4.19"
 rusoto_core = {version = "0.47.0", default_features = false, features=["rustls"]}
 rusoto_ses = {version = "0.47.0", default_features = false, features=["rustls"]}
@@ -29,7 +29,7 @@ hcaptcha = {path = "../hcaptcha", features = ["trace"] }
 # hcaptcha = "0.3"
 uuid = {version = "~0.8", features = ["v4"] }
 futures = "0.3.19"
-regex = "~1.5.4"
+regex = "1.5"
 thiserror = "1.0"
 url = "2.2.2"
 
