@@ -20,9 +20,9 @@ struct Test {
 async fn main() {
     // Setup
     let token = helper::random_string(100);
-    // let remoteip = fakeit::internet::ipv4_address();
+    // let remoteip = mockd::internet::ipv4_address();
     let remoteip = "badIp".to_string();
-    let sitekey = fakeit::unique::uuid_v4();
+    let sitekey = mockd::unique::uuid_v4();
     let secret = format!("0x{}", hex::encode(helper::random_string(20)));
 
     let expected_body = format!(

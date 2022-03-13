@@ -103,7 +103,7 @@ mod tests {
 
     #[test]
     fn valid_sitekey_key_is_valid() {
-        let sitekey = fakeit::unique::uuid_v4();
+        let sitekey = mockd::unique::uuid_v4();
 
         assert_ok!(HcaptchaSitekey::parse(sitekey));
     }

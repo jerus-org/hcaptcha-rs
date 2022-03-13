@@ -21,7 +21,7 @@ async fn main() {
     // env_logger::init();
 
     let token = helper::random_string(100);
-    let sitekey = fakeit::unique::uuid_v4();
+    let sitekey = mockd::unique::uuid_v4();
     let secret = format!("0x{}", hex::encode(helper::random_string(20)));
 
     let expected_body = format!(

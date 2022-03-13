@@ -13,5 +13,11 @@
         "siteverify",
         "Struct",
         "thisisnotapropertoken"
+    ],
+    "conventionalCommits.scopes": [
+        "lambda-contact",
+        "Tests",
+        "dependencies",
+        "security"
     ]
 }

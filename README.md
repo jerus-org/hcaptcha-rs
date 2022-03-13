@@ -3,7 +3,7 @@
 [![Crates.io][crates-badge]][crates-url]
 [![MIT licensed][mit-badge]][mit-url]
 [![Build Status][actions-badge]][actions-url]
-[![Rust 1.46+][version-badge]][version-url]
+[![Rust 1.49+][version-badge]][version-url]
 [![FOSSA Status][fossa-badge]][fossa-url]
 [![Docs][docs-badge]][docs-url]
 [![BuyMeaCoffee][bmac-badge]][bmac-url]

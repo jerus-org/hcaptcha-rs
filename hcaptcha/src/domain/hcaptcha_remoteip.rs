@@ -103,13 +103,13 @@ mod tests {
 
     #[test]
     fn test_ip_string_key_is_valid_ip4() {
-        let ip_string = fakeit::internet::ipv4_address();
+        let ip_string = mockd::internet::ipv4_address();
         assert_ok!(HcaptchaRemoteip::parse(ip_string));
     }
 
     #[test]
     fn test_ip_string_key_is_valid_ip6() {
-        let ip_string = fakeit::internet::ipv6_address();
+        let ip_string = mockd::internet::ipv6_address();
         assert_ok!(HcaptchaRemoteip::parse(ip_string));
     }
 }

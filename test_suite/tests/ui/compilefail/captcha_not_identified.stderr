@@ -1,14 +1,14 @@
 error: Field containing hcaptcha not identified
 
-  = help: The field containing the hcaptcha response string must be identified with #[captcha]
+         = help: The field containing the hcaptcha response string must be identified with #[captcha]
 
-        #[derive(Hcaptcha)]
-        struct MyStruct {
-            #[captcha]
-            hcaptcha: String,
-        }
+               #[derive(Hcaptcha)]
+               struct MyStruct {
+                   #[captcha]
+                   hcaptcha: String,
+               }
 
- --> $DIR/captcha_not_identified.rs:4:8
+ --> tests/ui/compilefail/captcha_not_identified.rs:4:8
   |
 4 | struct Test {
   |        ^^^^
