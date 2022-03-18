@@ -1,12 +1,53 @@
 version: 2.1
 
+
+
 jobs:
   build:
     docker:
       - image: cimg/rust:1.59
+    
+    environment:
+      RUSTDOCFLAGS: --cfg docsrs -Dwarnings
+
     steps:
       - checkout
       - run: cargo --version
+
       - run:
-          name: Run Tests
+        name: Check Formatting
+        command: |
+          rustfmt --version
+          cargo fmt --all -- --check
+
+      - run:
+        name: Nightly Build
+        command: |
+          rustup update nightly
+          cargo +nightly check --all-features
+
+      - run:
+        name: Stable Build
+        command: |
+          rustup update stable
+          cargo +stable check --all-features
+
+      - run:
+          name: Test
           command: "cargo test --all-features"
+
+      - run:
+        name: Clippy
+        command: "cargo clippy --all --tests --all-features -- -D warnings"
+
+      - run:
+        name: Minrust
+        command: |
+          rustup install 1.56.0
+          cargo check --all-features
+
+      - run:
+        name: Docs
+        command: |
+          rustup update nightly
+          cargo +nightly doc --lib --no-deps --all-features --document-private-items
