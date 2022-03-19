@@ -6,7 +6,6 @@ jobs:
   build:
     docker:
       - image: cimg/rust:1.59
-
     environment:
       RUSTDOCFLAGS: --cfg docsrs -Dwarnings
 
