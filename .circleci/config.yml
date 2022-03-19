@@ -6,9 +6,6 @@ jobs:
   build:
     docker:
       - image: cimg/rust:1.59
-   
-    environment:
-      RUSTDOCFLAGS: --cfg docsrs -Dwarnings
 
     steps:
       - checkout
@@ -33,6 +30,18 @@ jobs:
             cargo +stable check --all-features
 
       - run:
+          name: Minrust
+          command: |
+            rustup install 1.56.0
+            cargo check --all-features
+
+  test:
+    docker:
+      - image: cimg/rust:1.59
+
+    steps:
+      - checkout
+      - run:
           name: Test
           command: "cargo test --all-features"
 
@@ -40,12 +49,15 @@ jobs:
           name: Clippy
           command: "cargo clippy --all --tests --all-features -- -D warnings"
 
-      - run:
-          name: Minrust
-          command: |
-            rustup install 1.56.0
-            cargo check --all-features
+  docs:
+    docker:
+      - image: cimg/rust:1.59
 
+    environment:
+      RUSTDOCFLAGS: --cfg docsrs -Dwarnings
+
+    steps:
+      - checkout
       - run:
           name: Docs
           command: |
