@@ -15,39 +15,39 @@ jobs:
       - run: cargo --version
 
       - run:
-        name: Check Formatting
-        command: |
-          rustfmt --version
-          cargo fmt --all -- --check
+          name: Check Formatting
+          command: |
+            rustfmt --version
+            cargo fmt --all -- --check
 
       - run:
-        name: Nightly Build
-        command: |
-          rustup update nightly
-          cargo +nightly check --all-features
+          name: Nightly Build
+          command: |
+            rustup update nightly
+            cargo +nightly check --all-features
 
       - run:
-        name: Stable Build
-        command: |
-          rustup update stable
-          cargo +stable check --all-features
+          name: Stable Build
+          command: |
+            rustup update stable
+            cargo +stable check --all-features
 
       - run:
           name: Test
           command: "cargo test --all-features"
 
       - run:
-        name: Clippy
-        command: "cargo clippy --all --tests --all-features -- -D warnings"
+          name: Clippy
+          command: "cargo clippy --all --tests --all-features -- -D warnings"
 
       - run:
-        name: Minrust
-        command: |
-          rustup install 1.56.0
-          cargo check --all-features
+          name: Minrust
+          command: |
+            rustup install 1.56.0
+            cargo check --all-features
 
       - run:
-        name: Docs
-        command: |
-          rustup update nightly
-          cargo +nightly doc --lib --no-deps --all-features --document-private-items
+          name: Docs
+          command: |
+            rustup update nightly
+            cargo +nightly doc --lib --no-deps --all-features --document-private-items
