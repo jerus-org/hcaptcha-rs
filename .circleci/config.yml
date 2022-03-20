@@ -26,12 +26,14 @@ jobs:
             cargo fmt --all -- --check
 
       - check-build
+
+      - check-build:
           rust-version: "nightly"
 
-      - check-build
+      - check-build:
           rust-version: "stable"
 
-      - check-build
+      - check-build:
           rust-version: "1.56.0"
 
   test:
