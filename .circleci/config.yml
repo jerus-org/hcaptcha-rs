@@ -7,8 +7,11 @@ commands:
         default: "1.59.0"
         type: string
     steps:
-      - run rustup update <<parameters.rust-version>>
-      - run cargo +<<parameters.rust-version>> check --all-features
+      - run:
+          name: Update Rust and check build
+          command: |
+            rustup update <<parameters.rust-version>>
+            cargo +<<parameters.rust-version>> check --all-features
 
 jobs:
   build:
