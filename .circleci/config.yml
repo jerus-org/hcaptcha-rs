@@ -1,72 +1,77 @@
 version: 2.1
 
+executors:
+  rust-env:
+    docker:
+      - image: cimg/rust:1.59
+
 commands:
-  check-build:
+  cargo-build:
     parameters:
       rust-version:
         default: "1.59.0"
         type: string
     steps:
       - run:
-          name: Update Rust and check build
+          name: Update Rust and check build <<parameters.rust-version>>
           command: |
             rustup update <<parameters.rust-version>>
             cargo +<<parameters.rust-version>> check --all-features
-
-jobs:
-  build:
-    docker:
-      - image: cimg/rust:1.59
-
+  cargo-format:
     steps:
-      - checkout
-      - run: cargo --version
-
       - run:
-          name: Check Formatting
+          name: Check formatting for code
           command: |
             rustfmt --version
             cargo fmt --all -- --check
-
-      - check-build
-
-      - check-build:
-          rust-version: "nightly"
-
-      - check-build:
-          rust-version: "stable"
-
-      - check-build:
-          rust-version: "1.56.0"
-
-  test:
-    docker:
-      - image: cimg/rust:1.59
-
+  cargo-clippy:
     steps:
-      - checkout
       - run:
-          name: Test
-          command: "cargo test --all-features"
-
-      - run:
-          name: Clippy
+          name: Check idiomatic code use with Clippy
           command: "cargo clippy --all --tests --all-features -- -D warnings"
-
-  docs:
-    docker:
-      - image: cimg/rust:1.59
-
-    environment:
-      RUSTDOCFLAGS: --cfg docsrs -Dwarnings
-
+  cargo-test:
     steps:
-      - checkout
       - run:
-          name: Docs
+          name: Test all features the crate
+          command: "cargo test --all-features"
+  cargo-docs:
+    steps:
+      - run:
+          name: Test all features the crate
           command: |
             rustup update nightly
             cargo +nightly doc --lib --no-deps --all-features --document-private-items
+
+jobs:
+  build:
+    executor: rust-env
+    steps:
+      - checkout
+      - run: cargo --version
+      - cargo-build
+      - cargo-build:
+          rust-version: "nightly"
+      - cargo-build:
+          rust-version: "stable"
+      - cargo-build:
+          rust-version: "1.56.0"
+
+  test:
+    executor: rust-env
+    steps:
+      - checkout
+      - run: cargo --version
+      - cargo-format
+      - cargo-clippy
+      - cargo-test
+
+  docs:
+    executor: rust-env
+    environment:
+      RUSTDOCFLAGS: --cfg docsrs -Dwarnings
+    steps:
+      - checkout
+      - cargo-docs
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
 workflows:
