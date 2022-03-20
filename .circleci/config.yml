@@ -1,6 +1,14 @@
 version: 2.1
 
-
+commands:
+  check-build:
+    parameters:
+      rust-version:
+        defaults: "1.59.0"
+        type: string
+    steps:
+      - run rustup update <<parameters.rust-version>>
+      - run cargo +<<parameters.rust-version>> check --all-features
 
 jobs:
   build:
@@ -17,23 +25,14 @@ jobs:
             rustfmt --version
             cargo fmt --all -- --check
 
-      - run:
-          name: Nightly Build
-          command: |
-            rustup update nightly
-            cargo +nightly check --all-features
+      - check-build
+          rust-version: "nightly"
 
-      - run:
-          name: Stable Build
-          command: |
-            rustup update stable
-            cargo +stable check --all-features
+      - check-build
+          rust-version: "stable"
 
-      - run:
-          name: Minrust
-          command: |
-            rustup install 1.56.0
-            cargo check --all-features
+      - check-build
+          rust-version: "1.56.0"
 
   test:
     docker:
@@ -71,4 +70,3 @@ workflows:
       - build
       - test
       - docs
-      
