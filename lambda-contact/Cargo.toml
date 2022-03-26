@@ -24,7 +24,7 @@ rusoto_core = {version = "0.47.0", default_features = false, features=["rustls"]
 rusoto_ses = {version = "0.47.0", default_features = false, features=["rustls"]}
 rusoto_ssm = {version = "0.47.0", default_features = false, features=["rustls"]}
 rusoto_dynamodb = {version = "0.47.0", default_features = false, features=["rustls"]}
-tokio = { version = "1.15.0", features = [ "rt-multi-thread", "macros" ] }
+tokio = { version = "1.17.0", features = [ "rt-multi-thread", "macros" ] }
 hcaptcha = {path = "../hcaptcha", features = ["trace"] }
 # hcaptcha = "0.3"
 uuid = {version = "~0.8", features = ["v4"] }
