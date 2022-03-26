@@ -47,7 +47,7 @@ claim = "0.5.0"
 mockd = "0.2.0"
 hex = "0.4"
 itertools = "0.10.3"
-lambda_runtime = "0.4.1"
+lambda_runtime = "0.5.1"
 log = "0.4.16"
 rand= "0.8.5"
 tokio = { version = "1.17", features = ["macros", "rt-multi-thread"] }
