@@ -48,7 +48,7 @@ mockd = "0.2.0"
 hex = "0.4"
 itertools = "0.10.3"
 lambda_runtime = "0.4.1"
-log = "0.4.14"
+log = "0.4.16"
 rand= "0.8.5"
 tokio = { version = "1.15", features = ["macros", "rt-multi-thread"] }
 simple_logger = "2.1.0"
