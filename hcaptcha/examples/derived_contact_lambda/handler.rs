@@ -4,7 +4,7 @@ mod record;
 mod send;
 
 use hcaptcha::Hcaptcha;
-use lambda_runtime::{Context, Error};
+use lambda_runtime::{Error, LambdaEvent};
 use serde::{Deserialize, Serialize};
 use tokio::join;
 
@@ -55,10 +55,10 @@ impl GatewayResponse {
     }
 }
 
-#[tracing::instrument (name = "Handle submitted contact form", skip(e,c) fields(request_id = %c.request_id))]
-pub async fn my_handler(e: ApiGatewayEvent, c: Context) -> Result<GatewayResponse, Error> {
-    tracing::debug!("The event logged is: {:?}", e);
-
+#[tracing::instrument (name = "Handle submitted contact form", skip(event) fields(request_id = %event.context.request_id))]
+pub async fn my_handler(event: LambdaEvent<ApiGatewayEvent>) -> Result<GatewayResponse, Error> {
+    tracing::debug!("The event logged is: {:?}", event);
+    let (e, c) = event.into_parts();
     let contact_form: ContactForm = serde_json::from_str(e.body_string())?;
     tracing::info!(
         "Request {} is process for the contact {}.",

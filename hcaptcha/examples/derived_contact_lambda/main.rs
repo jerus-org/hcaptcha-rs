@@ -21,7 +21,7 @@ async fn main() -> Result<(), Error> {
         .with(bunyan_formatting_layer);
     tracing::subscriber::set_global_default(subscriber)?;
 
-    lambda_runtime::run(lambda_runtime::handler_fn(handler::my_handler)).await?;
+    lambda_runtime::run(lambda_runtime::service_fn(handler::my_handler)).await?;
 
     Ok(())
 }
