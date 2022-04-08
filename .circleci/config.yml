@@ -3,7 +3,7 @@ version: 2.1
 executors:
   rust-env:
     docker:
-      - image: cimg/rust:1.59
+      - image: cimg/rust:1.60
 
 commands:
   cargo-build:
