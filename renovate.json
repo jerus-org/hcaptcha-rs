@@ -36,6 +36,14 @@
         "^kstring$"
       ],
       "groupName": "liquid packages"
+    },
+    {
+      "matchPackagePatterns": [
+        "github/codeql-action",
+        "ossf/scorecard-action",
+        "actions/checkout"
+      ],
+      "automerge": true
     }
   ],
   "regexManagers": [
