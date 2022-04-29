@@ -37,7 +37,7 @@ serde_urlencoded = "0.7.1"
 serde = { version = "1.0.136", features = ["derive"] }
 thiserror = "1.0"
 tracing = { version = "0.1.34", features = ["log", "attributes"], optional = true }
-uuid = "0.8.2"
+uuid = "1.0.0"
 url = "2.2.2"
 hcaptcha_derive = { version = "2.0.0", path = "../hcaptcha_derive" }
 
