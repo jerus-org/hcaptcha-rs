@@ -270,7 +270,7 @@ impl HcaptchaRequest {
     /// # async fn main() -> Result<(), hcaptcha::HcaptchaError> {
     ///     let secret = get_your_secret();     // your secret key
     ///     let captcha = get_captcha();        // captcha
-    ///     let sitekey = get_your_sitekey(); // your site key
+    ///     let sitekey = get_your_sitekey();   // your site key
     ///
     ///     let request = HcaptchaRequest::new(&secret, captcha)?
     ///         .set_sitekey(&sitekey);
