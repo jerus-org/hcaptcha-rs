@@ -8,6 +8,7 @@
         "itertools",
         "Itertools",
         "lamedh",
+        "mockd",
         "panicbit",
         "sitekeys",
         "siteverify",
