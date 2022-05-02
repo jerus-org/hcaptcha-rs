@@ -86,6 +86,15 @@ dependencies = [
 ]
 
 [[package]]
+name = "atomic"
+version = "0.5.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "b88d82667eca772c4aa12f0f1348b3ae643424c8876448f3f7bd5787032e234c"
+dependencies = [
+ "autocfg",
+]
+
+[[package]]
 name = "atty"
 version = "0.2.14"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -619,7 +628,7 @@ dependencies = [
  "tracing-subscriber",
  "tracing-test",
  "url",
- "uuid 1.0.0",
+ "uuid",
  "wiremock",
 ]
 
@@ -992,15 +1001,15 @@ dependencies = [
 
 [[package]]
 name = "mockd"
-version = "0.2.0"
+version = "0.3.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "5f7685d7d89ea93364cc2720a27ad43c1b76eada8e4569f54bf7f9d67243c49b"
+checksum = "ef749f3d537db2b6fbc6e83c0d08ca3b32e5dec26992a15fbaabdb9a6afc75ef"
 dependencies = [
  "chrono",
  "libmath",
  "rand 0.8.5",
  "simplerand",
- "uuid 0.8.2",
+ "uuid",
 ]
 
 [[package]]
@@ -2211,19 +2220,11 @@ dependencies = [
 
 [[package]]
 name = "uuid"
-version = "0.8.2"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "bc5cf98d8186244414c848017f0e2676b3fcb46807f6668a97dfe67359a3c4b7"
-dependencies = [
- "getrandom 0.2.5",
-]
-
-[[package]]
-name = "uuid"
 version = "1.0.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "8cfcd319456c4d6ea10087ed423473267e1a071f3bc0aa89f80d60997843c6f0"
 dependencies = [
+ "atomic",
  "getrandom 0.2.5",
 ]
 

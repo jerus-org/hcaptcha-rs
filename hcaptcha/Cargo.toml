@@ -44,7 +44,7 @@ hcaptcha_derive = { version = "2.0.0", path = "../hcaptcha_derive" }
 [dev-dependencies]
 chrono = "0.4.19"
 claim = "0.5.0"
-mockd = "0.2.0"
+mockd = "0.3.0"
 hex = "0.4"
 itertools = "0.10.3"
 lambda_runtime = "0.5.1"
