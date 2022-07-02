@@ -1,5 +1,4 @@
 {
-    "rust-analyzer.rustcSource": null,
     "cSpell.words": [
         "compilefail",
         "dd'T'HH",
@@ -20,5 +19,6 @@
         "Tests",
         "dependencies",
         "security"
-    ]
+    ],
+    "rust-analyzer.rustc.source": null
 }
