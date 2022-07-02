@@ -18,7 +18,8 @@
         "lambda-contact",
         "Tests",
         "dependencies",
-        "security"
+        "security",
+        "build"
     ],
     "rust-analyzer.rustc.source": null
 }
