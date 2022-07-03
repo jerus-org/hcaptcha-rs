@@ -57,7 +57,7 @@ jobs:
       - cargo-build:
           rust-version: "stable"
       - cargo-build:
-          rust-version: "1.49.0"
+          rust-version: "1.51"
 
   test:
     executor: rust-env
