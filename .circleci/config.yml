@@ -3,13 +3,13 @@ version: 2.1
 executors:
   rust-env:
     docker:
-      - image: cimg/rust:1.61
+      - image: cimg/rust:1.62
 
 commands:
   cargo-build:
     parameters:
       rust-version:
-        default: "1.60.0"
+        default: "1.62.0"
         type: string
     steps:
       - run:
@@ -57,7 +57,7 @@ jobs:
       - cargo-build:
           rust-version: "stable"
       - cargo-build:
-          rust-version: "1.56.0"
+          rust-version: "1.49.0"
 
   test:
     executor: rust-env
