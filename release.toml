@@ -1,0 +1,14 @@
+pre-release-commit-message = "chore: Release"
+tag-message = "{{tag_name}}"
+tag-name = "{{prefix}}v{{version}}"
+consolidate-commits = true
+consolidate-pushes = true
+allow-branch = ["main"]
+pre-release-replacements = [
+    {file="CHANGES.md", search="Unreleased", replace="{{version}}"},
+    {file="CHANGES.md", search="\\.\\.\\.HEAD", replace="...{{tag_name}}", exactly=1},
+    {file="CHANGES.md", search="ReleaseDate", replace="{{date}}"},
+    {file="CHANGES.md", search="<!-- next-header -->", replace="<!-- next-header -->\n\n## [Unreleased] - ReleaseDate", exactly=1},
+    {file="CHANGES.md", search="<!-- next-url -->", replace="<!-- next-url -->\n[Unreleased]: https://github.com/gortavoher/hcaptcha-rs/compare/{{tag_name}}...HEAD", exactly=1},
+    {file="README.md", search="version = .*", replace="{{crate_name}} = \"{{version}}\""},
+]
