@@ -2,6 +2,7 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "dependencyDashboard": true,
   "semanticCommitType": "fix",
+  "semanticCommits": "enabled",
   "packageRules": [
     {
       "packagePatterns": [

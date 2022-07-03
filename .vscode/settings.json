@@ -19,7 +19,8 @@
         "Tests",
         "dependencies",
         "security",
-        "build"
+        "build",
+        "release"
     ],
     "rust-analyzer.rustc.source": null
 }
