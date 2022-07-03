@@ -16,7 +16,7 @@ commands:
           name: Update Rust and check build <<parameters.rust-version>>
           command: |
             rustup update <<parameters.rust-version>>
-            cargo +<<parameters.rust-version>> check --all-features
+            cargo +<<parameters.rust-version>> check --all-features --workspace --examples
   cargo-format:
     steps:
       - run:
@@ -28,7 +28,7 @@ commands:
     steps:
       - run:
           name: Check idiomatic code use with Clippy
-          command: "cargo clippy --all --tests --all-features -- -D warnings"
+          command: "cargo clippy --workspace --examples --tests --all-features -- -D warnings"
   cargo-test:
     steps:
       - run:
