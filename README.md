@@ -35,8 +35,8 @@ The rust library hcaptcha is used with your backend service to verify the hcaptc
 To use hcaptcha-rs in your project you can add the following to your `Cargo.toml`:
 
 ```toml
-[dependencies.hcaptcha]
-version = "2.1.0"
+[dependencies]
+hcaptcha = "2.1.0"
 ```
 
 ## Usage
