@@ -600,7 +600,7 @@ checksum = "ab5ef0d4909ef3724cc8cce6ccc8572c5c817592e9285f5464f8e86f8bd3726e"
 
 [[package]]
 name = "hcaptcha"
-version = "2.1.0"
+version = "2.1.1"
 dependencies = [
  "async-trait",
  "chrono",
@@ -634,7 +634,7 @@ dependencies = [
 
 [[package]]
 name = "hcaptcha_derive"
-version = "2.1.0"
+version = "2.1.1"
 dependencies = [
  "hcaptcha",
  "proc-macro-error",
@@ -1817,7 +1817,7 @@ dependencies = [
 
 [[package]]
 name = "test_suite"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "chrono",
  "claim",
