@@ -6,7 +6,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 <!-- next-header -->
+
 ## [Unreleased] - ReleaseDate
+## [2.1.1] - 2022-07-04
 
 ### Changed
 
@@ -67,4 +69,5 @@ The trace crates log feature is enabled so that log records are emitted if a tra
 - Replace lambda_runtime with lamedh_runtime to avoid security issue RUSTSEC-2021-0020 in hyper 0.12.36.
 
 <!-- next-url -->
-[Unreleased]: https://github.com/gortavoher/hcaptcha-rs/compare/v2.1.0...HEAD
+[Unreleased]: https://github.com/gortavoher/hcaptcha-rs/compare/hcaptcha-v2.1.1...HEAD
+[2.1.1]: https://github.com/gortavoher/hcaptcha-rs/compare/v2.1.0...hcaptcha-v2.1.1
