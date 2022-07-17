@@ -13,19 +13,19 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@d0651293c4a5a52e711f25b41b05b2212f385d28
       - name: Install rust toolchain
-        uses: actions-rs/toolchain@v1
+        uses: actions-rs/toolchain@63eb9591781c46a70274cb3ebdf190fce92702e8
         with:
           profile: minimal
           toolchain: stable
           override: true
       - name: Build library with all features (generates Cargo.lock)
-        uses: actions-rs/cargo@v1
+        uses: actions-rs/cargo@e7f754b8e09f70ad8eb2c5aebf61e58e8403b210
         with:
           command: build
           args: --all-features
       - name: Run FOSSA scan and upload build data
-        uses: fossa-contrib/fossa-action@v1
+        uses: fossa-contrib/fossa-action@6cffaa064112e1cf9b5798c6224f9487dc1ec316
         with:
           fossa-api-key: 5f2ba9e71c25d8f97c58a9d1c70c9fb7
