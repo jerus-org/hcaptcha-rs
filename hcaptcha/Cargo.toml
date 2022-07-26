@@ -45,7 +45,7 @@ hcaptcha_derive = { version = "2.0.0", path = "../hcaptcha_derive" }
 chrono = "0.4.20-rc.1"
 # claim = "0.5.0"
 claim = { git = "https://github.com/Turbo87/rust-claim.git", rev = "23892a3" }
-mockd = "0.3.0"
+mockd = { git = "https://github.com/jerusdp/mockd" }
 hex = "0.4"
 itertools = "0.10.3"
 lambda_runtime = "0.6.0"
