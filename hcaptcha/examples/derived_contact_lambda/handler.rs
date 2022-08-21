@@ -36,7 +36,7 @@ pub struct ContactForm {
     token: String,
 }
 
-#[derive(Serialize, Clone, Debug, PartialEq)]
+#[derive(Serialize, Clone, Debug, PartialEq, Eq)]
 pub struct GatewayResponse {
     #[serde(rename = "isBase64Encoded")]
     is_base64_encoded: bool,
