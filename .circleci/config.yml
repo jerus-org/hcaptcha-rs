@@ -13,9 +13,8 @@ commands:
         type: string
     steps:
       - run:
-          name: Update Rust and check build <<parameters.rust-version>>
+          name: Check build <<parameters.rust-version>>
           command: |
-            rustup update <<parameters.rust-version>>
             cargo +<<parameters.rust-version>> check --all-features --workspace --examples
   cargo-format:
     steps:
