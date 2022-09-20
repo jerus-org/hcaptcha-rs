@@ -3,13 +3,13 @@ version: 2.1
 executors:
   rust-env:
     docker:
-      - image: cimg/rust:1.63
+      - image: jerusdp/ci-rust:1.56
 
 commands:
   cargo-build:
     parameters:
       rust-version:
-        default: "1.62.0"
+        default: "stable"
         type: string
     steps:
       - run:
@@ -36,10 +36,6 @@ commands:
           command: "cargo test --all-features"
   cargo-docs:
     steps:
-      - run:
-          name: Get nightly Rust
-          command: |
-            rustup update nightly
       - run:
           name: Generate the crate documentation
           command: |
