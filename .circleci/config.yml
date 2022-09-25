@@ -3,7 +3,7 @@ version: 2.1
 executors:
   rust-env:
     docker:
-      - image: jerusdp/ci-rust:1.56
+      - image: jerusdp/ci-rust:1.60
 
 commands:
   cargo-build:
