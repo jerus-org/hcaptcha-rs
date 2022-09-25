@@ -6,6 +6,11 @@
   "semanticCommits": "enabled",
   "packageRules": [
     {
+      "excludePackageNames": [
+        "jerusdp/ci-rust"
+      ]
+    },
+    {
       "packagePatterns": [
         "^futures[-_]?"
       ],
