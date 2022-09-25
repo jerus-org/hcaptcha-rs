@@ -3,8 +3,12 @@
   "dependencyDashboard": true,
   "semanticCommits": "enabled",
   "semanticCommitType": "fix",
-  "semanticCommits": "enabled",
   "packageRules": [
+    {
+      "excludePackageNames": [
+        "jerusdp/ci-rust"
+      ]
+    },
     {
       "packagePatterns": [
         "^futures[-_]?"
