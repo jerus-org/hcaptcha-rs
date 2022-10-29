@@ -3,7 +3,7 @@ version: 2.1
 executors:
   rust-env:
     docker:
-      - image: jerusdp/ci-rust:1.56
+      - image: jerusdp/ci-rust:1.60
 
 commands:
   cargo-build:
@@ -52,7 +52,7 @@ jobs:
       - cargo-build:
           rust-version: "stable"
       - cargo-build:
-          rust-version: "1.56"
+          rust-version: "1.60"
 
   test:
     executor: rust-env
