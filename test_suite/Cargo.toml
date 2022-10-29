@@ -13,7 +13,6 @@ trybuild = "1.0"
 hcaptcha = { path = "../hcaptcha" }
 hcaptcha_derive = { path = "../hcaptcha_derive" }
 tokio = { version = "1", features = ["rt-multi-thread", "macros"] }
-conduit-test = "=0.10.0"
 claims = "0.7.0"
 mockd = "0.4.0"
 itertools = "0.10.5"
