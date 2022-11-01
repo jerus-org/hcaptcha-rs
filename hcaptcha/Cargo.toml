@@ -23,6 +23,7 @@ include = [
 
 [features]
 default = ["ext"]
+rustsl-backend = ["reqwest/rustls-tls"]
 ext = ["hex"]
 enterprise = []
 trace = ["tracing"]
