@@ -22,9 +22,9 @@ include = [
 ]
 
 [features]
-default = ["ext", "openssl-backend"]
+default = ["ext", "nativetls-backend"]
 rustsl-backend = ["reqwest/rustls-tls"]
-openssl-backend = ["reqwest/native-tls"]
+nativetls-backend = ["reqwest/native-tls"]
 ext = ["hex"]
 enterprise = []
 trace = ["tracing"]
