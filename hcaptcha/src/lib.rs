@@ -301,7 +301,7 @@
 //! * `enterprise` - Enable methods to access enterprise service fields in the  `HcaptchaResponse`
 //! * `ext` - Enables extended validation of secret
 //! * `trace` - Enables tracing instrumentation on all functions. Traces are logged at the debug level. The value of the secret is not logged.
-//! * `nativetls-backend` - Enables native-tls backend in reqwuests
+//! * `nativetls-backend` - Enables native-tls backend in reqwests
 //! * `rustsl-backend` - Enables rustsl backend in reqwests
 //! # Rust Version
 //!
