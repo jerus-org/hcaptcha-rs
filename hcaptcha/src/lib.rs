@@ -289,8 +289,8 @@
 //! ```
 //! # Feature Flags
 //!
-//! The default library includes extended validation for the secret field.
-//! Disable this validation by setting default-features = false.
+//! The default library includes extended validation for the secret field and use of native TLS as the TLS backend
+//! Disable this validation by setting default-features = false and to enable rustls features=["rustls"]
 //!
 //! ```toml
 //! [dependency]
@@ -301,7 +301,8 @@
 //! * `enterprise` - Enable methods to access enterprise service fields in the  `HcaptchaResponse`
 //! * `ext` - Enables extended validation of secret
 //! * `trace` - Enables tracing instrumentation on all functions. Traces are logged at the debug level. The value of the secret is not logged.
-//!
+//! * `nativetls-backend` - Enables native-tls backend in reqwests
+//! * `rustsl-backend` - Enables rustsl backend in reqwests
 //! # Rust Version
 //!
 //! This version of hcaptcha requires Rust v1.46 or later.
