@@ -1,3 +1,8 @@
 [workspace]
-members = ["hcaptcha", "hcaptcha_derive" , "test_suite"]
+members = [
+    "hcaptcha",
+    "hcaptcha_derive",
+    "test_suite_default",
+    "test_suite_enterprise",
+]
 exclude = ["lambda-contact"]
