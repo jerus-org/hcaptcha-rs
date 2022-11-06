@@ -10,7 +10,7 @@ publish = false
 
 [dev-dependencies]
 trybuild = "1.0"
-hcaptcha = { path = "../hcaptcha" }
+hcaptcha = { path = "../hcaptcha", features = ["enterprise"] }
 hcaptcha_derive = { path = "../hcaptcha_derive" }
 tokio = { version = "1", features = ["rt-multi-thread", "macros"] }
 claims = "0.7.0"
