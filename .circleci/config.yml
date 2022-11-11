@@ -36,6 +36,12 @@ commands:
           name: Check idiomatic code use with Clippy
           command: "cargo clippy --workspace --examples --tests --all-features -- -D warnings"
 
+  cargo-test:
+    steps:
+      - run:
+          name: Test all code
+          command: "cargo test --workspace --examples -- -D warnings"
+
   cargo-docs:
     steps:
       - run:
