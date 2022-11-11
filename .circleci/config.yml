@@ -40,7 +40,7 @@ commands:
     steps:
       - run:
           name: Test all code
-          command: "cargo test --workspace --examples"
+          command: "cargo test -p hcaptcha --examples"
 
   cargo-docs:
     steps:
