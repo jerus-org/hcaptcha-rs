@@ -101,7 +101,7 @@ workflows:
     jobs:
       - required-builds
       - optional-builds
-      - basic-test
+      - basic-tests
       - test-suite:
           matrix:
             parameters:
