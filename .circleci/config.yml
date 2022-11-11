@@ -1,4 +1,4 @@
-version: 2.1
+0version: 2.1
 
 parameters:
   min-rust-version:
@@ -40,7 +40,7 @@ commands:
     steps:
       - run:
           name: Test all code
-          command: "cargo test --workspace --examples -- -D warnings"
+          command: "cargo test --workspace --examples"
 
   cargo-docs:
     steps:
