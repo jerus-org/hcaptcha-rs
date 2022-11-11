@@ -121,7 +121,7 @@ workflows:
                   test_suite_enterprise,
                 ]
           requires:
-            - basic-test
+            - basic-tests
             - required-builds
             - docs
       - docs
