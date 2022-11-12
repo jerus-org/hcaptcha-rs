@@ -93,10 +93,11 @@ workflows:
       - basic-tests:
           matrix:
             parameters:
-              basic-test: [
-                  cargo fmt --all -- --check
-                  cargo clippy --workspace --examples --tests --all-features -- -D warnings
-                  cargo test -p hcaptcha --lib
+              basic-test:
+                [
+                  cargo fmt --all -- --check,
+                  cargo clippy --workspace --examples --tests --all-features -- -D warnings,
+                  cargo test -p hcaptcha --lib,
                   cargo test -p hcaptcha --doc,
                 ]
       - test-suite:
