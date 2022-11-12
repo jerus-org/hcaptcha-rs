@@ -74,7 +74,7 @@ jobs:
       - run: cargo --version
       - run:
           name: Running test suite <<parameters.test-suite>>
-          command: "cargo test -p <<parameters.test-suite>>"
+          command: "cargo test -p <<parameters.test-suite>> --test compiletest"
 
   docs:
     executor: rust-env
