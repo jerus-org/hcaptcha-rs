@@ -22,26 +22,6 @@ commands:
           command: |
             cargo +<<parameters.rust-version>> check --all-features --workspace --examples
 
-  cargo-format:
-    steps:
-      - run:
-          name: Check formatting for code
-          command: |
-            rustfmt --version
-            cargo fmt --all -- --check
-
-  cargo-clippy:
-    steps:
-      - run:
-          name: Check idiomatic code use with Clippy
-          command: "cargo clippy --workspace --examples --tests --all-features -- -D warnings"
-
-  cargo-test:
-    steps:
-      - run:
-          name: Test all code
-          command: "cargo test -p hcaptcha --examples"
-
   cargo-docs:
     steps:
       - run:
@@ -73,13 +53,16 @@ jobs:
           rust-version: "beta"
 
   basic-tests:
+    parameters:
+      basic-test:
+        type: string
     executor: rust-env
     steps:
       - checkout
       - run: cargo --version
-      - cargo-format
-      - cargo-clippy
-      - cargo-test
+      - run:
+          name: Running basic test <<parameters.basic-test>>
+          command: <<parameters.basic-test>>
 
   test-suite:
     parameters:
@@ -107,7 +90,15 @@ workflows:
     jobs:
       - required-builds
       - optional-builds
-      - basic-tests
+      - basic-tests:
+          matrix:
+            parameters:
+              basic-test: [
+                  cargo fmt --all -- --check
+                  cargo clippy --workspace --examples --tests --all-features -- -D warnings
+                  cargo test -p hcaptcha --lib
+                  cargo test -p hcaptcha --doc,
+                ]
       - test-suite:
           matrix:
             parameters:
