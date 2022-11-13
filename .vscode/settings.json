@@ -21,7 +21,8 @@
         "security",
         "build",
         "release",
-        "docs"
+        "docs",
+        "Examples"
     ],
     "rust-analyzer.rustc.source": null
 }
