@@ -1,9 +1,14 @@
 version: 2.1
 
+parameters:
+  min-rust-version:
+    type: string
+    default: "1.60"
+
 executors:
   rust-env:
     docker:
-      - image: jerusdp/ci-rust:1.60
+      - image: jerusdp/ci-rust:<<pipeline.parameters.min-rust-version>>
 
 commands:
   cargo-build:
@@ -16,23 +21,7 @@ commands:
           name: Check build <<parameters.rust-version>>
           command: |
             cargo +<<parameters.rust-version>> check --all-features --workspace --examples
-  cargo-format:
-    steps:
-      - run:
-          name: Check formatting for code
-          command: |
-            rustfmt --version
-            cargo fmt --all -- --check
-  cargo-clippy:
-    steps:
-      - run:
-          name: Check idiomatic code use with Clippy
-          command: "cargo clippy --workspace --examples --tests --all-features -- -D warnings"
-  cargo-test:
-    steps:
-      - run:
-          name: Test all features the crate
-          command: "cargo test --all-features"
+
   cargo-docs:
     steps:
       - run:
@@ -41,7 +30,18 @@ commands:
             cargo +nightly doc --lib --no-deps --all-features --document-private-items
 
 jobs:
-  build:
+  required-builds:
+    executor: rust-env
+    steps:
+      - checkout
+      - run: cargo --version
+      - cargo-build
+      - cargo-build:
+          rust-version: "stable"
+      - cargo-build:
+          rust-version: <<pipeline.parameters.min-rust-version>>
+
+  optional-builds:
     executor: rust-env
     steps:
       - checkout
@@ -50,18 +50,31 @@ jobs:
       - cargo-build:
           rust-version: "nightly"
       - cargo-build:
-          rust-version: "stable"
-      - cargo-build:
-          rust-version: "1.60"
+          rust-version: "beta"
 
-  test:
+  basic-tests:
+    parameters:
+      basic-test:
+        type: string
     executor: rust-env
     steps:
       - checkout
       - run: cargo --version
-      - cargo-format
-      - cargo-clippy
-      - cargo-test
+      - run:
+          name: Running basic test <<parameters.basic-test>>
+          command: <<parameters.basic-test>>
+
+  test-suite:
+    parameters:
+      test-suite:
+        type: string
+    executor: rust-env
+    steps:
+      - checkout
+      - run: cargo --version
+      - run:
+          name: Running test suite <<parameters.test-suite>>
+          command: "cargo test -p <<parameters.test-suite>> --test compiletest"
 
   docs:
     executor: rust-env
@@ -75,6 +88,32 @@ jobs:
 workflows:
   build-test-docs:
     jobs:
-      - build
-      - test
+      - required-builds
+      - optional-builds
+      - basic-tests:
+          matrix:
+            parameters:
+              basic-test:
+                [
+                  cargo fmt --all -- --check,
+                  cargo clippy --workspace --examples --tests --all-features -- -D warnings,
+                  cargo test -p hcaptcha --lib,
+                  cargo test -p hcaptcha --doc,
+                ]
+      - test-suite:
+          matrix:
+            parameters:
+              test-suite:
+                [
+                  test_suite_default,
+                  test_suite_no_default,
+                  test_suite_native_only,
+                  test_suite_rustls_only,
+                  test_suite_trace,
+                  test_suite_enterprise,
+                ]
+          requires:
+            - basic-tests
+            - required-builds
+            - docs
       - docs

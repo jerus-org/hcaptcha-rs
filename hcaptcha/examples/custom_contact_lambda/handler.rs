@@ -16,6 +16,10 @@ pub struct ApiGatewayEvent {
     body: Option<String>,
 }
 
+/// Struct to represent the reCapthcha response provided by the client
+///
+/// Serde will extract the response from the body of the response.
+///
 #[derive(Deserialize, Serialize, Clone, Default)]
 pub struct Recaptcha {
     #[serde(rename = "reCaptchaResponse")]
@@ -46,6 +50,8 @@ pub async fn my_handler(event: LambdaEvent<ApiGatewayEvent>) -> Result<GatewayRe
     debug!("The event logged is: {:?}", event);
     let (e, c) = event.into_parts();
     let body_str = e.body.unwrap_or_else(|| "".to_owned());
+
+    // Extract the reCaptcha response from the body string in the event
     let captcha: HcaptchaCaptcha = serde_json::from_str(&body_str)?;
 
     hcaptcha_validate::response_valid(captcha).await?;

@@ -1,0 +1,26 @@
+[package]
+name = "test_suite_native_only"
+version = "0.1.1"
+edition = "2018"
+publish = false
+
+[dependencies]
+# hcaptcha = { path = "../hcaptcha" }
+# hcaptcha_derive = { path = "../hcaptcha_derive"}
+
+[dev-dependencies]
+trybuild = "1.0"
+hcaptcha = { path = "../hcaptcha", default-features = false, features = [
+    "nativetls-backend",
+] }
+hcaptcha_derive = { path = "../hcaptcha_derive" }
+tokio = { version = "1", features = ["rt-multi-thread", "macros"] }
+claims = "0.7.1"
+mockd = { version = "0.4.0", features = ["internet", "unique"] }
+itertools = "0.10.5"
+rand = "0.8"
+wiremock = "0.5"
+serde_json = "1"
+hex = "0.4"
+chrono = "0.4.22"
+env_logger = "0.9.1"

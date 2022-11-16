@@ -8,6 +8,36 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 <!-- next-header -->
 
 ## [Unreleased] - ReleaseDate
+
+### Bug Fixes
+
+- Update dependencies
+- Replace fakeit with mockd
+
+### Documentation
+
+- Point README badge to circle ci and update min version to 1.60
+- Documentation in samples
+
+### Features
+
+- Add enterprise features to hcaptcha
+- Integration testing with hcaptcha.com
+- Additional test suites for feature scenarios
+- Features to choose reqwest backends for TLS (thanks [@Lunarequest])
+
+### Miscellaneous
+
+- Minimum rust version 1.60
+
+### Testing
+
+- Test suites for feature scenarios
+
+### Bug
+
+- Fix directory name .circleci
+
 ## [2.1.1] - 2022-07-04
 
 ### Changed
@@ -18,7 +48,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## v2.0.1 - 2021-10-27
 
 ### Added
-
 - trait_implementation example
 - trait implementation
 - derive macro
@@ -71,3 +100,4 @@ The trace crates log feature is enabled so that log records are emitted if a tra
 <!-- next-url -->
 [Unreleased]: https://github.com/gortavoher/hcaptcha-rs/compare/hcaptcha-v2.1.1...HEAD
 [2.1.1]: https://github.com/gortavoher/hcaptcha-rs/compare/v2.1.0...hcaptcha-v2.1.1
+[Lunarequest]: https://github.com/Lunarequest/Lunarequest

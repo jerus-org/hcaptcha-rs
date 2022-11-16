@@ -1,3 +1,12 @@
 [workspace]
-members = ["hcaptcha", "hcaptcha_derive" , "test_suite"]
+members = [
+    "hcaptcha",
+    "hcaptcha_derive",
+    "test_suite_default",
+    "test_suite_enterprise",
+    "test_suite_native_only",
+    "test_suite_no_default",
+    "test_suite_rustls_only",
+    "test_suite_trace",
+]
 exclude = ["lambda-contact"]
