@@ -9,6 +9,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased] - ReleaseDate
 
+## [2.2.0] - 2022-11-17
+
 ### Bug Fixes
 
 - Update dependencies
@@ -98,6 +100,7 @@ The trace crates log feature is enabled so that log records are emitted if a tra
 - Replace lambda_runtime with lamedh_runtime to avoid security issue RUSTSEC-2021-0020 in hyper 0.12.36.
 
 <!-- next-url -->
-[Unreleased]: https://github.com/gortavoher/hcaptcha-rs/compare/hcaptcha-v2.1.1...HEAD
+[Unreleased]: https://github.com/gortavoher/hcaptcha-rs/compare/hcaptcha-v2.2.0...HEAD
+[2.2.0]: https://github.com/gortavoher/hcaptcha-rs/compare/hcaptcha-v2.1.1...hcaptcha-v2.2.0
 [2.1.1]: https://github.com/gortavoher/hcaptcha-rs/compare/v2.1.0...hcaptcha-v2.1.1
 [Lunarequest]: https://github.com/Lunarequest/Lunarequest
