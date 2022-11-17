@@ -20,7 +20,9 @@
         "dependencies",
         "security",
         "build",
-        "release"
+        "release",
+        "docs",
+        "Examples"
     ],
     "rust-analyzer.rustc.source": null
 }

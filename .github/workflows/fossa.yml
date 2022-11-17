@@ -13,7 +13,7 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@2541b1294d2704b0964813337f33b291d3f8596b
+        uses: actions/checkout@bf085276cecdb0cc76fbbe0687a5a0e786646936
       - name: Install rust toolchain
         uses: actions-rs/toolchain@88dc2356392166efad76775c878094f4e83ff746
         with:
