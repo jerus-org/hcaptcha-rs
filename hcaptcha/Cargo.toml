@@ -49,7 +49,7 @@ hcaptcha_derive = { version = "2.0.0", path = "../hcaptcha_derive" }
 [dev-dependencies]
 chrono = "0.4.23"
 claims = "0.7.1"
-mockd = { version = "0.4.0", features = ["internet", "unique", "words"] }
+mockd = { version = "0.4.1", features = ["internet", "unique", "words"] }
 hex = "0.4"
 itertools = "0.10.5"
 lambda_runtime = "0.7.1"
