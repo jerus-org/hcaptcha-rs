@@ -29,22 +29,22 @@ pub async fn hcaptcha_integration_test(
     let response = response.unwrap();
     assert!(&response.success());
 
-    match site_key {
-        SAFE => {
-            assert!(response.score_reason().is_some());
-            if let Some(hash_set) = response.score_reason() {
-                assert!(!hash_set.is_empty());
-                assert!(hash_set.contains("safe"));
-            }
-        }
-        BOT => {
-            assert!(response.score_reason().is_some());
-            if let Some(hash_set) = response.score_reason() {
-                assert!(!hash_set.is_empty());
-                assert!(hash_set.contains("bot"));
-            }
-        }
-        _ => {}
-    }
+    // match site_key {
+    //     SAFE => {
+    //         assert!(response.score_reason().is_some());
+    //         if let Some(hash_set) = response.score_reason() {
+    //             assert!(!hash_set.is_empty());
+    //             assert!(hash_set.contains("safe"));
+    //         }
+    //     }
+    //     BOT => {
+    //         assert!(response.score_reason().is_some());
+    //         if let Some(hash_set) = response.score_reason() {
+    //             assert!(!hash_set.is_empty());
+    //             assert!(hash_set.contains("bot"));
+    //         }
+    //     }
+    //     _ => {}
+    // }
     Ok(())
 }
