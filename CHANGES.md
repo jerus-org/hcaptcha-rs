@@ -9,6 +9,30 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased] - ReleaseDate
 
+### Bug Fixes
+
+- Update dependencies
+- Replace fakeit with mockd
+- Update dependencies
+
+### Documentation
+
+- Point README badge to circle ci and update min version to 1.56
+- Documentation in samples
+- Update Minium Rust Version to 1.60
+
+### Features
+
+- Add enterprise features to hcaptcha
+- Integration testing with hcaptcha.com
+- Additional test suites for feature scenarios
+
+### Testing
+
+- Test suites for feature scenarios
+- Test suite file
+- Do not check response score reason
+
 ## [2.2.0] - 2022-11-17
 
 ### Bug Fixes
