@@ -9,6 +9,32 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased] - ReleaseDate
 
+## [2.2.1] - 2023-01-25
+
+### Bug Fixes
+
+- Update dependencies
+- Replace fakeit with mockd
+- Update dependencies
+
+### Documentation
+
+- Point README badge to circle ci and update min version to 1.56
+- Documentation in samples
+- Update Minium Rust Version to 1.60
+
+### Features
+
+- Add enterprise features to hcaptcha
+- Integration testing with hcaptcha.com
+- Additional test suites for feature scenarios
+
+### Testing
+
+- Test suites for feature scenarios
+- Test suite file
+- Do not check response score reason
+
 ## [2.2.0] - 2022-11-17
 
 ### Bug Fixes
@@ -100,7 +126,8 @@ The trace crates log feature is enabled so that log records are emitted if a tra
 - Replace lambda_runtime with lamedh_runtime to avoid security issue RUSTSEC-2021-0020 in hyper 0.12.36.
 
 <!-- next-url -->
-[Unreleased]: https://github.com/gortavoher/hcaptcha-rs/compare/hcaptcha-v2.2.0...HEAD
+[Unreleased]: https://github.com/gortavoher/hcaptcha-rs/compare/hcaptcha-v2.2.1...HEAD
+[2.2.1]: https://github.com/gortavoher/hcaptcha-rs/compare/hcaptcha-v2.2.0...hcaptcha-v2.2.1
 [2.2.0]: https://github.com/gortavoher/hcaptcha-rs/compare/hcaptcha-v2.1.1...hcaptcha-v2.2.0
 [2.1.1]: https://github.com/gortavoher/hcaptcha-rs/compare/v2.1.0...hcaptcha-v2.1.1
 [Lunarequest]: https://github.com/Lunarequest/Lunarequest

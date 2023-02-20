@@ -3,7 +3,7 @@ name = "hcaptcha"
 description = """
 hCaptcha client response verification. Validate the hCaptcha response submitted from to your server from the client.
 """
-version = "2.2.0"
+version = "2.2.1"
 authors = ["Jeremiah Russell <jrussell@jerus.ie>"]
 license = "MIT OR Apache-2.0"
 repository = "https://github.com/jerusdp/hcaptcha-rs"
@@ -33,7 +33,7 @@ nightly = []
 [dependencies]
 async-trait = "0.1"
 hex = { version = "0.4", optional = true }
-reqwest = { version = "0.11.13", default-features = false, features = ["json"] }
+reqwest = { version = "0.11.14", default-features = false, features = ["json"] }
 serde_json = "1.0"
 serde_urlencoded = "0.7"
 serde = { version = "1.0", features = ["derive"] }
@@ -42,9 +42,9 @@ tracing = { version = "0.1.37", features = [
     "log",
     "attributes",
 ], optional = true }
-uuid = { version = "1.2.2", features = ["v4"] }
+uuid = { version = "1.3.0", features = ["v4"] }
 url = "2.3.1"
-hcaptcha_derive = { version = "2.0.0", path = "../hcaptcha_derive" }
+hcaptcha_derive = { version = "2.2.1", path = "../hcaptcha_derive" }
 
 [dev-dependencies]
 chrono = "0.4.23"
@@ -52,17 +52,17 @@ claims = "0.7.1"
 mockd = { version = "0.4.1", features = ["internet", "unique", "words"] }
 hex = "0.4"
 itertools = "0.10.5"
-lambda_runtime = "0.7.2"
+lambda_runtime = "0.7.3"
 log = "0.4.17"
 rand = "0.8.5"
-tokio = { version = "1.24", features = ["macros", "rt-multi-thread"] }
+tokio = { version = "1.25", features = ["macros", "rt-multi-thread"] }
 simple_logger = "4.0"
 tracing = "0.1.37"
 tracing-appender = "0.2.2"
-tracing-bunyan-formatter = "0.3.5"
+tracing-bunyan-formatter = "0.3.6"
 tracing-log = "0.1.3"
 tracing-subscriber = { version = "0.3.16", features = ["env-filter"] }
-tracing-test = "0.2.3"
+tracing-test = "0.2.4"
 rusoto_core = { version = "0.48.0", default_features = false, features = [
     "rustls",
 ] }
