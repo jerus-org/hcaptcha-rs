@@ -120,7 +120,7 @@ impl fmt::Display for Code {
             Code::SiteSecretMismatch => {
                 write!(f, "The sitekey is not registered with the provided secret.")
             }
-            Code::Unknown(e) => write!(f, "Unkown error: {}", e),
+            Code::Unknown(e) => write!(f, "Unkown error: {e}"),
         }
     }
 }
