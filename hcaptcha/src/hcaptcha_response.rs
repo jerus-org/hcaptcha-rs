@@ -120,19 +120,19 @@ impl fmt::Display for HcaptchaResponse {
                 None => "".to_owned(),
             },
             match self.credit() {
-                Some(v) => format!("{}", v),
+                Some(v) => format!("{v}"),
                 None => "".to_owned(),
             },
             match self.error_codes() {
-                Some(v) => format!("{:?}", v),
+                Some(v) => format!("{v:?}"),
                 None => "".to_owned(),
             },
             match self.score() {
-                Some(v) => format!("{}", v),
+                Some(v) => format!("{v}"),
                 None => "".to_owned(),
             },
             match self.score_reason() {
-                Some(v) => format!("{:?}", v),
+                Some(v) => format!("{v:?}"),
                 None => "".to_owned(),
             },
         )

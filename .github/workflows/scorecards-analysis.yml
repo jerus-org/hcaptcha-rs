@@ -3,9 +3,9 @@ on:
   # Only the default branch is supported.
   branch_protection_rule:
   schedule:
-    - cron: '15 22 * * 6'
+    - cron: "15 22 * * 6"
   push:
-    branches: [ main ]
+    branches: [main]
 
 # Declare default permissions as read only.
 permissions: read-all
@@ -23,12 +23,12 @@ jobs:
 
     steps:
       - name: "Checkout code"
-        uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c
+        uses: actions/checkout@8f4b7f84864484a7bf31766abe9204da3cbe65b3
         with:
           persist-credentials: false
 
       - name: "Run analysis"
-        uses: ossf/scorecard-action@dc2954d367f36c46e692df566d6c9df04b8423a7
+        uses: ossf/scorecard-action@80e868c13c90f172d68d1f4501dee99e2479f7af
         with:
           results_file: results.sarif
           results_format: sarif
@@ -51,6 +51,6 @@ jobs:
 
       # Upload the results to GitHub's code scanning dashboard.
       - name: "Upload to code-scanning"
-        uses: github/codeql-action/upload-sarif@a58e90a9daf2aac731400f56d005f2b324a2c5b8
+        uses: github/codeql-action/upload-sarif@988e1bc94181d8b9c03964b72e28974e2dbca322
         with:
           sarif_file: results.sarif

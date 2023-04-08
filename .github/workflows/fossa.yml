@@ -13,7 +13,7 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c
+        uses: actions/checkout@8f4b7f84864484a7bf31766abe9204da3cbe65b3
       - name: Install rust toolchain
         uses: actions-rs/toolchain@88dc2356392166efad76775c878094f4e83ff746
         with:
@@ -26,6 +26,6 @@ jobs:
           command: build
           args: --all-features
       - name: Run FOSSA scan and upload build data
-        uses: fossa-contrib/fossa-action@4e527f0e0fcfff9ab4c201ac3e3d72a46525e915
+        uses: fossa-contrib/fossa-action@40d3c68f8e5477e2d05b4f8d14e2ccfa53c3ba94
         with:
           fossa-api-key: 5f2ba9e71c25d8f97c58a9d1c70c9fb7

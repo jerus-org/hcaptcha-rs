@@ -282,7 +282,7 @@ fn get_struct_data<'a>(data: &'a Data, name: &Ident) -> &'a DataStruct {
 }
 
 /// Iterate through the fields in the struct to find the attributes
-/// that identify the fields relevant to the hcaptcha processing
+/// that identify the fields relevant to hcaptcha processing
 fn get_attributes(data_struct: &DataStruct) -> HashMap<String, &Ident> {
     let mut attributes = HashMap::new();
 
@@ -291,7 +291,7 @@ fn get_attributes(data_struct: &DataStruct) -> HashMap<String, &Ident> {
         .iter()
         .filter(|f| !f.attrs.is_empty())
         .map(|f| {
-            let a = f.attrs[0].path.get_ident().unwrap().to_string();
+            let a = f.attrs[0].path().get_ident().unwrap().to_string();
             if let Some(i) = &f.ident {
                 attributes.insert(a.clone(), i);
             }
