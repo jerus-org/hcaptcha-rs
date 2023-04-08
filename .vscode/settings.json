@@ -22,7 +22,8 @@
         "build",
         "release",
         "docs",
-        "Examples"
+        "Examples",
+        "derive"
     ],
     "rust-analyzer.rustc.source": null
 }
