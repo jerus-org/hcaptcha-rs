@@ -3,3 +3,5 @@ tag-message = "{{tag_name}}"
 tag-name = "{{prefix}}v{{version}}"
 consolidate-commits = true
 allow-branch = ["main"]
+sign-commit = true
+sign-tag = true
