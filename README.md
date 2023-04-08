@@ -15,8 +15,6 @@
 [mit-url]: https://github.com/jerusdp/hcaptcha-rs/blob/main/LICENSE
 [circleci-batch]:https://circleci.com/gh/jerusdp/hcaptcha-rs/tree/main.svg?style=svg
 [circleci-url]: https://circleci.com/gh/jerusdp/hcaptcha-rs/tree/main
-[actions-badge]: https://github.com/jerusdp/hcaptcha-rs/actions/workflows/general.yml/badge.svg?branch=main
-[actions-url]: https://github.com/jerusdp/hcaptcha-rs/actions/workflows/general.yml
 [version-badge]: https://img.shields.io/badge/rust-1.62+-orange.svg
 [version-url]: https://www.rust-lang.org
 [fossa-badge]: https://app.fossa.com/api/projects/custom%2B22707%2Fgithub.com%2Fjerusdp%2Fhcaptcha-rs.svg?type=shield
