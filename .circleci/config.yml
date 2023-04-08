@@ -59,7 +59,7 @@ jobs:
     executor: rust-env
     steps:
       - checkout
-      - run: cargo --version
+      - run: cargo +stable --version
       - run:
           name: Running basic test <<parameters.basic-test>>
           command: <<parameters.basic-test>>
@@ -71,10 +71,10 @@ jobs:
     executor: rust-env
     steps:
       - checkout
-      - run: cargo --version
+      - run: cargo +stable --version
       - run:
           name: Running test suite <<parameters.test-suite>>
-          command: "cargo test -p <<parameters.test-suite>> --test compiletest"
+          command: "cargo +stable test -p <<parameters.test-suite>> --test compiletest"
 
   docs:
     executor: rust-env
@@ -95,10 +95,10 @@ workflows:
             parameters:
               basic-test:
                 [
-                  cargo fmt --all -- --check,
-                  cargo clippy --workspace --examples --tests --all-features -- -D warnings,
-                  cargo test -p hcaptcha --lib,
-                  cargo test -p hcaptcha --doc,
+                  cargo +stable fmt --all -- --check,
+                  cargo +stable clippy --workspace --examples --tests --all-features -- -D warnings,
+                  cargo +stable test -p hcaptcha --lib,
+                  cargo +stable test -p hcaptcha --doc,
                 ]
       - test-suite:
           matrix:
