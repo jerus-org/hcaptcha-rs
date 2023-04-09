@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased] - ReleaseDate
 
+### Bug Fixes
+
+- Update dependencies
+- prepare for clippy::uninlined_format_args to be style lint (warn by default)
+- adapt to breaking changes in syn 2.0
+
 ## [2.2.1] - 2023-01-25
 
 ### Bug Fixes
@@ -76,6 +82,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## v2.0.1 - 2021-10-27
 
 ### Added
+
 - trait_implementation example
 - trait implementation
 - derive macro
@@ -130,4 +137,4 @@ The trace crates log feature is enabled so that log records are emitted if a tra
 [2.2.1]: https://github.com/gortavoher/hcaptcha-rs/compare/hcaptcha-v2.2.0...hcaptcha-v2.2.1
 [2.2.0]: https://github.com/gortavoher/hcaptcha-rs/compare/hcaptcha-v2.1.1...hcaptcha-v2.2.0
 [2.1.1]: https://github.com/gortavoher/hcaptcha-rs/compare/v2.1.0...hcaptcha-v2.1.1
-[Lunarequest]: https://github.com/Lunarequest/Lunarequest
+[@Lunarequest]: https://github.com/Lunarequest/Lunarequest
