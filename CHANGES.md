@@ -137,3 +137,4 @@ The trace crates log feature is enabled so that log records are emitted if a tra
 [2.2.1]: https://github.com/gortavoher/hcaptcha-rs/compare/hcaptcha-v2.2.0...hcaptcha-v2.2.1
 [2.2.0]: https://github.com/gortavoher/hcaptcha-rs/compare/hcaptcha-v2.1.1...hcaptcha-v2.2.0
 [2.1.1]: https://github.com/gortavoher/hcaptcha-rs/compare/v2.1.0...hcaptcha-v2.1.1
+[@Lunarequest]: https://github.com/Lunarequest/Lunarequest
