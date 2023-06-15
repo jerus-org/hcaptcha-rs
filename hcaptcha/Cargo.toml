@@ -53,7 +53,7 @@ mockd = { version = "0.4.1", features = ["internet", "unique", "words"] }
 hex = "0.4"
 itertools = "0.10.5"
 lambda_runtime = "0.8.1"
-log = "0.4.17"
+log = "0.4.19"
 rand = "0.8.5"
 tokio = { version = "1.28", features = ["macros", "rt-multi-thread"] }
 simple_logger = "4.1"
