@@ -5,21 +5,14 @@ hCaptcha client response verification. Validate the hCaptcha response submitted 
 """
 version = "2.2.2"
 authors = ["Jeremiah Russell <jrussell@jerus.ie>"]
-license = "MIT OR Apache-2.0"
+license = "MIT"
 repository = "https://github.com/jerusdp/hcaptcha-rs"
 edition = "2018"
 readme = "README.md"
 documentation = "https://docs.rs/hcaptcha"
 categories = ["web-programming"]
 keywords = ["hcaptcha", "captcha", "security", "backend", "protection"]
-include = [
-    "**/*.rs",
-    "Cargo.toml",
-    "README.md",
-    "LICENSE-APACHE",
-    "LICENSE-MIT",
-    "CHANGES.md",
-]
+include = ["**/*.rs", "Cargo.toml", "README.md", "LICENSE", "CHANGES.md"]
 
 [features]
 default = ["ext", "nativetls-backend"]

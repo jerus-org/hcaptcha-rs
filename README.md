@@ -26,7 +26,7 @@
 [ghub-badge]: https://img.shields.io/badge/sponsor-30363D?logo=GitHub-Sponsors&logoColor=#white
 [ghub-url]: https://github.com/sponsors/jerusdp
 
-The rust library hcaptcha is used with your backend service to verify the hcaptcha response provided from the client.
+The rust library hcaptcha is used by your backend service to verify the hcaptcha response provided from the client.
 
 ## Installation
 
@@ -73,11 +73,7 @@ See the examples folder for an AWS Lambda contact form example.
 
 ## License
 
-Licensed under either of
-
-* Apache License, Version 2.0 (LICENSE-APACHE or <http://www.apache.org/licenses/LICENSE-2.0>)
-* MIT license (LICENSE-MIT or <http://opensource.org/licenses/MIT>)
-at your option.
+Licensed under the MIT license (LICENSE or <http://opensource.org/licenses/MIT>)
 
 ### Third Party Licenses
 
