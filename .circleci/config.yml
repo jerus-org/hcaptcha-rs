@@ -30,6 +30,11 @@ commands:
             cargo +nightly doc --lib --no-deps --all-features --document-private-items
 
 jobs:
+  rust-versions:
+    executor: rust-env
+    steps:
+      - run: rustup show
+
   required-builds:
     executor: rust-env
     steps:
@@ -88,6 +93,7 @@ jobs:
 workflows:
   build-test-docs:
     jobs:
+      - rust-versions
       - required-builds
       - optional-builds
       - basic-tests:
