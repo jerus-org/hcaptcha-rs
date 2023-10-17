@@ -3,6 +3,7 @@
         "compilefail",
         "dd'T'HH",
         "fakeit",
+        "hcaptcha",
         "invalidhcaptchastring",
         "itertools",
         "Itertools",
@@ -23,7 +24,8 @@
         "release",
         "docs",
         "Examples",
-        "derive"
+        "derive",
+        "CI"
     ],
     "rust-analyzer.rustc.source": null
 }
