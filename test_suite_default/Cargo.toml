@@ -15,7 +15,7 @@ hcaptcha_derive = { path = "../hcaptcha_derive" }
 tokio = { version = "1", features = ["rt-multi-thread", "macros"] }
 claims = "0.7.1"
 mockd = { version = "0.4.1", features = ["internet", "unique"] }
-itertools = "0.11.0"
+itertools = "0.12.0"
 rand = "0.8"
 wiremock = "0.5"
 serde_json = "1"
