@@ -43,7 +43,7 @@ tracing = { version = "0.1.40", features = [
     "attributes",
 ], optional = true }
 uuid = { version = "1.6.1", features = ["v4"] }
-url = "2.4.1"
+url = "2.5.0"
 hcaptcha_derive = { version = "2.2.2", path = "../hcaptcha_derive" }
 
 [dev-dependencies]
