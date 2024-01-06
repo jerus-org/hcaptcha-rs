@@ -135,8 +135,15 @@ mod tests {
     }
 
     #[test]
-    fn test_secret_key_is_valid() {
+    fn test_v1_secret_key_is_valid() {
         let secret = "0x0000000123456789abcdefABCDEF000000000000".to_string();
+        assert_ok!(HcaptchaSecret::parse(secret));
+    }
+
+    // A second format of secret is being issued since September 2023
+    #[test]
+    fn test_v2_secret_key_is_valid() {
+        let secret = "ES_a5e0b5406e2b4c939ce48946389463894638473b1c".to_string();
         assert_ok!(HcaptchaSecret::parse(secret));
     }
 }
