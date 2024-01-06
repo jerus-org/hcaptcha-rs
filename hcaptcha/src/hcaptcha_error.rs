@@ -66,6 +66,14 @@ pub enum Code {
     InvalidSecretExtWrongLen,
     /// Extended secret check reports that the secret string is not a hex string.
     InvalidSecretExtNotHex,
+    /// Extended secret check identifies the version of secret by the first two characters.
+    /// If the secret is valid there may be a new version that is not yet known.
+    /// A false report can be worked around by dropping the `ext` feature.
+    ///
+    /// `toml
+    /// hcaptcha = {version = "2.3.0", default-features = false, features = [rustls-backend]}
+    /// `
+    SecretVersionUnknown,
     /// Collect any new error codes issued by the API.
     Unknown(String),
 }
@@ -119,6 +127,9 @@ impl fmt::Display for Code {
             ),
             Code::SiteSecretMismatch => {
                 write!(f, "The sitekey is not registered with the provided secret.")
+            }
+            Code::SecretVersionUnknown => {
+                write!(f, "The version of the site secret is not recognise.")
             }
             Code::Unknown(e) => write!(f, "Unkown error: {e}"),
         }

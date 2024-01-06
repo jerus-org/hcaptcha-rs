@@ -2,7 +2,8 @@ use crate::{Code, HcaptchaError};
 use std::collections::HashSet;
 use std::fmt;
 
-const SECRET_LEN: usize = 42;
+const SECRET_LEN_V1: usize = 42;
+const SECRET_LEN_V2: usize = 45;
 
 #[derive(Debug, Default, Clone, serde::Serialize)]
 pub struct HcaptchaSecret(String);
@@ -18,10 +19,46 @@ impl HcaptchaSecret {
         feature = "trace",
         tracing::instrument(name = "Extended check of secret.", skip(s), level = "debug")
     )]
+
     pub fn parse(s: String) -> Result<Self, HcaptchaError> {
+        let version = SecretVersions::parse(s)?;
+        println!("version found: {:?}", version);
+
+        match version {
+            SecretVersions::V1(s) => HcaptchaSecret::parse_v1(s),
+            SecretVersions::V2(s) => HcaptchaSecret::parse_v2(s),
+        }
+    }
+
+    pub fn parse_v1(s: String) -> Result<Self, HcaptchaError> {
+        println!("Using v1 parser");
         let is_empty_or_whitespace = s.trim().is_empty();
-        let is_wrong_length = s.len() != SECRET_LEN;
+        let is_wrong_length = s.len() != SECRET_LEN_V1;
         let is_not_a_hex_string = !is_hex_string(&s);
+        let mut codes = HashSet::new();
+        if is_empty_or_whitespace {
+            codes.insert(Code::MissingSecret);
+        };
+        if is_wrong_length {
+            codes.insert(Code::InvalidSecretExtWrongLen);
+        };
+        if is_not_a_hex_string {
+            codes.insert(Code::InvalidSecretExtNotHex);
+        };
+        if codes.is_empty() {
+            Ok(HcaptchaSecret(s))
+        } else {
+            #[cfg(feature = "trace")]
+            tracing::debug!("Extended check found errors in secret string: {:?}", &codes);
+            Err(HcaptchaError::Codes(codes))
+        }
+    }
+
+    pub fn parse_v2(s: String) -> Result<Self, HcaptchaError> {
+        let is_empty_or_whitespace = s.trim().is_empty();
+        let is_wrong_length = s.len() != SECRET_LEN_V2;
+        let hex_portion = s.replace("ES_", "0x");
+        let is_not_a_hex_string = !is_hex_string(&hex_portion);
         let mut codes = HashSet::new();
         if is_empty_or_whitespace {
             codes.insert(Code::MissingSecret);
@@ -47,14 +84,33 @@ impl HcaptchaSecret {
     tracing::instrument(name = "Check for hex string.", skip(s), level = "debug")
 )]
 fn is_hex_string(s: &str) -> bool {
-    if s.len() != SECRET_LEN {
-        return false;
-    };
-
     let start_is_valid = &s[0..2] == "0x";
     let string_is_valid = hex::decode(s.trim_start_matches("0x")).is_ok();
 
     start_is_valid && string_is_valid
+}
+
+#[derive(Debug)]
+enum SecretVersions {
+    V1(String),
+    V2(String),
+}
+
+impl SecretVersions {
+    pub fn parse(s: String) -> Result<Self, HcaptchaError> {
+        let start = &s[0..2];
+        match start {
+            "0x" => Ok(SecretVersions::V1(s)),
+            "ES" => Ok(SecretVersions::V2(s)),
+            _ => {
+                let mut codes = HashSet::new();
+                codes.insert(Code::SecretVersionUnknown);
+                #[cfg(feature = "trace")]
+                tracing::debug!("Extended check found errors in secret string: {:?}", &codes);
+                Err(HcaptchaError::Codes(codes))
+            }
+        }
+    }
 }
 
 #[cfg(test)]
