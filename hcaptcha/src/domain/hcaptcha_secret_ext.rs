@@ -32,13 +32,9 @@ impl HcaptchaSecret {
 
     pub fn parse_v1(s: String) -> Result<Self, HcaptchaError> {
         println!("Using v1 parser");
-        let is_empty_or_whitespace = s.trim().is_empty();
         let is_wrong_length = s.len() != SECRET_LEN_V1;
         let is_not_a_hex_string = !is_hex_string(&s);
         let mut codes = HashSet::new();
-        if is_empty_or_whitespace {
-            codes.insert(Code::MissingSecret);
-        };
         if is_wrong_length {
             codes.insert(Code::InvalidSecretExtWrongLen);
         };
@@ -55,14 +51,10 @@ impl HcaptchaSecret {
     }
 
     pub fn parse_v2(s: String) -> Result<Self, HcaptchaError> {
-        let is_empty_or_whitespace = s.trim().is_empty();
         let is_wrong_length = s.len() != SECRET_LEN_V2;
         let hex_portion = s.replace("ES_", "0x");
         let is_not_a_hex_string = !is_hex_string(&hex_portion);
         let mut codes = HashSet::new();
-        if is_empty_or_whitespace {
-            codes.insert(Code::MissingSecret);
-        };
         if is_wrong_length {
             codes.insert(Code::InvalidSecretExtWrongLen);
         };
@@ -98,12 +90,19 @@ enum SecretVersions {
 
 impl SecretVersions {
     pub fn parse(s: String) -> Result<Self, HcaptchaError> {
+        let mut codes = HashSet::new();
+        let is_empty_or_whitespace = s.trim().is_empty();
+        if is_empty_or_whitespace {
+            codes.insert(Code::MissingSecret);
+            #[cfg(feature = "trace")]
+            tracing::debug!("Extended check found errors in secret string: {:?}", &codes);
+            return Err(HcaptchaError::Codes(codes));
+        }
         let start = &s[0..2];
         match start {
             "0x" => Ok(SecretVersions::V1(s)),
             "ES" => Ok(SecretVersions::V2(s)),
             _ => {
-                let mut codes = HashSet::new();
                 codes.insert(Code::SecretVersionUnknown);
                 #[cfg(feature = "trace")]
                 tracing::debug!("Extended check found errors in secret string: {:?}", &codes);
@@ -160,7 +159,7 @@ mod tests {
 
     #[test]
     fn error_set_contains_invalid_secret_error() {
-        let secret = "abcdefghijklmnopqrstuvxyzabcdefghijk".to_string();
+        let secret = "0xcdefghijklmnopqrstuvxyzabcdefghijk".to_string();
         if let Err(HcaptchaError::Codes(hs)) = HcaptchaSecret::parse(secret) {
             assert!(hs.contains(&Code::InvalidSecretExtNotHex));
             assert!(hs.contains(&Code::InvalidSecretExtWrongLen));
