@@ -21,17 +21,13 @@ impl HcaptchaSecret {
     )]
 
     pub fn parse(s: String) -> Result<Self, HcaptchaError> {
-        let version = SecretVersions::parse(s)?;
-        println!("version found: {:?}", version);
-
-        match version {
+        match SecretVersions::parse(s)? {
             SecretVersions::V1(s) => HcaptchaSecret::parse_v1(s),
             SecretVersions::V2(s) => HcaptchaSecret::parse_v2(s),
         }
     }
 
     pub fn parse_v1(s: String) -> Result<Self, HcaptchaError> {
-        println!("Using v1 parser");
         let is_wrong_length = s.len() != SECRET_LEN_V1;
         let is_not_a_hex_string = !is_hex_string(&s);
         let mut codes = HashSet::new();

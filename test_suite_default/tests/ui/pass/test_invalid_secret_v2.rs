@@ -22,7 +22,7 @@ async fn main() {
     let token = helper::random_string(100);
     let remoteip = mockd::internet::ipv4_address();
     let sitekey = mockd::unique::uuid_v4();
-    let secret = "InvalidSecretString".to_string();
+    let secret = "ES_InvalidSecretString".to_string();
 
     let expected_body = format!(
         "response={}&remoteip={}&sitekey={}&secret={}",
