@@ -70,9 +70,9 @@ pub enum Code {
     /// If the secret is valid there may be a new version that is not yet known.
     /// A false report can be worked around by dropping the `ext` feature.
     ///
-    /// `toml
+    /// ```toml
     /// hcaptcha = {version = "2.3.0", default-features = false, features = [rustls-backend]}
-    /// `
+    /// ```
     SecretVersionUnknown,
     /// Collect any new error codes issued by the API.
     Unknown(String),
