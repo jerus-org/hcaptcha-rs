@@ -9,6 +9,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased] - ReleaseDate
 
+### Bug Fixes
+
+- Update dependencies
+
+### Features
+
+- Add support for validating new secret format in Extended validation (`ext`) feature
+
 ## [2.2.2] - 2023-04-09
 
 ### Bug Fixes
