@@ -8,6 +8,7 @@ authors = ["Jeremiah Russell <jrussell@jerus.ie>"]
 license = "MIT OR Apache-2.0"
 repository = "https://github.com/jerusdp/hcaptcha-rs"
 edition = "2018"
+rust-version = "1.71"
 readme = "README.md"
 documentation = "https://docs.rs/hcaptcha"
 categories = ["web-programming"]
