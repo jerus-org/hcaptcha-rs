@@ -3,7 +3,7 @@ use std::collections::HashSet;
 use std::fmt;
 
 const SECRET_LEN_V1: usize = 42;
-const SECRET_LEN_V2: usize = 45;
+const SECRET_LEN_V2: usize = 35;
 
 #[derive(Debug, Default, Clone, serde::Serialize)]
 pub struct HcaptchaSecret(String);
