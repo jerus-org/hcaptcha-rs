@@ -18,6 +18,7 @@
 //! [`verify`]: ./function.hcaptcha_request.verify.html
 //!
 //! # Examples
+//!
 //! Token needs to be supplied by the client.
 //! This example will fail as a client-provided token is not used.
 //! ```no_run
@@ -84,6 +85,7 @@
 //! ```
 //!
 //! Lambda backend implementation. See examples for more detail.
+//!
 //! ``` no_run
 //! # use lambda_runtime::Error;
 //! # use tracing_bunyan_formatter::{BunyanFormattingLayer, JsonStorageLayer};
@@ -303,9 +305,10 @@
 //! * `trace` - Enables tracing instrumentation on all functions. Traces are logged at the debug level. The value of the secret is not logged.
 //! * `nativetls-backend` - Enables native-tls backend in reqwests
 //! * `rustls-backend` - Enables rustls backend in reqwests
+//!
 //! # Rust Version
 //!
-//! This version of hcaptcha requires Rust v1.46 or later.
+//! This version of hcaptcha requires Rust v1.71 or later.
 
 #[doc(hidden)]
 pub(crate) mod domain;
