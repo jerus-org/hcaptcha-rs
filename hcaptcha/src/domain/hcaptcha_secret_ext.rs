@@ -3,7 +3,7 @@ use std::collections::HashSet;
 use std::fmt;
 
 const SECRET_LEN_V1: usize = 42;
-const SECRET_LEN_V2: usize = 45;
+const SECRET_LEN_V2: usize = 35;
 
 #[derive(Debug, Default, Clone, serde::Serialize)]
 pub struct HcaptchaSecret(String);
@@ -171,7 +171,7 @@ mod tests {
     // A second format of secret is being issued since September 2023
     #[test]
     fn test_v2_secret_key_is_valid() {
-        let secret = "ES_a5e0b5406e2b4c939ce48946389463894638473b1c".to_string();
+        let secret = "ES_215963ca0f4b4d5e80d2ae736ce35d1d".to_string();
         assert_ok!(HcaptchaSecret::parse(secret));
     }
 }

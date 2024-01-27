@@ -10,4 +10,5 @@ pre-release-replacements = [
     { file = "CHANGES.md", search = "<!-- next-header -->", replace = "<!-- next-header -->\n\n## [Unreleased] - ReleaseDate", exactly = 1 },
     { file = "CHANGES.md", search = "<!-- next-url -->", replace = "<!-- next-url -->\n[Unreleased]: https://github.com/gortavoher/hcaptcha-rs/compare/{{tag_name}}...HEAD", exactly = 1 },
     { file = "README.md", search = "hcaptcha = .*", replace = "{{crate_name}} = \"{{version}}\"" },
+    { file = "src/lib.rs", search = "version = \"2.0.0\"", replace = "version = \"{{version}}\"", exactly = 1 },
 ]
