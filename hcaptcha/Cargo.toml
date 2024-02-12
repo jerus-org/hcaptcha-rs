@@ -70,7 +70,7 @@ rusoto_core = { version = "0.48.0", default_features = false, features = [
 rusoto_ses = { version = "0.48.0", default_features = false, features = [
     "rustls",
 ] }
-wiremock = "0.5"
+wiremock = "0.6"
 
 [package.metadata.docs.rs]
 all-features = true
