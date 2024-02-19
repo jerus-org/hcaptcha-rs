@@ -26,6 +26,6 @@ jobs:
           command: build
           args: --all-features
       - name: Run FOSSA scan and upload build data
-        uses: fossa-contrib/fossa-action@df032d28485133c727bbbd6f63e6ee23b8a9d117
+        uses: fossa-contrib/fossa-action@062d24ce27068a932cdc4f7253504d26b1b2a4df
         with:
           fossa-api-key: 5f2ba9e71c25d8f97c58a9d1c70c9fb7
