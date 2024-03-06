@@ -48,7 +48,7 @@ url = "2.5.0"
 hcaptcha_derive = { version = "2.3.1", path = "../hcaptcha_derive" }
 
 [dev-dependencies]
-chrono = "0.4.34"
+chrono = "0.4.35"
 claims = "0.7.1"
 mockd = { version = "0.4.3", features = ["internet", "unique", "words"] }
 hex = "0.4"
