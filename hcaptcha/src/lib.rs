@@ -139,7 +139,7 @@
 //! #
 //! #     mod send {
 //! #         use super::error::LambdaContactError;
-//! #         use rusoto_ses::{SendEmailResponse, SendTemplatedEmailResponse};
+//! #         use aws-sdk-ses::{SendEmailResponse, SendTemplatedEmailResponse};
 //! #         use serde::{Deserialize, Serialize};
 //! #         use tracing::instrument;
 //! #
