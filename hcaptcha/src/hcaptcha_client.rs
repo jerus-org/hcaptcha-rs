@@ -259,7 +259,7 @@ impl HcaptchaClient {
 mod tests {
     use super::*;
     use crate::Code;
-    use chrono::{Duration, Utc};
+    use chrono::{TimeDelta, Utc};
     use claims::assert_ok;
     use rand::distributions::Alphanumeric;
     use rand::{thread_rng, Rng};
@@ -294,7 +294,7 @@ mod tests {
         let expected_body = format!("response={}&secret={}", &token, &secret);
 
         let timestamp = Utc::now()
-            .checked_sub_signed(Duration::minutes(10))
+            .checked_sub_signed(TimeDelta::try_minutes(10).unwrap())
             .unwrap()
             .to_rfc3339();
 
@@ -341,7 +341,7 @@ mod tests {
         );
 
         let timestamp = Utc::now()
-            .checked_sub_signed(Duration::minutes(10))
+            .checked_sub_signed(TimeDelta::try_minutes(10).unwrap())
             .unwrap()
             .to_rfc3339();
 
@@ -388,7 +388,7 @@ mod tests {
         );
 
         let timestamp = Utc::now()
-            .checked_sub_signed(Duration::minutes(10))
+            .checked_sub_signed(TimeDelta::try_minutes(10).unwrap())
             .unwrap()
             .to_rfc3339();
 

@@ -1,12 +1,10 @@
-use super::error::LambdaContactError;
+use super::error::ContactError;
 use super::param;
 use hcaptcha::{HcaptchaCaptcha, HcaptchaClient, HcaptchaRequest, HcaptchaResponse};
 
 const HCAPTCHA_SECRET: &str = "/hcaptcha/secret";
 
-pub async fn response_valid(
-    captcha: HcaptchaCaptcha,
-) -> Result<HcaptchaResponse, LambdaContactError> {
+pub async fn response_valid(captcha: HcaptchaCaptcha) -> Result<HcaptchaResponse, ContactError> {
     let secret = param::get_parameter(HCAPTCHA_SECRET).await?;
 
     let client = HcaptchaClient::new();

@@ -1,4 +1,4 @@
-use crate::handler::error::LambdaContactError;
+use crate::handler::error::ContactError;
 use crate::handler::ContactForm;
 use tracing::instrument;
 
@@ -7,7 +7,7 @@ use tracing::instrument;
     skip(form)
     fields(email = %form.email)
 )]
-pub async fn write(form: &ContactForm) -> Result<(), LambdaContactError> {
+pub async fn write(form: &ContactForm) -> Result<(), ContactError> {
     // Write the contact form data to dynamodb
     Ok(())
 }

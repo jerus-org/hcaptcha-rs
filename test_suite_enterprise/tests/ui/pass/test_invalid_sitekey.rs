@@ -1,6 +1,6 @@
 mod helper;
 
-use chrono::{Duration, Utc};
+use chrono::{TimeDelta, Utc};
 use hcaptcha::{Code, Hcaptcha};
 use serde_json::json;
 use wiremock::matchers::{body_string, method, path};
@@ -31,7 +31,7 @@ async fn main() {
     );
 
     let timestamp = Utc::now()
-        .checked_sub_signed(Duration::minutes(10))
+        .checked_sub_signed(TimeDelta::try_minutes(10).unwrap())
         .unwrap()
         .to_rfc3339();
 

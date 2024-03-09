@@ -1,5 +1,4 @@
-use super::error::LambdaContactError;
-use rusoto_ses::{SendEmailResponse, SendTemplatedEmailResponse};
+use super::error::ContactError;
 use serde::{Deserialize, Serialize};
 use tracing::instrument;
 
@@ -16,26 +15,15 @@ pub struct ContactForm {
 }
 
 #[instrument(name = "send notification to info mailbox", skip(_contact_form))]
-pub async fn notify_office(
-    _contact_form: &ContactForm,
-) -> Result<SendEmailResponse, LambdaContactError> {
+pub async fn notify_office(_contact_form: &ContactForm) -> Result<(), ContactError> {
     // Construct email and send message to the office info mailbox
 
-    let res = SendEmailResponse {
-        message_id: "generated_message_id".to_owned(),
-    };
-
-    Ok(res)
+    Ok(())
 }
 
 #[instrument(name = "Send notification to the contact", skip(_contact_form))]
-pub async fn notify_contact(
-    _contact_form: &ContactForm,
-) -> Result<SendTemplatedEmailResponse, LambdaContactError> {
+pub async fn notify_contact(_contact_form: &ContactForm) -> Result<(), ContactError> {
     // Construct and send email to the contact
-    let res = SendTemplatedEmailResponse {
-        message_id: "generated_message_id".to_owned(),
-    };
 
-    Ok(res)
+    Ok(())
 }
