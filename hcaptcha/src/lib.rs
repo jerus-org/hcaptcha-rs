@@ -97,32 +97,26 @@
 //! #     mod error {
 //! #         use thiserror::Error;
 //! #         #[derive(Error, Debug)]
-//! #         pub enum LambdaContactError {
+//! #         pub enum ContactError {
 //! #             #[error("{0}")]
 //! #             Hcaptcha(#[from] hcaptcha::HcaptchaError),
-//! #             #[error("{0}")]
-//! #             RusotoSes(#[from] rusoto_core::RusotoError<rusoto_ses::SendEmailError>),
-//! #             #[error("{0}")]
-//! #             RusotoSesTemplate(
-//! #                 #[from] rusoto_core::RusotoError<rusoto_ses::SendTemplatedEmailError>,
-//! #             ),
 //! #             #[error("{0}")]
 //! #             Json(#[from] serde_json::Error),
 //! #         }
 //! #     }
 //! #
 //! #     mod param {
-//! #         use super::error::LambdaContactError;
+//! #         use super::error::ContactError;
 //! #         use tracing::instrument;
 //! #         #[instrument(name = "get the secret key from parameter store")]
-//! #         pub async fn get_parameter(key: &str) -> Result<String, LambdaContactError> {
+//! #         pub async fn get_parameter(key: &str) -> Result<String, ContactError> {
 //! #             // Extract the secret key from your parameter store
 //! #             Ok("0x123456789abcedf0123456789abcedf012345678".to_owned())
 //! #         }
 //! #     }
 //! #
 //! #     mod record {
-//! #         use super::error::LambdaContactError;
+//! #         use super::error::ContactError;
 //! #         use super::send::ContactForm;
 //! #         use tracing::instrument;
 //! #
@@ -131,15 +125,14 @@
 //! #     skip(form)
 //! #     fields(email = %form.email)
 //! # )]
-//! #         pub async fn write(form: &ContactForm) -> Result<(), LambdaContactError> {
+//! #         pub async fn write(form: &ContactForm) -> Result<(), ContactError> {
 //! #             // Write the contact form data to dynamodb
 //! #             Ok(())
 //! #         }
 //! #     }
 //! #
 //! #     mod send {
-//! #         use super::error::LambdaContactError;
-//! #         use aws-sdk-ses::{SendEmailResponse, SendTemplatedEmailResponse};
+//! #         use super::error::ContactError;
 //! #         use serde::{Deserialize, Serialize};
 //! #         use tracing::instrument;
 //! #
@@ -162,26 +155,19 @@
 //! #         #[instrument(name = "send notification to info mailbox", skip(_contact_form))]
 //! #         pub async fn notify_office(
 //! #             _contact_form: &ContactForm,
-//! #         ) -> Result<SendEmailResponse, LambdaContactError> {
+//! #         ) -> Result<(), ContactError> {
 //! #             // Construct email and send message to the office info mailbox
 //! #
-//! #             let res = SendEmailResponse {
-//! #                 message_id: "generated_message_id".to_owned(),
-//! #             };
-//! #
-//! #             Ok(res)
+//! #             Ok(())
 //! #         }
 //! #
 //! #         #[instrument(name = "Send notification to the contact", skip(_contact_form))]
 //! #         pub async fn notify_contact(
 //! #             _contact_form: &ContactForm,
-//! #         ) -> Result<SendTemplatedEmailResponse, LambdaContactError> {
+//! #         ) -> Result<(), ContactError> {
 //! #             // Construct and send email to the contact
-//! #             let res = SendTemplatedEmailResponse {
-//! #                 message_id: "generated_message_id".to_owned(),
-//! #             };
 //! #
-//! #             Ok(res)
+//! #             Ok(())
 //! #         }
 //! #     }
 //!
