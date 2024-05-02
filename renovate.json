@@ -3,6 +3,7 @@
   "dependencyDashboard": true,
   "semanticCommits": "enabled",
   "semanticCommitType": "fix",
+  "versioning" : "cargo",
   "packageRules": [
     {
       "excludePackageNames": [
