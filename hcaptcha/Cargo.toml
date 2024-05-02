@@ -39,9 +39,9 @@ reqwest = { version = "0.12.4", default-features = false, features = [
     "json",
     "http2",
 ] }
-serde_json = "1.0"
-serde_urlencoded = "0.7"
-serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0.116"
+serde_urlencoded = "0.7.1"
+serde = { version = "1.0.200", features = ["derive"] }
 thiserror = "1.0.59"
 tracing = { version = "0.1.40", features = [
     "log",
