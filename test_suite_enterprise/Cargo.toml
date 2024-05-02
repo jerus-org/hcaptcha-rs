@@ -9,7 +9,7 @@ publish = false
 # hcaptcha_derive = { path = "../hcaptcha_derive"}
 
 [dev-dependencies]
-trybuild = "1.0"
+trybuild = "1.0.91"
 hcaptcha = { path = "../hcaptcha", features = ["enterprise"] }
 hcaptcha_derive = { path = "../hcaptcha_derive" }
 tokio = { version = "1", features = ["rt-multi-thread", "macros"] }
