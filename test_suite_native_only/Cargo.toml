@@ -14,7 +14,7 @@ hcaptcha = { path = "../hcaptcha", default-features = false, features = [
     "nativetls-backend",
 ] }
 hcaptcha_derive = { path = "../hcaptcha_derive" }
-tokio = { version = "1", features = ["rt-multi-thread", "macros"] }
+tokio = { version = "1.37.0", features = ["rt-multi-thread", "macros"] }
 claims = "0.7.1"
 mockd = { version = "0.4.3", features = ["internet", "unique"] }
 itertools = "0.12.1"
