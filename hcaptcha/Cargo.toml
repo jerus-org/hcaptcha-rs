@@ -32,7 +32,7 @@ trace = ["tracing"]
 nightly = []
 
 [dependencies]
-async-trait = "0.1"
+async-trait = "0.1.80"
 hex = { version = "0.4", optional = true }
 hcaptcha_derive = { version = "2.3.1", path = "../hcaptcha_derive" }
 reqwest = { version = "0.12.4", default-features = false, features = [
