@@ -179,7 +179,7 @@ jobs:
             fi
 
 workflows:
-  build-test-docs:
+  validation:
     when:
       not:
         equal: [scheduled_pipeline, << pipeline.trigger_source >>]
