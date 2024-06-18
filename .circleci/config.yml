@@ -3,7 +3,7 @@ version: 2.1
 parameters:
   min-rust-version:
     type: string
-    default: "1.72"
+    default: "1.75"
 
 executors:
   rust-env:
@@ -28,6 +28,29 @@ commands:
           name: Generate the crate documentation
           command: |
             cargo +nightly doc --lib --no-deps --all-features --document-private-items
+
+  gpg-key:
+    steps:    
+      - run:
+          name: import GPG key
+          command: |
+            echo -e $BOT_GPG_KEY \
+              | base64 --decode --ignore-garbage \
+              | gpg --batch --allow-secret-key-import --import 
+            gpg --fingerprint
+            echo $BOT_TRUST | gpg --import-ownertrust
+            gpg --fingerprint
+
+  git-config:
+    steps:
+      - run:
+          name: Configure git for user and signing
+          command: |
+            git config --global user.email "$BOT_USER_EMAIL"
+            git config --global user.name "$BOT_USER_NAME"
+            git config --global gpg.program gpg
+            git config --global user.signingkey "$BOT_SIGN_KEY"
+            git config --global commit.gpgsign true
 
 jobs:
   rust-versions:
@@ -88,10 +111,78 @@ jobs:
     steps:
       - checkout
       - cargo-docs
-# Invoke jobs via workflows
-# See: https://circleci.com/docs/2.0/configuration-reference/#workflows
+
+  pr-changelog-update:
+    executor: rust-env
+    steps:
+      - checkout
+      - add_ssh_keys:
+          fingerprints: 
+            - SHA256:OkxsH8Z6Iim6WDJBaII9eTT9aaO1f3eDc6IpsgYYPVg
+      - run:
+          name: Remove original SSH key from agent 
+          command: |
+            ssh-add -l
+            ssh-add -d ~/.ssh/id_rsa.pub
+            ssh-add -l
+      - gpg-key
+      - git-config
+      - run:
+          name: Update changelog
+          command: |
+            pcu -vv
+
+  release-ready:
+    executor: rust-env
+    steps:
+      - checkout
+      - run:
+          name: Check if ready to make a release
+          command: |
+            set -eo pipefail
+
+            if [ "$(nextsv -q)" != "none" ]
+            then
+              exit 0
+            else 
+             exit 1
+            fi
+
+  make-release:
+    executor: rust-env
+    steps:
+      - checkout
+      - run:
+          name: import GPG key
+          command: |
+            echo -e $GPGKEY \
+              | base64 --decode --ignore-garbage \
+              | gpg --batch --allow-secret-key-import --import 
+            gpg --keyid-format  LONG --list-secret-keys
+      - run:
+          name: Configure git for user and signing
+          command: |
+            git config user.email "$USER_EMAIL"
+            git config user.name "$USER_NAME"
+            git config --global gpg.program gpg
+            git config --global user.signingkey "$SIGNKEY"
+      - run:
+          name: Publish update
+          command: |
+            set -exo pipefail
+            export NEXTSV_LEVEL=$(nextsv -q -c other require -f CHANGES.md -f CHANGELOG.md feature)
+            if [ $NEXTSV_LEVEL != "none" ] ; then 
+              cargo release changes
+              cargo release -vvv --execute --no-confirm --sign-tag "$NEXTSV_LEVEL"
+            else 
+              echo "Not ready to release yet."
+            fi
+
 workflows:
-  build-test-docs:
+  validation:
+    when:
+      not:
+        equal: [scheduled_pipeline, << pipeline.trigger_source >>]
     jobs:
       - rust-versions
       - required-builds
@@ -123,3 +214,21 @@ workflows:
             - required-builds
             - docs
       - docs
+      - pr-changelog-update:
+          requires:
+            - test-suite
+          context:
+            - release
+
+  release:
+    when:
+      and:
+        - equal: [scheduled_pipeline, << pipeline.trigger_source >>]
+        - equal: ["release check", << pipeline.schedule.name >>]
+    jobs:
+      - release-ready
+      - make-release:
+          requires:
+            - release-ready
+          context:
+            - release
