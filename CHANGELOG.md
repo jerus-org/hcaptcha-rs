@@ -1,3 +1,4 @@
+<!-- markdownlint-disable MD036 -->
 # Change Log
 
 All notable changes to this project will be documented in this file.
@@ -9,24 +10,24 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [2.3.1] - 2024-01-27
 
-### Bug Fixes
+### Fixed
 
 - FIX: Length for validation of v2 secret ([#842](https://github.com/jerusdp/hcaptcha-rs/issues/842))
 - Update dependencies
 
 ## [2.3.0] - 2024-01-07
 
-### Bug Fixes
+### Fixed
 
 - Update dependencies
 
-### Features
+### Added
 
 - Add support for validating new secret format in Extended validation (`ext`) feature
 
 ## [2.2.2] - 2023-04-09
 
-### Bug Fixes
+### Fixed
 
 - Update dependencies
 - prepare for clippy::uninlined_format_args to be style lint (warn by default)
@@ -34,25 +35,25 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [2.2.1] - 2023-01-25
 
-### Bug Fixes
+### Fixed
 
 - Update dependencies
 - Replace fakeit with mockd
 - Update dependencies
 
-### Documentation
+### Changed
 
 - Point README badge to circle ci and update min version to 1.56
 - Documentation in samples
 - Update Minium Rust Version to 1.60
 
-### Features
+### Added
 
 - Add enterprise features to hcaptcha
 - Integration testing with hcaptcha.com
 - Additional test suites for feature scenarios
 
-### Testing
+### Changed
 
 - Test suites for feature scenarios
 - Test suite file
@@ -60,32 +61,32 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [2.2.0] - 2022-11-17
 
-### Bug Fixes
+### Fixed
 
 - Update dependencies
 - Replace fakeit with mockd
 
-### Documentation
+### Changed
 
 - Point README badge to circle ci and update min version to 1.60
 - Documentation in samples
 
-### Features
+### Added
 
 - Add enterprise features to hcaptcha
 - Integration testing with hcaptcha.com
 - Additional test suites for feature scenarios
 - Features to choose reqwest backends for TLS (thanks [@Lunarequest])
 
-### Miscellaneous
+### Changed
 
 - Minimum rust version 1.60
 
-### Testing
+### Changed
 
 - Test suites for feature scenarios
 
-### Bug
+### Fixed
 
 - Fix directory name .circleci
 
@@ -110,6 +111,30 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## v2.0.0
 
+**Notes**
+
+*Validation of builder inputs*
+
+Validation of secret and response inputs makes hcaptcha::new(secret, response) fallible. The function returns a result to address any validation failure.
+
+Basic validation for both inputs ensures that the value is not empty or composed of only whitespace.
+
+Extended validation for the secret key requires it to conform to "0x" followed by a 40 character hexadecimal string. The extended validation is feature flagged and can be disabled. The flag is enabled by default. To disable load the library with default-features = false.
+
+The input to .sitekey(sitekey) has been changed to validate that the string slice supplied is a valid UUID.
+
+The input to the .remoteip(remoteip) has been changed to validate that the string slice supplier is a valid ipv4 or ipv6 address.
+
+*Logging / Tracing*
+
+The previous version provided logging behind a feature flag. The log crate has been removed and replaced with tracing. Tracing has been instrumented for all public functions. Tracing is enabled by selected the "trace" feature.
+
+Tracing is enabled at the info logging level for public methods. Additional tracing instrumentation and messages are available at the Debug log level.
+
+The trace crates log feature is enabled so that log records are emitted if a tracing subscriber is not found.
+
+### Changed
+
 - Rename user_ip and site_key to conform to Hcaptcha API documentation (remoteip and sitekey)
 - Restore lambda_runtime as crate has been updated
 - Validate client response before submission to Hcaptcha API
@@ -123,29 +148,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Adopt Request/Response/Error and Trait structure
 - Struct HcaptchaCaptcha for client response (response, sitekey and remoteip) and new_with(captcha) to construct request using the HcaptchaCaptcha struct.
 
-### Notes
-
-#### Validation of builder inputs
-
-Validation of secret and response inputs makes hcaptcha::new(secret, response) fallible. The function returns a result to address any validation failure.
-
-Basic validation for both inputs ensures that the value is not empty or composed of only whitespace.
-
-Extended validation for the secret key requires it to conform to "0x" followed by a 40 character hexadecimal string. The extended validation is feature flagged and can be disabled. The flag is enabled by default. To disable load the library with default-features = false.
-
-The input to .sitekey(sitekey) has been changed to validate that the string slice supplied is a valid UUID.
-
-The input to the .remoteip(remoteip) has been changed to validate that the string slice supplier is a valid ipv4 or ipv6 address.
-
-#### Logging / Tracing
-
-The previous version provided logging behind a feature flag. The log crate has been removed and replaced with tracing. Tracing has been instrumented for all public functions. Tracing is enabled by selected the "trace" feature.
-
-Tracing is enabled at the info logging level for public methods. Additional tracing instrumentation and messages are available at the Debug log level.
-
-The trace crates log feature is enabled so that log records are emitted if a tracing subscriber is not found.
-
 ## v1.0.1
+
+### Changed
 
 - Replace lambda_runtime with lamedh_runtime to avoid security issue RUSTSEC-2021-0020 in hyper 0.12.36.
 
