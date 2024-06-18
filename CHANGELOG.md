@@ -97,7 +97,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Update to edition 2021
 - Update dependencies
 
-## v2.0.1 - 2021-10-27
+## 2.0.1 - 2021-10-27
 
 ### Added
 
@@ -109,7 +109,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Spelling errors
 
-## v2.0.0
+## 2.0.0
 
 **Notes**
 
@@ -148,7 +148,7 @@ The trace crates log feature is enabled so that log records are emitted if a tra
 - Adopt Request/Response/Error and Trait structure
 - Struct HcaptchaCaptcha for client response (response, sitekey and remoteip) and new_with(captcha) to construct request using the HcaptchaCaptcha struct.
 
-## v1.0.1
+## 1.0.1
 
 ### Changed
 
