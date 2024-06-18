@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Security
 
 - Dependencies: update fossa-contrib/fossa-action digest to 524596f(pr [#989](https://github.com/jerus-org/hcaptcha-rs/pull/989))
+- Dependencies: update actions/checkout digest to 692973e(pr [#988](https://github.com/jerus-org/hcaptcha-rs/pull/988))
 
 ## [2.3.1] - 2024-01-27
 
