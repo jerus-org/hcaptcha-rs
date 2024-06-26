@@ -19,6 +19,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Dependencies: update ossf/scorecard-action digest to 0a8153a(pr [#986](https://github.com/jerus-org/hcaptcha-rs/pull/986))
 - Dependencies: update github/codeql-action digest to ce5603b(pr [#985](https://github.com/jerus-org/hcaptcha-rs/pull/985))
 - Dependencies: update fossa-contrib/fossa-action digest to ca0599a(pr [#991](https://github.com/jerus-org/hcaptcha-rs/pull/991))
+- Dependencies: update fossa-contrib/fossa-action digest to fd87c8e(pr [#994])
 
 ## [2.3.1] - 2024-01-27
 
@@ -152,13 +153,14 @@ The trace crates log feature is enabled so that log records are emitted if a tra
 - Replace lambda_runtime with lamedh_runtime to avoid security issue RUSTSEC-2021-0020 in hyper 0.12.36.
 
 [@Lunarequest]: https://github.com/Lunarequest/Lunarequest
-[Unreleased]: https://github.com/gortavoher/hcaptcha-rs/compare/2.3.1...HEAD
-[2.3.1]: https://github.com/gortavoher/hcaptcha-rs/compare/2.3.0...2.3.1
-[2.3.0]: https://github.com/gortavoher/hcaptcha-rs/compare/2.2.2...2.3.0
-[2.2.2]: https://github.com/gortavoher/hcaptcha-rs/compare/2.2.1...2.2.2
-[2.2.1]: https://github.com/gortavoher/hcaptcha-rs/compare/2.2.0...2.2.1
-[2.2.0]: https://github.com/gortavoher/hcaptcha-rs/compare/2.1.1...2.2.0
-[2.1.1]: https://github.com/gortavoher/hcaptcha-rs/compare/2.0.1...2.1.1
-[2.0.1]: https://github.com/gortavoher/hcaptcha-rs/compare/2.0.0...2.0.1
-[2.0.0]: https://github.com/gortavoher/hcaptcha-rs/compare/1.0.1...2.0.0
-[1.0.1]: https://github.com/gortavoher/hcaptcha-rs/releases/tag/1.0.1
+[#994]: https://github.com/jerus-org/hcaptcha-rs/pull/994
+[Unreleased]: https://github.com/jerus-org/hcaptcha-rs/compare/2.3.1...HEAD
+[2.3.1]: https://github.com/jerus-org/hcaptcha-rs/compare/2.3.0...2.3.1
+[2.3.0]: https://github.com/jerus-org/hcaptcha-rs/compare/2.2.2...2.3.0
+[2.2.2]: https://github.com/jerus-org/hcaptcha-rs/compare/2.2.1...2.2.2
+[2.2.1]: https://github.com/jerus-org/hcaptcha-rs/compare/2.2.0...2.2.1
+[2.2.0]: https://github.com/jerus-org/hcaptcha-rs/compare/2.1.1...2.2.0
+[2.1.1]: https://github.com/jerus-org/hcaptcha-rs/compare/2.0.1...2.1.1
+[2.0.1]: https://github.com/jerus-org/hcaptcha-rs/compare/2.0.0...2.0.1
+[2.0.0]: https://github.com/jerus-org/hcaptcha-rs/compare/1.0.1...2.0.0
+[1.0.1]: https://github.com/jerus-org/hcaptcha-rs/releases/tag/1.0.1
