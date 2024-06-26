@@ -21,6 +21,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Dependencies: update fossa-contrib/fossa-action digest to ca0599a(pr [#991](https://github.com/jerus-org/hcaptcha-rs/pull/991))
 - Dependencies: update fossa-contrib/fossa-action digest to fd87c8e(pr [#994])
 - Dependencies: update rust crate lambda_runtime to 0.12.0(pr [#993])
+- Dependencies: update github/codeql-action digest to 9b7c22c(pr [#992])
 
 ## [2.3.1] - 2024-01-27
 
@@ -156,6 +157,7 @@ The trace crates log feature is enabled so that log records are emitted if a tra
 [@Lunarequest]: https://github.com/Lunarequest/Lunarequest
 [#994]: https://github.com/jerus-org/hcaptcha-rs/pull/994
 [#993]: https://github.com/jerus-org/hcaptcha-rs/pull/993
+[#992]: https://github.com/jerus-org/hcaptcha-rs/pull/992
 [Unreleased]: https://github.com/jerus-org/hcaptcha-rs/compare/2.3.1...HEAD
 [2.3.1]: https://github.com/jerus-org/hcaptcha-rs/compare/2.3.0...2.3.1
 [2.3.0]: https://github.com/jerus-org/hcaptcha-rs/compare/2.2.2...2.3.0
