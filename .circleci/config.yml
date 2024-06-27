@@ -84,7 +84,8 @@ jobs:
           name: Check if last commit made by bot
           command: |
             committer=$(git log -1 HEAD --pretty=format:%cn)
-            if [[ $committer == << parameters.bot-name >> ]]; then
+            echo $committer
+            if [[ "$committer" == "<< parameters.bot-name >>" ]]; then
             curl --request POST \
               --url https://circleci.com/api/v2/workflow/$CIRCLE_WORKFLOW_ID/cancel \
               --header "Circle-Token: ${CIRCLE_TOKEN}"
@@ -107,6 +108,9 @@ workflows:
           requires:
             - check-for-bot
       - toolkit/common_tests:
+          requires:
+            - check-for-bot
+      - docs:
           requires:
             - check-for-bot
 
@@ -137,7 +141,6 @@ workflows:
             - toolkit/common_tests
             - required-builds
             - docs
-      - docs
       - toolkit/update_changelog:
           requires:
             - test-suite
