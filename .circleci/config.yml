@@ -76,17 +76,19 @@ jobs:
     parameters:
       bot-name:
         type: string
-        default: jerus-bot
+        default: "Jerus Bot"
         description: The name of the bot to check for
     steps:
       - checkout
-      - run: |
-          committer=$(git log -1 HEAD --pretty=format:%cn)
-          if [[ $committer == << parameters.bot-name >> ]]; then
-          curl --request POST \
-            --url https://circleci.com/api/v2/workflow/$CIRCLE_WORKFLOW_ID/cancel \
-            --header "Circle-Token: ${CIRCLE_TOKEN}"
-          fi
+      - run:
+          name: Check if last commit made by bot
+          command: |
+            committer=$(git log -1 HEAD --pretty=format:%cn)
+            if [[ $committer == << parameters.bot-name >> ]]; then
+            curl --request POST \
+              --url https://circleci.com/api/v2/workflow/$CIRCLE_WORKFLOW_ID/cancel \
+              --header "Circle-Token: ${CIRCLE_TOKEN}"
+            fi
 
 workflows:
   validation:
