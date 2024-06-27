@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - ci-pr change entry and release building(pr [#990](https://github.com/jerus-org/hcaptcha-rs/pull/990))
+- ci-adopt the standard commands and jobs from the toolkit(pr [#996])
 
 ### Security
 
@@ -133,7 +134,8 @@ The previous version provided logging behind a feature flag. The log crate has b
 
 Tracing is enabled at the info logging level for public methods. Additional tracing instrumentation and messages are available at the Debug log level.
 
-The trace crates log feature is enabled so that log records are emitted if a tracing subscriber is not found.
+The trace crates log feature is enabled so that log records are
+emitted if a tracing subscriber is not found.
 ### Changed
 
 - Rename user_ip and site_key to conform to Hcaptcha API documentation (remoteip and sitekey)
@@ -160,6 +162,7 @@ The trace crates log feature is enabled so that log records are emitted if a tra
 [#993]: https://github.com/jerus-org/hcaptcha-rs/pull/993
 [#992]: https://github.com/jerus-org/hcaptcha-rs/pull/992
 [#995]: https://github.com/jerus-org/hcaptcha-rs/pull/995
+[#996]: https://github.com/jerus-org/hcaptcha-rs/pull/996
 [Unreleased]: https://github.com/jerus-org/hcaptcha-rs/compare/2.3.1...HEAD
 [2.3.1]: https://github.com/jerus-org/hcaptcha-rs/compare/2.3.0...2.3.1
 [2.3.0]: https://github.com/jerus-org/hcaptcha-rs/compare/2.2.2...2.3.0
