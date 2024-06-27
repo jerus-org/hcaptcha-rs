@@ -10,149 +10,49 @@ parameters:
 
 orbs:
   toolkit: jerus-org/circleci-toolkit@0.6.0
+  cont: circleci/continuation@1.0.0
 
 executors:
   rust-env:
     docker:
       - image: jerusdp/ci-rust:<<pipeline.parameters.min-rust-version>>
 
-commands:
-  cargo-docs:
-    steps:
-      - run:
-          name: Generate the crate documentation
-          command: |
-            cargo +nightly doc --lib --no-deps --all-features --document-private-items
-
 jobs:
-  rust-versions:
+  check-for-bot:
     executor: rust-env
-    steps:
-      - run: rustup show
-
-  required-builds:
-    executor: rust-env
-    steps:
-      - checkout
-      - run: cargo --version
-      - toolkit/cargo_build
-      - toolkit/cargo_build:
-          rust_version: "stable"
-      - toolkit/cargo_build:
-          rust_version: <<pipeline.parameters.min-rust-version>>
-
-  optional-builds:
-    executor: rust-env
-    steps:
-      - checkout
-      - run: cargo --version
-      - toolkit/cargo_build:
-          rust_version: "nightly"
-      - toolkit/cargo_build:
-          rust_version: "beta"
-
-  test-suite:
     parameters:
-      test-suite:
+      bot-name:
         type: string
-    executor: rust-env
+        default: "Jerus Bot"
+        description: The name of the bot to check for
+      continue_to:
+        type: string
+        default: ".circleci/validation.yml"
+        description: The job to continue to if the bot is found
     steps:
       - checkout
-      - run: cargo +stable --version
       - run:
-          name: Running test suite <<parameters.test-suite>>
-          command: "cargo +stable test -p <<parameters.test-suite>> --test compiletest"
-
-  docs:
-    executor: rust-env
-    environment:
-      RUSTDOCFLAGS: --cfg docsrs -Dwarnings
-    steps:
-      - checkout
-      - cargo-docs
-
-  # check-for-bot:
-  #   executor: rust-env
-  #   parameters:
-  #     bot-name:
-  #       type: string
-  #       default: "Jerus Bot"
-  #       description: The name of the bot to check for
-  #   steps:
-  #     - checkout
-  #     - run:
-  #         name: Check if last commit made by bot
-  #         command: |
-  #           committer=$(git log -1 HEAD --pretty=format:%cn)
-  #           echo $committer
-  #           if [[ "$committer" == "<< parameters.bot-name >>" ]]; then
-  #           curl --request POST \
-  #             --url https://circleci.com/api/v2/workflow/$CIRCLE_WORKFLOW_ID/cancel \
-  #             --header "Circle-Token: ${CIRCLE_TOKEN}"
-  #           fi
+          name: Check if last commit made by bot
+          command: |
+            committer=$(git log -1 HEAD --pretty=format:%cn)
+            echo $committer
+            if [[ "$committer" == "<< parameters.bot-name >>" ]]; then
+              << parameters:continue_to >> = "success.yml"
+            # curl --request POST \
+            #   --url https://circleci.com/api/v2/workflow/$CIRCLE_WORKFLOW_ID/cancel \
+            #   --header "Circle-Token: ${CIRCLE_TOKEN}"
+            fi
+      - cont/continue:
+          configuration_path: << parameters:continue_to >>
 
 workflows:
-  validation:
+  bot-check:
     when:
       not:
         equal: [scheduled_pipeline, << pipeline.trigger_source >>]
     jobs:
-      - toolkit/check_for_bot:
-          name: check-for-bot
+      - check-for-bot:
           context: bot-check
-      - rust-versions:
-          requires:
-            - check-for-bot
-      - required-builds:
-          requires:
-            - check-for-bot
-      - optional-builds:
-          requires:
-            - check-for-bot
-      - toolkit/common_tests:
-          requires:
-            - check-for-bot
-      - toolkit/idiomatic_rust:
-          requires:
-            - check-for-bot
-      - docs:
-          requires:
-            - check-for-bot
-
-      # - basic-tests:
-      #     matrix:
-      #       parameters:
-      #         basic-test:
-      #           [
-      #             cargo +stable fmt --all -- --check,
-      #             cargo +stable clippy --workspace --examples --tests --all-features -- -D warnings,
-      #             cargo +stable test -p hcaptcha --lib,
-      #             cargo +stable test -p hcaptcha --doc,
-      #           ]
-      - test-suite:
-          matrix:
-            parameters:
-              test-suite:
-                [
-                  test_suite_default,
-                  test_suite_no_default,
-                  test_suite_native_only,
-                  test_suite_rustls_only,
-                  test_suite_trace,
-                  test_suite_enterprise,
-                ]
-          requires:
-            # - basic-tests
-            - toolkit/common_tests
-            - required-builds
-            - docs
-      - toolkit/update_changelog:
-          requires:
-            - test-suite
-            - toolkit/idiomatic_rust
-          context:
-            - release
-          ssh_fingerprint: << pipeline.parameters.fingerprint >>
 
   release:
     when:
