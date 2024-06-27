@@ -96,8 +96,7 @@ workflows:
       not:
         equal: [scheduled_pipeline, << pipeline.trigger_source >>]
     jobs:
-      - check-for-bot:
-          bot-name: jerus-bot
+      - check-for-bot
       - rust-versions:
           requires:
             - check-for-bot
