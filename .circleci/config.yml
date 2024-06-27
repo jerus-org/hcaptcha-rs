@@ -9,7 +9,7 @@ parameters:
     default: SHA256:OkxsH8Z6Iim6WDJBaII9eTT9aaO1f3eDc6IpsgYYPVg
 
 orbs:
-  toolkit: jerus-org/circleci-toolkit@0.5.0
+  toolkit: jerus-org/circleci-toolkit@0.6.0
 
 executors:
   rust-env:
@@ -71,25 +71,25 @@ jobs:
       - checkout
       - cargo-docs
 
-  check-for-bot:
-    executor: rust-env
-    parameters:
-      bot-name:
-        type: string
-        default: "Jerus Bot"
-        description: The name of the bot to check for
-    steps:
-      - checkout
-      - run:
-          name: Check if last commit made by bot
-          command: |
-            committer=$(git log -1 HEAD --pretty=format:%cn)
-            echo $committer
-            if [[ "$committer" == "<< parameters.bot-name >>" ]]; then
-            curl --request POST \
-              --url https://circleci.com/api/v2/workflow/$CIRCLE_WORKFLOW_ID/cancel \
-              --header "Circle-Token: ${CIRCLE_TOKEN}"
-            fi
+  # check-for-bot:
+  #   executor: rust-env
+  #   parameters:
+  #     bot-name:
+  #       type: string
+  #       default: "Jerus Bot"
+  #       description: The name of the bot to check for
+  #   steps:
+  #     - checkout
+  #     - run:
+  #         name: Check if last commit made by bot
+  #         command: |
+  #           committer=$(git log -1 HEAD --pretty=format:%cn)
+  #           echo $committer
+  #           if [[ "$committer" == "<< parameters.bot-name >>" ]]; then
+  #           curl --request POST \
+  #             --url https://circleci.com/api/v2/workflow/$CIRCLE_WORKFLOW_ID/cancel \
+  #             --header "Circle-Token: ${CIRCLE_TOKEN}"
+  #           fi
 
 workflows:
   validation:
@@ -97,7 +97,8 @@ workflows:
       not:
         equal: [scheduled_pipeline, << pipeline.trigger_source >>]
     jobs:
-      - check-for-bot
+      - toolkit/check_for_bot:
+          name: check-for-bot
       - rust-versions:
           requires:
             - check-for-bot
@@ -108,6 +109,9 @@ workflows:
           requires:
             - check-for-bot
       - toolkit/common_tests:
+          requires:
+            - check-for-bot
+      - toolkit/idiomatic_rust:
           requires:
             - check-for-bot
       - docs:
@@ -144,6 +148,7 @@ workflows:
       - toolkit/update_changelog:
           requires:
             - test-suite
+            - toolkit/idiomatic_rust
           context:
             - release
           ssh_fingerprint: << pipeline.parameters.fingerprint >>
