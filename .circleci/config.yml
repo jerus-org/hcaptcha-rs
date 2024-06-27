@@ -5,52 +5,21 @@ parameters:
     type: string
     default: "1.75"
 
+orbs:
+  toolkit: jerus-org/circleci-toolkit@0.5.0
+
 executors:
   rust-env:
     docker:
       - image: jerusdp/ci-rust:<<pipeline.parameters.min-rust-version>>
 
 commands:
-  cargo-build:
-    parameters:
-      rust-version:
-        default: "stable"
-        type: string
-    steps:
-      - run:
-          name: Check build <<parameters.rust-version>>
-          command: |
-            cargo +<<parameters.rust-version>> check --all-features --workspace --examples
-
   cargo-docs:
     steps:
       - run:
           name: Generate the crate documentation
           command: |
             cargo +nightly doc --lib --no-deps --all-features --document-private-items
-
-  gpg-key:
-    steps:    
-      - run:
-          name: import GPG key
-          command: |
-            echo -e $BOT_GPG_KEY \
-              | base64 --decode --ignore-garbage \
-              | gpg --batch --allow-secret-key-import --import 
-            gpg --fingerprint
-            echo $BOT_TRUST | gpg --import-ownertrust
-            gpg --fingerprint
-
-  git-config:
-    steps:
-      - run:
-          name: Configure git for user and signing
-          command: |
-            git config --global user.email "$BOT_USER_EMAIL"
-            git config --global user.name "$BOT_USER_NAME"
-            git config --global gpg.program gpg
-            git config --global user.signingkey "$BOT_SIGN_KEY"
-            git config --global commit.gpgsign true
 
 jobs:
   rust-versions:
@@ -63,34 +32,21 @@ jobs:
     steps:
       - checkout
       - run: cargo --version
-      - cargo-build
-      - cargo-build:
-          rust-version: "stable"
-      - cargo-build:
-          rust-version: <<pipeline.parameters.min-rust-version>>
+      - toolkit/cargo_build
+      - toolkit/cargo_build:
+          rust_version: "stable"
+      - toolkit/cargo_build:
+          rust_version: <<pipeline.parameters.min-rust-version>>
 
   optional-builds:
     executor: rust-env
     steps:
       - checkout
       - run: cargo --version
-      - cargo-build
-      - cargo-build:
-          rust-version: "nightly"
-      - cargo-build:
-          rust-version: "beta"
-
-  basic-tests:
-    parameters:
-      basic-test:
-        type: string
-    executor: rust-env
-    steps:
-      - checkout
-      - run: cargo +stable --version
-      - run:
-          name: Running basic test <<parameters.basic-test>>
-          command: <<parameters.basic-test>>
+      - toolkit/cargo_build:
+          rust_version: "nightly"
+      - toolkit/cargo_build:
+          rust_version: "beta"
 
   test-suite:
     parameters:
@@ -112,72 +68,6 @@ jobs:
       - checkout
       - cargo-docs
 
-  pr-changelog-update:
-    executor: rust-env
-    steps:
-      - checkout
-      - add_ssh_keys:
-          fingerprints: 
-            - SHA256:OkxsH8Z6Iim6WDJBaII9eTT9aaO1f3eDc6IpsgYYPVg
-      - run:
-          name: Remove original SSH key from agent 
-          command: |
-            ssh-add -l
-            ssh-add -d ~/.ssh/id_rsa.pub
-            ssh-add -l
-      - gpg-key
-      - git-config
-      - run:
-          name: Update changelog
-          command: |
-            pcu -vv
-
-  release-ready:
-    executor: rust-env
-    steps:
-      - checkout
-      - run:
-          name: Check if ready to make a release
-          command: |
-            set -eo pipefail
-
-            if [ "$(nextsv -q)" != "none" ]
-            then
-              exit 0
-            else 
-             exit 1
-            fi
-
-  make-release:
-    executor: rust-env
-    steps:
-      - checkout
-      - run:
-          name: import GPG key
-          command: |
-            echo -e $GPGKEY \
-              | base64 --decode --ignore-garbage \
-              | gpg --batch --allow-secret-key-import --import 
-            gpg --keyid-format  LONG --list-secret-keys
-      - run:
-          name: Configure git for user and signing
-          command: |
-            git config user.email "$USER_EMAIL"
-            git config user.name "$USER_NAME"
-            git config --global gpg.program gpg
-            git config --global user.signingkey "$SIGNKEY"
-      - run:
-          name: Publish update
-          command: |
-            set -exo pipefail
-            export NEXTSV_LEVEL=$(nextsv -q -c other require -f CHANGES.md -f CHANGELOG.md feature)
-            if [ $NEXTSV_LEVEL != "none" ] ; then 
-              cargo release changes
-              cargo release -vvv --execute --no-confirm --sign-tag "$NEXTSV_LEVEL"
-            else 
-              echo "Not ready to release yet."
-            fi
-
 workflows:
   validation:
     when:
@@ -187,16 +77,17 @@ workflows:
       - rust-versions
       - required-builds
       - optional-builds
-      - basic-tests:
-          matrix:
-            parameters:
-              basic-test:
-                [
-                  cargo +stable fmt --all -- --check,
-                  cargo +stable clippy --workspace --examples --tests --all-features -- -D warnings,
-                  cargo +stable test -p hcaptcha --lib,
-                  cargo +stable test -p hcaptcha --doc,
-                ]
+      - toolkit/common_tests
+      # - basic-tests:
+      #     matrix:
+      #       parameters:
+      #         basic-test:
+      #           [
+      #             cargo +stable fmt --all -- --check,
+      #             cargo +stable clippy --workspace --examples --tests --all-features -- -D warnings,
+      #             cargo +stable test -p hcaptcha --lib,
+      #             cargo +stable test -p hcaptcha --doc,
+      #           ]
       - test-suite:
           matrix:
             parameters:
@@ -210,11 +101,12 @@ workflows:
                   test_suite_enterprise,
                 ]
           requires:
-            - basic-tests
+            # - basic-tests
+            - toolkit/common_tests
             - required-builds
             - docs
       - docs
-      - pr-changelog-update:
+      - toolkit/update_changelog:
           requires:
             - test-suite
           context:
@@ -226,9 +118,6 @@ workflows:
         - equal: [scheduled_pipeline, << pipeline.trigger_source >>]
         - equal: ["release check", << pipeline.schedule.name >>]
     jobs:
-      - release-ready
-      - make-release:
-          requires:
-            - release-ready
+      - toolkit/make_release:
           context:
             - release
