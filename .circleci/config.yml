@@ -75,7 +75,15 @@ workflows:
   validation:
     when:
       not:
-        equal: [scheduled_pipeline, << pipeline.trigger_source >>]
+        or:
+          [
+            equal: [scheduled_pipeline, << pipeline.trigger_source >>],
+            equal:
+              [
+                ci_bot,
+                << pipeline.trigger_parameters.github_app.user_username. >>,
+              ],
+          ]
     jobs:
       - rust-versions
       - required-builds
