@@ -99,6 +99,7 @@ workflows:
     jobs:
       - toolkit/check_for_bot:
           name: check-for-bot
+          context: bot-check
       - rust-versions:
           requires:
             - check-for-bot
