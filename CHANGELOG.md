@@ -10,7 +10,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - ci-pr change entry and release building(pr [#990](https://github.com/jerus-org/hcaptcha-rs/pull/990))
-- ci-adopt the standard commands and jobs from the toolkit(pr [#996])
 
 ### Security
 
@@ -162,7 +161,6 @@ emitted if a tracing subscriber is not found.
 [#993]: https://github.com/jerus-org/hcaptcha-rs/pull/993
 [#992]: https://github.com/jerus-org/hcaptcha-rs/pull/992
 [#995]: https://github.com/jerus-org/hcaptcha-rs/pull/995
-[#996]: https://github.com/jerus-org/hcaptcha-rs/pull/996
 [Unreleased]: https://github.com/jerus-org/hcaptcha-rs/compare/2.3.1...HEAD
 [2.3.1]: https://github.com/jerus-org/hcaptcha-rs/compare/2.3.0...2.3.1
 [2.3.0]: https://github.com/jerus-org/hcaptcha-rs/compare/2.2.2...2.3.0
