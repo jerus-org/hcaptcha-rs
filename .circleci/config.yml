@@ -79,10 +79,7 @@ workflows:
           [
             equal: [scheduled_pipeline, << pipeline.trigger_source >>],
             equal:
-              [
-                ci_bot,
-                << pipeline.trigger_parameters.github_app.user_username. >>,
-              ],
+              [ci_bot, << pipeline.trigger_parameters.github_app.user_name. >>],
           ]
     jobs:
       - rust-versions
