@@ -71,6 +71,23 @@ jobs:
       - checkout
       - cargo-docs
 
+  check-for-bot:
+    executor: rust-env
+    parameters:
+      bot-name:
+        type: string
+        default: jerus-bot
+        description: The name of the bot to check for
+    steps:
+      - checkout
+      - run: |
+          committer=$(git log -1 HEAD --pretty=format:%cn)
+          if [[ $committer == << parameters.bot-name >> ]]; then
+          curl --request POST \
+            --url https://circleci.com/api/v2/workflow/$CIRCLE_WORKFLOW_ID/cancel \
+            --header "Circle-Token: ${CIRCLE_TOKEN}"
+          fi
+
 workflows:
   validation:
     when:
@@ -82,10 +99,21 @@ workflows:
               [ci_bot, << pipeline.trigger_parameters.github_app.user_name >>],
           ]
     jobs:
-      - rust-versions
-      - required-builds
-      - optional-builds
-      - toolkit/common_tests
+      - check-for-bot:
+          bot-name: jerus-bot
+      - rust-versions:
+          requires:
+            - check-for-bot
+      - required-builds:
+          requires:
+            - check-for-bot
+      - optional-builds:
+          requires:
+            - check-for-bot
+      - toolkit/common_tests:
+          requires:
+            - check-for-bot
+
       # - basic-tests:
       #     matrix:
       #       parameters:
