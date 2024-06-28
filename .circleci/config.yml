@@ -127,7 +127,7 @@ jobs:
           command: |
             committer=$(git log -1 HEAD --pretty=format:%cn)
             echo $committer
-            next_config=".circleci/validate.yml"
+            next_config=".circleci/validation.yml"
             if [[ "$committer" == "<< parameters.bot-name >>" ]]; then
               next_config=".circleci/success.yml"
             fi
