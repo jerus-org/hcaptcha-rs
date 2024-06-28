@@ -109,4 +109,4 @@ workflows:
       - cont/continue:
           requires:
             - update_changelog
-          configuration_patch: .circleci/success.yml
+          configuration_path: .circleci/success.yml
