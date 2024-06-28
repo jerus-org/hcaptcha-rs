@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - ci-split script into three and select continuation direct to success if bot(pr [#997])
 - chore-disable automatic updates for 'jerus-org/circleci-toolkit' package(pr [#1000])
 - chore(renovate.json)-change 'enable' key to 'enabled' and set its value to false(pr [#1001])
+- chore(scorecards-analysis.yml)-update workflow name to 'Scorecard analysis workflow'(pr [#1002])
 
 ### Security
 
@@ -173,6 +174,7 @@ emitted if a tracing subscriber is not found.
 [#998]: https://github.com/jerus-org/hcaptcha-rs/pull/998
 [#1000]: https://github.com/jerus-org/hcaptcha-rs/pull/1000
 [#1001]: https://github.com/jerus-org/hcaptcha-rs/pull/1001
+[#1002]: https://github.com/jerus-org/hcaptcha-rs/pull/1002
 [Unreleased]: https://github.com/jerus-org/hcaptcha-rs/compare/2.3.1...HEAD
 [2.3.1]: https://github.com/jerus-org/hcaptcha-rs/compare/2.3.0...2.3.1
 [2.3.0]: https://github.com/jerus-org/hcaptcha-rs/compare/2.2.2...2.3.0
