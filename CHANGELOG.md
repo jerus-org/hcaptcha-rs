@@ -11,6 +11,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - ci-pr change entry and release building(pr [#990](https://github.com/jerus-org/hcaptcha-rs/pull/990))
 - ci-adopt the standard commands and jobs from the toolkit(pr [#996])
+- ci-split script into three and select continuation direct to success if bot(pr [#997])
+- chore-disable automatic updates for 'jerus-org/circleci-toolkit' package(pr [#1000])
 
 ### Security
 
@@ -25,6 +27,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Dependencies: update github/codeql-action digest to 9b7c22c(pr [#992])
 - Dependencies: update ossf/scorecard-action digest to 09f6ba3(pr [#995])
 - Dependencies: update fossa-contrib/fossa-action digest to a024aa3(pr [#999])
+- Dependencies: update github/codeql-action digest to de94575(pr [#998])
 
 ## [2.3.1] - 2024-01-27
 
@@ -165,6 +168,9 @@ emitted if a tracing subscriber is not found.
 [#995]: https://github.com/jerus-org/hcaptcha-rs/pull/995
 [#996]: https://github.com/jerus-org/hcaptcha-rs/pull/996
 [#999]: https://github.com/jerus-org/hcaptcha-rs/pull/999
+[#997]: https://github.com/jerus-org/hcaptcha-rs/pull/997
+[#998]: https://github.com/jerus-org/hcaptcha-rs/pull/998
+[#1000]: https://github.com/jerus-org/hcaptcha-rs/pull/1000
 [Unreleased]: https://github.com/jerus-org/hcaptcha-rs/compare/2.3.1...HEAD
 [2.3.1]: https://github.com/jerus-org/hcaptcha-rs/compare/2.3.0...2.3.1
 [2.3.0]: https://github.com/jerus-org/hcaptcha-rs/compare/2.2.2...2.3.0
