@@ -4,7 +4,7 @@
   "rangeStrategy": "replace",
   "semanticCommits": "enabled",
   "semanticCommitType": "fix",
-  "versioning" : "cargo",
+  "versioning": "cargo",
   "packageRules": [
     {
       "excludePackageNames": [
@@ -52,6 +52,12 @@
         "actions/checkout"
       ],
       "automerge": true
+    },
+    {
+      "matchPackagePatterns": [
+        "jerus-org/circleci-toolkit"
+      ],
+      "enable": false
     }
   ],
   "regexManagers": [
