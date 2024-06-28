@@ -1,7 +1,5 @@
 version: 2.1
 
-setup: true
-
 parameters:
   min-rust-version:
     type: string
@@ -12,7 +10,6 @@ parameters:
 
 orbs:
   toolkit: jerus-org/circleci-toolkit@0.6.0
-  cont: circleci/continuation@1.0.0
 
 executors:
   rust-env:
@@ -108,7 +105,3 @@ workflows:
           context:
             - release
           ssh_fingerprint: << pipeline.parameters.fingerprint >>
-      - cont/continue:
-          requires:
-            - update_changelog
-          configuration_path: .circleci/success.yml
