@@ -36,9 +36,9 @@ jobs:
           command: |
             committer=$(git log -1 HEAD --pretty=format:%cn)
             echo $committer
-            next_config = "validate.yml"
+            next_config="validate.yml"
             if [[ "$committer" == "<< parameters.bot-name >>" ]]; then
-              next_config = "success.yml"
+              next_config="success.yml"
             # curl --request POST \
             #   --url https://circleci.com/api/v2/workflow/$CIRCLE_WORKFLOW_ID/cancel \
             #   --header "Circle-Token: ${CIRCLE_TOKEN}"
