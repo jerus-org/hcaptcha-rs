@@ -1,0 +1,107 @@
+version: 2.1
+
+parameters:
+  min-rust-version:
+    type: string
+    default: "1.75"
+  fingerprint:
+    type: string
+    default: SHA256:OkxsH8Z6Iim6WDJBaII9eTT9aaO1f3eDc6IpsgYYPVg
+
+orbs:
+  toolkit: jerus-org/circleci-toolkit@0.6.0
+
+executors:
+  rust-env:
+    docker:
+      - image: jerusdp/ci-rust:<<pipeline.parameters.min-rust-version>>
+
+commands:
+  cargo-docs:
+    steps:
+      - run:
+          name: Generate the crate documentation
+          command: |
+            cargo +nightly doc --lib --no-deps --all-features --document-private-items
+
+jobs:
+  rust-versions:
+    executor: rust-env
+    steps:
+      - run: rustup show
+
+  required-builds:
+    executor: rust-env
+    steps:
+      - checkout
+      - run: cargo --version
+      - toolkit/cargo_build
+      - toolkit/cargo_build:
+          rust_version: "stable"
+      - toolkit/cargo_build:
+          rust_version: <<pipeline.parameters.min-rust-version>>
+
+  optional-builds:
+    executor: rust-env
+    steps:
+      - checkout
+      - run: cargo --version
+      - toolkit/cargo_build:
+          rust_version: "nightly"
+      - toolkit/cargo_build:
+          rust_version: "beta"
+
+  test-suite:
+    parameters:
+      test-suite:
+        type: string
+    executor: rust-env
+    steps:
+      - checkout
+      - run: cargo +stable --version
+      - run:
+          name: Running test suite <<parameters.test-suite>>
+          command: "cargo +stable test -p <<parameters.test-suite>> --test compiletest"
+
+  docs:
+    executor: rust-env
+    environment:
+      RUSTDOCFLAGS: --cfg docsrs -Dwarnings
+    steps:
+      - checkout
+      - cargo-docs
+
+workflows:
+  validation:
+    jobs:
+      - rust-versions
+      - required-builds
+      - optional-builds
+      - toolkit/common_tests
+      - toolkit/idiomatic_rust
+      - docs
+      - test-suite:
+          matrix:
+            parameters:
+              test-suite:
+                [
+                  test_suite_default,
+                  test_suite_no_default,
+                  test_suite_native_only,
+                  test_suite_rustls_only,
+                  test_suite_trace,
+                  test_suite_enterprise,
+                ]
+          requires:
+            # - basic-tests
+            - toolkit/common_tests
+            - required-builds
+            - docs
+      - toolkit/update_changelog:
+          name: update_changelog
+          requires:
+            - test-suite
+            - toolkit/idiomatic_rust
+          context:
+            - release
+          ssh_fingerprint: << pipeline.parameters.fingerprint >>
