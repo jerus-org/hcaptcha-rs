@@ -37,13 +37,16 @@ jobs:
             committer=$(git log -1 HEAD --pretty=format:%cn)
             echo $committer
             if [[ "$committer" == "<< parameters.bot-name >>" ]]; then
-              << parameters:continue_to >> = "success.yml"
+              next_config = "success.yml"
+            else
+              next_config = "validate.yml"
             # curl --request POST \
             #   --url https://circleci.com/api/v2/workflow/$CIRCLE_WORKFLOW_ID/cancel \
             #   --header "Circle-Token: ${CIRCLE_TOKEN}"
             fi
+            echo $"export CONTINUE_TO='$next_config'" >> $BASH_ENV
       - cont/continue:
-          configuration_path: << parameters:continue_to >>
+          configuration_path: $CONTINUE_TO
 
 workflows:
   bot-check:
