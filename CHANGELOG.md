@@ -17,6 +17,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - chore(scorecards-analysis.yml)-update workflow name to 'Scorecard analysis workflow'(pr [#1002])
 - refactor-change file name from CHANGES.md to CHANGELOG.md in pre-release-replacements(pr [#1004])
 
+### Fixed
+
+- modify version search pattern in src/lib.rs file(pr [#1005])
+
 ### Security
 
 - Dependencies: update fossa-contrib/fossa-action digest to 524596f(pr [#989](https://github.com/jerus-org/hcaptcha-rs/pull/989))
@@ -177,6 +181,7 @@ emitted if a tracing subscriber is not found.
 [#1001]: https://github.com/jerus-org/hcaptcha-rs/pull/1001
 [#1002]: https://github.com/jerus-org/hcaptcha-rs/pull/1002
 [#1004]: https://github.com/jerus-org/hcaptcha-rs/pull/1004
+[#1005]: https://github.com/jerus-org/hcaptcha-rs/pull/1005
 [Unreleased]: https://github.com/jerus-org/hcaptcha-rs/compare/2.3.1...HEAD
 [2.3.1]: https://github.com/jerus-org/hcaptcha-rs/compare/2.3.0...2.3.1
 [2.3.0]: https://github.com/jerus-org/hcaptcha-rs/compare/2.2.2...2.3.0
