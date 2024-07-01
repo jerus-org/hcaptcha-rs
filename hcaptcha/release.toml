@@ -8,5 +8,5 @@ pre-release-replacements = [
     { file = "CHANGELOG.md", search = "\\[Unreleased\\]:", replace = "[{{version}}]:", exactly = 1 },
     { file = "CHANGELOG.md", search = "\\.\\.\\.HEAD", replace = "...{{tag_name}}", exactly = 1 },
     { file = "README.md", search = "hcaptcha = .*", replace = "{{crate_name}} = \"{{version}}\"" },
-    { file = "src/lib.rs", search = "version = \"2.0.0\"", replace = "version = \"{{version}}\"", exactly = 1 },
+    { file = "src/lib.rs", search = "version = .+,", replace = "version = \"{{version}}\",", exactly = 1 },
 ]
