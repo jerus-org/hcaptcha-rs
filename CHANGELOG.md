@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Dependencies: update fossa-contrib/fossa-action digest to 0dd2a5e(pr [#1010])
 - Dependencies: update fossa-contrib/fossa-action digest to a79a984(pr [#1011])
 - Dependencies: update fossa-contrib/fossa-action digest to 0931c29(pr [#1012])
+- Dependencies: update github/codeql-action action to v3.25.12(pr [#1013])
 
 ## [2.4.1] - 2024-07-06
 
@@ -208,6 +209,7 @@ emitted if a tracing subscriber is not found.
 [#1010]: https://github.com/jerus-org/hcaptcha-rs/pull/1010
 [#1011]: https://github.com/jerus-org/hcaptcha-rs/pull/1011
 [#1012]: https://github.com/jerus-org/hcaptcha-rs/pull/1012
+[#1013]: https://github.com/jerus-org/hcaptcha-rs/pull/1013
 [Unreleased]: https://github.com/jerus-org/hcaptcha-rs/compare/2.4.1...HEAD
 [2.4.1]: https://github.com/jerus-org/hcaptcha-rs/compare/2.4.0...2.4.1
 [2.4.0]: https://github.com/jerus-org/hcaptcha-rs/compare/2.3.1...2.4.0
