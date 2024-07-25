@@ -29,6 +29,24 @@ executors:
     docker:
       - image: jerusdp/ci-rust:base
 
+jobs:
+  rust-versions:
+    executor: rust-env
+    steps:
+      - run: rustup show
+
+  test-suite:
+    parameters:
+      test-suite:
+        type: string
+    executor: rust-env
+    steps:
+      - checkout
+      - run: cargo +stable --version
+      - run:
+          name: Running test suite <<parameters.test-suite>>
+          command: "cargo +stable test -p <<parameters.test-suite>> --test compiletest"
+
 workflows:
   check_last_commit:
     when:
@@ -51,24 +69,44 @@ workflows:
         - not: << pipeline.parameters.success-flag >>
         - << pipeline.parameters.validation-flag >>
     jobs:
+      - rust-versions
       - toolkit/required_builds:
           min_rust_version: << pipeline.parameters.min-rust-version >>
       - toolkit/optional_builds:
-          min_rust_version: << pipeline.parameters.min-rust-version >>
-      - toolkit/test_doc_build:
           min_rust_version: << pipeline.parameters.min-rust-version >>
       - toolkit/common_tests:
           min_rust_version: << pipeline.parameters.min-rust-version >>
       - toolkit/idiomatic_rust:
           min_rust_version: << pipeline.parameters.min-rust-version >>
+      - toolkit/test_doc_build:
+          min_rust_version: << pipeline.parameters.min-rust-version >>
+
+      - test-suite:
+          matrix:
+            parameters:
+              test-suite:
+                [
+                  test_suite_default,
+                  test_suite_no_default,
+                  test_suite_native_only,
+                  test_suite_rustls_only,
+                  test_suite_trace,
+                  test_suite_enterprise,
+                ]
+          requires:
+            - toolkit/common_tests
+            - toolkit/required_builds
+            - toolkit/test_doc_build
+
       - toolkit/security
+
       - toolkit/update_changelog:
           requires:
             - toolkit/common_tests
             - toolkit/required_builds
             - toolkit/test_doc_build
             - toolkit/idiomatic_rust
-            - toolkit/security
+            - test-suite
           context:
             - release
             - bot-check
