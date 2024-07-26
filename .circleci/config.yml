@@ -9,149 +9,131 @@ parameters:
   fingerprint:
     type: string
     default: SHA256:OkxsH8Z6Iim6WDJBaII9eTT9aaO1f3eDc6IpsgYYPVg
+  validation-flag:
+    type: boolean
+    default: false
+    description: "If true, the validation pipeline will be executed."
+  success-flag:
+    type: boolean
+    default: false
+    description: "If true, the success pipeline will be executed."
 
 orbs:
-  toolkit: jerus-org/circleci-toolkit@0.8.3
+  toolkit: jerus-org/circleci-toolkit@0.24.1
 
 executors:
   rust-env:
     docker:
       - image: jerusdp/ci-rust:<<pipeline.parameters.min-rust-version>>
-
-commands:
-  continue:
-    parameters:
-      circleci_domain:
-        default: circleci.com
-        description: >-
-          The domain of the CircleCI installation - defaults to circleci.com. (Only
-          necessary for CircleCI Server users)
-        type: string
-      parameters:
-        default: "{}"
-        description: >-
-          The parameters used for the pipeline. This can either be a JSON object
-          containing parameters or a path to a file containing a JSON object with
-          parameters
-        type: string
-    steps:
-      - run:
-          command: >
-            #!/bin/sh
-
-
-            set -e
-
-
-            if [ -z "${CIRCLE_CONTINUATION_KEY}" ]; then
-                echo "CIRCLE_CONTINUATION_KEY is required. Make sure setup workflows are enabled."
-                exit 1
-            fi
-
-
-            if [ -z "${CONFIG_PATH}" ]; then
-                echo "CONFIG_PATH is required."
-                exit 1
-            fi
-
-
-            if ! which curl > /dev/null; then
-                echo "curl is required to use this command"
-                exit 1
-            fi
-
-
-            if ! which jq > /dev/null; then
-                echo "jq is required to use this command"
-                exit 1
-            fi
-
-
-            PARAMS=$([ -f "$PARAMETERS" ] && cat "$PARAMETERS" || echo
-            "$PARAMETERS")
-
-            COMMAND=$(echo "$PARAMS" | jq . >/dev/null 2>&1)
-
-
-            if ! $COMMAND; then
-                echo "PARAMETERS aren't valid json"
-                exit 1
-            fi
-
-
-            mkdir -p /tmp/circleci
-
-            rm -rf /tmp/circleci/continue_post.json
-
-
-            # Escape the config as a JSON string.
-
-            jq -Rs '.' "$CONFIG_PATH" > /tmp/circleci/config-string.json
-
-
-            jq -n \
-                --arg continuation "$CIRCLE_CONTINUATION_KEY" \
-                --arg params "$PARAMS" \
-                --slurpfile config /tmp/circleci/config-string.json \
-                '{"continuation-key": $continuation, "configuration": $config|join("\n"), "parameters": $params|fromjson}' > /tmp/circleci/continue_post.json
-
-            cat /tmp/circleci/continue_post.json
-
-
-            [ "$(curl \
-                    -o /dev/stderr \
-                    -w '%{http_code}' \
-                    -XPOST \
-                    -H "Content-Type: application/json" \
-                    -H "Accept: application/json"  \
-                    --data @/tmp/circleci/continue_post.json \
-                    "https://${CIRCLECI_DOMAIN}/api/v2/pipeline/continue")" \
-               -eq 200 ]
-          environment:
-            CIRCLECI_DOMAIN: <<parameters.circleci_domain>>
-            PARAMETERS: <<parameters.parameters>>
-          name: Continue Pipeline
+  base-env:
+    docker:
+      - image: jerusdp/ci-rust:base
 
 jobs:
-  check-for-bot:
+  rust-versions:
     executor: rust-env
+    steps:
+      - run: rustup show
+
+  test-suite:
     parameters:
-      bot-name:
+      test-suite:
         type: string
-        default: "Jerus Bot"
-        description: The name of the bot to check for
+    executor: rust-env
     steps:
       - checkout
+      - run: cargo +stable --version
       - run:
-          name: Check if last commit made by bot
-          command: |
-            committer=$(git log -1 HEAD --pretty=format:%cn)
-            echo $committer
-            next_config=".circleci/validation.yml"
-            if [[ "$committer" == "<< parameters.bot-name >>" ]]; then
-              next_config=".circleci/success.yml"
-            fi
-            echo $next_config
-
-            echo $"export CONFIG_PATH='$next_config'" >> $BASH_ENV
-      - continue
+          name: Running test suite <<parameters.test-suite>>
+          command: "cargo +stable test -p <<parameters.test-suite>> --test compiletest"
 
 workflows:
-  bot-check:
+  check_last_commit:
     when:
-      not:
-        equal: [scheduled_pipeline, << pipeline.trigger_source >>]
+      and:
+        - not:
+            equal: [scheduled_pipeline, << pipeline.trigger_source >>]
+        - not: << pipeline.parameters.success-flag >>
+        - not: << pipeline.parameters.validation-flag >>
+
     jobs:
-      - check-for-bot:
+      - toolkit/choose_pipeline:
+          name: choose pipeline based on committer
           context: bot-check
+
+  validation:
+    when:
+      and:
+        - not:
+            equal: [scheduled_pipeline, << pipeline.trigger_source >>]
+        - not: << pipeline.parameters.success-flag >>
+        - << pipeline.parameters.validation-flag >>
+    jobs:
+      - rust-versions
+      - toolkit/required_builds:
+          min_rust_version: << pipeline.parameters.min-rust-version >>
+      - toolkit/optional_builds:
+          min_rust_version: << pipeline.parameters.min-rust-version >>
+      - toolkit/common_tests:
+          min_rust_version: << pipeline.parameters.min-rust-version >>
+      - toolkit/idiomatic_rust:
+          min_rust_version: << pipeline.parameters.min-rust-version >>
+      - toolkit/test_doc_build:
+          min_rust_version: << pipeline.parameters.min-rust-version >>
+
+      - test-suite:
+          matrix:
+            parameters:
+              test-suite:
+                [
+                  test_suite_default,
+                  test_suite_no_default,
+                  test_suite_native_only,
+                  test_suite_rustls_only,
+                  test_suite_trace,
+                  test_suite_enterprise,
+                ]
+          requires:
+            - toolkit/common_tests
+            - toolkit/required_builds
+            - toolkit/test_doc_build
+
+      - toolkit/security
+
+      - toolkit/update_changelog:
+          requires:
+            - toolkit/common_tests
+            - toolkit/required_builds
+            - toolkit/test_doc_build
+            - toolkit/idiomatic_rust
+            - test-suite
+          context:
+            - release
+            - bot-check
+          ssh_fingerprint: << pipeline.parameters.fingerprint >>
+          min_rust_version: << pipeline.parameters.min-rust-version >>
+
+  on_success:
+    when:
+      and:
+        - not:
+            equal: [scheduled_pipeline, << pipeline.trigger_source >>]
+        - << pipeline.parameters.success-flag >>
+        - not: << pipeline.parameters.validation-flag >>
+
+    jobs:
+      - toolkit/end_success
 
   release:
     when:
       and:
         - equal: [scheduled_pipeline, << pipeline.trigger_source >>]
         - equal: ["release check", << pipeline.schedule.name >>]
+        - not: << pipeline.parameters.success-flag >>
+        - not: << pipeline.parameters.validation-flag >>
     jobs:
       - toolkit/make_release:
           context:
             - release
           ssh_fingerprint: << pipeline.parameters.fingerprint >>
+          min_rust_version: << pipeline.parameters.min-rust-version >>
