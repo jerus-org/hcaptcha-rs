@@ -1,6 +1,6 @@
 [package]
 name = "test_suite_default"
-version = "0.4.3"
+version = "0.4.4"
 edition = "2018"
 publish = false
 
