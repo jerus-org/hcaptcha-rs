@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - chore-update tag-message and tag-name format(pr [#1025])
+- ci-add bot-check context to toolkit/make_release workflow(pr [#1026])
 
 ### Security
 
@@ -194,7 +195,6 @@ Extended validation for the secret key requires it to conform to "0x" followed b
 The input to .sitekey(sitekey) has been changed to validate that the string slice supplied is a valid UUID.
 
 The input to the .remoteip(remoteip) has been changed to validate that the string slice supplier is a valid ipv4 or ipv6 address.
-
 - Logging / Tracing*
 
 The previous version provided logging behind a feature flag. The log crate has been removed and replaced with tracing. Tracing has been instrumented for all public functions. Tracing is enabled by selected the "trace" feature.
@@ -203,7 +203,6 @@ Tracing is enabled at the info logging level for public methods. Additional trac
 
 The trace crates log feature is enabled so that log records are
 emitted if a tracing subscriber is not found.
-
 ### Changed
 
 - Rename user_ip and site_key to conform to Hcaptcha API documentation (remoteip and sitekey)
@@ -260,6 +259,7 @@ emitted if a tracing subscriber is not found.
 [#1023]: https://github.com/jerus-org/hcaptcha-rs/pull/1023
 [#1024]: https://github.com/jerus-org/hcaptcha-rs/pull/1024
 [#1025]: https://github.com/jerus-org/hcaptcha-rs/pull/1025
+[#1026]: https://github.com/jerus-org/hcaptcha-rs/pull/1026
 [Unreleased]: https://github.com/jerus-org/hcaptcha-rs/compare/2.4.4...HEAD
 [2.4.4]: https://github.com/jerus-org/hcaptcha-rs/compare/2.4.3...2.4.4
 [2.4.3]: https://github.com/jerus-org/hcaptcha-rs/compare/2.4.2...2.4.3
