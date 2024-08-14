@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Security
 
 - Dependencies: update github/codeql-action action to v3.26.1(pr [#1030])
+- Dependencies: update github/codeql-action action to v3.26.2(pr [#1031])
 
 ## [2.4.6] - 2024-08-10
 
@@ -278,6 +279,7 @@ emitted if a tracing subscriber is not found.
 [#1029]: https://github.com/jerus-org/hcaptcha-rs/pull/1029
 [#1028]: https://github.com/jerus-org/hcaptcha-rs/pull/1028
 [#1030]: https://github.com/jerus-org/hcaptcha-rs/pull/1030
+[#1031]: https://github.com/jerus-org/hcaptcha-rs/pull/1031
 [Unreleased]: https://github.com/jerus-org/hcaptcha-rs/compare/2.4.6...HEAD
 [2.4.6]: https://github.com/jerus-org/hcaptcha-rs/compare/2.4.5...2.4.6
 [2.4.5]: https://github.com/jerus-org/hcaptcha-rs/compare/2.4.4...2.4.5
