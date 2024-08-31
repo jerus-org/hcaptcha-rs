@@ -5,6 +5,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Fixed
+
+- deps: update actions/upload-artifact action to v4.4.0(pr [#1034])
+
 ## [2.4.8] - 2024-08-31
 
 ### Fixed
@@ -289,7 +295,9 @@ emitted if a tracing subscriber is not found.
 [#1031]: https://github.com/jerus-org/hcaptcha-rs/pull/1031
 [#1032]: https://github.com/jerus-org/hcaptcha-rs/pull/1032
 [#1033]: https://github.com/jerus-org/hcaptcha-rs/pull/1033
-[2.4.8]: https://github.com/jerus-org/hcaptcha-rs/compare/v2.4.7...hcaptcha-v2.4.8
+[#1034]: https://github.com/jerus-org/hcaptcha-rs/pull/1034
+[Unreleased]: https://github.com/jerus-org/hcaptcha-rs/compare/v2.4.8...HEAD
+[2.4.8]: https://github.com/jerus-org/hcaptcha-rs/compare/v2.4.7...v2.4.8
 [2.4.7]: https://github.com/jerus-org/hcaptcha-rs/compare/v2.4.6...v2.4.7
 [2.4.6]: https://github.com/jerus-org/hcaptcha-rs/compare/v2.4.5...v2.4.6
 [2.4.5]: https://github.com/jerus-org/hcaptcha-rs/compare/v2.4.4...v2.4.5
