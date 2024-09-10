@@ -47,7 +47,7 @@ tracing = { version = "0.1.40", features = [
     "log",
     "attributes",
 ], optional = true }
-uuid = { version = "1.8.0", features = ["v4"] }
+uuid = { version = "1.10.0", features = ["v4"] }
 url = "2.5.0"
 
 [dev-dependencies]
