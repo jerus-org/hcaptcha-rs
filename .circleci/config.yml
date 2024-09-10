@@ -72,6 +72,10 @@ workflows:
       - toolkit/label:
           min_rust_version: << pipeline.parameters.min-rust-version >>
           context: pcu-app
+          filters:
+            branches:
+              only:
+                - main
       - rust-versions
       - toolkit/required_builds:
           min_rust_version: << pipeline.parameters.min-rust-version >>
