@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 - hcaptcha_derive: update dependencies and correct spacing in Cargo.toml(pr [#1036])
+- deps: update rust crate async-trait to 0.1.82(pr [#1037])
 
 ## [2.4.9] - 2024-09-07
 
@@ -308,6 +309,7 @@ emitted if a tracing subscriber is not found.
 [#1034]: https://github.com/jerus-org/hcaptcha-rs/pull/1034
 [#1035]: https://github.com/jerus-org/hcaptcha-rs/pull/1035
 [#1036]: https://github.com/jerus-org/hcaptcha-rs/pull/1036
+[#1037]: https://github.com/jerus-org/hcaptcha-rs/pull/1037
 [Unreleased]: https://github.com/jerus-org/hcaptcha-rs/compare/v2.4.9...HEAD
 [2.4.9]: https://github.com/jerus-org/hcaptcha-rs/compare/v2.4.8...v2.4.9
 [2.4.8]: https://github.com/jerus-org/hcaptcha-rs/compare/v2.4.7...v2.4.8
