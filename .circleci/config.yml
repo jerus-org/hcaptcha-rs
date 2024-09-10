@@ -19,7 +19,7 @@ parameters:
     description: "If true, the success pipeline will be executed."
 
 orbs:
-  toolkit: jerus-org/circleci-toolkit@0.24.1
+  toolkit: jerus-org/circleci-toolkit@1.6.1
 
 executors:
   rust-env:
@@ -69,6 +69,8 @@ workflows:
         - not: << pipeline.parameters.success-flag >>
         - << pipeline.parameters.validation-flag >>
     jobs:
+      - toolkit/label:
+          min_rust_version: << pipeline.parameters.min-rust-version >>
       - rust-versions
       - toolkit/required_builds:
           min_rust_version: << pipeline.parameters.min-rust-version >>
@@ -110,6 +112,7 @@ workflows:
           context:
             - release
             - bot-check
+            - pcu-app
           ssh_fingerprint: << pipeline.parameters.fingerprint >>
           min_rust_version: << pipeline.parameters.min-rust-version >>
 
