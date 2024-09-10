@@ -26,6 +26,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - deps: update rust crate wiremock to 0.6.2(pr [#1046])
 - deps: update serde packages(pr [#1047])
 - deps: update rust crate tokio to 1.40.0(pr [#1048])
+- deps: update rust crate uuid to 1.10.0(pr [#1049])
 
 ## [2.4.9] - 2024-09-07
 
@@ -332,6 +333,7 @@ emitted if a tracing subscriber is not found.
 [#1046]: https://github.com/jerus-org/hcaptcha-rs/pull/1046
 [#1047]: https://github.com/jerus-org/hcaptcha-rs/pull/1047
 [#1048]: https://github.com/jerus-org/hcaptcha-rs/pull/1048
+[#1049]: https://github.com/jerus-org/hcaptcha-rs/pull/1049
 [Unreleased]: https://github.com/jerus-org/hcaptcha-rs/compare/v2.4.9...HEAD
 [2.4.9]: https://github.com/jerus-org/hcaptcha-rs/compare/v2.4.8...v2.4.9
 [2.4.8]: https://github.com/jerus-org/hcaptcha-rs/compare/v2.4.7...v2.4.8
