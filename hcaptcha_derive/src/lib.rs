@@ -101,7 +101,7 @@ use std::collections::HashMap;
 
 use proc_macro::TokenStream;
 use proc_macro2::Ident;
-use proc_macro_error::proc_macro_error;
+use proc_macro_error2::proc_macro_error;
 use quote::quote;
 use syn::{Data, DataStruct, DeriveInput};
 
@@ -250,7 +250,7 @@ fn get_required_attribute(
             #[captcha]
             hcaptcha: String,
         }"#;
-            proc_macro_error::abort! {id,
+            proc_macro_error2::abort! {id,
                 "Field containing hcaptcha not identified";
                 help = "The field containing the hcaptcha response string must be identified with #[captcha]
                 {}", &example;
@@ -272,7 +272,7 @@ fn get_struct_data<'a>(data: &'a Data, name: &Ident) -> &'a DataStruct {
             #[captcha]
             hcaptcha: String,
         }"#;
-            proc_macro_error::abort! {name,
+            proc_macro_error2::abort! {name,
                 "Must derive on a struct";
                 help = "This macro can only be implemented on a struct.
                 {}", &example;
