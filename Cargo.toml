@@ -1,6 +1,8 @@
 [workspace]
+resolver = "2"
 members = [
     "hcaptcha",
+    "hcaptcha-cli",
     "hcaptcha_derive",
     "test_suite_default",
     "test_suite_enterprise",
