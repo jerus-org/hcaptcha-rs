@@ -1,7 +1,5 @@
 version: 2.1
 
-setup: true
-
 parameters:
   min-rust-version:
     type: string
@@ -25,6 +23,9 @@ executors:
   rust-env:
     docker:
       - image: jerusdp/ci-rust:<<pipeline.parameters.min-rust-version>>
+  wasi-env:
+    docker:
+      - image: jerusdp/ci-rust:<<pipeline.parameters.min-rust-version>>-wasi
   base-env:
     docker:
       - image: jerusdp/ci-rust:base
@@ -46,6 +47,29 @@ jobs:
       - run:
           name: Running test suite <<parameters.test-suite>>
           command: "cargo +stable test -p <<parameters.test-suite>> --test compiletest"
+
+  required_wasi_builds:
+    executor: wasi-env
+    parameters:
+      min_rust_version:
+        type: string
+        description: "Required: The minimum version of the rust compiler to use"
+      cargo_args:
+        type: string
+        default: ""
+        description: "Additional parameters to pass to cargo build"
+
+    steps:
+      - checkout
+      - run:
+          name: Check rust version for code
+          command: cargo --version
+      - toolkit/cargo_build:
+          rust_version: "stable"
+          cargo_args: <<parameters.cargo_args>>
+      - toolkit/cargo_build:
+          rust_version: "<<parameters.min_rust_version>>"
+          cargo_args: <<parameters.cargo_args>>
 
 workflows:
   check_last_commit:
@@ -81,12 +105,12 @@ workflows:
           min_rust_version: << pipeline.parameters.min-rust-version >>
           matrix:
             parameters:
-              cargo_args:
-                [
-                  -p hcaptcha,
-                  -p hcaptcha-cli,
-                  -p hcaptcha-cli --target wasm32-wasi,
-                ]
+              cargo_args: [-p hcaptcha, -p hcaptcha-cli]
+      - required_wasi_builds:
+          min_rust_version: << pipeline.parameters.min-rust-version >>
+          matrix:
+            parameters:
+              cargo_args: [-p hcaptcha-cli --target wasm32-wasi]
       - toolkit/optional_builds:
           min_rust_version: << pipeline.parameters.min-rust-version >>
       - toolkit/common_tests:
