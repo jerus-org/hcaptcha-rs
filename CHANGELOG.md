@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- add hcaptcha-cli package to workspace(pr [#1054])
+
 ### Changed
 
 - chore-update CircleCI config and renovate settings(pr [#1035])
@@ -342,6 +346,7 @@ emitted if a tracing subscriber is not found.
 [#1051]: https://github.com/jerus-org/hcaptcha-rs/pull/1051
 [#1052]: https://github.com/jerus-org/hcaptcha-rs/pull/1052
 [#1053]: https://github.com/jerus-org/hcaptcha-rs/pull/1053
+[#1054]: https://github.com/jerus-org/hcaptcha-rs/pull/1054
 [Unreleased]: https://github.com/jerus-org/hcaptcha-rs/compare/v2.4.9...HEAD
 [2.4.9]: https://github.com/jerus-org/hcaptcha-rs/compare/v2.4.8...v2.4.9
 [2.4.8]: https://github.com/jerus-org/hcaptcha-rs/compare/v2.4.7...v2.4.8
