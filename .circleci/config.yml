@@ -79,6 +79,9 @@ workflows:
       - rust-versions
       - toolkit/required_builds:
           min_rust_version: << pipeline.parameters.min-rust-version >>
+          matrix:
+            parameters:
+              cargo_args: [-p hcaptcha, -p hcaptcha-cli]
       - toolkit/optional_builds:
           min_rust_version: << pipeline.parameters.min-rust-version >>
       - toolkit/common_tests:
