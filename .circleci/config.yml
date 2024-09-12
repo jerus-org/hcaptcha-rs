@@ -81,7 +81,12 @@ workflows:
           min_rust_version: << pipeline.parameters.min-rust-version >>
           matrix:
             parameters:
-              cargo_args: [-p hcaptcha, -p hcaptcha-cli]
+              cargo_args:
+                [
+                  -p hcaptcha,
+                  -p hcaptcha-cli,
+                  -p hcaptcha-cli --target wasm32-wasi,
+                ]
       - toolkit/optional_builds:
           min_rust_version: << pipeline.parameters.min-rust-version >>
       - toolkit/common_tests:
