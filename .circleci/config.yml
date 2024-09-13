@@ -155,8 +155,9 @@ workflows:
           matrix:
             parameters:
               cargo_args: [-p hcaptcha-cli --target wasm32-wasip1]
-          requires:
-            - optional builds for x86_64
+          # requires:
+          #   - optional builds for x86_64_-p hcaptcha-cli
+          #   - optional builds for x86_64_-p hcaptcha
       - toolkit/common_tests:
           min_rust_version: << pipeline.parameters.min-rust-version >>
       - toolkit/idiomatic_rust:
