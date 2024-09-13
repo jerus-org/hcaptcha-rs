@@ -58,7 +58,6 @@ jobs:
         type: string
         default: ""
         description: "Additional parameters to pass to cargo build"
-
     steps:
       - checkout
       - run:
@@ -72,6 +71,32 @@ jobs:
           cargo_args: <<parameters.cargo_args>>
       - toolkit/cargo_build:
           rust_version: "<<parameters.min_rust_version>>"
+          cargo_args: <<parameters.cargo_args>>
+
+  optional_builds:
+    parameters:
+      min_rust_version:
+        type: string
+        description: "Required: The minimum version of the rust compiler to use"
+      cargo_args:
+        type: string
+        default: ""
+        description: "Additional parameters to pass to cargo build"
+      use_executor:
+        type: enum
+        enum: ["rust-env", "wasi-env"]
+        description: "Required: The executor to use for the build"
+    executor: << parameters.use_executor >>
+    steps:
+      - checkout
+      - run:
+          name: Check rust version for code
+          command: cargo --version
+      - toolkit/cargo_build:
+          rust_version: "nightly"
+          cargo_args: <<parameters.cargo_args>>
+      - toolkit/cargo_build:
+          rust_version: "beta"
           cargo_args: <<parameters.cargo_args>>
 
 workflows:
@@ -116,8 +141,22 @@ workflows:
               cargo_args: [-p hcaptcha-cli --target wasm32-wasip1]
           requires:
             - toolkit/required_builds
-      - toolkit/optional_builds:
+      - optional_builds:
+          name: optional builds for x86_64
           min_rust_version: << pipeline.parameters.min-rust-version >>
+          use_executor: rust-env
+          matrix:
+            parameters:
+              cargo_args: [-p hcaptcha, -p hcaptcha-cli]
+      - optional_builds:
+          name: optional builds for wasi
+          min_rust_version: << pipeline.parameters.min-rust-version >>
+          use_executor: wasi-env
+          matrix:
+            parameters:
+              cargo_args: [-p hcaptcha-cli --target wasm32-wasip1]
+          requires:
+            - optional builds for x86_64
       - toolkit/common_tests:
           min_rust_version: << pipeline.parameters.min-rust-version >>
       - toolkit/idiomatic_rust:
