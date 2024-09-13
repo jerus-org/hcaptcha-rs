@@ -246,7 +246,7 @@ workflows:
           cargo_args: -p hcaptcha-cli
           cargo_target: --target wasm32-wasip1
       - common_tests:
-          name: common tests fir x86_64
+          name: common tests for x86_64
           min_rust_version: << pipeline.parameters.min-rust-version >>
           use_executor: rust-env
           matrix:
