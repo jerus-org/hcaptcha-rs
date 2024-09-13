@@ -2,5 +2,21 @@
 name = "hcaptcha-cli"
 version = "0.1.0"
 edition = "2021"
+license = "MIT OR Apache-2.0"
+repository = "https://github.com/jerusdp/hcaptcha-rs"
+rust-version = "1.75"
+readme = "README.md"
+documentation = "https://docs.rs/hcaptcha-cli"
+categories = ["web-programming"]
+keywords = ["hcaptcha", "captcha", "security", "backend", "protection"]
+include = [
+    "**/*.rs",
+    "Cargo.toml",
+    "README.md",
+    "LICENSE-APACHE",
+    "LICENSE-MIT",
+    "CHANGES.md",
+]
+publish = false
 
 [dependencies]
