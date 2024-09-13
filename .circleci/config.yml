@@ -64,6 +64,9 @@ jobs:
       - run:
           name: Check rust version for code
           command: cargo --version
+      - run:
+          name: Installed targets
+          command: rustup target list --installed
       - toolkit/cargo_build:
           rust_version: "stable"
           cargo_args: <<parameters.cargo_args>>
