@@ -51,6 +51,26 @@ commands:
           command: |
             cargo +<<parameters.rust_version>> build --all-features <<parameters.cargo_args>> << parameters.cargo_target >>
 
+  cargo_test:
+    parameters:
+      rust_version:
+        default: "stable"
+        type: string
+        description: "The rust compiler version to use"
+      cargo_args:
+        type: string
+        default: ""
+        description: "Additional parameters to pass to cargo test"
+      cargo_target:
+        type: string
+        default: ""
+        description: "Target to pass to cargo test"
+    steps:
+      - run:
+          name: Common tests <<parameters.rust_version>>
+          command: |
+            cargo +<<parameters.rust_version>> test --all-features <<parameters.cargo_args>> << parameters.cargo_target >>
+
 jobs:
   rust-versions:
     executor: rust-env
@@ -138,6 +158,38 @@ jobs:
           cargo_args: <<parameters.cargo_args>>
           cargo_target: << parameters.cargo_target >>
 
+  common_tests:
+    parameters:
+      min_rust_version:
+        type: string
+        description: "Required: The minimum version of the rust compiler to use"
+      cargo_args:
+        type: string
+        default: ""
+        description: "Additional parameters to pass to cargo build"
+      cargo_target:
+        type: string
+        default: ""
+        description: "Target to pass to cargo build"
+      use_executor:
+        type: enum
+        enum: ["rust-env", "wasi-env"]
+        description: "Required: The executor to use for the build"
+    executor: << parameters.use_executor >>
+    steps:
+      - checkout
+      - run:
+          name: Check rust version for code
+          command: cargo --version
+      - run:
+          name: Check formatting for code
+          command: |
+            rustfmt --version
+            cargo fmt --all -- --check
+      - cargo_test:
+          rust_version: stable
+          cargo_args: << parameters.cargo_args >>
+
 workflows:
   check_last_commit:
     when:
@@ -193,8 +245,20 @@ workflows:
           use_executor: wasi-env
           cargo_args: -p hcaptcha-cli
           cargo_target: --target wasm32-wasip1
-      - toolkit/common_tests:
+      - common_tests:
+          name: common tests fir x86_64
           min_rust_version: << pipeline.parameters.min-rust-version >>
+          use_executor: rust-env
+          matrix:
+            parameters:
+              cargo_args: [-p hcaptcha, -p hcaptcha-cli]
+      - common_tests:
+          name: common tests for wasi
+          min_rust_version: << pipeline.parameters.min-rust-version >>
+          use_executor: wasi-env
+          cargo_args: -p hcaptcha-cli
+          cargo_target: --target wasm32-wasip1
+
       - toolkit/idiomatic_rust:
           min_rust_version: << pipeline.parameters.min-rust-version >>
       - toolkit/test_doc_build:
@@ -213,7 +277,7 @@ workflows:
                   test_suite_enterprise,
                 ]
           requires:
-            - toolkit/common_tests
+            - common_tests
             - required_builds
             - toolkit/test_doc_build
 
@@ -221,8 +285,6 @@ workflows:
 
       - toolkit/update_changelog:
           requires:
-            - toolkit/common_tests
-            - toolkit/test_doc_build
             - toolkit/idiomatic_rust
             - test-suite
           context:
