@@ -20,3 +20,5 @@ include = [
 publish = false
 
 [dependencies]
+clap = "4.5.17"
+clap-verbosity-flag = "2.2.1"
