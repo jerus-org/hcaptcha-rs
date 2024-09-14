@@ -1,6 +1,6 @@
 [package]
 name = "test_suite_default"
-version = "0.4.9"
+version = "0.5.0"
 edition = "2021"
 publish = false
 rust-version = "1.75"

@@ -610,7 +610,7 @@ checksum = "e5274423e17b7c9fc20b6e7e208532f9b19825d82dfd615708b70edd83df41f1"
 
 [[package]]
 name = "hcaptcha"
-version = "2.4.9"
+version = "2.5.0"
 dependencies = [
  "async-trait",
  "chrono",
@@ -642,7 +642,7 @@ dependencies = [
 
 [[package]]
 name = "hcaptcha-cli"
-version = "0.1.0"
+version = "0.2.0"
 dependencies = [
  "clap",
  "clap-verbosity-flag",
@@ -650,7 +650,7 @@ dependencies = [
 
 [[package]]
 name = "hcaptcha_derive"
-version = "2.4.9"
+version = "2.5.0"
 dependencies = [
  "hcaptcha",
  "proc-macro-error2",
@@ -1717,7 +1717,7 @@ dependencies = [
 
 [[package]]
 name = "test_suite_default"
-version = "0.4.9"
+version = "0.5.0"
 dependencies = [
  "chrono",
  "claims",
@@ -1736,7 +1736,7 @@ dependencies = [
 
 [[package]]
 name = "test_suite_enterprise"
-version = "0.4.9"
+version = "0.5.0"
 dependencies = [
  "chrono",
  "claims",
@@ -1755,7 +1755,7 @@ dependencies = [
 
 [[package]]
 name = "test_suite_native_only"
-version = "0.4.9"
+version = "0.5.0"
 dependencies = [
  "chrono",
  "claims",
@@ -1774,7 +1774,7 @@ dependencies = [
 
 [[package]]
 name = "test_suite_no_default"
-version = "0.4.9"
+version = "0.5.0"
 dependencies = [
  "chrono",
  "claims",
@@ -1793,7 +1793,7 @@ dependencies = [
 
 [[package]]
 name = "test_suite_rustls_only"
-version = "0.4.9"
+version = "0.5.0"
 dependencies = [
  "chrono",
  "claims",
@@ -1812,7 +1812,7 @@ dependencies = [
 
 [[package]]
 name = "test_suite_trace"
-version = "0.4.9"
+version = "0.5.0"
 dependencies = [
  "chrono",
  "claims",
