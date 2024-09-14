@@ -1,3 +1,9 @@
+use clap::Parser;
+use cli::Cli;
+
+mod cli;
+
 fn main() {
-    println!("Hello, world!");
+    let args = Cli::parse();
+    println!("Args found: {:?}", args);
 }
