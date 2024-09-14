@@ -1,8 +1,9 @@
 [package]
 name = "test_suite_rustls_only"
 version = "0.4.9"
-edition = "2018"
+edition = "2021"
 publish = false
+rust-version = "1.75"
 
 [dependencies]
 # hcaptcha = { path = "../hcaptcha" }
