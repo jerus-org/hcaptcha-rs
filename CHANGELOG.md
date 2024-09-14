@@ -17,6 +17,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - chore-update CircleCI config and renovate settings(pr [#1035])
 - Add .circleci/config.yml(pr [#1041])
 - ci-add cargo_args parameter to required_builds in CircleCI config(pr [#1055])
+- chore-update Cargo.toml files to edition 2021 and set rust-version to 1.75(pr [#1059])
 
 ### Fixed
 
@@ -355,6 +356,7 @@ emitted if a tracing subscriber is not found.
 [#1056]: https://github.com/jerus-org/hcaptcha-rs/pull/1056
 [#1057]: https://github.com/jerus-org/hcaptcha-rs/pull/1057
 [#1058]: https://github.com/jerus-org/hcaptcha-rs/pull/1058
+[#1059]: https://github.com/jerus-org/hcaptcha-rs/pull/1059
 [Unreleased]: https://github.com/jerus-org/hcaptcha-rs/compare/v2.4.9...HEAD
 [2.4.9]: https://github.com/jerus-org/hcaptcha-rs/compare/v2.4.8...v2.4.9
 [2.4.8]: https://github.com/jerus-org/hcaptcha-rs/compare/v2.4.7...v2.4.8
