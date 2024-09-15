@@ -5,4 +5,16 @@ use clap::Parser;
 pub struct Cli {
     #[clap(flatten)]
     pub logging: clap_verbosity_flag::Verbosity,
+    /// The captcha token proivded by the client for validation
+    #[clap(short, long)]
+    pub token: String,
+    /// The sitekey for hcapthca validation
+    #[clap(short, long)]
+    pub key: Option<String>,
+    /// The secret key for hcaptcha validation
+    #[clap(short, long)]
+    pub secret: Option<String>,
+    /// The ip address of the system generating the request
+    #[clap(short, long)]
+    pub ip: Option<String>,
 }
