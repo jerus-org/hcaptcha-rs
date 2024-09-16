@@ -87,6 +87,9 @@ jobs:
     executor: rust-env
     steps:
       - checkout
+      - run:
+          name: Check targets installed for stable
+          command: rustup target list --installed --toolchain stable
       - run: cargo +stable --version
       - run:
           name: Running test suite <<parameters.test-suite>>
