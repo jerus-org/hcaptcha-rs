@@ -73,7 +73,7 @@ commands:
 
 jobs:
   rust-versions:
-    executor: wasi-env
+    executor: rust-env
     steps:
       - run: rustup show
 
@@ -84,7 +84,7 @@ jobs:
       test-target:
         type: enum
         enum: ["wasm32-wasip1", "x86_64-unknown-linux-gnu"]
-    executor: rust-env
+    executor: wasi-env
     steps:
       - checkout
       - run:
