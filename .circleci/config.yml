@@ -73,7 +73,7 @@ commands:
 
 jobs:
   rust-versions:
-    executor: rust-env
+    executor: wasi-env
     steps:
       - run: rustup show
 
