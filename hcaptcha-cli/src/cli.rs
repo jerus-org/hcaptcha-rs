@@ -13,7 +13,7 @@ pub struct Cli {
     pub key: Option<String>,
     /// The secret key for hcaptcha validation
     #[clap(short, long)]
-    pub secret: Option<String>,
+    pub secret: String,
     /// The ip address of the system generating the request
     #[clap(short, long)]
     pub ip: Option<String>,
