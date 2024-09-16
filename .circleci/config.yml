@@ -268,7 +268,7 @@ workflows:
           min_rust_version: << pipeline.parameters.min-rust-version >>
 
       - test-suite:
-          name: test suite default only
+          name: test-suite-default-<< matrix.test-target >>
           test-suite: test_suite_default
           matrix:
             parameters:
@@ -293,7 +293,7 @@ workflows:
                 ]
               test-target: [x86_64-unknown-linux-gnu, wasm32-wasip1]
           requires:
-            - test suite default only
+            - test-suite-default-<< matrix.test-target >>
 
       - toolkit/security
 
