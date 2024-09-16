@@ -58,6 +58,9 @@ pub struct ContactForm {
 Validate the captcha data.
 
 ``` rust
+    # #[cfg(target_os = "wasi")]
+    # #[tokio::main(flavor = "current_thread")]
+    # #[cfg(target_os =linux)]
     # #[tokio::main]
     # async main() -> Result<(), Box<dyn std::error::Error>> {
     let contact_form: ContactForm = serde_json::from_str(e.body_string())?;
