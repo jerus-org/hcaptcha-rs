@@ -279,6 +279,7 @@ workflows:
           requires:
             - common_tests
             - required_builds
+            - required builds for wasi
             - toolkit/test_doc_build
 
       - toolkit/security
