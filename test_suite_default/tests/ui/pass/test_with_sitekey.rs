@@ -15,10 +15,10 @@ struct Test {
     sitekey: String,
 }
 
-#[cfg(target_os = "wasi")]
+// #[cfg(target_os = "wasi")]
 #[tokio::main(flavor = "current_thread")]
-#[cfg(target_os =linux)]
-#[tokio::main]
+// #[cfg(target_os = "linux")]
+// #[tokio::main]
 async fn main() {
     // Setup
     // env_logger::init();

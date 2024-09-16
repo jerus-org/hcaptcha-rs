@@ -4,10 +4,10 @@ const RESPONSE: &str = "10000000-aaaa-bbbb-cccc-000000000001";
 
 mod hcaptcha_integration;
 
-#[cfg(target_os = "wasi")]
+// #[cfg(target_os = "wasi")]
 #[tokio::main(flavor = "current_thread")]
-#[cfg(target_os =linux)]
-#[tokio::main]
+// #[cfg(target_os = "linux")]
+// #[tokio::main]
 async fn main() {
     hcaptcha_integration::hcaptcha_integration_test(RESPONSE, SITE_KEY, SECRET_KEY)
         .await
