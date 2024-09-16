@@ -23,11 +23,11 @@ hex = "0.4.3"
 chrono = "0.4.38"
 env_logger = "0.11.5"
 
-[target.x86_64-unknown-linux-gnu.dependencies]
+[target.x86_64-unknown-linux-gnu.dev-dependencies]
 tokio = { version = "1.40.0", features = ["macros", "rt-multi-thread"] }
 
-[target.wasm32-wasip1.dependencies]
+[target.wasm32-wasip1.dev-dependencies]
 tokio = { version = "1.40.0", features = ["rt", "macros"] }
 
-[target.wasm32-wasi.dependencies]
+[target.wasm32-wasi.dev-dependencies]
 tokio = { version = "1.40.0", features = ["rt", "macros"] }
