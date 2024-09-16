@@ -16,7 +16,7 @@ async fn main() -> Result<()> {
     Ok(())
 }
 
-// #[cfg(target_family = "linux")]
+#[cfg(target_family = "linux")]
 #[tokio::main]
 async fn main() -> Result<()> {
     let args = Cli::parse();
