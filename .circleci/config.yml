@@ -81,13 +81,16 @@ jobs:
     parameters:
       test-suite:
         type: string
+      test-target:
+        type: enum
+        enum: ["wasm32-wasip1", "x86_64-unknown-linux-gnu"]
     executor: rust-env
     steps:
       - checkout
       - run: cargo +stable --version
       - run:
           name: Running test suite <<parameters.test-suite>>
-          command: "cargo +stable test -p <<parameters.test-suite>> --test compiletest"
+          command: "cargo +stable test -p <<parameters.test-suite>> --target << parameters.test-target >> --test compiletest"
 
   required_builds:
     executor: wasi-env
@@ -265,22 +268,32 @@ workflows:
           min_rust_version: << pipeline.parameters.min-rust-version >>
 
       - test-suite:
+          name: test suite default only
+          test-suite: test_suite_default
+          matrix:
+            parameters:
+              test-target: [x86_64-unknown-linux-gnu, wasm32-wasip1]
+          requires:
+            - common_tests
+            - required_builds
+            - required builds for wasi
+            - toolkit/test_doc_build
+
+      - test-suite:
+          name: test suite the rest
           matrix:
             parameters:
               test-suite:
                 [
-                  test_suite_default,
                   test_suite_no_default,
                   test_suite_native_only,
                   test_suite_rustls_only,
                   test_suite_trace,
                   test_suite_enterprise,
                 ]
+              test-target: [x86_64-unknown-linux-gnu, wasm32-wasip1]
           requires:
-            - common_tests
-            - required_builds
-            - required builds for wasi
-            - toolkit/test_doc_build
+            - test suite default only
 
       - toolkit/security
 
