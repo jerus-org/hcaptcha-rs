@@ -282,6 +282,7 @@ workflows:
       - test-suite:
           name: test suite the rest
           matrix:
+            alias: test-suites
             parameters:
               test-suite:
                 [
@@ -300,7 +301,7 @@ workflows:
       - toolkit/update_changelog:
           requires:
             - toolkit/idiomatic_rust
-            - test-suite
+            - test-suites
           context:
             - release
             - bot-check
