@@ -5,7 +5,7 @@ use hcaptcha::{HcaptchaCaptcha, HcaptchaClient, HcaptchaRequest, HcaptchaRespons
 
 mod cli;
 
-#[cfg(target_family = "wasm")]
+#[cfg(target_os = "wasi")]
 #[tokio::main(flavor = "current_thread")]
 async fn main() -> Result<()> {
     let args = Cli::parse();
@@ -16,7 +16,7 @@ async fn main() -> Result<()> {
     Ok(())
 }
 
-#[cfg(target_family = "linux")]
+#[cfg(target_os = "linux")]
 #[tokio::main]
 async fn main() -> Result<()> {
     let args = Cli::parse();
