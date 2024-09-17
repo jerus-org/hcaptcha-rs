@@ -189,6 +189,7 @@ jobs:
       - cargo_test:
           rust_version: stable
           cargo_args: << parameters.cargo_args >>
+          cargo_target: << parameters.cargo_target >>
 
 workflows:
   check_last_commit:
