@@ -1,10 +1,49 @@
-use log::LevelFilter;
-use log4rs_test_utils::test_logging;
+use std::process::Command;
+
+/// The absolute path to a binary target's executable.
+///
+/// The `bin_target_name` is the name of the binary
+/// target, exactly as-is.
+///
+/// **NOTE:** This is only set when building an integration test or benchmark.
+///
+/// ## Example
+///
+/// ```rust,no_run
+/// #[test]
+/// fn cli_tests() {
+///     trycmd::TestCases::new()
+///         .default_bin_path(trycmd::cargo_bin!("bin-fixture"))
+///         .case("tests/cmd/*.trycmd");
+/// }
+/// ```
+#[macro_export]
+macro_rules! cargo_bin {
+    ($bin_target_name:expr) => {
+        ::std::path::Path::new(env!(concat!("CARGO_BIN_EXE_", $bin_target_name)))
+    };
+}
+
+fn assert_output(output: std::process::Output, expected: &str) {
+    eprintln!("output:{:?}", &output);
+
+    if !output.stdout.is_empty() {
+        let o = String::from_utf8_lossy(&output.stdout);
+        eprintln!("output:{:?}", o);
+
+        assert_eq!(o, expected);
+    };
+
+    if !output.stderr.is_empty() {
+        let e = String::from_utf8_lossy(&output.stderr);
+        eprintln!("error:{:?}", e);
+
+        assert_eq!(e, expected);
+    };
+}
 
 #[test]
 fn run_without_any_args() {
-    test_logging::init_logging_once_for(vec![], LevelFilter::Debug, None);
-
     let expected = String::from(
         r#"error: the following required arguments were not provided:
   --token <TOKEN>
@@ -16,24 +55,17 @@ For more information, try '--help'.
 "#,
     );
 
-    let cmd = snapbox::cmd::cargo_bin!("hcaptcha-cli");
+    let cmd = cargo_bin!("hcaptcha-cli");
 
-    log::debug!("cmd:{:?}", &cmd);
+    eprintln!("cmd:{:?}", &cmd);
 
-    let output = snapbox::cmd::Command::new(cmd).output();
+    let output = Command::new(cmd).output().expect("failed to spawn");
 
-    if let Ok(output) = output {
-        let stderr = String::from_utf8_lossy(&output.stderr);
-        log::debug!("output:{:?}", &stderr);
-
-        assert_eq!(stderr, expected);
-    };
+    assert_output(output, &expected);
 }
 
 #[test]
 fn run_request_help_info_short() {
-    test_logging::init_logging_once_for(vec![], LevelFilter::Debug, None);
-
     let expected = String::from(
         r#"Usage: hcaptcha-cli [OPTIONS] --token <TOKEN> --secret <SECRET>
 
@@ -49,24 +81,20 @@ Options:
 "#,
     );
 
-    let cmd = snapbox::cmd::cargo_bin!("hcaptcha-cli");
+    let cmd = cargo_bin!("hcaptcha-cli");
 
-    log::debug!("cmd:{:?}", &cmd);
+    eprintln!("cmd:{:?}", &cmd);
 
-    let output = snapbox::cmd::Command::new(cmd).arg("-h").output();
+    let output = Command::new(cmd)
+        .arg("-h")
+        .output()
+        .expect("failed to spawn");
 
-    if let Ok(output) = output {
-        let stdout = String::from_utf8_lossy(&output.stdout);
-        log::debug!("output:{:?}", &stdout);
-
-        assert_eq!(stdout, expected);
-    };
+    assert_output(output, &expected);
 }
 
 #[test]
 fn run_request_help_info_long() {
-    test_logging::init_logging_once_for(vec![], LevelFilter::Debug, None);
-
     let expected = String::from(
         r#"Usage: hcaptcha-cli [OPTIONS] --token <TOKEN> --secret <SECRET>
 
@@ -82,16 +110,14 @@ Options:
 "#,
     );
 
-    let cmd = snapbox::cmd::cargo_bin!("hcaptcha-cli");
+    let cmd = cargo_bin!("hcaptcha-cli");
 
-    log::debug!("cmd:{:?}", &cmd);
+    eprintln!("cmd:{:?}", &cmd);
 
-    let output = snapbox::cmd::Command::new(cmd).arg("--help").output();
+    let output = Command::new(cmd)
+        .arg("--help")
+        .output()
+        .expect("failed to spawn");
 
-    if let Ok(output) = output {
-        let stdout = String::from_utf8_lossy(&output.stdout);
-        log::debug!("output:{:?}", &stdout);
-
-        assert_eq!(stdout, expected);
-    };
+    assert_output(output, &expected);
 }
