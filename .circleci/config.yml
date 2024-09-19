@@ -57,7 +57,10 @@ commands:
       - run:
           name: Check build <<parameters.rust_version>>
           command: |
-            cargo +<<parameters.rust_version>> build --all-features <<parameters.cargo_args>>
+            set -ex
+            cargo +<<parameters.rust_version>> build \
+              --all-features \
+              <<parameters.cargo_args>> \
               $(bash .circleci/scripts/arg.sh " --package " "<< parameters.cargo_package >>") \
               $(bash .circleci/scripts/arg.sh " --bin " "<<parameters.cargo_bin>>") \
               $(bash .circleci/scripts/arg.sh " --target " "<< parameters.cargo_target >>")
