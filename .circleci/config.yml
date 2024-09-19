@@ -100,9 +100,9 @@ commands:
             cargo +<<parameters.rust_version>> run \
               --all-features \
               <<parameters.cargo_args>> \
-              $(sh ./scripts/arg.sh " --package " "<< parameters.cargo_package >>") \
-              $(sh ./scripts/arg.sh " --bin " "<<parameters.cargo_bin>>") \
-              $(sh ./scripts/arg.sh " --target " "<< parameters.cargo_target >>")
+              $(sh ..circleci/scripts/arg.sh " --package " "<< parameters.cargo_package >>") \
+              $(sh ..circleci/scripts/arg.sh " --bin " "<<parameters.cargo_bin>>") \
+              $(sh ..circleci/scripts/arg.sh " --target " "<< parameters.cargo_target >>")
 
 jobs:
   rust-versions:
@@ -345,6 +345,11 @@ workflows:
           matrix:
             parameters:
               cargo_bin: [long_help, no_option, short_help]
+          requires:
+            - common_tests
+            - required_builds
+            - required builds for wasi
+            - toolkit/test_doc_build
 
       - test-suite:
           matrix:
