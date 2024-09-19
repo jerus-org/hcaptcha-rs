@@ -329,7 +329,7 @@ jobs:
           name: save << parameters.cargo_executable >> to cache
           paths:
             - bin/<< parameters.cargo_executable >>
-          key: v1-{{ .Branch }}-<< parameters.cargo_executable >>-{{ checksum "Cargo.lock" }}
+          key: v2-{{ .Branch }}-<< parameters.cargo_executable >>-{{ checksum "Cargo.lock" }}
 
 workflows:
   check_last_commit:
