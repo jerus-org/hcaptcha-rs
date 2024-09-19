@@ -97,6 +97,7 @@ commands:
       - run:
           name: Common tests <<parameters.rust_version>>
           command: |
+            set -ex
             cargo +<<parameters.rust_version>> run \
               --all-features \
               <<parameters.cargo_args>> \
