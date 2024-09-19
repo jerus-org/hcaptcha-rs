@@ -95,7 +95,7 @@ commands:
         description: "Target to pass to cargo test"
     steps:
       - run:
-          name: Common tests <<parameters.rust_version>>
+          name: Run Test Programs with rust <<parameters.rust_version>>
           command: |
             set -ex
             cargo +<<parameters.rust_version>> run \
@@ -193,6 +193,9 @@ jobs:
       - run:
           name: Installed targets
           command: rustup target list --installed
+      - cargo_build:
+          rust_version: "stable"
+
       - cargo_run:
           rust_version: "stable"
           cargo_package: << parameters.cargo_package >>
