@@ -195,7 +195,7 @@ jobs:
           command: rustup target list --installed
       - cargo_build:
           rust_version: "stable"
-
+          cargo_target: << parameters.min_cargo_target >>
       - cargo_run:
           rust_version: "stable"
           cargo_package: << parameters.cargo_package >>
@@ -330,13 +330,6 @@ workflows:
           matrix:
             parameters:
               cargo_args: [-p hcaptcha, -p hcaptcha-cli]
-      - common_tests:
-          name: common_tests_wasi
-          min_rust_version: << pipeline.parameters.min-rust-version >>
-          use_executor: wasi-env
-          cargo_args: -p hcaptcha-cli
-          cargo_target: --target wasm32-wasip1
-
       - toolkit/idiomatic_rust:
           min_rust_version: << pipeline.parameters.min-rust-version >>
       - toolkit/test_doc_build:
@@ -348,7 +341,7 @@ workflows:
           name: run_test_program-<<matrix.cargo_bin>>
           matrix:
             parameters:
-              cargo_bin: [long_help, no_option, short_help]
+              cargo_bin: [long_help, no_options, short_help]
           requires:
             - common_tests
             - required_builds
@@ -379,7 +372,6 @@ workflows:
           requires:
             - toolkit/idiomatic_rust
             - test-suite
-            - common_tests_wasi
             - run_test_programs
           context:
             - release
