@@ -313,13 +313,13 @@ jobs:
     steps:
       - checkout
       - run:
-          name: Check rust version for code
-          command: cargo --version
-      - cargo_build:
-          rust_version: stable
-          cargo_args: --release --locked
-          cargo_target: << parameters.cargo_target >>
-          cargo_package: << parameters.cargo_package >>
+          name: Release build the binary
+          command: |
+            set -ex
+            cargo +stable build \
+              --release --locked \
+              --package << parameters.cargo_package >> \
+              --target << parameters.cargo_target >>
       - run:
           name: Copy executable to the bin directory
           command: |
