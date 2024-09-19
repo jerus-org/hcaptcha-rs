@@ -16,9 +16,9 @@ const WASM_SUFFIX: &str = "wasm";
 
 #[cfg(target_os = "wasi")]
 pub fn cargo_bin(name: &str) -> std::path::PathBuf {
-    let file_name = format!("{}{}", name, std::env::consts::WASM_SUFFIX);
-    let target_dir = target_dir();
-    target_dir.join(file_name)
+    let file_name = format!("{}{}", name, WASM_SUFFIX);
+    let bin_dir = bin_dir();
+    bin_dir.join(file_name)
 }
 
 fn bin_dir() -> PathBuf {

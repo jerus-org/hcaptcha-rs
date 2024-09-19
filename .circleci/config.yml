@@ -170,11 +170,13 @@ jobs:
       - cargo_build:
           rust_version: "stable"
           cargo_args: <<parameters.cargo_args>>
+          cargo_package: << parameters.cargo_package >>
           cargo_target: << parameters.cargo_target >>
 
       - cargo_build:
           rust_version: "<<parameters.min_rust_version>>"
           cargo_args: <<parameters.cargo_args>>
+          cargo_package: << parameters.cargo_package >>
           cargo_target: << parameters.min_cargo_target >>
 
   run_test_programs:
