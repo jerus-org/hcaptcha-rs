@@ -399,7 +399,7 @@ workflows:
           min_rust_version: << pipeline.parameters.min-rust-version >>
       - release_build_cache:
           use_executor: rust-env
-          cargo_package: hcaptcha_cli
+          cargo_package: hcaptcha-cli
           cargo_target: x86_64-unknown-linux-gnu
           cargo_executable: hcaptcha-cli
           requires:
