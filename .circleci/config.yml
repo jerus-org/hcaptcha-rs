@@ -235,7 +235,7 @@ jobs:
                   set -ex
                   cargo +stable build \
                     --release --locked \
-                    --package << parameters.cargo_package >> \
+                    --package hcaptcha-cli \
                     --target << parameters.cargo_target >>
             - run:
                 name: Copy executable to the bin directory
