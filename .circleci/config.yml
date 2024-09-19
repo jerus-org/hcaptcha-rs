@@ -328,7 +328,7 @@ jobs:
       - save_cache:
           name: save << parameters.cargo_executable >> to cache
           paths:
-            - << parameters.cargo_executable >>
+            - bin/<< parameters.cargo_executable >>
           key: v1-{{ .Branch }}-<< parameters.cargo_executable >>-{{ checksum "Cargo.lock" }}
 
 workflows:
