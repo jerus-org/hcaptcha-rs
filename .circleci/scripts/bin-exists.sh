@@ -1,5 +1,5 @@
 #!/bin/bash
 
-if ! [ -f bin/$1 ]; then
+if ! [ -f "bin/$1" ]; then
     echo "false"
 fi

@@ -199,7 +199,6 @@ jobs:
         description: "Bin to pass to cargo build"
       cargo_target:
         type: string
-        default: ""
         description: "Target to pass to cargo build"
       cargo_executable:
         type: string
@@ -218,8 +217,17 @@ jobs:
           command: rustup target list --installed
       - restore_cache:
           key: v1-{{ .Branch }}-<< parameters.cargo_executable >>-{{ checksum "Cargo.lock" }}
+      - run:
+          name: check_for_file
+          command: |
+            set -ex
+            if [ -f bin/<< parameters.cargo_executable >> ]; then
+              file_check="true"
+            else
+              file_check="false"
+            fi
       - when:
-          condition: $(bash .circleci/scripts/bin_exists.sh) == "false"
+          condition: file_check == "false"
           steps:
             - run:
                 name: Release build the binary
@@ -421,6 +429,7 @@ workflows:
       - run_test_programs:
           min_rust_version: << pipeline.parameters.min-rust-version >>
           cargo_package: test_suite_cli
+          cargo_target: x86_64-unknown-linux-gnu
           cargo_executable: hcaptcha-cli
           name: run_test_program-<<matrix.cargo_bin>>
           requires:
