@@ -17,9 +17,17 @@ Options:
     );
 
     let cmd = cargo_bin("hcaptcha-cli");
-    let mut cmd = Cmd::new(&cmd);
 
-    let output = cmd.arg("-h").output().expect("failed to spawn");
+    println!("cmd: {:?}", &cmd);
+
+    let mut cmd = Cmd::new(&cmd);
+    println!("cmd: {:?}", cmd);
+
+    let output_res = cmd.arg("-h").output();
+
+    println!("output_res: {:?}", output_res);
+
+    let output = output_res.expect("failed to spawn");
 
     assert_output(output, &expected);
 }

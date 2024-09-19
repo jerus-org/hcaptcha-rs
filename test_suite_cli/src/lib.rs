@@ -52,6 +52,7 @@ pub fn assert_output(output: std::process::Output, expected: &str) {
     };
 }
 
+#[derive(Debug)]
 pub struct Cmd {
     pub inner_cmd: Command,
 }
