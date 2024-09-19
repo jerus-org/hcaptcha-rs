@@ -100,9 +100,9 @@ commands:
             cargo +<<parameters.rust_version>> run \
               --all-features \
               <<parameters.cargo_args>> \
-              sh ./scripts/arg.sh "--package " "<< parameters.cargo_package >>" \
-              sh ./scripts/arg.sh "--bin " "<<parameters.cargo_bin>>" \
-              sh ./scripts/arg.sh "--target " "<< parameters.cargo_target >>"
+              $(sh ./scripts/arg.sh " --package " "<< parameters.cargo_package >>") \
+              $(sh ./scripts/arg.sh " --bin " "<<parameters.cargo_bin>>") \
+              $(sh ./scripts/arg.sh " --target " "<< parameters.cargo_target >>")
 
 jobs:
   rust-versions:
