@@ -341,7 +341,7 @@ workflows:
       - run_test_programs:
           min_rust_version: << pipeline.parameters.min-rust-version >>
           cargo_package: test_suite_cli
-          name: run_test_program-<<matrix.parameters.cargo_bin>>
+          name: run_test_program-<<matrix.cargo_bin>>
           matrix:
             parameters:
               cargo_bin: [long_help, no_option, short_help]
