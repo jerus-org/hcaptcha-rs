@@ -217,7 +217,7 @@ jobs:
           name: Installed targets
           command: rustup target list --installed
       - restore_cache:
-          key: v1-{{ .Branch }}-<< parameters.cargo_executable >>-{{ checksum "package-lock.json" }}
+          key: v1-{{ .Branch }}-<< parameters.cargo_executable >>-{{ checksum "Cargo.lock" }}
       - cargo_run:
           rust_version: "stable"
           cargo_package: << parameters.cargo_package >>
@@ -329,7 +329,7 @@ jobs:
           name: save << parameters.cargo_executable >> to cache
           paths:
             - << parameters.cargo_executable >>
-          key: v1-{{ .Branch }}-<< parameters.cargo_executable >>-{{ checksum "package-lock.json" }}
+          key: v1-{{ .Branch }}-<< parameters.cargo_executable >>-{{ checksum "Cargo.lock" }}
 
 workflows:
   check_last_commit:
