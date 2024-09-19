@@ -1768,6 +1768,10 @@ dependencies = [
 ]
 
 [[package]]
+name = "test_suite_cli"
+version = "0.1.0"
+
+[[package]]
 name = "test_suite_default"
 version = "0.5.0"
 dependencies = [
