@@ -1,12 +1,14 @@
-use std::process::Command;
 use std::{io, path::Path, process::Output};
+use std::{path::PathBuf, process::Command};
 
 #[cfg(target_os = "linux")]
 pub fn cargo_bin(name: &str) -> std::path::PathBuf {
     // let file_name = format!("{}{}", name, std::env::consts::EXE_SUFFIX);
-    let target_dir = target_dir();
+    // let target_dir = target_dir();
     // target_dir.join(file_name)
-    target_dir.join(name)
+    let bin_dir = bin_dir();
+    bin_dir.join(name)
+    // target_dir.join(name)
 }
 
 #[cfg(target_os = "wasi")]
@@ -19,20 +21,24 @@ pub fn cargo_bin(name: &str) -> std::path::PathBuf {
     target_dir.join(file_name)
 }
 
+fn bin_dir() -> PathBuf {
+    PathBuf::new().join("bin")
+}
+
 // Adapted from
 // https://github.com/rust-lang/cargo/blob/485670b3983b52289a2f353d589c57fae2f60f82/tests/testsuite/support/mod.rs#L507
-fn target_dir() -> std::path::PathBuf {
-    std::env::current_exe()
-        .ok()
-        .map(|mut path| {
-            path.pop();
-            if path.ends_with("deps") {
-                path.pop();
-            }
-            path
-        })
-        .unwrap()
-}
+// fn target_dir() -> std::path::PathBuf {
+//     std::env::current_exe()
+//         .ok()
+//         .map(|mut path| {
+//             path.pop();
+//             if path.ends_with("deps") {
+//                 path.pop();
+//             }
+//             path
+//         })
+//         .unwrap()
+// }
 
 pub fn assert_output(output: std::process::Output, expected: &str) {
     eprintln!("output:{:?}", &output);
