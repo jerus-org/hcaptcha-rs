@@ -216,7 +216,7 @@ jobs:
           name: Installed targets
           command: rustup target list --installed
       - restore_cache:
-          key: v1-{{ .Branch }}-<< parameters.cargo_executable >>-{{ checksum "Cargo.lock" }}
+          key: v3-{{ .Branch }}-<< parameters.cargo_executable >>-{{ checksum "Cargo.lock" }}
       - run:
           name: check_for_file
           command: |
@@ -227,7 +227,8 @@ jobs:
               file_check="false"
             fi
       - when:
-          condition: file_check == "false"
+          condition:
+            equal: [file_check, "false"]
           steps:
             - run:
                 name: Release build the binary
@@ -246,7 +247,7 @@ jobs:
                 name: save << parameters.cargo_executable >> to cache
                 paths:
                   - bin/<< parameters.cargo_executable >>
-                key: v2-{{ .Branch }}-<< parameters.cargo_executable >>-{{ checksum "Cargo.lock" }}
+                key: v3-{{ .Branch }}-<< parameters.cargo_executable >>-{{ checksum "Cargo.lock" }}
       - cargo_run:
           rust_version: "stable"
           cargo_package: << parameters.cargo_package >>
