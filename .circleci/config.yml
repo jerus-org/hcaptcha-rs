@@ -227,9 +227,9 @@ jobs:
                 binary_name="<< parameters.cargo_executable >>"
                 ;;
             esac
-            echo $BASH_ENV
+            cat $BASH_ENV
             echo "export BINARY_NAME=$binary_name" >> "$BASH_ENV"
-            echo $BASH_ENV
+            cat $BASH_ENV
             rustup target list --installed
       - restore_cache:
           key: v4-{{ .Branch }}-<< parameters.cargo_target >>-{{ checksum "Cargo.lock" }}
@@ -243,14 +243,18 @@ jobs:
               file_check="false"
             fi
             echo $file_check
+            cat $BASH_ENV
+            echo "export FILE_CHECK=$file_check" >> "$BASH_ENV"
+            cat $BASH_ENV
       - when:
           condition:
-            matches: { pattern: "wasi", value: << parameters.cargo_target >> }
+            equal: ["wasm32-wasip1", << parameters.cargo_target >>]
           steps:
             - run:
                 name: Set WASI env variable
                 command: |
-                  export WASI=true
+                  echo "export WASI=true" >> "$BASH_ENV"
+                  cat $BASH_ENV
 
       - when:
           condition:
