@@ -10,5 +10,11 @@ members = [
     "test_suite_no_default",
     "test_suite_rustls_only",
     "test_suite_trace",
+    "test_suite_cli",
 ]
 exclude = ["lambda-contact"]
+
+[workspace.package]
+rust-version = "1.75"
+edition = "2021"
+publish = false

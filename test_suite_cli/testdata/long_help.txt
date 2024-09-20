@@ -1,0 +1,11 @@
+Usage: hcaptcha-cli [OPTIONS] --token <TOKEN> --secret <SECRET>
+
+Options:
+  -v, --verbose...       Increase logging verbosity
+  -q, --quiet...         Decrease logging verbosity
+  -t, --token <TOKEN>    The captcha token provided by the client for validation
+  -k, --key <KEY>        The sitekey for hcaptcha validation
+  -s, --secret <SECRET>  The secret key for hcaptcha validation
+  -i, --ip <IP>          The ip address of the system generating the request
+  -h, --help             Print help
+  -V, --version          Print version

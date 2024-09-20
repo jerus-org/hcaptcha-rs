@@ -1,0 +1,7 @@
+error: the following required arguments were not provided:
+  --token <TOKEN>
+  --secret <SECRET>
+
+Usage: hcaptcha-cli.wasm --token <TOKEN> --secret <SECRET>
+
+For more information, try '--help'.
