@@ -228,11 +228,10 @@ jobs:
             fi
       - when:
           condition:
-            matches:
-              { pattern: "^.+wasi.+$", value: << parameters.cargo_target >> }
+            matches: { pattern: "wasi", value: << parameters.cargo_target >> }
           steps:
             - run:
-                name: Copy executable to the bin directory
+                name: Set WASI env variable
                 command: |
                   export WASI=true
 
@@ -258,6 +257,11 @@ jobs:
                 paths:
                   - bin/<< parameters.cargo_executable >>
                 key: v3-{{ .Branch }}-<< parameters.cargo_executable >>-{{ checksum "Cargo.lock" }}
+      - run:
+          name: check wasi
+          command: |
+            set -ex
+            echo WASI
       - cargo_run:
           rust_version: "stable"
           cargo_package: << parameters.cargo_package >>
