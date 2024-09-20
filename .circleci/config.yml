@@ -243,9 +243,7 @@ jobs:
               file_check="false"
             fi
             echo $file_check
-            cat $BASH_ENV
             echo "export FILE_CHECK=$file_check" >> "$BASH_ENV"
-            cat $BASH_ENV
       - when:
           condition:
             equal: ["wasm32-wasip1", << parameters.cargo_target >>]
@@ -254,11 +252,10 @@ jobs:
                 name: Set WASI env variable
                 command: |
                   echo "export WASI=true" >> "$BASH_ENV"
-                  cat $BASH_ENV
 
       - when:
           condition:
-            equal: [file_check, "false"]
+            equal: [$FILE_CHECK, "false"]
           steps:
             - run:
                 name: Release build the binary
@@ -283,7 +280,7 @@ jobs:
           command: |
             set -ex
             echo $WASI
-            echo $file_check
+            echo $FILE_CHECK
       - cargo_run:
           rust_version: "stable"
           cargo_package: << parameters.cargo_package >>
