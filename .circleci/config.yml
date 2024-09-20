@@ -213,19 +213,33 @@ jobs:
           name: Check rust version for code
           command: cargo --version
       - run:
-          name: Installed targets
-          command: rustup target list --installed
+          name: Calculate binary name
+          command: |
+            set -ex
+            case << parameters.cargo_target >> in 
+              "wasm32-wasip1")
+                binary_name="<< parameters.cargo_executable >>.wasm"
+                ;;
+              "wasm32-unknown-unknown")
+                binary_name="<< parameters.cargo_executable >>.wasm"
+                ;;
+              *)
+                binary_name="<< parameters.cargo_executable >>"
+                ;;
+            esac
+            rustup target list --installed
       - restore_cache:
-          key: v3-{{ .Branch }}-<< parameters.cargo_executable >>-{{ checksum "Cargo.lock" }}
+          key: v4-{{ .Branch }}-<< $binary_name >>-{{ checksum "Cargo.lock" }}
       - run:
           name: check_for_file
           command: |
             set -ex
-            if [ -f bin/<< parameters.cargo_executable >> ]; then
+            if [ -f bin/$binary_name ]; then
               file_check="true"
             else
               file_check="false"
             fi
+            echo $file_check
       - when:
           condition:
             matches: { pattern: "wasi", value: << parameters.cargo_target >> }
@@ -253,15 +267,16 @@ jobs:
                   mkdir -p bin
                   cp target/<< parameters.cargo_target >>/release/<< parameters.cargo_executable >> bin/
             - save_cache:
-                name: save << parameters.cargo_executable >> to cache
+                name: save << $binary_name >> to cache
                 paths:
-                  - bin/<< parameters.cargo_executable >>
-                key: v3-{{ .Branch }}-<< parameters.cargo_executable >>-{{ checksum "Cargo.lock" }}
+                  - bin/$binary_name
+                key: v4-{{ .Branch }}-$binary_name-{{ checksum "Cargo.lock" }}
       - run:
           name: check wasi
           command: |
             set -ex
-            echo WASI
+            echo $WASI
+            echo $file_check
       - cargo_run:
           rust_version: "stable"
           cargo_package: << parameters.cargo_package >>
@@ -336,43 +351,6 @@ jobs:
           rust_version: stable
           cargo_args: << parameters.cargo_args >>
           cargo_target: << parameters.cargo_target >>
-
-  # release_build_cache:
-  #   parameters:
-  #     cargo_package:
-  #       type: string
-  #       description: "Package to pass to cargo build"
-  #     cargo_target:
-  #       type: string
-  #       description: "Target to pass to cargo build"
-  #     cargo_executable:
-  #       type: string
-  #       description: "Target to pass to cargo build"
-  #     use_executor:
-  #       type: enum
-  #       enum: ["rust-env", "wasi-env"]
-  #       description: "Required: The executor to use for the build"
-  #   executor: << parameters.use_executor >>
-  #   steps:
-  #     - checkout
-  #     - run:
-  #         name: Release build the binary
-  #         command: |
-  #           set -ex
-  #           cargo +stable build \
-  #             --release --locked \
-  #             --package << parameters.cargo_package >> \
-  #             --target << parameters.cargo_target >>
-  #     - run:
-  #         name: Copy executable to the bin directory
-  #         command: |
-  #           mkdir -p bin
-  #           cp target/<< parameters.cargo_target >>/release/<< parameters.cargo_executable >> bin/
-  #     - save_cache:
-  #         name: save << parameters.cargo_executable >> to cache
-  #         paths:
-  #           - bin/<< parameters.cargo_executable >>
-  #         key: v2-{{ .Branch }}-<< parameters.cargo_executable >>-{{ checksum "Cargo.lock" }}
 
 workflows:
   check_last_commit:
