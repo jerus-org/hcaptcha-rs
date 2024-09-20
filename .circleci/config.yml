@@ -232,16 +232,22 @@ jobs:
       - restore_cache:
           key: v4-{{ .Branch }}-<< parameters.cargo_target >>-{{ checksum "Cargo.lock" }}
       - run:
-          name: check_for_file
+          name: Create the file if it does not exist
           command: |
             set -ex
-            if [ -f bin/$BINARY_NAME ]; then
-              file_check="true"
-            else
-              file_check="false"
+            if [ ! -f bin/$BINARY_NAME ]; then
+                cargo +stable build \
+                  --release --locked \
+                  --package hcaptcha-cli \
+                  --target << parameters.cargo_target >>
+                mkdir -p bin
+                cp target/<< parameters.cargo_target >>/release/$BINARY_NAME bin/
             fi
-            echo $file_check
-            echo "export FILE_CHECK=$file_check" >> "$BASH_ENV"
+      - save_cache:
+          name: save << parameters.cargo_target >> to cache
+          paths:
+            - bin/$BINARY_NAME
+          key: v4-{{ .Branch }}-<< parameters.cargo_target >>-{{ checksum "Cargo.lock" }}
       - when:
           condition:
             equal: ["wasm32-wasip1", << parameters.cargo_target >>]
@@ -250,35 +256,13 @@ jobs:
                 name: Set WASI env variable
                 command: |
                   echo "export WASI=true" >> "$BASH_ENV"
-
-      - when:
-          condition:
-            equal: [$FILE_CHECK, "false"]
-          steps:
-            - run:
-                name: Release build the binary
-                command: |
-                  set -ex
-                  cargo +stable build \
-                    --release --locked \
-                    --package hcaptcha-cli \
-                    --target << parameters.cargo_target >>
-            - run:
-                name: Copy executable to the bin directory
-                command: |
-                  mkdir -p bin
-                  cp target/<< parameters.cargo_target >>/release/<< parameters.cargo_executable >> bin/
-            - save_cache:
-                name: save << parameters.cargo_target >> to cache
-                paths:
-                  - bin/$BINARY_NAME
-                key: v4-{{ .Branch }}-<< parameters.cargo_target >>-{{ checksum "Cargo.lock" }}
       - run:
           name: check wasi
           command: |
             set -ex
             echo $WASI
             echo $FILE_CHECK
+            tree -L 1 [hb]*
       - cargo_run:
           rust_version: "stable"
           cargo_package: << parameters.cargo_package >>
