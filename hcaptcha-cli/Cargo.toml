@@ -6,7 +6,7 @@ publish = false
 rust-version = "1.75"
 
 [dependencies]
-clap = "4.5.17"
+clap = "4.5.18"
 clap-verbosity-flag = "2.2.1"
 color-eyre = "0.6.3"
 hcaptcha = { path = "../hcaptcha", features = ["enterprise"] }
