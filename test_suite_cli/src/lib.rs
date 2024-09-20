@@ -43,23 +43,22 @@ pub fn assert_output(output: std::process::Output, expected: &str) {
 pub struct Cmd {
     pub inner_cmd: Command,
 }
+use std::env;
 
 impl Cmd {
-    #[cfg(target_os = "linux")]
     pub fn new(binary: &Path) -> Self {
         eprintln!("cmd:{:?}", &binary);
-        let inner_cmd = Command::new(binary);
-        Cmd { inner_cmd }
-    }
 
-    #[cfg(target_os = "wasi")]
-    pub fn new(binary: &Path) -> Self {
-        eprintln!("cmd:{:?}", &binary);
-        let inner_cmd = Command::new("wasmtime");
-        let mut cmd = Cmd { inner_cmd };
-        cmd.inner_cmd
-            .arg(binary.to_str().expect("failed to convert path to str"));
-        cmd
+        if env::var("WASI").is_ok() {
+            let inner_cmd = Command::new("wasmtime");
+            let mut cmd = Cmd { inner_cmd };
+            cmd.inner_cmd
+                .arg(binary.to_str().expect("failed to convert path to str"));
+            cmd
+        } else {
+            let inner_cmd = Command::new(binary);
+            Cmd { inner_cmd }
+        }
     }
 
     pub fn arg(&mut self, arg: &str) -> &mut Self {

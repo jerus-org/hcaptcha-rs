@@ -228,6 +228,16 @@ jobs:
             fi
       - when:
           condition:
+            matches:
+              { pattern: "^.+wasi.+$", value: << parameters.cargo_target >> }
+          steps:
+            - run:
+                name: Copy executable to the bin directory
+                command: |
+                  export WASI=true
+
+      - when:
+          condition:
             equal: [file_check, "false"]
           steps:
             - run:
