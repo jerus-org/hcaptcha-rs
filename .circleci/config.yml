@@ -246,7 +246,7 @@ jobs:
       - save_cache:
           name: save << parameters.cargo_target >> to cache
           paths:
-            - bin/$BINARY_NAME
+            - bin
           key: v4-{{ .Branch }}-<< parameters.cargo_target >>-{{ checksum "Cargo.lock" }}
       - when:
           condition:
@@ -260,9 +260,7 @@ jobs:
           name: check wasi
           command: |
             set -ex
-            echo $WASI
-            echo $FILE_CHECK
-            ls /bin
+            echo "wasi: $WASI"
             ls bin
       - cargo_run:
           rust_version: "stable"
