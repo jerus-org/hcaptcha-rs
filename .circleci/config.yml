@@ -227,9 +227,7 @@ jobs:
                 binary_name="<< parameters.cargo_executable >>"
                 ;;
             esac
-            cat $BASH_ENV
             echo "export BINARY_NAME=$binary_name" >> "$BASH_ENV"
-            cat $BASH_ENV
             rustup target list --installed
       - restore_cache:
           key: v4-{{ .Branch }}-<< parameters.cargo_target >>-{{ checksum "Cargo.lock" }}
