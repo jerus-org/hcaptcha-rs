@@ -229,7 +229,7 @@ jobs:
             esac
             rustup target list --installed
       - restore_cache:
-          key: v4-{{ .Branch }}-<< $binary_name >>-{{ checksum "Cargo.lock" }}
+          key: v4-{{ .Branch }}-$binary_name-{{ checksum "Cargo.lock" }}
       - run:
           name: check_for_file
           command: |
@@ -267,7 +267,7 @@ jobs:
                   mkdir -p bin
                   cp target/<< parameters.cargo_target >>/release/<< parameters.cargo_executable >> bin/
             - save_cache:
-                name: save << $binary_name >> to cache
+                name: save $binary_name to cache
                 paths:
                   - bin/$binary_name
                 key: v4-{{ .Branch }}-$binary_name-{{ checksum "Cargo.lock" }}
