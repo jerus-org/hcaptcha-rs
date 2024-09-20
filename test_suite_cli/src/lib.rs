@@ -3,19 +3,20 @@ use std::{path::PathBuf, process::Command};
 
 #[cfg(target_os = "linux")]
 pub fn cargo_bin(name: &str) -> std::path::PathBuf {
-    let bin_dir = bin_dir();
-    bin_dir.join(name)
+    let bin = if env::var("WASI").is_ok() {
+        let file_name = format!("{}{}", name, WASM_SUFFIX);
+        let bin_dir = bin_dir();
+        bin_dir.join(file_name)
+    } else {
+        let bin_dir = bin_dir();
+        bin_dir.join(name)
+    };
+    eprintln!("cli binary:{:?}", &bin);
+
+    bin
 }
 
-#[cfg(target_os = "wasi")]
 const WASM_SUFFIX: &str = "wasm";
-
-#[cfg(target_os = "wasi")]
-pub fn cargo_bin(name: &str) -> std::path::PathBuf {
-    let file_name = format!("{}{}", name, WASM_SUFFIX);
-    let bin_dir = bin_dir();
-    bin_dir.join(file_name)
-}
 
 fn bin_dir() -> PathBuf {
     PathBuf::new().join("bin")
