@@ -253,7 +253,6 @@ jobs:
           cargo_package: << parameters.cargo_package >>
           cargo_bin: << parameters.cargo_bin >>
           cargo_args: << parameters.cargo_args >>
-          cargo_target: << parameters.cargo_target >>
 
   optional_builds:
     parameters:
