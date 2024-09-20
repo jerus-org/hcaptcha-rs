@@ -227,10 +227,12 @@ jobs:
                 binary_name="<< parameters.cargo_executable >>"
                 ;;
             esac
+            echo $BASH_ENV
             echo "export BINARY_NAME=$binary_name" >> "$BASH_ENV"
+            echo $BASH_ENV
             rustup target list --installed
       - restore_cache:
-          key: v4-{{ .Branch }}-$BINARY_NAME-{{ checksum "Cargo.lock" }}
+          key: v4-{{ .Branch }}-<< parameters.cargo_target >>-{{ checksum "Cargo.lock" }}
       - run:
           name: check_for_file
           command: |
@@ -268,10 +270,10 @@ jobs:
                   mkdir -p bin
                   cp target/<< parameters.cargo_target >>/release/<< parameters.cargo_executable >> bin/
             - save_cache:
-                name: save $BINARY_NAME to cache
+                name: save << parameters.cargo_target >> to cache
                 paths:
                   - bin/$BINARY_NAME
-                key: v4-{{ .Branch }}-$BINARY_NAME-{{ checksum "Cargo.lock" }}
+                key: v4-{{ .Branch }}-<< parameters.cargo_target >>-{{ checksum "Cargo.lock" }}
       - run:
           name: check wasi
           command: |
