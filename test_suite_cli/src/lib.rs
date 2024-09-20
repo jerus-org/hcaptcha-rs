@@ -1,43 +1,7 @@
 use std::{io, path::Path, process::Output};
 use std::{path::PathBuf, process::Command};
 
-pub fn cargo_bin(name: &str) -> std::path::PathBuf {
-    let bin = if env::var("WASI").is_ok() {
-        let file_name = format!("{}{}", name, WASM_SUFFIX);
-        let bin_dir = bin_dir();
-        bin_dir.join(file_name)
-    } else {
-        let bin_dir = bin_dir();
-        bin_dir.join(name)
-    };
-    eprintln!("cli binary:{:?}", &bin);
-
-    bin
-}
-
 const WASM_SUFFIX: &str = "wasm";
-
-fn bin_dir() -> PathBuf {
-    PathBuf::new().join("bin")
-}
-
-pub fn assert_output(output: std::process::Output, expected: &str) {
-    // eprintln!("output:{:#?}", &output);
-
-    if !output.stdout.is_empty() {
-        let o = String::from_utf8_lossy(&output.stdout);
-        eprintln!("{o}");
-
-        assert_eq!(o, expected);
-    };
-
-    if !output.stderr.is_empty() {
-        let e = String::from_utf8_lossy(&output.stderr);
-        eprintln!("{e}");
-
-        assert_eq!(e, expected);
-    };
-}
 
 #[derive(Debug)]
 pub struct Cmd {
@@ -69,4 +33,40 @@ impl Cmd {
     pub fn output(&mut self) -> io::Result<Output> {
         self.inner_cmd.output()
     }
+}
+
+pub fn cargo_bin(name: &str) -> std::path::PathBuf {
+    let bin = if env::var("WASI").is_ok() {
+        let file_name = format!("{}{}", name, WASM_SUFFIX);
+        let bin_dir = bin_dir();
+        bin_dir.join(file_name)
+    } else {
+        let bin_dir = bin_dir();
+        bin_dir.join(name)
+    };
+    eprintln!("cli binary:{:?}", &bin);
+
+    bin
+}
+
+fn bin_dir() -> PathBuf {
+    PathBuf::new().join("bin")
+}
+
+pub fn assert_output(output: std::process::Output, expected: &str) {
+    // eprintln!("output:{:#?}", &output);
+
+    if !output.stdout.is_empty() {
+        let o = String::from_utf8_lossy(&output.stdout);
+        eprintln!("{o}");
+
+        assert_eq!(o, expected);
+    };
+
+    if !output.stderr.is_empty() {
+        let e = String::from_utf8_lossy(&output.stderr);
+        eprintln!("{e}");
+
+        assert_eq!(e, expected);
+    };
 }

@@ -18,14 +18,12 @@ Options:
 
     let cmd = cargo_bin("hcaptcha-cli");
 
-    println!("cmd: {:?}", &cmd);
-
     let mut cmd = Cmd::new(&cmd);
     println!("cmd: {:?}", cmd);
 
     let output_res = cmd.arg("-h").output();
 
-    println!("output_res: {:?}", output_res);
+    println!("output result: {:#?}", output_res);
 
     let output = output_res.expect("failed to spawn");
 
