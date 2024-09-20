@@ -1,7 +1,7 @@
 use std::{io, path::Path, process::Output};
 use std::{path::PathBuf, process::Command};
 
-const WASM_SUFFIX: &str = "wasm";
+const WASM_SUFFIX: &str = ".wasm";
 
 #[derive(Debug)]
 pub struct Cmd {
