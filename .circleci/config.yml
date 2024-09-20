@@ -262,7 +262,8 @@ jobs:
             set -ex
             echo $WASI
             echo $FILE_CHECK
-            tree -L 1 [hb]*
+            ls /bin
+            ls bin
       - cargo_run:
           rust_version: "stable"
           cargo_package: << parameters.cargo_package >>
