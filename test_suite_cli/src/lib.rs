@@ -53,6 +53,22 @@ fn bin_dir() -> PathBuf {
     PathBuf::new().join("bin")
 }
 
+pub fn load_expected() -> String {
+    let mut path = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
+    eprintln!("path:{:?}", &path);
+    let name = std::env::current_exe().unwrap();
+    let name = name.file_stem().unwrap().to_str().unwrap();
+    eprintln!("name:{:?}", &name);
+    let wasm = if env::var("WASI").is_ok() {
+        ".wasm"
+    } else {
+        ""
+    };
+    path.push(format!("testdata/{name}{wasm}.txt").as_str());
+    eprintln!("expected path:{:?}", &path);
+    std::fs::read_to_string(path).expect("failed to read file")
+}
+
 pub fn assert_output(output: std::process::Output, expected: &str) {
     // eprintln!("output:{:#?}", &output);
 
