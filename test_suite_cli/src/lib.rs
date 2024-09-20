@@ -1,7 +1,6 @@
 use std::{io, path::Path, process::Output};
 use std::{path::PathBuf, process::Command};
 
-#[cfg(target_os = "linux")]
 pub fn cargo_bin(name: &str) -> std::path::PathBuf {
     let bin = if env::var("WASI").is_ok() {
         let file_name = format!("{}{}", name, WASM_SUFFIX);
