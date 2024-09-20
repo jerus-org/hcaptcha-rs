@@ -430,9 +430,8 @@ workflows:
       - run_test_programs:
           min_rust_version: << pipeline.parameters.min-rust-version >>
           cargo_package: test_suite_cli
-          cargo_target: x86_64-unknown-linux-gnu
           cargo_executable: hcaptcha-cli
-          name: run_test_program-<<matrix.cargo_bin>>
+          name: run_test_program-<< matrix.cargo_bin >>-<< matrix.cargo-target >>
           requires:
             - common_tests
             - required_builds
@@ -441,6 +440,7 @@ workflows:
           matrix:
             parameters:
               cargo_bin: [long_help, no_options, short_help]
+              cargo_target: [x86_64-unknown-linux-gnu, wasm32-wasip1]
 
       - test-suite:
           matrix:
