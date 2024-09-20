@@ -431,7 +431,7 @@ workflows:
           min_rust_version: << pipeline.parameters.min-rust-version >>
           cargo_package: test_suite_cli
           cargo_executable: hcaptcha-cli
-          name: run_test_program-<< matrix.cargo_bin >>-<< matrix.cargo-target >>
+          name: run_test_program-<< matrix.cargo_bin >>-<< matrix.cargo_target >>
           requires:
             - common_tests
             - required_builds
