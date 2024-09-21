@@ -368,7 +368,7 @@ workflows:
                 - main
       - rust-versions
       - required_builds:
-          name: required builds for x86_64
+          name: required builds-<< matrix.cargo_target >>-<< matrix.cargo_args >>
           min_rust_version: << pipeline.parameters.min-rust-version >>
           matrix:
             parameters:
@@ -381,9 +381,10 @@ workflows:
       #     cargo_target: wasm32-wasip1
       #     min_cargo_target: wasm32-wasi
       - optional_builds:
-          name: optional builds for x86_64
+          name: optional builds-<< matrix.cargo_target >>-<< matrix.cargo_args >>
           min_rust_version: << pipeline.parameters.min-rust-version >>
-          use_executor: rust-env
+          # use_executor: rust-env
+          use_executor: wasi-env
           matrix:
             parameters:
               cargo_args: [-p hcaptcha, -p hcaptcha-cli]
