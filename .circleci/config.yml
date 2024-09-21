@@ -388,8 +388,7 @@ workflows:
           matrix:
             parameters:
               cargo_args: [-p hcaptcha, -p hcaptcha-cli]
-              cargo_target:
-                [x86_64-unknown-linux-gnu, wasm32-wasi, wasm32-wasip1]
+              cargo_target: [x86_64-unknown-linux-gnu, wasm32-wasip1]
       # - optional_builds:
       #     name: optional builds for wasi
       #     min_rust_version: << pipeline.parameters.min-rust-version >>
