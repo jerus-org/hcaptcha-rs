@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - add new options for token, key, secret, and ip in CLI(pr [#1060])
 - add async hcaptcha verification with color-eyre and tokio(pr [#1061])
 - add snapbox dependency and initial command tests(pr [#1063])
+- add trace feature to all test suite Cargo.toml files(pr [#1068])
 
 ### Changed
 
@@ -382,6 +383,7 @@ emitted if a tracing subscriber is not found.
 [#1065]: https://github.com/jerus-org/hcaptcha-rs/pull/1065
 [#1066]: https://github.com/jerus-org/hcaptcha-rs/pull/1066
 [#1067]: https://github.com/jerus-org/hcaptcha-rs/pull/1067
+[#1068]: https://github.com/jerus-org/hcaptcha-rs/pull/1068
 [Unreleased]: https://github.com/jerus-org/hcaptcha-rs/compare/v2.5.0...HEAD
 [2.5.0]: https://github.com/jerus-org/hcaptcha-rs/compare/v2.4.9...v2.5.0
 [2.4.9]: https://github.com/jerus-org/hcaptcha-rs/compare/v2.4.8...v2.4.9
