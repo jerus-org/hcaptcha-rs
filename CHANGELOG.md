@@ -13,6 +13,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - add async hcaptcha verification with color-eyre and tokio(pr [#1061])
 - add snapbox dependency and initial command tests(pr [#1063])
 
+### Changed
+
+- ci-update CircleCI config to adjust build matrix and comment out wasi builds(pr [#1067])
+
 ### Fixed
 
 - deps: update github/codeql-action action to v3.26.8(pr [#1064])
@@ -377,6 +381,7 @@ emitted if a tracing subscriber is not found.
 [#1064]: https://github.com/jerus-org/hcaptcha-rs/pull/1064
 [#1065]: https://github.com/jerus-org/hcaptcha-rs/pull/1065
 [#1066]: https://github.com/jerus-org/hcaptcha-rs/pull/1066
+[#1067]: https://github.com/jerus-org/hcaptcha-rs/pull/1067
 [Unreleased]: https://github.com/jerus-org/hcaptcha-rs/compare/v2.5.0...HEAD
 [2.5.0]: https://github.com/jerus-org/hcaptcha-rs/compare/v2.4.9...v2.5.0
 [2.4.9]: https://github.com/jerus-org/hcaptcha-rs/compare/v2.4.8...v2.4.9
