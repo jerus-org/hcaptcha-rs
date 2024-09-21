@@ -373,12 +373,13 @@ workflows:
           matrix:
             parameters:
               cargo_args: [-p hcaptcha, -p hcaptcha-cli]
-      - required_builds:
-          name: required builds for wasi
-          min_rust_version: << pipeline.parameters.min-rust-version >>
-          cargo_package: hcaptcha-cli
-          cargo_target: wasm32-wasip1
-          min_cargo_target: wasm32-wasi
+              cargo_target: [wasm32-wasip1, x86_64-unknown-linux-gnu]
+      # - required_builds:
+      #     name: required builds for wasi
+      #     min_rust_version: << pipeline.parameters.min-rust-version >>
+      #     cargo_package: hcaptcha-cli
+      #     cargo_target: wasm32-wasip1
+      #     min_cargo_target: wasm32-wasi
       - optional_builds:
           name: optional builds for x86_64
           min_rust_version: << pipeline.parameters.min-rust-version >>
@@ -386,12 +387,14 @@ workflows:
           matrix:
             parameters:
               cargo_args: [-p hcaptcha, -p hcaptcha-cli]
-      - optional_builds:
-          name: optional builds for wasi
-          min_rust_version: << pipeline.parameters.min-rust-version >>
-          use_executor: wasi-env
-          cargo_package: hcaptcha-cli
-          cargo_target: wasm32-wasip1
+              cargo_target:
+                [x86_64-unknown-linux-gnu, wasm32-wasi, wasm32-wasip1]
+      # - optional_builds:
+      #     name: optional builds for wasi
+      #     min_rust_version: << pipeline.parameters.min-rust-version >>
+      #     use_executor: wasi-env
+      #     cargo_package: hcaptcha-cli
+      #     cargo_target: wasm32-wasip1
       - common_tests:
           name: common tests for x86_64
           min_rust_version: << pipeline.parameters.min-rust-version >>
@@ -411,7 +414,7 @@ workflows:
           requires:
             - common_tests
             - required_builds
-            - required builds for wasi
+            # - required builds for wasi
             - toolkit/test_doc_build
           matrix:
             parameters:
@@ -433,7 +436,7 @@ workflows:
           requires:
             - common_tests
             - required_builds
-            - required builds for wasi
+            # - required builds for wasi
             - toolkit/test_doc_build
 
       - toolkit/security
