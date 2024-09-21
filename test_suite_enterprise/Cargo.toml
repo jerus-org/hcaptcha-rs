@@ -5,6 +5,9 @@ edition = "2021"
 publish = false
 rust-version = "1.75"
 
+[features]
+trace = []
+
 [dependencies]
 # hcaptcha = { path = "../hcaptcha" }
 # hcaptcha_derive = { path = "../hcaptcha_derive"}

@@ -5,6 +5,16 @@ edition = "2021"
 publish = false
 rust-version = "1.75"
 
+[features]
+# default = ["ext", "nativetls-backend"]
+# rustls-backend = ["reqwest/rustls-tls"]
+# nativetls-backend = ["reqwest/native-tls"]
+# ext = ["hex"]
+# enterprise = []
+trace = []
+# nightly = []
+
+
 [dependencies]
 # hcaptcha = { path = "../hcaptcha" }
 # hcaptcha_derive = { path = "../hcaptcha_derive"}
