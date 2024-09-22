@@ -23,9 +23,6 @@ orbs:
 executors:
   rust-env:
     docker:
-      - image: jerusdp/ci-rust:<<pipeline.parameters.min-rust-version>>
-  wasi-env:
-    docker:
       - image: jerusdp/ci-rust:<<pipeline.parameters.min-rust-version>>-wasi
   base-env:
     docker:
@@ -146,7 +143,7 @@ jobs:
           command: "cargo +stable test -p <<parameters.test-suite>> --test compiletest"
 
   required_builds:
-    executor: wasi-env
+    executor: rust-env
     parameters:
       min_rust_version:
         type: string
@@ -188,7 +185,7 @@ jobs:
           cargo_target: << parameters.min_cargo_target >>
 
   run_test_programs:
-    executor: wasi-env
+    executor: rust-env
     parameters:
       min_rust_version:
         type: string
