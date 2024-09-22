@@ -456,6 +456,7 @@ workflows:
             - toolkit/idiomatic_rust
             - test-suite
             - run_test_programs
+            - security
           context:
             - release
             - bot-check
