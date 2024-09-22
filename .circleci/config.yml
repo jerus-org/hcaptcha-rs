@@ -18,6 +18,7 @@ parameters:
 
 orbs:
   toolkit: jerus-org/circleci-toolkit@1.6.1
+  sonarcloud: sonarsource/sonarcloud@2.0.0
 
 executors:
   rust-env:
@@ -31,6 +32,18 @@ executors:
       - image: jerusdp/ci-rust:base
 
 commands:
+  cargo_audit:
+    parameters:
+      ignore_advisories:
+        type: string
+        default: ""
+        description: "Additional parameters to list advisories that should be ignored"
+    steps:
+      - run:
+          name: Security audit against RUSTSEC
+          command: |
+            cargo audit -D warnings << parameters.ignore_advisories >>
+
   cargo_build:
     parameters:
       rust_version:
@@ -120,11 +133,6 @@ commands:
               $(bash .circleci/scripts/arg.sh " --target " "<< parameters.cargo_target >>")
 
 jobs:
-  rust-versions:
-    executor: rust-env
-    steps:
-      - run: rustup show
-
   test-suite:
     parameters:
       test-suite:
@@ -337,6 +345,20 @@ jobs:
           cargo_args: << parameters.cargo_args >>
           cargo_target: << parameters.cargo_target >>
 
+  security:
+    executor:
+      name: base-env
+    parameters:
+      ignore_advisories:
+        type: string
+        default: ""
+        description: List of advisories to ignore each prefixed with "--ignore "
+    steps:
+      - checkout
+      - cargo_audit:
+          ignore_advisories: "<< parameters.ignore_advisories >>"
+      - sonarcloud/scan
+
 workflows:
   check_last_commit:
     when:
@@ -366,7 +388,6 @@ workflows:
             branches:
               only:
                 - main
-      - rust-versions
       - required_builds:
           name: required builds-<< matrix.cargo_target >>-<< matrix.cargo_args >>
           min_rust_version: << pipeline.parameters.min-rust-version >>
@@ -427,7 +448,8 @@ workflows:
             # - required builds for wasi
             - toolkit/test_doc_build
 
-      - toolkit/security
+      - security:
+          context: SonarCloud
 
       - toolkit/update_changelog:
           requires:
