@@ -17,6 +17,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - ci-update CircleCI config to adjust build matrix and comment out wasi builds(pr [#1067])
+- chore-add CODEOWNERS file to define code ownership(pr [#1069])
 
 ### Fixed
 
@@ -384,6 +385,7 @@ emitted if a tracing subscriber is not found.
 [#1066]: https://github.com/jerus-org/hcaptcha-rs/pull/1066
 [#1067]: https://github.com/jerus-org/hcaptcha-rs/pull/1067
 [#1068]: https://github.com/jerus-org/hcaptcha-rs/pull/1068
+[#1069]: https://github.com/jerus-org/hcaptcha-rs/pull/1069
 [Unreleased]: https://github.com/jerus-org/hcaptcha-rs/compare/v2.5.0...HEAD
 [2.5.0]: https://github.com/jerus-org/hcaptcha-rs/compare/v2.4.9...v2.5.0
 [2.4.9]: https://github.com/jerus-org/hcaptcha-rs/compare/v2.4.8...v2.4.9
