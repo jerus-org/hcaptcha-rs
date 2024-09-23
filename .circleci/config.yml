@@ -21,7 +21,7 @@ orbs:
   # sonarcloud: sonarsource/sonarcloud@2.0.0
 
 executors:
-  rust-env:
+  rust_env:
     docker:
       - image: jerusdp/ci-rust:<<pipeline.parameters.min-rust-version>>-wasi
   base-env:
@@ -134,7 +134,7 @@ jobs:
     parameters:
       test-suite:
         type: string
-    executor: rust-env
+    executor: rust_env
     steps:
       - checkout
       - run: cargo +stable --version
@@ -143,7 +143,7 @@ jobs:
           command: "cargo +stable test -p <<parameters.test-suite>> --test compiletest"
 
   # required_builds:
-  #   executor: rust-env
+  #   executor: rust_env
   #   parameters:
   #     min_rust_version:
   #       type: string
@@ -185,7 +185,7 @@ jobs:
   #         cargo_target: << parameters.min_cargo_target >>
 
   # run_test_programs:
-  #   executor: rust-env
+  #   executor: rust_env
   #   parameters:
   #     min_rust_version:
   #       type: string
@@ -292,7 +292,7 @@ jobs:
   #       description: "Target to pass to cargo build"
   #     use_executor:
   #       type: enum
-  #       enum: ["rust-env", "wasi-env"]
+  #       enum: ["rust_env", "wasi-env"]
   #       description: "Required: The executor to use for the build"
   #   executor: << parameters.use_executor >>
   #   steps:
@@ -324,7 +324,7 @@ jobs:
   #       description: "Target to pass to cargo build"
   #     use_executor:
   #       type: enum
-  #       enum: ["rust-env", "wasi-env"]
+  #       enum: ["rust_env", "wasi-env"]
   #       description: "Required: The executor to use for the build"
   #   executor: << parameters.use_executor >>
   #   steps:
