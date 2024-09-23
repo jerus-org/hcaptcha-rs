@@ -395,7 +395,6 @@ workflows:
       - toolkit/optional_builds:
           name: optional builds-<< matrix.cargo_target >>-<< matrix.cargo_args >>
           min_rust_version: << pipeline.parameters.min-rust-version >>
-          use_executor: rust-env
           matrix:
             parameters:
               cargo_args: [-p hcaptcha, -p hcaptcha-cli]
