@@ -17,7 +17,7 @@ parameters:
     description: "If true, the success pipeline will be executed."
 
 orbs:
-  toolkit: jerus-org/circleci-toolkit@1.7.0
+  toolkit: jerus-org/circleci-toolkit@1.8.0
   # sonarcloud: sonarsource/sonarcloud@2.0.0
 
 executors:
@@ -402,10 +402,9 @@ workflows:
       - toolkit/common_tests:
           name: common tests for x86_64
           min_rust_version: << pipeline.parameters.min-rust-version >>
-          use_executor: rust-env
           matrix:
             parameters:
-              cargo_args: [-p hcaptcha, -p hcaptcha-cli]
+              cargo_package: [hcaptcha, hcaptcha-cli]
       - toolkit/idiomatic_rust:
           min_rust_version: << pipeline.parameters.min-rust-version >>
       - toolkit/test_doc_build:
