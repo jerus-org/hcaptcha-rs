@@ -17,124 +17,111 @@ parameters:
     description: "If true, the success pipeline will be executed."
 
 orbs:
-  toolkit: jerus-org/circleci-toolkit@1.6.1
-  sonarcloud: sonarsource/sonarcloud@2.0.0
+  toolkit: jerus-org/circleci-toolkit@1.9.2
+  # sonarcloud: sonarsource/sonarcloud@2.0.0
 
 executors:
-  rust-env:
+  rust_env:
     docker:
       - image: jerusdp/ci-rust:<<pipeline.parameters.min-rust-version>>-wasi
   base-env:
     docker:
       - image: jerusdp/ci-rust:base
 
-commands:
-  cargo_audit:
-    parameters:
-      ignore_advisories:
-        type: string
-        default: ""
-        description: "Additional parameters to list advisories that should be ignored"
-    steps:
-      - run:
-          name: Security audit against RUSTSEC
-          command: |
-            cargo audit -D warnings << parameters.ignore_advisories >>
+# cargo_build:
+#   parameters:
+#     rust_version:
+#       default: "stable"
+#       type: string
+#       description: "The rust compiler version to use"
+#     cargo_args:
+#       type: string
+#       default: ""
+#       description: "Additional parameters to pass to cargo build"
+#     cargo_package:
+#       type: string
+#       default: ""
+#       description: "Package to pass to cargo build"
+#     cargo_target:
+#       type: string
+#       default: ""
+#       description: "Target to pass to cargo build"
+#     cargo_bin:
+#       type: string
+#       default: ""
+#       description: "Target to pass to cargo build"
+#   steps:
+#     - run:
+#         name: Check build <<parameters.rust_version>>
+#         command: |
+#           set -ex
+#           cargo +<<parameters.rust_version>> build \
+#             --all-features \
+#             <<parameters.cargo_args>> \
+#             $(bash .circleci/scripts/arg.sh " --package " "<< parameters.cargo_package >>") \
+#             $(bash .circleci/scripts/arg.sh " --bin " "<<parameters.cargo_bin>>") \
+#             $(bash .circleci/scripts/arg.sh " --target " "<< parameters.cargo_target >>")
 
-  cargo_build:
-    parameters:
-      rust_version:
-        default: "stable"
-        type: string
-        description: "The rust compiler version to use"
-      cargo_args:
-        type: string
-        default: ""
-        description: "Additional parameters to pass to cargo build"
-      cargo_package:
-        type: string
-        default: ""
-        description: "Package to pass to cargo build"
-      cargo_target:
-        type: string
-        default: ""
-        description: "Target to pass to cargo build"
-      cargo_bin:
-        type: string
-        default: ""
-        description: "Target to pass to cargo build"
-    steps:
-      - run:
-          name: Check build <<parameters.rust_version>>
-          command: |
-            set -ex
-            cargo +<<parameters.rust_version>> build \
-              --all-features \
-              <<parameters.cargo_args>> \
-              $(bash .circleci/scripts/arg.sh " --package " "<< parameters.cargo_package >>") \
-              $(bash .circleci/scripts/arg.sh " --bin " "<<parameters.cargo_bin>>") \
-              $(bash .circleci/scripts/arg.sh " --target " "<< parameters.cargo_target >>")
+# cargo_test:
+#   parameters:
+#     rust_version:
+#       default: "stable"
+#       type: string
+#       description: "The rust compiler version to use"
+#     cargo_args:
+#       type: string
+#       default: ""
+#       description: "Additional parameters to pass to cargo test"
+#     cargo_target:
+#       type: string
+#       default: ""
+#       description: "Target to pass to cargo test"
+#   steps:
+#     - run:
+#         name: Common tests <<parameters.rust_version>>
+#         command: |
+#           cargo +<<parameters.rust_version>> test --all-features <<parameters.cargo_args>> << parameters.cargo_target >>
 
-  cargo_test:
-    parameters:
-      rust_version:
-        default: "stable"
-        type: string
-        description: "The rust compiler version to use"
-      cargo_args:
-        type: string
-        default: ""
-        description: "Additional parameters to pass to cargo test"
-      cargo_target:
-        type: string
-        default: ""
-        description: "Target to pass to cargo test"
-    steps:
-      - run:
-          name: Common tests <<parameters.rust_version>>
-          command: |
-            cargo +<<parameters.rust_version>> test --all-features <<parameters.cargo_args>> << parameters.cargo_target >>
-
-  cargo_run:
-    parameters:
-      rust_version:
-        default: "stable"
-        type: string
-        description: "The rust compiler version to use"
-      cargo_args:
-        type: string
-        default: ""
-        description: "Additional parameters to pass to cargo test"
-      cargo_package:
-        type: string
-        default: ""
-        description: "Package to pass to cargo build"
-      cargo_bin:
-        type: string
-        default: ""
-        description: "Bin to pass to cargo build"
-      cargo_target:
-        type: string
-        default: ""
-        description: "Target to pass to cargo test"
-    steps:
-      - run:
-          name: Run Test Programs with rust <<parameters.rust_version>>
-          command: |
-            set -ex
-            cargo +<<parameters.rust_version>> run \
-              --all-features \
-              <<parameters.cargo_args>> \
-              $(bash .circleci/scripts/arg.sh " --package " "<< parameters.cargo_package >>") \
-              $(bash .circleci/scripts/arg.sh " --bin " "<<parameters.cargo_bin>>") \
-              $(bash .circleci/scripts/arg.sh " --target " "<< parameters.cargo_target >>")
+# cargo_run:
+#   parameters:
+#     rust_version:
+#       default: "stable"
+#       type: string
+#       description: "The rust compiler version to use"
+#     cargo_args:
+#       type: string
+#       default: ""
+#       description: "Additional parameters to pass to cargo test"
+#     cargo_package:
+#       type: string
+#       default: ""
+#       description: "Package to pass to cargo build"
+#     cargo_bin:
+#       type: string
+#       default: ""
+#       description: "Bin to pass to cargo build"
+#     cargo_target:
+#       type: string
+#       default: ""
+#       description: "Target to pass to cargo test"
+#   steps:
+#     - run:
+#         name: Run Test Programs with rust <<parameters.rust_version>>
+#         command: |
+#           set -ex
+#           cargo +<<parameters.rust_version>> run \
+#             --all-features \
+#             <<parameters.cargo_args>> \
+#             $(bash .circleci/scripts/arg.sh " --package " "<< parameters.cargo_package >>") \
+#             $(bash .circleci/scripts/arg.sh " --bin " "<<parameters.cargo_bin>>") \
+#             $(bash .circleci/scripts/arg.sh " --target " "<< parameters.cargo_target >>")
 
 jobs:
   test-suite:
     parameters:
       test-suite:
         type: string
-    executor: rust-env
+    executor: rust_env
     steps:
       - checkout
       - run: cargo +stable --version
@@ -142,219 +129,219 @@ jobs:
           name: Running test suite <<parameters.test-suite>>
           command: "cargo +stable test -p <<parameters.test-suite>> --test compiletest"
 
-  required_builds:
-    executor: rust-env
-    parameters:
-      min_rust_version:
-        type: string
-        description: "Required: The minimum version of the rust compiler to use"
-      cargo_args:
-        type: string
-        default: ""
-        description: "Additional parameters to pass to cargo build"
-      cargo_package:
-        type: string
-        default: ""
-        description: "Package to pass to cargo build"
-      cargo_target:
-        type: string
-        default: ""
-        description: "Target to pass to cargo build"
-      min_cargo_target:
-        type: string
-        default: ""
-        description: "Target to pass to cargo build"
-    steps:
-      - checkout
-      - run:
-          name: Check rust version for code
-          command: cargo --version
-      - run:
-          name: Installed targets
-          command: rustup target list --installed
-      - cargo_build:
-          rust_version: "stable"
-          cargo_args: <<parameters.cargo_args>>
-          cargo_package: << parameters.cargo_package >>
-          cargo_target: << parameters.cargo_target >>
+  # required_builds:
+  #   executor: rust_env
+  #   parameters:
+  #     min_rust_version:
+  #       type: string
+  #       description: "Required: The minimum version of the rust compiler to use"
+  #     cargo_args:
+  #       type: string
+  #       default: ""
+  #       description: "Additional parameters to pass to cargo build"
+  #     cargo_package:
+  #       type: string
+  #       default: ""
+  #       description: "Package to pass to cargo build"
+  #     cargo_target:
+  #       type: string
+  #       default: ""
+  #       description: "Target to pass to cargo build"
+  #     min_cargo_target:
+  #       type: string
+  #       default: ""
+  #       description: "Target to pass to cargo build"
+  #   steps:
+  #     - checkout
+  #     - run:
+  #         name: Check rust version for code
+  #         command: cargo --version
+  #     - run:
+  #         name: Installed targets
+  #         command: rustup target list --installed
+  #     - cargo_build:
+  #         rust_version: "stable"
+  #         cargo_args: <<parameters.cargo_args>>
+  #         cargo_package: << parameters.cargo_package >>
+  #         cargo_target: << parameters.cargo_target >>
 
-      - cargo_build:
-          rust_version: "<<parameters.min_rust_version>>"
-          cargo_args: <<parameters.cargo_args>>
-          cargo_package: << parameters.cargo_package >>
-          cargo_target: << parameters.min_cargo_target >>
+  #     - cargo_build:
+  #         rust_version: "<<parameters.min_rust_version>>"
+  #         cargo_args: <<parameters.cargo_args>>
+  #         cargo_package: << parameters.cargo_package >>
+  #         cargo_target: << parameters.min_cargo_target >>
 
-  run_test_programs:
-    executor: rust-env
-    parameters:
-      min_rust_version:
-        type: string
-        description: "Required: The minimum version of the rust compiler to use"
-      cargo_args:
-        type: string
-        default: ""
-        description: "Additional parameters to pass to cargo build"
-      cargo_package:
-        type: string
-        default: ""
-        description: "Package to pass to cargo build"
-      cargo_bin:
-        type: string
-        default: ""
-        description: "Bin to pass to cargo build"
-      cargo_target:
-        type: string
-        description: "Target to pass to cargo build"
-      cargo_executable:
-        type: string
-        description: "Executable"
-      min_cargo_target:
-        type: string
-        default: ""
-        description: "Target to pass to cargo build"
-    steps:
-      - checkout
-      - run:
-          name: Check rust version for code
-          command: cargo --version
-      - run:
-          name: Calculate binary name
-          command: |
-            set -ex
-            case << parameters.cargo_target >> in 
-              "wasm32-wasip1")
-                binary_name="<< parameters.cargo_executable >>.wasm"
-                ;;
-              "wasm32-unknown-unknown")
-                binary_name="<< parameters.cargo_executable >>.wasm"
-                ;;
-              *)
-                binary_name="<< parameters.cargo_executable >>"
-                ;;
-            esac
-            echo "export BINARY_NAME=$binary_name" >> "$BASH_ENV"
-            rustup target list --installed
-      - restore_cache:
-          key: v4-{{ .Branch }}-<< parameters.cargo_target >>-{{ checksum "Cargo.lock" }}
-      - run:
-          name: Create the file if it does not exist
-          command: |
-            set -ex
-            if [ ! -f bin/$BINARY_NAME ]; then
-                cargo +stable build \
-                  --release --locked \
-                  --package hcaptcha-cli \
-                  --target << parameters.cargo_target >>
-                mkdir -p bin
-                cp target/<< parameters.cargo_target >>/release/$BINARY_NAME bin/
-            fi
-      - save_cache:
-          name: save << parameters.cargo_target >> to cache
-          paths:
-            - bin
-          key: v4-{{ .Branch }}-<< parameters.cargo_target >>-{{ checksum "Cargo.lock" }}
-      - when:
-          condition:
-            equal: ["wasm32-wasip1", << parameters.cargo_target >>]
-          steps:
-            - run:
-                name: Set WASI env variable
-                command: |
-                  echo "export WASI=true" >> "$BASH_ENV"
-      - run:
-          name: check wasi
-          command: |
-            set -ex
-            echo "wasi: $WASI"
-            ls bin
-      - cargo_run:
-          rust_version: "stable"
-          cargo_package: << parameters.cargo_package >>
-          cargo_bin: << parameters.cargo_bin >>
-          cargo_args: << parameters.cargo_args >>
+  # run_test_programs:
+  #   executor: rust_env
+  #   parameters:
+  #     min_rust_version:
+  #       type: string
+  #       description: "Required: The minimum version of the rust compiler to use"
+  #     cargo_args:
+  #       type: string
+  #       default: ""
+  #       description: "Additional parameters to pass to cargo build"
+  #     cargo_package:
+  #       type: string
+  #       default: ""
+  #       description: "Package to pass to cargo build"
+  #     cargo_bin:
+  #       type: string
+  #       default: ""
+  #       description: "Bin to pass to cargo build"
+  #     cargo_target:
+  #       type: string
+  #       description: "Target to pass to cargo build"
+  #     cargo_executable:
+  #       type: string
+  #       description: "Executable"
+  #     min_cargo_target:
+  #       type: string
+  #       default: ""
+  #       description: "Target to pass to cargo build"
+  #   steps:
+  #     - checkout
+  #     - run:
+  #         name: Check rust version for code
+  #         command: cargo --version
+  #     - run:
+  #         name: Calculate binary name
+  #         command: |
+  #           set -ex
+  #           case << parameters.cargo_target >> in
+  #             "wasm32-wasip1")
+  #               binary_name="<< parameters.cargo_executable >>.wasm"
+  #               ;;
+  #             "wasm32-unknown-unknown")
+  #               binary_name="<< parameters.cargo_executable >>.wasm"
+  #               ;;
+  #             *)
+  #               binary_name="<< parameters.cargo_executable >>"
+  #               ;;
+  #           esac
+  #           echo "export BINARY_NAME=$binary_name" >> "$BASH_ENV"
+  #           rustup target list --installed
+  #     - restore_cache:
+  #         key: v4-{{ .Branch }}-<< parameters.cargo_target >>-{{ checksum "Cargo.lock" }}
+  #     - run:
+  #         name: Create the file if it does not exist
+  #         command: |
+  #           set -ex
+  #           if [ ! -f bin/$BINARY_NAME ]; then
+  #               cargo +stable build \
+  #                 --release --locked \
+  #                 --package hcaptcha-cli \
+  #                 --target << parameters.cargo_target >>
+  #               mkdir -p bin
+  #               cp target/<< parameters.cargo_target >>/release/$BINARY_NAME bin/
+  #           fi
+  #     - save_cache:
+  #         name: save << parameters.cargo_target >> to cache
+  #         paths:
+  #           - bin
+  #         key: v4-{{ .Branch }}-<< parameters.cargo_target >>-{{ checksum "Cargo.lock" }}
+  #     - when:
+  #         condition:
+  #           equal: ["wasm32-wasip1", << parameters.cargo_target >>]
+  #         steps:
+  #           - run:
+  #               name: Set WASI env variable
+  #               command: |
+  #                 echo "export WASI=true" >> "$BASH_ENV"
+  #     - run:
+  #         name: check wasi
+  #         command: |
+  #           set -ex
+  #           echo "wasi: $WASI"
+  #           ls bin
+  #     - cargo_run:
+  #         rust_version: "stable"
+  #         cargo_package: << parameters.cargo_package >>
+  #         cargo_bin: << parameters.cargo_bin >>
+  #         cargo_args: << parameters.cargo_args >>
 
-  optional_builds:
-    parameters:
-      min_rust_version:
-        type: string
-        description: "Required: The minimum version of the rust compiler to use"
-      cargo_args:
-        type: string
-        default: ""
-        description: "Additional parameters to pass to cargo build"
-      cargo_package:
-        type: string
-        default: ""
-        description: "Package to pass to cargo build"
-      cargo_target:
-        type: string
-        default: ""
-        description: "Target to pass to cargo build"
-      use_executor:
-        type: enum
-        enum: ["rust-env", "wasi-env"]
-        description: "Required: The executor to use for the build"
-    executor: << parameters.use_executor >>
-    steps:
-      - checkout
-      - run:
-          name: Check rust version for code
-          command: cargo --version
-      - cargo_build:
-          rust_version: "nightly"
-          cargo_args: << parameters.cargo_args >>
-          cargo_target: << parameters.cargo_target >>
-      - cargo_build:
-          rust_version: "beta"
-          cargo_args: <<parameters.cargo_args>>
-          cargo_target: << parameters.cargo_target >>
+  # optional_builds:
+  #   parameters:
+  #     min_rust_version:
+  #       type: string
+  #       description: "Required: The minimum version of the rust compiler to use"
+  #     cargo_args:
+  #       type: string
+  #       default: ""
+  #       description: "Additional parameters to pass to cargo build"
+  #     cargo_package:
+  #       type: string
+  #       default: ""
+  #       description: "Package to pass to cargo build"
+  #     cargo_target:
+  #       type: string
+  #       default: ""
+  #       description: "Target to pass to cargo build"
+  #     use_executor:
+  #       type: enum
+  #       enum: ["rust_env", "wasi-env"]
+  #       description: "Required: The executor to use for the build"
+  #   executor: << parameters.use_executor >>
+  #   steps:
+  #     - checkout
+  #     - run:
+  #         name: Check rust version for code
+  #         command: cargo --version
+  #     - cargo_build:
+  #         rust_version: "nightly"
+  #         cargo_args: << parameters.cargo_args >>
+  #         cargo_target: << parameters.cargo_target >>
+  #     - cargo_build:
+  #         rust_version: "beta"
+  #         cargo_args: <<parameters.cargo_args>>
+  #         cargo_target: << parameters.cargo_target >>
 
-  common_tests:
-    parameters:
-      min_rust_version:
-        type: string
-        description: "Required: The minimum version of the rust compiler to use"
-      cargo_args:
-        type: string
-        default: ""
-        description: "Additional parameters to pass to cargo build"
-      cargo_target:
-        type: string
-        default: ""
-        description: "Target to pass to cargo build"
-      use_executor:
-        type: enum
-        enum: ["rust-env", "wasi-env"]
-        description: "Required: The executor to use for the build"
-    executor: << parameters.use_executor >>
-    steps:
-      - checkout
-      - run:
-          name: Check rust version for code
-          command: cargo --version
-      - run:
-          name: Check formatting for code
-          command: |
-            rustfmt --version
-            cargo fmt --all -- --check
-      - cargo_test:
-          rust_version: stable
-          cargo_args: << parameters.cargo_args >>
-          cargo_target: << parameters.cargo_target >>
+  # common_tests:
+  #   parameters:
+  #     min_rust_version:
+  #       type: string
+  #       description: "Required: The minimum version of the rust compiler to use"
+  #     cargo_args:
+  #       type: string
+  #       default: ""
+  #       description: "Additional parameters to pass to cargo build"
+  #     cargo_target:
+  #       type: string
+  #       default: ""
+  #       description: "Target to pass to cargo build"
+  #     use_executor:
+  #       type: enum
+  #       enum: ["rust_env", "wasi-env"]
+  #       description: "Required: The executor to use for the build"
+  #   executor: << parameters.use_executor >>
+  #   steps:
+  #     - checkout
+  #     - run:
+  #         name: Check rust version for code
+  #         command: cargo --version
+  #     - run:
+  #         name: Check formatting for code
+  #         command: |
+  #           rustfmt --version
+  #           cargo fmt --all -- --check
+  #     - cargo_test:
+  #         rust_version: stable
+  #         cargo_args: << parameters.cargo_args >>
+  #         cargo_target: << parameters.cargo_target >>
 
-  security:
-    executor:
-      name: base-env
-    parameters:
-      ignore_advisories:
-        type: string
-        default: ""
-        description: List of advisories to ignore each prefixed with "--ignore "
-    steps:
-      - checkout
-      - cargo_audit:
-          ignore_advisories: "<< parameters.ignore_advisories >>"
-      - sonarcloud/scan
+  # security:
+  #   executor:
+  #     name: base-env
+  #   parameters:
+  #     ignore_advisories:
+  #       type: string
+  #       default: ""
+  #       description: List of advisories to ignore each prefixed with "--ignore "
+  #   steps:
+  #     - checkout
+  #     - cargo_audit:
+  #         ignore_advisories: "<< parameters.ignore_advisories >>"
+  #     - sonarcloud/scan
 
 workflows:
   check_last_commit:
@@ -385,41 +372,38 @@ workflows:
             branches:
               only:
                 - main
-      - required_builds:
+      - toolkit/required_builds:
           name: required builds-<< matrix.cargo_target >>-<< matrix.cargo_args >>
           min_rust_version: << pipeline.parameters.min-rust-version >>
           matrix:
             parameters:
               cargo_args: [-p hcaptcha, -p hcaptcha-cli]
               cargo_target: [wasm32-wasip1, x86_64-unknown-linux-gnu]
-      - optional_builds:
+      - toolkit/optional_builds:
           name: optional builds-<< matrix.cargo_target >>-<< matrix.cargo_args >>
           min_rust_version: << pipeline.parameters.min-rust-version >>
-          use_executor: rust-env
           matrix:
             parameters:
               cargo_args: [-p hcaptcha, -p hcaptcha-cli]
               cargo_target: [x86_64-unknown-linux-gnu, wasm32-wasip1]
-      - common_tests:
+      - toolkit/common_tests:
           name: common tests for x86_64
           min_rust_version: << pipeline.parameters.min-rust-version >>
-          use_executor: rust-env
           matrix:
             parameters:
-              cargo_args: [-p hcaptcha, -p hcaptcha-cli]
+              cargo_package: [hcaptcha, hcaptcha-cli]
       - toolkit/idiomatic_rust:
           min_rust_version: << pipeline.parameters.min-rust-version >>
       - toolkit/test_doc_build:
           min_rust_version: << pipeline.parameters.min-rust-version >>
-      - run_test_programs:
+      - toolkit/cli_test_wasm:
           min_rust_version: << pipeline.parameters.min-rust-version >>
           cargo_package: test_suite_cli
           cargo_executable: hcaptcha-cli
           name: run_test_program-<< matrix.cargo_bin >>-<< matrix.cargo_target >>
           requires:
-            - common_tests
-            - required_builds
-            # - required builds for wasi
+            - toolkit/common_tests
+            - toolkit/required_builds
             - toolkit/test_doc_build
           matrix:
             parameters:
@@ -439,20 +423,19 @@ workflows:
                   test_suite_enterprise,
                 ]
           requires:
-            - common_tests
-            - required_builds
-            # - required builds for wasi
+            - toolkit/common_tests
+            - toolkit/required_builds
             - toolkit/test_doc_build
 
-      - security:
+      - toolkit/security:
           context: SonarCloud
 
       - toolkit/update_changelog:
           requires:
             - toolkit/idiomatic_rust
             - test-suite
-            - run_test_programs
-            - security
+            - toolkit/cli_test_wasm
+            - toolkit/security
           context:
             - release
             - bot-check
