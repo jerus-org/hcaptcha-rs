@@ -22,6 +22,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - ci-add security job to CircleCI workflow(pr [#1071])
 - ci(circleci)-remove wasi-env executor and update jobs to use rust-env(pr [#1072])
 - chore(circleci)-update toolkit orb and comment out sonarcloud and various cargo commands(pr [#1074])
+- chore(ci)-remove commented-out job configurations from CircleCI config(pr [#1075])
 
 ### Fixed
 
@@ -396,6 +397,7 @@ emitted if a tracing subscriber is not found.
 [#1072]: https://github.com/jerus-org/hcaptcha-rs/pull/1072
 [#1073]: https://github.com/jerus-org/hcaptcha-rs/pull/1073
 [#1074]: https://github.com/jerus-org/hcaptcha-rs/pull/1074
+[#1075]: https://github.com/jerus-org/hcaptcha-rs/pull/1075
 [Unreleased]: https://github.com/jerus-org/hcaptcha-rs/compare/v2.5.0...HEAD
 [2.5.0]: https://github.com/jerus-org/hcaptcha-rs/compare/v2.4.9...v2.5.0
 [2.4.9]: https://github.com/jerus-org/hcaptcha-rs/compare/v2.4.8...v2.4.9
