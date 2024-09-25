@@ -31,6 +31,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - deps: update rust crate mockd to 0.4.20(pr [#1066])
 - deps: update rust crate thiserror to 1.0.64(pr [#1073])
 - deps: update github/codeql-action action to v3.26.9(pr [#1076])
+- deps: update rust crate async-trait to 0.1.83(pr [#1077])
 
 ## [2.5.0] - 2024-09-14
 
@@ -400,6 +401,7 @@ emitted if a tracing subscriber is not found.
 [#1074]: https://github.com/jerus-org/hcaptcha-rs/pull/1074
 [#1075]: https://github.com/jerus-org/hcaptcha-rs/pull/1075
 [#1076]: https://github.com/jerus-org/hcaptcha-rs/pull/1076
+[#1077]: https://github.com/jerus-org/hcaptcha-rs/pull/1077
 [Unreleased]: https://github.com/jerus-org/hcaptcha-rs/compare/v2.5.0...HEAD
 [2.5.0]: https://github.com/jerus-org/hcaptcha-rs/compare/v2.4.9...v2.5.0
 [2.4.9]: https://github.com/jerus-org/hcaptcha-rs/compare/v2.4.8...v2.4.9
