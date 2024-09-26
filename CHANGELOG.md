@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - add async hcaptcha verification with color-eyre and tokio(pr [#1061])
 - add snapbox dependency and initial command tests(pr [#1063])
 - add trace feature to all test suite Cargo.toml files(pr [#1068])
+- update renovate.json to enable circleci-toolkit and add sourceUrl(pr [#1079])
 
 ### Changed
 
@@ -402,6 +403,7 @@ emitted if a tracing subscriber is not found.
 [#1075]: https://github.com/jerus-org/hcaptcha-rs/pull/1075
 [#1076]: https://github.com/jerus-org/hcaptcha-rs/pull/1076
 [#1077]: https://github.com/jerus-org/hcaptcha-rs/pull/1077
+[#1079]: https://github.com/jerus-org/hcaptcha-rs/pull/1079
 [Unreleased]: https://github.com/jerus-org/hcaptcha-rs/compare/v2.5.0...HEAD
 [2.5.0]: https://github.com/jerus-org/hcaptcha-rs/compare/v2.4.9...v2.5.0
 [2.4.9]: https://github.com/jerus-org/hcaptcha-rs/compare/v2.4.8...v2.4.9
