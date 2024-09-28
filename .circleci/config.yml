@@ -76,6 +76,7 @@ workflows:
       - toolkit/required_builds:
           name: required builds-<< matrix.cargo_target >>-<< matrix.cargo_args >>
           min_rust_version: << pipeline.parameters.min-rust-version >>
+          docker_tag_suffix: << pipeline.parameters.docker-tag-suffix >>
           matrix:
             parameters:
               cargo_args: [-p hcaptcha, -p hcaptcha-cli]
