@@ -3,7 +3,10 @@ version: 2.1
 parameters:
   min-rust-version:
     type: string
-    default: "1.75-wasi"
+    default: "1.75"
+  docker-tag-suffix:
+    type: string
+    default: "wasi"
   fingerprint:
     type: string
     default: SHA256:OkxsH8Z6Iim6WDJBaII9eTT9aaO1f3eDc6IpsgYYPVg
@@ -23,7 +26,7 @@ orbs:
 executors:
   rust_env:
     docker:
-      - image: jerusdp/ci-rust:<<pipeline.parameters.min-rust-version>>-wasi
+      - image: jerusdp/ci-rust:<<pipeline.parameters.min-rust-version>>-<< pipeline.parameters.docker-tag-suffix >>
   base-env:
     docker:
       - image: jerusdp/ci-rust:base
