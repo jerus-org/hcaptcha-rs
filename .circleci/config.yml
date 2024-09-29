@@ -4,6 +4,9 @@ parameters:
   min-rust-version:
     type: string
     default: "1.75"
+  docker-tag-suffix:
+    type: string
+    default: "-wasi"
   fingerprint:
     type: string
     default: SHA256:OkxsH8Z6Iim6WDJBaII9eTT9aaO1f3eDc6IpsgYYPVg
@@ -17,13 +20,13 @@ parameters:
     description: "If true, the success pipeline will be executed."
 
 orbs:
-  toolkit: jerus-org/circleci-toolkit@1.9.3
+  toolkit: jerus-org/circleci-toolkit@1.14.0
   # sonarcloud: sonarsource/sonarcloud@2.0.0
 
 executors:
   rust_env:
     docker:
-      - image: jerusdp/ci-rust:<<pipeline.parameters.min-rust-version>>-wasi
+      - image: jerusdp/ci-rust:<<pipeline.parameters.min-rust-version>><< pipeline.parameters.docker-tag-suffix >>
   base-env:
     docker:
       - image: jerusdp/ci-rust:base
@@ -73,6 +76,7 @@ workflows:
       - toolkit/required_builds:
           name: required builds-<< matrix.cargo_target >>-<< matrix.cargo_args >>
           min_rust_version: << pipeline.parameters.min-rust-version >>
+          docker_tag_suffix: << pipeline.parameters.docker-tag-suffix >>
           matrix:
             parameters:
               cargo_args: [-p hcaptcha, -p hcaptcha-cli]
@@ -80,6 +84,7 @@ workflows:
       - toolkit/optional_builds:
           name: optional builds-<< matrix.cargo_target >>-<< matrix.cargo_args >>
           min_rust_version: << pipeline.parameters.min-rust-version >>
+          docker_tag_suffix: << pipeline.parameters.docker-tag-suffix >>
           matrix:
             parameters:
               cargo_args: [-p hcaptcha, -p hcaptcha-cli]
