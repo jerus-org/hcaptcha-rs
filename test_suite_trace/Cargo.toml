@@ -19,7 +19,7 @@ hcaptcha = { path = "../hcaptcha", features = ["trace", "enterprise"] }
 hcaptcha_derive = { path = "../hcaptcha_derive" }
 tokio = { version = "1.40.0", features = ["rt-multi-thread", "macros"] }
 claims = "0.7.1"
-mockd = { version = "0.4.20", features = ["internet", "unique"] }
+mockd = { version = "0.4.21", features = ["internet", "unique"] }
 itertools = "0.13.0"
 rand = "0.8.5"
 wiremock = "0.6.2"
