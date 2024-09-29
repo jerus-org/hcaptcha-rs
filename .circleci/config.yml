@@ -26,7 +26,7 @@ orbs:
 executors:
   rust_env:
     docker:
-      - image: jerusdp/ci-rust:<<pipeline.parameters.min-rust-version>>-<< pipeline.parameters.docker-tag-suffix >>
+      - image: jerusdp/ci-rust:<<pipeline.parameters.min-rust-version>><< pipeline.parameters.docker-tag-suffix >>
   base-env:
     docker:
       - image: jerusdp/ci-rust:base
@@ -84,6 +84,7 @@ workflows:
       - toolkit/optional_builds:
           name: optional builds-<< matrix.cargo_target >>-<< matrix.cargo_args >>
           min_rust_version: << pipeline.parameters.min-rust-version >>
+          docker_tag_suffix: << pipeline.parameters.docker-tag-suffix >>
           matrix:
             parameters:
               cargo_args: [-p hcaptcha, -p hcaptcha-cli]
