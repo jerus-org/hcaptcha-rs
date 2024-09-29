@@ -36,6 +36,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - deps: update actions/checkout action to v4.2.0(pr [#1078])
 - deps: update rust crate clap-verbosity-flag to 2.2.2(pr [#1080])
 - deps: update dependency toolkit to v1.11.0(pr [#1081])
+- deps: update rust crate syn to 2.0.79(pr [#1082])
 
 ## [2.5.0] - 2024-09-14
 
@@ -410,6 +411,7 @@ emitted if a tracing subscriber is not found.
 [#1080]: https://github.com/jerus-org/hcaptcha-rs/pull/1080
 [#1079]: https://github.com/jerus-org/hcaptcha-rs/pull/1079
 [#1081]: https://github.com/jerus-org/hcaptcha-rs/pull/1081
+[#1082]: https://github.com/jerus-org/hcaptcha-rs/pull/1082
 [Unreleased]: https://github.com/jerus-org/hcaptcha-rs/compare/v2.5.0...HEAD
 [2.5.0]: https://github.com/jerus-org/hcaptcha-rs/compare/v2.4.9...v2.5.0
 [2.4.9]: https://github.com/jerus-org/hcaptcha-rs/compare/v2.4.8...v2.4.9
