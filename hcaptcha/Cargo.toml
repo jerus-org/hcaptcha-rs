@@ -53,7 +53,7 @@ url = "2.5.2"
 [dev-dependencies]
 chrono = "0.4.38"
 claims = "0.7.1"
-mockd = { version = "0.4.20", features = ["internet", "unique", "words"] }
+mockd = { version = "0.4.21", features = ["internet", "unique", "words"] }
 hex = "0.4.3"
 itertools = "0.13.0"
 lambda_runtime = "0.13.0"
