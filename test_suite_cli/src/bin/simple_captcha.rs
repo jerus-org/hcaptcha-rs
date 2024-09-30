@@ -1,25 +1,14 @@
 use test_suite_cli::{assert_output, cargo_bin, load_expected, Cmd};
 
 fn main() {
-    //     let expected = String::from(
-    //         r#"Usage: hcaptcha-cli [OPTIONS] --token <TOKEN> --secret <SECRET>
-
-    // Options:
-    //   -v, --verbose...       Increase logging verbosity
-    //   -q, --quiet...         Decrease logging verbosity
-    //   -t, --token <TOKEN>    The captcha token proivded by the client for validation
-    //   -k, --key <KEY>        The sitekey for hcapthca validation
-    //   -s, --secret <SECRET>  The secret key for hcaptcha validation
-    //   -i, --ip <IP>          The ip address of the system generating the request
-    //   -h, --help             Print help
-    //   -V, --version          Print version
-    // "#,
-    //     );
-
     let expected = load_expected();
     eprintln!("{expected}");
 
-    let cmd = cargo_bin("hcaptcha-cli");
+    let cmd = cargo_bin(
+        r#"hcaptcha-cli \
+        --key 10000000-ffff-ffff-ffff-000000000001 \
+        --secret 0x0000000000000000000000000000000000000000"#,
+    );
 
     let mut cmd = Cmd::new(&cmd);
     println!("cmd: {:?}", cmd);
