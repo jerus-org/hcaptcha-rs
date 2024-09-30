@@ -1,1 +1,7 @@
-10000000-aaaa-bbbb-cccc-000000000001
+        Status:         true
+        Timestamp:      2024-09-30T15:52:12.264Z
+        Hostname:       dummy-key-pass
+        Credit:         false
+        Error Codes:
+        Score:
+        Score Reason:

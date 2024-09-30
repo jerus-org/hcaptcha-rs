@@ -9,7 +9,7 @@ mod cli;
 #[tokio::main(flavor = "current_thread")]
 async fn main() -> Result<()> {
     let args = Cli::parse();
-    println!("Args found: {:?}", args);
+    eprintln!("Args found: {:?}", args);
 
     println!("{}", handle_cli(args).await?);
 
@@ -20,7 +20,7 @@ async fn main() -> Result<()> {
 #[tokio::main]
 async fn main() -> Result<()> {
     let args = Cli::parse();
-    println!("Args found: {:?}", args);
+    eprintln!("Args found: {:?}", args);
 
     println!("{}", handle_cli(args).await?);
 
@@ -35,6 +35,8 @@ async fn handle_cli(args: Cli) -> Result<HcaptchaResponse> {
     let client = HcaptchaClient::new();
 
     let request = HcaptchaRequest::new(&secret, captcha)?;
+
+    eprintln!("request: {:#?}", request);
 
     let res = client.verify_client_response(request).await?;
 
