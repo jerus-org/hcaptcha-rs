@@ -39,6 +39,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - deps: update dependency toolkit to v1.11.0(pr [#1081])
 - deps: update rust crate syn to 2.0.79(pr [#1082])
 - deps: update rust crate mockd to 0.4.21(pr [#1083])
+- deps: update github/codeql-action action to v3.26.10(pr [#1085])
 
 ## [2.5.0] - 2024-09-14
 
@@ -416,6 +417,7 @@ emitted if a tracing subscriber is not found.
 [#1082]: https://github.com/jerus-org/hcaptcha-rs/pull/1082
 [#1083]: https://github.com/jerus-org/hcaptcha-rs/pull/1083
 [#1084]: https://github.com/jerus-org/hcaptcha-rs/pull/1084
+[#1085]: https://github.com/jerus-org/hcaptcha-rs/pull/1085
 [Unreleased]: https://github.com/jerus-org/hcaptcha-rs/compare/v2.5.0...HEAD
 [2.5.0]: https://github.com/jerus-org/hcaptcha-rs/compare/v2.4.9...v2.5.0
 [2.4.9]: https://github.com/jerus-org/hcaptcha-rs/compare/v2.4.8...v2.4.9
