@@ -18,3 +18,7 @@ exclude = ["lambda-contact"]
 rust-version = "1.75"
 edition = "2021"
 publish = false
+
+[workspace.dependencies]
+rand = "0.8.5"
+itertools = "0.13.0"

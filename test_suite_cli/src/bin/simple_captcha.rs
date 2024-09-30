@@ -1,4 +1,4 @@
-use test_suite_cli::{assert_output, cargo_bin, load_expected, Cmd};
+use test_suite_cli::{assert_output, cargo_bin, load_expected, random_string, Cmd};
 
 fn main() {
     let expected = load_expected();
@@ -9,6 +9,8 @@ fn main() {
     let mut cmd = Cmd::new(&cmd);
     println!("cmd: {:?}", cmd);
     let output_res = cmd
+        .arg("--token")
+        .arg(&random_string(100))
         .arg("--key")
         .arg("10000000-ffff-ffff-ffff-000000000001")
         .arg("--secret")

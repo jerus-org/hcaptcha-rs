@@ -1,6 +1,6 @@
-use std::{io, path::Path, process::Output};
+use rand::{distributions::Alphanumeric, thread_rng, Rng};
+use std::{io, iter, path::Path, process::Output};
 use std::{path::PathBuf, process::Command};
-
 const WASM_SUFFIX: &str = ".wasm";
 
 #[derive(Debug)]
@@ -85,4 +85,13 @@ pub fn assert_output(output: std::process::Output, expected: &str) {
 
         assert_eq!(e, expected);
     };
+}
+
+pub fn random_string(characters: usize) -> String {
+    let mut rng = thread_rng();
+    iter::repeat(())
+        .map(|()| rng.sample(Alphanumeric))
+        .map(char::from)
+        .take(characters)
+        .collect()
 }
