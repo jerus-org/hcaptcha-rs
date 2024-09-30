@@ -110,7 +110,7 @@ workflows:
             - toolkit/test_doc_build
           matrix:
             parameters:
-              cargo_bin: [long_help, no_options, short_help]
+              cargo_bin: [long_help, no_options, short_help, simple_captcha]
               cargo_target: [x86_64-unknown-linux-gnu, wasm32-wasip1]
 
       - test-suite:
