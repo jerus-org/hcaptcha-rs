@@ -4,16 +4,16 @@ fn main() {
     let expected = load_expected();
     eprintln!("{expected}");
 
-    let cmd = cargo_bin(
-        r#"hcaptcha-cli \
-        --key 10000000-ffff-ffff-ffff-000000000001 \
-        --secret 0x0000000000000000000000000000000000000000"#,
-    );
+    let cmd = cargo_bin("hcaptcha-cli");
 
     let mut cmd = Cmd::new(&cmd);
     println!("cmd: {:?}", cmd);
-
-    let output_res = cmd.arg("-h").output();
+    let output_res = cmd
+        .arg("--key")
+        .arg("10000000-ffff-ffff-ffff-000000000001")
+        .arg("--secret")
+        .arg("0x0000000000000000000000000000000000000000")
+        .output();
 
     println!("output result: {:#?}", output_res);
 
