@@ -8,14 +8,17 @@ fn main() {
 
     let mut cmd = Cmd::new(&cmd);
     println!("cmd: {:?}", cmd);
-    let output_res = cmd
+    let cmd = cmd
         .arg("--token")
         .arg(&random_string(100))
         .arg("--key")
         .arg("10000000-ffff-ffff-ffff-000000000001")
         .arg("--secret")
-        .arg("0x0000000000000000000000000000000000000000")
-        .output();
+        .arg("0x0000000000000000000000000000000000000000");
+
+    println!("cmd to run: {:#?}", cmd);
+
+    let output_res = cmd.output();
 
     println!("output result: {:#?}", output_res);
 
