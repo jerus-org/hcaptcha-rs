@@ -40,7 +40,7 @@ async fn handle_cli(args: Cli) -> Result<String> {
 
     let res = client.verify_client_response(request).await?;
 
-    let res = res.to_json()?;
+    let res = res.success().to_string();
 
     println!("{:#?}", res);
 
