@@ -1881,6 +1881,7 @@ dependencies = [
  "rand",
  "serde_json",
  "tokio",
+ "trybuild",
  "wiremock",
 ]
 

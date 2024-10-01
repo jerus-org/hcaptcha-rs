@@ -14,12 +14,13 @@ trace = []
 chrono.workspace = true
 claims.workspace = true
 env_logger.workspace = true
+hex.workspace = true
 hcaptcha = { path = "../hcaptcha", features = ["trace", "enterprise"] }
 hcaptcha_derive = { path = "../hcaptcha_derive" }
-tokio = { workspace = true, features = ["rt-multi-thread"] }
-mockd.workspace = true
 itertools.workspace = true
+mockd.workspace = true
 rand.workspace = true
-wiremock.workspace = true
 serde_json.workspace = true
-hex.workspace = true
+tokio = { workspace = true, features = ["rt-multi-thread"] }
+trybuild.workspace = true
+wiremock.workspace = true
