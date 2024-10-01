@@ -20,16 +20,16 @@ trace = []
 # hcaptcha_derive = { path = "../hcaptcha_derive"}
 
 [dev-dependencies]
-trybuild = "1.0.99"
+trybuild.workplace = true
 hcaptcha = { path = "../hcaptcha" }
 hcaptcha_derive = { path = "../hcaptcha_derive" }
-tokio = { version = "1.40.0", features = ["rt-multi-thread", "macros"] }
-claims = "0.7.1"
-mockd = { version = "0.4.21", features = ["internet", "unique"] }
-itertools = "0.13.0"
-rand = "0.8.5"
-wiremock = "0.6.2"
-serde_json = "1.0.128"
-hex = "0.4.3"
-chrono = "0.4.38"
-env_logger = "0.11.5"
+tokio = { wworkplace = true, features = ["rt-multi-thread"] }
+claims.workplace = true
+mockd.workplace = true
+itertools.workplace = true
+rand.workplace = true
+wiremock.workplace = true
+serde_json.workplace = true
+hex.workplace = true
+chrono.workplace = true
+env_logger.workplace = true
