@@ -1,9 +1,9 @@
 [package]
 name = "test_suite_rustls_only"
 version = "0.5.0"
-edition.workspace = true
-publish.workspace = true
-rust-version.workspace = true
+edition = "2021"
+publish = false
+rust-version = "1.75"
 
 [features]
 trace = []

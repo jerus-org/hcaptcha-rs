@@ -16,11 +16,10 @@ claims.workspace = true
 env_logger.workspace = true
 hcaptcha = { path = "../hcaptcha", features = ["trace", "enterprise"] }
 hcaptcha_derive = { path = "../hcaptcha_derive" }
-hex.workspace = true
-itertools.workspace = true
-mockd.workspace = true
-rand.workspace = true
-serde_json.workspace = true
 tokio = { workspace = true, features = ["rt-multi-thread"] }
-trybuild.workspace = true
+mockd.workspace = true
+itertools.workspace = true
+rand.workspace = true
 wiremock.workspace = true
+serde_json.workspace = true
+hex.workspace = true
