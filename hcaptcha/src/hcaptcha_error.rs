@@ -1,6 +1,6 @@
 //! Error types for hcaptcha
 
-use serde::{Deserialize, Deserializer};
+use serde::{Deserialize, Deserializer, Serialize};
 use std::collections::HashSet;
 use std::fmt;
 use std::io;
@@ -38,7 +38,7 @@ pub enum HcaptchaError {
 /// Error code mapping for the error responses from the hcaptcha API.
 /// Returned in the [HcaptchaError] type.
 #[non_exhaustive]
-#[derive(PartialEq, Eq, Hash, Clone, Debug)]
+#[derive(PartialEq, Serialize, Eq, Hash, Clone, Debug)]
 pub enum Code {
     /// Secret key is missing.
     MissingSecret,

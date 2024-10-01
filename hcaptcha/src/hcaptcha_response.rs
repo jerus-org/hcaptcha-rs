@@ -58,7 +58,7 @@
 //! ```
 use crate::Code;
 use crate::HcaptchaError;
-use serde::Deserialize;
+use serde::{Deserialize, Serialize};
 use std::collections::HashSet;
 use std::fmt;
 
@@ -66,7 +66,7 @@ type Score = f32;
 
 /// Result from call to verify the client's response
 #[cfg_attr(docsrs, allow(rustdoc::missing_doc_code_examples))]
-#[derive(Debug, Default, Deserialize, Clone)]
+#[derive(Debug, Default, Serialize, Deserialize, Clone)]
 pub struct HcaptchaResponse {
     /// verification status: true or false.
     ///
