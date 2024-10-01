@@ -510,6 +510,44 @@ impl HcaptchaResponse {
     pub fn score_reason(&self) -> Option<HashSet<String>> {
         self.score_reason.clone()
     }
+
+    /// Convert to json string representation
+    ///
+    ///
+    /// # Example
+    /// ```no_run
+    /// #   use hcaptcha::{HcaptchaRequest, HcaptchaClient};
+    /// # #[tokio::main]
+    /// # async fn main() -> Result<(), hcaptcha::HcaptchaError> {
+    /// # let request = HcaptchaRequest::new(
+    /// #    "0x123456789abcedf0123456789abcdef012345678",
+    /// #    get_captcha(),
+    /// # )?;
+    /// # let client = HcaptchaClient::new();
+    ///     let response = client.verify_client_response(request).await?;
+    ///
+    ///     println!("{}", response.to_json());
+    ///
+    /// # Ok(())
+    /// # }
+    /// # use hcaptcha::HcaptchaCaptcha;
+    /// # use rand::distributions::Alphanumeric;
+    /// # use rand::{thread_rng, Rng};
+    /// # use std::iter;
+    ///
+    ///
+    ///
+    /// # fn random_response() -> String {
+    /// #    let mut rng = thread_rng();
+    /// #    iter::repeat(())
+    /// #        .map(|()| rng.sample(Alphanumeric))
+    /// #        .map(char::from)
+    /// #        .take(100)
+    ///
+    pub fn to_json(&self) -> Result<String, HcaptchaError> {
+        let json_string = serde_json::to_string(self)?;
+        Ok(json_string)
+    }
 }
 
 #[cfg(test)]

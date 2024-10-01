@@ -38,7 +38,9 @@ async fn handle_cli(args: Cli) -> Result<String> {
 
     eprintln!("request: {:#?}", request);
 
-    let res = serde_json::to_string(&client.verify_client_response(request).await?)?;
+    let res = client.verify_client_response(request).await?;
+
+    let res = res.to_json()?;
 
     println!("{}", res);
 
