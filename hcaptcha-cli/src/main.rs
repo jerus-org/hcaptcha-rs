@@ -42,7 +42,7 @@ async fn handle_cli(args: Cli) -> Result<String> {
 
     let res = res.to_json()?;
 
-    println!("{}", res);
+    println!("{:#?}", res);
 
     Ok(res)
 }
