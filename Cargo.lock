@@ -1770,6 +1770,10 @@ dependencies = [
 [[package]]
 name = "test_suite_cli"
 version = "0.1.0"
+dependencies = [
+ "itertools",
+ "rand",
+]
 
 [[package]]
 name = "test_suite_default"
