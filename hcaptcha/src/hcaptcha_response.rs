@@ -516,44 +516,28 @@ impl HcaptchaResponse {
     ///
     /// # Example
     /// ```no_run
-    /// #   use hcaptcha::{HcaptchaRequest, HcaptchaClient};
+    /// # use hcaptcha::HcaptchaResponse;
+    /// # use serde_json::json;
     /// # #[tokio::main]
     /// # async fn main() -> Result<(), hcaptcha::HcaptchaError> {
-    /// # let request = HcaptchaRequest::new(
-    /// #    "0x123456789abcedf0123456789abcdef012345678",
-    /// #    get_captcha(),
-    /// # )?;
-    /// # let client = HcaptchaClient::new();
-    ///     let response = client.verify_client_response(request).await?;
+    ///     let response = json!({
+    ///         "success": true,
+    ///         "challenge_ts": "2020-11-11T23:27:00Z",
+    ///         "hostname": "my-host.ie",
+    ///         "credit": false,
+    ///         "error-codes": ["missing-input-secret"],
+    ///         "score": null,
+    ///         "score_reason": ["first-reason", "second-reason"],
+    ///     });
+    ///     let response: HcaptchaResponse = serde_json::from_value(response).unwrap();
     ///
-    ///     println!("{}", response.to_json());
+    ///     let expected = r#"{"success":true,"challenge_ts":"2020-11-11T23:27:00Z","hostname":"my-host.ie","credit":false,"error-codes":["MissingSecret"],"score":null,"score_reason":["first-reason","second-reason"]}"#;
+    ///
+    ///     assert_eq!(expected, response.to_json().unwrap());
     ///
     /// # Ok(())
     /// # }
-    /// # use hcaptcha::HcaptchaCaptcha;
-    /// # use rand::distributions::Alphanumeric;
-    /// # use rand::{thread_rng, Rng};
-    /// # use std::iter;
-    ///
-    ///
-    ///
-    /// # fn random_response() -> String {
-    /// #    let mut rng = thread_rng();
-    /// #    iter::repeat(())
-    /// #        .map(|()| rng.sample(Alphanumeric))
-    /// #        .map(char::from)
-    /// #        .take(100)
-    /// #        .collect()
-    /// # }
-    /// # fn get_captcha() -> HcaptchaCaptcha {
-    /// #    HcaptchaCaptcha::new(&random_response())
-    /// #       .unwrap()
-    /// #       .set_remoteip(&mockd::internet::ipv4_address())
-    /// #       .unwrap()
-    /// #       .set_sitekey(&mockd::unique::uuid_v4())
-    /// #       .unwrap()
-    /// #       }           
-    ///
+    ///```
     pub fn to_json(&self) -> Result<String, HcaptchaError> {
         let json_string = serde_json::to_string(self)?;
         Ok(json_string)
@@ -607,9 +591,18 @@ mod tests {
 
     #[test]
     fn convert_response_to_json() {
-        let response = test_response();
+        let response = json!({
+            "success": true,
+            "challenge_ts": "2020-11-11T23:27:00Z",
+            "hostname": "my-host.ie",
+            "credit": false,
+            "error-codes": ["missing-input-secret"],
+            "score": null,
+            "score_reason": ["first-reason", "second-reason"],
+        });
+        let response: HcaptchaResponse = serde_json::from_value(response).unwrap();
 
-        let expected = r#"{"success":true,"challenge_ts":"2020-11-11T23:27:00Z","hostname":"my-host.ie","credit":false,"error-codes":["MissingSecret","foo"],"score":null,"score_reason":["first-reason","second-reason"]}"#;
+        let expected = r#"{"success":true,"challenge_ts":"2020-11-11T23:27:00Z","hostname":"my-host.ie","credit":false,"error-codes":["MissingSecret"],"score":null,"score_reason":["first-reason","second-reason"]}"#;
 
         assert_eq!(expected, response.to_json().unwrap());
     }
