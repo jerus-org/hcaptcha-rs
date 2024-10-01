@@ -22,7 +22,7 @@ publish = false
 [workspace.dependencies]
 async-trait = "0.1.83"
 hex = "0.4.3"
-reqwest = { version = "0.12.7", default-features = false, features = [
+reqwest = { version = "0.12.8", default-features = false, features = [
     "json",
     "http2",
 ] }
