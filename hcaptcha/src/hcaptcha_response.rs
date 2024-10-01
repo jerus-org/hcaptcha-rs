@@ -527,11 +527,11 @@ impl HcaptchaResponse {
     ///         "credit": false,
     ///         "error-codes": ["missing-input-secret"],
     ///         "score": null,
-    ///         "score_reason": ["first-reason", "second-reason"],
+    ///         "score_reason": ["reason"],
     ///     });
     ///     let response: HcaptchaResponse = serde_json::from_value(response).unwrap();
     ///
-    ///     let expected = r#"{"success":true,"challenge_ts":"2020-11-11T23:27:00Z","hostname":"my-host.ie","credit":false,"error-codes":["MissingSecret"],"score":null,"score_reason":["first-reason","second-reason"]}"#;
+    ///     let expected = r#"{"success":true,"challenge_ts":"2020-11-11T23:27:00Z","hostname":"my-host.ie","credit":false,"error-codes":["MissingSecret"],"score":null,"score_reason":["reason"]}"#;
     ///
     ///     assert_eq!(expected, response.to_json().unwrap());
     ///
