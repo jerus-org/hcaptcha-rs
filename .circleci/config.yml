@@ -103,7 +103,7 @@ workflows:
           min_rust_version: << pipeline.parameters.min-rust-version >>
           cargo_package: test_suite_cli
           cargo_executable: hcaptcha-cli
-          cache_version: "v2"
+          cache_version: "v3"
           name: run_test_program-<< matrix.cargo_bin >>-<< matrix.cargo_target >>
           requires:
             - toolkit/common_tests
