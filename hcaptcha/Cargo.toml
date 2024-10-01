@@ -53,7 +53,7 @@ itertools.workspace = true
 lambda_runtime.workspace = true
 log.workspace = true
 rand.workspace = true
-tokio.workspace = true
+tokio = { workspace = true, features = ["rt-multi-thread"] }
 simple_logger.workspace = true
 tracing.workspace = true
 tracing-appender.workspace = true
