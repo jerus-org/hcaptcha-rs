@@ -1,7 +1,1 @@
-        Status:         true
-        Timestamp:      2024-09-30T15:52:12.264Z
-        Hostname:       dummy-key-pass
-        Credit:         false
-        Error Codes:
-        Score:
-        Score Reason:
+{"success":true,"challenge_ts":"2024-10-01T13:39:54.948Z","hostname":"dummy-key-pass","credit":false,"error-codes":null,"score":null,"score_reason\\\":null}\"\n{\"success\":true,\"challenge_ts\":\"2024-10-01T13:39:54.948Z\",\"hostname\":\"dummy-key-pass\",\"credit\":false,\"error-codes\":null,\"score\":null,\"score_reason\":null}
