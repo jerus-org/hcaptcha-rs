@@ -1,29 +1,26 @@
 [package]
 name = "test_suite_trace"
 version = "0.5.0"
-edition = "2021"
-publish = false
-rust-version = "1.75"
-
+edition.workspace = true
+publish.workspace = true
+rust-version.workspace = true
 
 [features]
 trace = []
 
 [dependencies]
-# hcaptcha = { path = "../hcaptcha" }
-# hcaptcha_derive = { path = "../hcaptcha_derive"}
 
 [dev-dependencies]
-trybuild = "1.0.99"
+chrono.workspace = true
+claims.workspace = true
+env_logger.workspace = true
+hex.workspace = true
 hcaptcha = { path = "../hcaptcha", features = ["trace", "enterprise"] }
 hcaptcha_derive = { path = "../hcaptcha_derive" }
-tokio = { version = "1.40.0", features = ["rt-multi-thread", "macros"] }
-claims = "0.7.1"
-mockd = { version = "0.4.21", features = ["internet", "unique"] }
-itertools = "0.13.0"
-rand = "0.8.5"
-wiremock = "0.6.2"
-serde_json = "1.0.128"
-hex = "0.4.3"
-chrono = "0.4.38"
-env_logger = "0.11.5"
+itertools.workspace = true
+mockd.workspace = true
+rand.workspace = true
+serde_json.workspace = true
+tokio = { workspace = true, features = ["rt-multi-thread"] }
+trybuild.workspace = true
+wiremock.workspace = true

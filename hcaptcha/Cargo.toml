@@ -32,42 +32,36 @@ trace = ["tracing"]
 nightly = []
 
 [dependencies]
-async-trait = "0.1.83"
-hex = { version = "0.4.3", optional = true }
+async-trait.workspace = true
+hex = { workspace = true, optional = true }
 hcaptcha_derive = { version = "2.5.0", path = "../hcaptcha_derive" }
-reqwest = { version = "0.12.7", default-features = false, features = [
-    "json",
-    "http2",
-] }
-serde_json = "1.0.128"
-serde_urlencoded = "0.7.1"
-serde = { version = "1.0.210", features = ["derive"] }
-thiserror = "1.0.64"
-tracing = { version = "0.1.40", features = [
-    "log",
-    "attributes",
-], optional = true }
-uuid = { version = "1.10.0", features = ["v4"] }
-url = "2.5.2"
+reqwest.workspace = true
+serde_json.workspace = true
+serde_urlencoded.workspace = true
+serde.workspace = true
+thiserror.workspace = true
+tracing = { workspace = true, optional = true }
+uuid.workspace = true
+url.workspace = true
 
 [dev-dependencies]
-chrono = "0.4.38"
-claims = "0.7.1"
-mockd = { version = "0.4.21", features = ["internet", "unique", "words"] }
-hex = "0.4.3"
-itertools = "0.13.0"
-lambda_runtime = "0.13.0"
-log = "0.4.22"
-rand = "0.8.5"
-tokio = { version = "1.40.0", features = ["macros", "rt-multi-thread"] }
-simple_logger = "5.0.0"
-tracing = "0.1.40"
-tracing-appender = "0.2.3"
-tracing-bunyan-formatter = "0.3.9"
-tracing-log = "0.2.0"
-tracing-subscriber = { version = "0.3.18", features = ["env-filter"] }
-tracing-test = "0.2.5"
-wiremock = "0.6.2"
+chrono.workspace = true
+claims.workspace = true
+mockd.workspace = true
+hex.workspace = true
+itertools.workspace = true
+lambda_runtime.workspace = true
+log.workspace = true
+rand.workspace = true
+tokio = { workspace = true, features = ["rt-multi-thread"] }
+simple_logger.workspace = true
+tracing.workspace = true
+tracing-appender.workspace = true
+tracing-bunyan-formatter.workspace = true
+tracing-log.workspace = true
+tracing-subscriber.workspace = true
+tracing-test.workspace = true
+wiremock.workspace = true
 
 [package.metadata.docs.rs]
 all-features = true
