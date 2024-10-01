@@ -685,6 +685,7 @@ dependencies = [
  "clap-verbosity-flag",
  "color-eyre",
  "hcaptcha",
+ "serde_json",
  "tokio",
 ]
 

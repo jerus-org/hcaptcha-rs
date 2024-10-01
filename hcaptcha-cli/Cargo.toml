@@ -10,6 +10,7 @@ clap.workspace = true
 clap-verbosity-flag.workspace = true
 color-eyre.workspace = true
 hcaptcha = { path = "../hcaptcha", features = ["enterprise"] }
+serde_json.workspace = true
 
 [target.x86_64-unknown-linux-gnu.dependencies]
 tokio = { workspace = true, features = ["rt-multi-thread"] }
