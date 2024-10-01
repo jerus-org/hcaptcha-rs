@@ -543,6 +543,16 @@ impl HcaptchaResponse {
     /// #        .map(|()| rng.sample(Alphanumeric))
     /// #        .map(char::from)
     /// #        .take(100)
+    /// #        .collect()
+    /// # }
+    /// # fn get_captcha() -> HcaptchaCaptcha {
+    /// #    HcaptchaCaptcha::new(&random_response())
+    /// #       .unwrap()
+    /// #       .set_remoteip(&mockd::internet::ipv4_address())
+    /// #       .unwrap()
+    /// #       .set_sitekey(&mockd::unique::uuid_v4())
+    /// #       .unwrap()
+    /// #       }           
     ///
     pub fn to_json(&self) -> Result<String, HcaptchaError> {
         let json_string = serde_json::to_string(self)?;
@@ -593,6 +603,15 @@ mod tests {
         let response = test_response();
 
         assert!(response.success());
+    }
+
+    #[test]
+    fn convert_response_to_json() {
+        let response = test_response();
+
+        let expected = r#"{"success":true,"challenge_ts":"2020-11-11T23:27:00Z","hostname":"my-host.ie","credit":false,"error-codes":["MissingSecret","foo"],"score":null,"score_reason":["first-reason","second-reason"]}"#;
+
+        assert_eq!(expected, response.to_json().unwrap());
     }
 
     #[test]
