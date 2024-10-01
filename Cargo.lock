@@ -1772,8 +1772,10 @@ dependencies = [
 name = "test_suite_cli"
 version = "0.1.0"
 dependencies = [
+ "hcaptcha",
  "itertools",
  "rand",
+ "serde_json",
 ]
 
 [[package]]

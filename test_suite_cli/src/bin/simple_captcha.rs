@@ -1,4 +1,5 @@
-use test_suite_cli::{assert_output, cargo_bin, load_expected, Cmd};
+use hcaptcha::HcaptchaResponse;
+use test_suite_cli::{cargo_bin, load_expected, Cmd};
 
 fn main() {
     let expected = load_expected();
@@ -23,5 +24,8 @@ fn main() {
 
     let output = output_res.expect("failed to spawn");
 
-    assert_output(output, &expected);
+    let response: HcaptchaResponse = serde_json::from_slice(&output.stdout).unwrap();
+    eprintln!("response: {:#?}", response);
+
+    assert_eq!(response.success().to_string(), expected);
 }
