@@ -18,13 +18,23 @@ async fn main() -> Result<()> {
 
 #[cfg(target_os = "linux")]
 #[tokio::main]
-async fn main() -> Result<()> {
+async fn main() {
+    use std::process::exit;
+
     let args = Cli::parse();
     eprintln!("Args found: {:?}", args);
 
-    println!("{}", handle_cli(args).await?);
+    let res = handle_cli(args).await;
 
-    Ok(())
+    eprintln!("{:?}", res);
+
+    match res {
+        Ok(o) => println!("{o}"),
+        Err(e) => {
+            println!("{e}");
+            exit(1)
+        }
+    };
 }
 
 async fn handle_cli(args: Cli) -> Result<String> {
