@@ -24,8 +24,10 @@ fn main() {
 
     let output = output_res.expect("failed to spawn");
 
-    let response: HcaptchaResponse = serde_json::from_slice(&output.stdout).unwrap();
-    eprintln!("response: {:#?}", response);
+    let res = serde_json::from_slice::<HcaptchaResponse>(&output.stdout);
+    eprintln!("response: {:#?}", res);
+
+    let response = res.expect("failed to parse response");
 
     assert_eq!(response.success().to_string(), expected);
 }
