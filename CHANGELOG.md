@@ -51,6 +51,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - deps: update rust crate mockd to 0.4.22(pr [#1091])
 - deps: update rust crate proc-macro2 to 1.0.87(pr [#1096])
 - deps: update actions/upload-artifact action to v4.4.1(pr [#1098])
+- deps: update actions/checkout action to v4.2.1(pr [#1100])
 
 ### Security
 
@@ -445,6 +446,7 @@ emitted if a tracing subscriber is not found.
 [#1096]: https://github.com/jerus-org/hcaptcha-rs/pull/1096
 [#1097]: https://github.com/jerus-org/hcaptcha-rs/pull/1097
 [#1098]: https://github.com/jerus-org/hcaptcha-rs/pull/1098
+[#1100]: https://github.com/jerus-org/hcaptcha-rs/pull/1100
 [Unreleased]: https://github.com/jerus-org/hcaptcha-rs/compare/v2.5.0...HEAD
 [2.5.0]: https://github.com/jerus-org/hcaptcha-rs/compare/v2.4.9...v2.5.0
 [2.4.9]: https://github.com/jerus-org/hcaptcha-rs/compare/v2.4.8...v2.4.9
