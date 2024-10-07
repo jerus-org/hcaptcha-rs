@@ -44,6 +44,20 @@ jobs:
           name: Running test suite <<parameters.test-suite>>
           command: "cargo +stable test -p <<parameters.test-suite>> --test compiletest"
 
+  run_test_program:
+    parameters:
+      cargo_bin:
+        type: string
+      cargo_package:
+        type: string
+    executor: rust_env
+    steps:
+      - checkout
+      - run: cargo +stable --version
+      - toolkit/cargo_run:
+          cargo_package: << parameters.cargo_package >>
+          cargo_bin: << parameters.cargo_bin >>
+
 workflows:
   check_last_commit:
     when:
@@ -97,18 +111,16 @@ workflows:
           min_rust_version: << pipeline.parameters.min-rust-version >>
       - toolkit/test_doc_build:
           min_rust_version: << pipeline.parameters.min-rust-version >>
-      - toolkit/cli_test_wasm:
-          min_rust_version: << pipeline.parameters.min-rust-version >>
+      - run_test_program:
           cargo_package: test_suite_cli
-          cargo_executable: hcaptcha-cli
-          name: run_test_program-<< matrix.cargo_bin >>-<< matrix.cargo_target >>
+          name: run_test_program-<< matrix.cargo_bin >>
+          matrix:
+            parameters:
+              cargo_bin: [long_help, no_options, short_help, simple_captcha]
           requires:
             - toolkit/common_tests
             - toolkit/required_builds
             - toolkit/test_doc_build
-          matrix:
-            parameters:
-              cargo_bin: [long_help, no_options, short_help, simple_captcha]
 
       - test-suite:
           matrix:
@@ -134,7 +146,7 @@ workflows:
           requires:
             - toolkit/idiomatic_rust
             - test-suite
-            - toolkit/cli_test_wasm
+            - run_test_program
             - toolkit/security
           context:
             - release
