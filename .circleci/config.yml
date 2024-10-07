@@ -65,7 +65,7 @@ jobs:
             if [ ! -f bin/hcaptcha-cli ]; then
                 cargo +stable build \
                   --release --locked \
-                  --package hcaptcha-cli \
+                  --package hcaptcha-cli
                 mkdir -p bin
                 cp target/release/hcaptcha-cli bin/
             fi
