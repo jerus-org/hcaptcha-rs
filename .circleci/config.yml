@@ -90,7 +90,9 @@ jobs:
             wasm-pack --version
       - run:
           name: Running wasm-pack tests
-          command: "wasm-pack test --headless --firefox"
+          command: |
+            cd test-suite-wasm
+            wasm-pack test --headless --firefox
 
 workflows:
   check_last_commit:
@@ -182,6 +184,7 @@ workflows:
             - toolkit/idiomatic_rust
             - test-suite
             - run_test_program
+            - run_wasm_pack_tests
             - toolkit/security
           context:
             - release
