@@ -78,6 +78,20 @@ jobs:
           cargo_package: << parameters.cargo_package >>
           cargo_bin: << parameters.cargo_bin >>
 
+  run_wasm_pack_tests:
+    executor: rust_env
+    steps:
+      - checkout
+      - run: cargo +stable --version
+      - run:
+          name: install wasm-pack
+          command: |
+            curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
+            wasm-pack --version
+      - run:
+          name: Running wasm-pack tests
+          command: "wasm-pack test --headless --firefox"
+
 workflows:
   check_last_commit:
     when:
@@ -142,7 +156,7 @@ workflows:
             - toolkit/common_tests
             - toolkit/required_builds
             - toolkit/test_doc_build
-
+      - run_wasm_pack_tests
       - test-suite:
           matrix:
             parameters:
