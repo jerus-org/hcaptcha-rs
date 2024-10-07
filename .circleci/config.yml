@@ -112,7 +112,7 @@ workflows:
       - toolkit/test_doc_build:
           min_rust_version: << pipeline.parameters.min-rust-version >>
       - run_test_program:
-          cargo_package: test_suite_cli
+          cargo_package: test-suite-cli
           name: run_test_program-<< matrix.cargo_bin >>
           matrix:
             parameters:
