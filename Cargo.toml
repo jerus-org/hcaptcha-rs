@@ -10,7 +10,7 @@ members = [
     "test_suite_no_default",
     "test_suite_rustls_only",
     "test_suite_trace",
-    "test_suite_cli",
+    "test-suite-cli",
 ]
 exclude = ["lambda-contact"]
 
