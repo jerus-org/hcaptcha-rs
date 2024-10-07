@@ -84,6 +84,10 @@ jobs:
       - checkout
       - run: cargo +stable --version
       - run:
+          name: install firefox browser
+          command: |
+            apt-get install firefox -y
+      - run:
           name: install wasm-pack
           command: |
             curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
