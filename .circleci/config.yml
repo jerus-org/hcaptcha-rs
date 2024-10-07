@@ -79,16 +79,14 @@ workflows:
           docker_tag_suffix: << pipeline.parameters.docker-tag-suffix >>
           matrix:
             parameters:
-              cargo_args: [-p hcaptcha, -p hcaptcha-cli]
-              cargo_target: [wasm32-wasip1, x86_64-unknown-linux-gnu]
+              cargo_package: [hcaptcha, hcaptcha-cli]
       - toolkit/optional_builds:
           name: optional builds-<< matrix.cargo_target >>-<< matrix.cargo_args >>
           min_rust_version: << pipeline.parameters.min-rust-version >>
           docker_tag_suffix: << pipeline.parameters.docker-tag-suffix >>
           matrix:
             parameters:
-              cargo_args: [-p hcaptcha, -p hcaptcha-cli]
-              cargo_target: [x86_64-unknown-linux-gnu, wasm32-wasip1]
+              cargo_package: [hcaptcha, hcaptcha-cli]
       - toolkit/common_tests:
           name: common tests for x86_64
           min_rust_version: << pipeline.parameters.min-rust-version >>
@@ -111,19 +109,18 @@ workflows:
           matrix:
             parameters:
               cargo_bin: [long_help, no_options, short_help, simple_captcha]
-              cargo_target: [x86_64-unknown-linux-gnu, wasm32-wasip1]
 
       - test-suite:
           matrix:
             parameters:
               test-suite:
                 [
-                  test_suite_default,
-                  test_suite_no_default,
-                  test_suite_native_only,
-                  test_suite_rustls_only,
-                  test_suite_trace,
-                  test_suite_enterprise,
+                  test-suite-default,
+                  test-suite-no_default,
+                  test-suite-native-only,
+                  test-suite-rustls-only,
+                  test-suite-trace,
+                  test-suite-enterprise,
                 ]
           requires:
             - toolkit/common_tests

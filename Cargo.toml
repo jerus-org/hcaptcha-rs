@@ -4,12 +4,12 @@ members = [
     "hcaptcha",
     "hcaptcha-cli",
     "hcaptcha_derive",
-    "test_suite_default",
-    "test_suite_enterprise",
-    "test_suite_native_only",
-    "test_suite_no_default",
+    "test-suite-default",
+    "test-suite-enterprise",
+    "test-suite-native_only",
+    "test-suite-no_default",
     "test_suite_rustls_only",
-    "test_suite_trace",
+    "test-suite-trace",
     "test-suite-cli",
 ]
 exclude = ["lambda-contact"]
