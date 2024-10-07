@@ -29,6 +29,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Create SECURITY.md(pr [#1093])
 - refactor-rename test_suite_cli directory to test-suite-cli(pr [#1094])
 - Hyphen-test-package-names(pr [#1095])
+- Create CODE_OF_CONDUCT.md(pr [#1097])
 
 ### Fixed
 
@@ -441,6 +442,7 @@ emitted if a tracing subscriber is not found.
 [#1094]: https://github.com/jerus-org/hcaptcha-rs/pull/1094
 [#1095]: https://github.com/jerus-org/hcaptcha-rs/pull/1095
 [#1096]: https://github.com/jerus-org/hcaptcha-rs/pull/1096
+[#1097]: https://github.com/jerus-org/hcaptcha-rs/pull/1097
 [Unreleased]: https://github.com/jerus-org/hcaptcha-rs/compare/v2.5.0...HEAD
 [2.5.0]: https://github.com/jerus-org/hcaptcha-rs/compare/v2.4.9...v2.5.0
 [2.4.9]: https://github.com/jerus-org/hcaptcha-rs/compare/v2.4.8...v2.4.9
