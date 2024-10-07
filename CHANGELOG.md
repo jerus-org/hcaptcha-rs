@@ -27,6 +27,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - chore(ci)-remove commented-out job configurations from CircleCI config(pr [#1075])
 - chore-update dependencies to use workspace versions in Cargo.toml files(pr [#1088])
 - Create SECURITY.md(pr [#1093])
+- refactor-rename test_suite_cli directory to test-suite-cli(pr [#1094])
 
 ### Fixed
 
@@ -435,6 +436,7 @@ emitted if a tracing subscriber is not found.
 [#1091]: https://github.com/jerus-org/hcaptcha-rs/pull/1091
 [#1092]: https://github.com/jerus-org/hcaptcha-rs/pull/1092
 [#1093]: https://github.com/jerus-org/hcaptcha-rs/pull/1093
+[#1094]: https://github.com/jerus-org/hcaptcha-rs/pull/1094
 [Unreleased]: https://github.com/jerus-org/hcaptcha-rs/compare/v2.5.0...HEAD
 [2.5.0]: https://github.com/jerus-org/hcaptcha-rs/compare/v2.4.9...v2.5.0
 [2.4.9]: https://github.com/jerus-org/hcaptcha-rs/compare/v2.4.8...v2.4.9
