@@ -11,6 +11,7 @@ members = [
     "test-suite-rustls-only",
     "test-suite-trace",
     "test-suite-cli",
+    "test-suite-wasm",
 ]
 
 [workspace.package]
