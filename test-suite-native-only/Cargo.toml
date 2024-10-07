@@ -1,5 +1,5 @@
 [package]
-name = "test_suite_native_only"
+name = "test-suite-native-only"
 version = "0.5.0"
 edition.workspace = true
 publish.workspace = true
