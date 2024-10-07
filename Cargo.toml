@@ -6,13 +6,12 @@ members = [
     "hcaptcha_derive",
     "test-suite-default",
     "test-suite-enterprise",
-    "test-suite-native_only",
-    "test-suite-no_default",
-    "test_suite_rustls_only",
+    "test-suite-native-only",
+    "test-suite-no-default",
+    "test-suite-rustls-only",
     "test-suite-trace",
     "test-suite-cli",
 ]
-exclude = ["lambda-contact"]
 
 [workspace.package]
 rust-version = "1.75"
