@@ -44,6 +44,40 @@ jobs:
           name: Running test suite <<parameters.test-suite>>
           command: "cargo +stable test -p <<parameters.test-suite>> --test compiletest"
 
+  run_test_program:
+    parameters:
+      cargo_bin:
+        type: string
+      cargo_package:
+        type: string
+      cache_version:
+        type: string
+    executor: rust_env
+    steps:
+      - checkout
+      - run: cargo +stable --version
+      - restore_cache:
+          key: << parameters.cache_version >>-{{ .Branch }}-{{ checksum "Cargo.lock" }}
+      - run:
+          name: Create the file if it does not exist
+          command: |
+            set -ex
+            if [ ! -f bin/hcaptcha-cli ]; then
+                cargo +stable build \
+                  --release --locked \
+                  --package hcaptcha-cli
+                mkdir -p bin
+                cp target/release/hcaptcha-cli bin/
+            fi
+      - save_cache:
+          name: save to cache
+          paths:
+            - bin
+          key: << parameters.cache_version >>-{{ .Branch }}-{{ checksum "Cargo.lock" }}
+      - toolkit/cargo_run:
+          cargo_package: << parameters.cargo_package >>
+          cargo_bin: << parameters.cargo_bin >>
+
 workflows:
   check_last_commit:
     when:
@@ -74,21 +108,19 @@ workflows:
               only:
                 - main
       - toolkit/required_builds:
-          name: required builds-<< matrix.cargo_target >>-<< matrix.cargo_args >>
+          name: required builds-<< matrix.cargo_package >>
           min_rust_version: << pipeline.parameters.min-rust-version >>
           docker_tag_suffix: << pipeline.parameters.docker-tag-suffix >>
           matrix:
             parameters:
-              cargo_args: [-p hcaptcha, -p hcaptcha-cli]
-              cargo_target: [wasm32-wasip1, x86_64-unknown-linux-gnu]
+              cargo_package: [hcaptcha, hcaptcha-cli]
       - toolkit/optional_builds:
-          name: optional builds-<< matrix.cargo_target >>-<< matrix.cargo_args >>
+          name: optional builds-<< matrix.cargo_package >>
           min_rust_version: << pipeline.parameters.min-rust-version >>
           docker_tag_suffix: << pipeline.parameters.docker-tag-suffix >>
           matrix:
             parameters:
-              cargo_args: [-p hcaptcha, -p hcaptcha-cli]
-              cargo_target: [x86_64-unknown-linux-gnu, wasm32-wasip1]
+              cargo_package: [hcaptcha, hcaptcha-cli]
       - toolkit/common_tests:
           name: common tests for x86_64
           min_rust_version: << pipeline.parameters.min-rust-version >>
@@ -99,31 +131,29 @@ workflows:
           min_rust_version: << pipeline.parameters.min-rust-version >>
       - toolkit/test_doc_build:
           min_rust_version: << pipeline.parameters.min-rust-version >>
-      - toolkit/cli_test_wasm:
-          min_rust_version: << pipeline.parameters.min-rust-version >>
-          cargo_package: test_suite_cli
-          cargo_executable: hcaptcha-cli
-          name: run_test_program-<< matrix.cargo_bin >>-<< matrix.cargo_target >>
+      - run_test_program:
+          cargo_package: test-suite-cli
+          name: run_test_program-<< matrix.cargo_bin >>
+          cache_version: "v1"
+          matrix:
+            parameters:
+              cargo_bin: [long_help, no_options, short_help, simple_captcha]
           requires:
             - toolkit/common_tests
             - toolkit/required_builds
             - toolkit/test_doc_build
-          matrix:
-            parameters:
-              cargo_bin: [long_help, no_options, short_help, simple_captcha]
-              cargo_target: [x86_64-unknown-linux-gnu, wasm32-wasip1]
 
       - test-suite:
           matrix:
             parameters:
               test-suite:
                 [
-                  test_suite_default,
-                  test_suite_no_default,
-                  test_suite_native_only,
-                  test_suite_rustls_only,
-                  test_suite_trace,
-                  test_suite_enterprise,
+                  test-suite-default,
+                  test-suite-no-default,
+                  test-suite-native-only,
+                  test-suite-rustls-only,
+                  test-suite-trace,
+                  test-suite-enterprise,
                 ]
           requires:
             - toolkit/common_tests
@@ -137,7 +167,7 @@ workflows:
           requires:
             - toolkit/idiomatic_rust
             - test-suite
-            - toolkit/cli_test_wasm
+            - run_test_program
             - toolkit/security
           context:
             - release

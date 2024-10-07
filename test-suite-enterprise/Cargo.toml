@@ -1,5 +1,5 @@
 [package]
-name = "test_suite_no_default"
+name = "test-suite-enterprise"
 version = "0.5.0"
 edition.workspace = true
 publish.workspace = true
@@ -14,7 +14,7 @@ trace = []
 chrono.workspace = true
 claims.workspace = true
 env_logger.workspace = true
-hcaptcha = { path = "../hcaptcha", default-features = false }
+hcaptcha = { path = "../hcaptcha", features = ["enterprise"] }
 hcaptcha_derive = { path = "../hcaptcha_derive" }
 hex.workspace = true
 itertools.workspace = true

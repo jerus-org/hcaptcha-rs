@@ -1,5 +1,5 @@
 [package]
-name = "test_suite_cli"
+name = "test-suite-cli"
 version = "0.1.0"
 edition.workspace = true
 publish.workspace = true

@@ -1,12 +1,13 @@
 [package]
-name = "test_suite_native_only"
+name = "test-suite-default"
 version = "0.5.0"
 edition.workspace = true
-publish.workspace = true
-rust-version.workspace = true
+publish = false
+rust-version = "1.75"
 
 [features]
 trace = []
+
 
 [dependencies]
 
@@ -14,9 +15,7 @@ trace = []
 chrono.workspace = true
 claims.workspace = true
 env_logger.workspace = true
-hcaptcha = { path = "../hcaptcha", default-features = false, features = [
-    "nativetls-backend",
-] }
+hcaptcha = { path = "../hcaptcha" }
 hcaptcha_derive = { path = "../hcaptcha_derive" }
 hex.workspace = true
 itertools.workspace = true

@@ -1,13 +1,12 @@
 [package]
-name = "test_suite_default"
+name = "test-suite-rustls-only"
 version = "0.5.0"
-edition.workspace = true
+edition = "2021"
 publish = false
 rust-version = "1.75"
 
 [features]
 trace = []
-
 
 [dependencies]
 
@@ -15,7 +14,9 @@ trace = []
 chrono.workspace = true
 claims.workspace = true
 env_logger.workspace = true
-hcaptcha = { path = "../hcaptcha" }
+hcaptcha = { path = "../hcaptcha", default-features = false, features = [
+    "rustls-backend",
+] }
 hcaptcha_derive = { path = "../hcaptcha_derive" }
 hex.workspace = true
 itertools.workspace = true
