@@ -83,6 +83,12 @@ jobs:
     steps:
       - checkout
       - run: cargo +stable --version
+      - run:
+          name: install wget
+          command: |
+            sudo apt-get update
+            sudo apt-get install -y wget
+
       - browser-tools/install-chrome
       - run:
           name: install wasm-pack
