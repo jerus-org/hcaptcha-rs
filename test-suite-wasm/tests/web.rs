@@ -31,8 +31,8 @@ async fn testing_run_test() {
     let client = client_builder.build().unwrap();
     println!("The client is: {:?}", client);
 
-    let url = "http://httpbin.org/post";
-    // let url = "https://api.hcaptcha.com/siteverify";
+    // let url = "http://httpbin.org/post";
+    let url = "https://api.hcaptcha.com/siteverify";
     println!("The url is: {}", url);
 
     let response_res = client
@@ -46,7 +46,7 @@ async fn testing_run_test() {
     let status = response.status();
     println!("The status code is: {}", status);
 
-    let test_value = status.to_string().into();
+    let test_value: JsValue = status.to_string().into();
 
     assert_eq!(test_value, expected);
 }

@@ -83,7 +83,7 @@ jobs:
     steps:
       - checkout
       - run: cargo +stable --version
-      - browser-tools/install-firefox
+      - browser-tools/install-chrome
       - run:
           name: install wasm-pack
           command: |
@@ -93,7 +93,7 @@ jobs:
           name: Running wasm-pack tests
           command: |
             cd test-suite-wasm
-            wasm-pack test --headless --firefox
+            wasm-pack test --headless --chrome
 
 workflows:
   check_last_commit:
