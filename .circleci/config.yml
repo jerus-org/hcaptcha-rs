@@ -21,7 +21,7 @@ parameters:
 
 orbs:
   toolkit: jerus-org/circleci-toolkit@1.14.0
-  # sonarcloud: sonarsource/sonarcloud@2.0.0
+  browser-tools: circleci/browser-tools@1.4.8
 
 executors:
   rust_env:
@@ -83,10 +83,7 @@ jobs:
     steps:
       - checkout
       - run: cargo +stable --version
-      - run:
-          name: install firefox browser
-          command: |
-            apt-get install firefox -y
+      - browser-tools/install-firefox
       - run:
           name: install wasm-pack
           command: |
