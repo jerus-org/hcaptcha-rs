@@ -30,6 +30,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - refactor-rename test_suite_cli directory to test-suite-cli(pr [#1094])
 - Hyphen-test-package-names(pr [#1095])
 - Create CODE_OF_CONDUCT.md(pr [#1097])
+- ci-add wasm-pack tests to CircleCI configuration(pr [#1099])
 
 ### Fixed
 
@@ -312,6 +313,7 @@ Extended validation for the secret key requires it to conform to "0x" followed b
 The input to .sitekey(sitekey) has been changed to validate that the string slice supplied is a valid UUID.
 
 The input to the .remoteip(remoteip) has been changed to validate that the string slice supplier is a valid ipv4 or ipv6 address.
+
 - Logging / Tracing*
 
 The previous version provided logging behind a feature flag. The log crate has been removed and replaced with tracing. Tracing has been instrumented for all public functions. Tracing is enabled by selected the "trace" feature.
@@ -320,6 +322,7 @@ Tracing is enabled at the info logging level for public methods. Additional trac
 
 The trace crates log feature is enabled so that log records are
 emitted if a tracing subscriber is not found.
+
 ### Changed
 
 - Rename user_ip and site_key to conform to Hcaptcha API documentation (remoteip and sitekey)
