@@ -1,6 +1,6 @@
 //! Error types for hcaptcha
 
-use serde::{Deserialize, Deserializer};
+use serde::{Deserialize, Deserializer, Serialize};
 use std::collections::HashSet;
 use std::fmt;
 use std::io;
@@ -95,6 +95,31 @@ impl<'de> Deserialize<'de> for Code {
             "invalid-or-already-seen-response" => Code::InvalidAlreadySeen,
             "sitekey-secret-mismatch" => Code::SiteSecretMismatch,
             _ => Code::Unknown(code),
+        })
+    }
+}
+
+impl Serialize for Code {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        serializer.serialize_str(match self {
+            Code::MissingSecret => "missing-input-secret",
+            Code::InvalidSecret => "invalid-input-secret",
+            Code::MissingUserIp => "missing-input-user-ip",
+            Code::InvalidUserIp => "invalid-input-user-ip",
+            Code::MissingSiteKey => "missing-input-sitekey",
+            Code::InvalidSiteKey => "invalid-input-sitekey",
+            Code::MissingResponse => "missing-input-response",
+            Code::InvalidResponse => "invalid-input-response",
+            Code::BadRequest => "bad-request",
+            Code::InvalidAlreadySeen => "invalid-or-already-seen-response",
+            Code::SiteSecretMismatch => "sitekey-secret-mismatch",
+            Code::SecretVersionUnknown => "secret-version-unknown",
+            Code::InvalidSecretExtNotHex => "invalid-secret-ext-not-hex",
+            Code::InvalidSecretExtWrongLen => "invalid-secret-ext-wrong-len",
+            Code::Unknown(s) => s.as_str(),
         })
     }
 }

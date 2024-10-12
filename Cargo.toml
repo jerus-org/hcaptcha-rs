@@ -12,6 +12,7 @@ members = [
     "test-suite-trace",
     "test-suite-cli",
     "test-suite-wasm",
+    "mock-verifier",
 ]
 
 [workspace.package]
@@ -35,7 +36,7 @@ uuid = { version = "1.10.0", features = ["v4"] }
 url = "2.5.2"
 chrono = "0.4.38"
 claims = "0.7.1"
-mockd = { version = "0.4.22", features = ["internet", "unique", "words"] }
+mockd = { version = "0.4.23", features = ["internet", "unique", "words"] }
 itertools = "0.13.0"
 lambda_runtime = "0.13.0"
 log = "0.4.22"
@@ -52,7 +53,7 @@ syn = { version = "2.0.79", features = ["extra-traits"] }
 quote = "1.0.37"
 proc-macro2 = "1.0.87"
 proc-macro-error2 = "2.0.1"
-clap = "4.5.19"
+clap = "4.5.20"
 clap-verbosity-flag = "2.2.2"
 color-eyre = "0.6.3"
 trybuild = "1.0.99"
@@ -61,3 +62,4 @@ env_logger = "0.11.5"
 [profile.release]
 # Tell `rustc` to optimize for small code size.
 opt-level = "s"
+rocket = { version = "0.5.1", features = ["json"] }

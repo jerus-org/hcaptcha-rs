@@ -134,22 +134,20 @@ workflows:
           name: required builds-<< matrix.cargo_package >>
           min_rust_version: << pipeline.parameters.min-rust-version >>
           docker_tag_suffix: << pipeline.parameters.docker-tag-suffix >>
-          matrix:
+          matrix: &builds
             parameters:
-              cargo_package: [hcaptcha, hcaptcha-cli]
+              cargo_package: [hcaptcha, hcaptcha-cli, mock-verifier]
       - toolkit/optional_builds:
           name: optional builds-<< matrix.cargo_package >>
           min_rust_version: << pipeline.parameters.min-rust-version >>
           docker_tag_suffix: << pipeline.parameters.docker-tag-suffix >>
           matrix:
-            parameters:
-              cargo_package: [hcaptcha, hcaptcha-cli]
+            <<: *builds
       - toolkit/common_tests:
           name: common tests for x86_64
           min_rust_version: << pipeline.parameters.min-rust-version >>
           matrix:
-            parameters:
-              cargo_package: [hcaptcha, hcaptcha-cli]
+            <<: *builds
       - toolkit/idiomatic_rust:
           min_rust_version: << pipeline.parameters.min-rust-version >>
       - toolkit/test_doc_build:

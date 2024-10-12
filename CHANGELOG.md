@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - add trace feature to all test suite Cargo.toml files(pr [#1068])
 - update renovate.json to enable circleci-toolkit and add sourceUrl(pr [#1079])
 - add simple_captcha test case to CLI test suite(pr [#1084])
+- add mock-verifier to build matrix(pr [#1105])
 
 ### Changed
 
@@ -54,6 +55,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - deps: update actions/upload-artifact action to v4.4.1(pr [#1098])
 - deps: update actions/checkout action to v4.2.1(pr [#1100])
 - deps: update github/codeql-action action to v3.26.12(pr [#1101])
+- deps: update rust crate clap to 4.5.20(pr [#1102])
+- deps: update actions/upload-artifact action to v4.4.3(pr [#1103])
+- deps: update rust crate mockd to 0.4.23(pr [#1104])
 
 ### Security
 
@@ -452,6 +456,9 @@ emitted if a tracing subscriber is not found.
 [#1098]: https://github.com/jerus-org/hcaptcha-rs/pull/1098
 [#1100]: https://github.com/jerus-org/hcaptcha-rs/pull/1100
 [#1101]: https://github.com/jerus-org/hcaptcha-rs/pull/1101
+[#1102]: https://github.com/jerus-org/hcaptcha-rs/pull/1102
+[#1103]: https://github.com/jerus-org/hcaptcha-rs/pull/1103
+[#1104]: https://github.com/jerus-org/hcaptcha-rs/pull/1104
 [Unreleased]: https://github.com/jerus-org/hcaptcha-rs/compare/v2.5.0...HEAD
 [2.5.0]: https://github.com/jerus-org/hcaptcha-rs/compare/v2.4.9...v2.5.0
 [2.4.9]: https://github.com/jerus-org/hcaptcha-rs/compare/v2.4.8...v2.4.9
