@@ -1,4 +1,9 @@
-use rocket::{get, launch, routes};
+use rocket::{
+    fairing::{Fairing, Info, Kind},
+    get,
+    http::Header,
+    launch, routes, Request, Response,
+};
 
 mod tc001_blank_sitekey;
 use tc001_blank_sitekey::tc001;
@@ -13,9 +18,33 @@ fn siteverify() -> &'static str {
     r#"tc001 - Blank Sitekey"#
 }
 
+pub struct CORS;
+
+#[rocket::async_trait]
+impl Fairing for CORS {
+    fn info(&self) -> Info {
+        Info {
+            name: "Add CORS headers to responses",
+            kind: Kind::Response,
+        }
+    }
+
+    async fn on_response<'r>(&self, _request: &'r Request<'_>, response: &mut Response<'r>) {
+        response.set_header(Header::new("Access-Control-Allow-Origin", "*"));
+        response.set_header(Header::new(
+            "Access-Control-Allow-Methods",
+            "POST, GET, PATCH, OPTIONS",
+        ));
+        response.set_header(Header::new("Access-Control-Allow-Headers", "*"));
+        response.set_header(Header::new("Access-Control-Allow-Credentials", "true"));
+    }
+}
+
 #[launch]
 fn rocket() -> _ {
-    rocket::build().mount("/", routes![hello, siteverify, tc001])
+    rocket::build()
+        .mount("/", routes![hello, siteverify, tc001])
+        .attach(CORS {})
 }
 
 #[cfg(test)]
