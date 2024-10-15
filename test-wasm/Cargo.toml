@@ -11,7 +11,11 @@ crate-type = ["cdylib", "rlib"]
 default = ["console_error_panic_hook"]
 
 [dependencies]
-wasm-bindgen = "0.2.84"
+claims.workspace = true
+hcaptcha = { path = "../hcaptcha", features = ["enterprise"] }
+hcaptcha_derive = { path = "../hcaptcha_derive" }
+wasm-bindgen.workspace = true
+wasm-bindgen-futures.workspace = true
 
 # The `console_error_panic_hook` crate provides better debugging of panics by
 # logging them with `console.error`. This is great for development, but requires
@@ -20,7 +24,7 @@ wasm-bindgen = "0.2.84"
 console_error_panic_hook = { version = "0.1.7", optional = true }
 
 [dev-dependencies]
-wasm-bindgen-test = "0.3.34"
+wasm-bindgen-test.workspace = true
 
 [profile.release]
 # Tell `rustc` to optimize for small code size.
