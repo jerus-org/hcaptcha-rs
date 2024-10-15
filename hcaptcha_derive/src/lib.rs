@@ -133,54 +133,6 @@ pub fn hcaptcha_derive(input: TokenStream) -> TokenStream {
     impl_hcaptcha(&ast)
 }
 
-#[cfg(not(target_arch = "wasm32"))]
-fn impl_hcaptcha(ast: &DeriveInput) -> TokenStream {
-    let name = &ast.ident;
-    let generics = &ast.generics;
-    let (impl_generics, ty_generics, where_clause) = generics.split_for_impl();
-    let data = &ast.data;
-
-    let data_struct = get_struct_data(data, name);
-
-    let attributes = get_attributes(data_struct);
-
-    let captcha = get_required_attribute(&attributes, "captcha", name);
-
-    let remoteip = get_optional_attribute(&attributes, "remoteip", "set_remoteip");
-    let sitekey = get_optional_attribute(&attributes, "sitekey", "set_sitekey");
-
-    let gen = quote! {
-        impl #impl_generics Hcaptcha for #name #ty_generics #where_clause {
-            fn valid_response(&self, secret: &str, uri: Option<String>) -> std::pin::Pin<Box<dyn std::future::Future<Output = Result<hcaptcha::HcaptchaResponse, hcaptcha::HcaptchaError>> >>  {
-                let mut client = hcaptcha::HcaptchaClient::new();
-                if let Some(u) = uri {
-                        match client.set_url(&u)
-                         {
-                            Ok(c) => client = c,
-                            Err(e) => {
-                                return Box::pin(async { Err(e) });
-                            }
-                        };
-                };
-
-                #captcha
-                #remoteip
-                #sitekey;
-                let request;
-                match hcaptcha::HcaptchaRequest::new(&secret, captcha) {
-                    Ok(r) => request = r,
-                    Err(e) => {
-                        return Box::pin(async { Err(e) } );
-                    }
-                };
-                Box::pin(client.verify_client_response(request))
-            }
-        }
-    };
-    gen.into()
-}
-
-#[cfg(target_arch = "wasm32")]
 fn impl_hcaptcha(ast: &DeriveInput) -> TokenStream {
     let name = &ast.ident;
     let generics = &ast.generics;
