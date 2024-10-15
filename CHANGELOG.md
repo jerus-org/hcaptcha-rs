@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - update renovate.json to enable circleci-toolkit and add sourceUrl(pr [#1079])
 - add simple_captcha test case to CLI test suite(pr [#1084])
 - add mock-verifier to build matrix(pr [#1105])
+- add hcaptcha integration and async test support(pr [#1109])
 
 ### Changed
 
@@ -458,6 +459,7 @@ emitted if a tracing subscriber is not found.
 [#1103]: https://github.com/jerus-org/hcaptcha-rs/pull/1103
 [#1104]: https://github.com/jerus-org/hcaptcha-rs/pull/1104
 [#1106]: https://github.com/jerus-org/hcaptcha-rs/pull/1106
+[#1109]: https://github.com/jerus-org/hcaptcha-rs/pull/1109
 [Unreleased]: https://github.com/jerus-org/hcaptcha-rs/compare/v2.5.0...HEAD
 [2.5.0]: https://github.com/jerus-org/hcaptcha-rs/compare/v2.4.9...v2.5.0
 [2.4.9]: https://github.com/jerus-org/hcaptcha-rs/compare/v2.4.8...v2.4.9

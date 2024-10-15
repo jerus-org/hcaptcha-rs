@@ -61,6 +61,8 @@ use crate::HcaptchaError;
 use crate::HcaptchaRequest;
 use crate::HcaptchaResponse;
 use reqwest::{Client, Url};
+// #[cfg(target_arch = "wasm32")]
+// use tokio::runtime;
 
 mod hcaptcha_form;
 
