@@ -21,6 +21,7 @@ parameters:
 
 orbs:
   toolkit: jerus-org/circleci-toolkit@1.14.0
+  node: circleci/node@6.2.0
   # sonarcloud: sonarsource/sonarcloud@2.0.0
 
 executors:
@@ -77,6 +78,18 @@ jobs:
       - toolkit/cargo_run:
           cargo_package: << parameters.cargo_package >>
           cargo_bin: << parameters.cargo_bin >>
+
+  wasm_test:
+    executor: rust_env
+    steps:
+      - checkout
+      - node/install
+      - run:
+          name: Running wasm tests
+          command: |
+            set -ex
+            cd test-wasm
+            wasm-pack test --node
 
 workflows:
   check_last_commit:
@@ -153,6 +166,12 @@ workflows:
                   test-suite-trace,
                   test-suite-enterprise,
                 ]
+          requires:
+            - toolkit/common_tests
+            - toolkit/required_builds
+            - toolkit/test_doc_build
+
+      - wasm_test:
           requires:
             - toolkit/common_tests
             - toolkit/required_builds
