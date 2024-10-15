@@ -85,6 +85,11 @@ jobs:
       - checkout
       - node/install
       - run:
+          name: Installing wasm-pack
+          command: |
+            cargo install wasm-pack
+            wasm-pack -V
+      - run:
           name: Running wasm tests
           command: |
             set -ex
