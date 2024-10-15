@@ -3,7 +3,7 @@
 #![cfg(target_arch = "wasm32")]
 
 extern crate wasm_bindgen_test;
-use test_wasm::valid_integration_test;
+use test_wasm::validate_standard;
 use wasm_bindgen_test::*;
 
 // wasm_bindgen_test_configure!(run_in_browser);
@@ -15,5 +15,5 @@ fn pass() {
 
 #[wasm_bindgen_test]
 async fn valid_integration_test() {
-    valid_integration_test().await;
+    validate_standard().await;
 }
