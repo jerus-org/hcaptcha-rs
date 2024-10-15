@@ -56,7 +56,7 @@ proc-macro-error2 = "2.0.1"
 clap = "4.5.20"
 clap-verbosity-flag = "2.2.2"
 color-eyre = "0.6.3"
-trybuild = "1.0.99"
+trybuild = "1.0.100"
 env_logger = "0.11.5"
 rocket = { version = "0.5.1", features = ["json"] }
 wasm-bindgen = "0.2.84"
