@@ -2371,7 +2371,6 @@ name = "test-wasm"
 version = "0.1.0"
 dependencies = [
  "claims",
- "console_error_panic_hook",
  "hcaptcha",
  "hcaptcha_derive",
  "wasm-bindgen",
