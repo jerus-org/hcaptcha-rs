@@ -21,7 +21,7 @@ parameters:
 
 orbs:
   toolkit: jerus-org/circleci-toolkit@1.14.0
-  node: circleci/node@6.2.0
+  node: circleci/node@6.3.0
   # sonarcloud: sonarsource/sonarcloud@2.0.0
 
 executors:
