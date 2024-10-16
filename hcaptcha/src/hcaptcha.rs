@@ -10,5 +10,5 @@ pub trait Hcaptcha {
         &self,
         secret: &str,
         uri: Option<String>,
-    ) -> Pin<Box<dyn Future<Output = Result<HcaptchaResponse, HcaptchaError>> + Send>>;
+    ) -> Pin<Box<dyn Future<Output = Result<HcaptchaResponse, HcaptchaError>>>>;
 }

@@ -21,6 +21,7 @@ parameters:
 
 orbs:
   toolkit: jerus-org/circleci-toolkit@1.14.0
+  node: circleci/node@6.2.0
   browser-tools: circleci/browser-tools@1.4.8
 
 executors:
@@ -101,6 +102,23 @@ jobs:
             cd test-suite-wasm
             wasm-pack test --headless --chrome
 
+  wasm_test:
+    executor: rust_env
+    steps:
+      - checkout
+      - node/install
+      - run:
+          name: Installing wasm-pack
+          command: |
+            cargo install wasm-pack
+            wasm-pack -V
+      - run:
+          name: Running wasm tests
+          command: |
+            set -ex
+            cd test-wasm
+            wasm-pack test --node
+
 workflows:
   check_last_commit:
     when:
@@ -176,6 +194,12 @@ workflows:
                   test-suite-trace,
                   test-suite-enterprise,
                 ]
+          requires:
+            - toolkit/common_tests
+            - toolkit/required_builds
+            - toolkit/test_doc_build
+
+      - wasm_test:
           requires:
             - toolkit/common_tests
             - toolkit/required_builds
