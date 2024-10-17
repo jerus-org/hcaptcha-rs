@@ -70,4 +70,3 @@ rustdoc-args = ["--cfg", "docsrs"]
 
 [target.'cfg(target_arch = "wasm32")'.dependencies]
 uuid = { workspace = true, features = ["js"] }
-# tokio.workspace = true
