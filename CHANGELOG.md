@@ -34,6 +34,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Hyphen-test-package-names(pr [#1095])
 - Create CODE_OF_CONDUCT.md(pr [#1097])
 - refactor(test-wasm)-remove console_error_panic_hook and unused utilities(pr [#1116])
+- docs-update README to add Web Assembly section(pr [#1120])
 
 ### Fixed
 
@@ -484,6 +485,7 @@ emitted if a tracing subscriber is not found.
 [#1117]: https://github.com/jerus-org/hcaptcha-rs/pull/1117
 [#1119]: https://github.com/jerus-org/hcaptcha-rs/pull/1119
 [#1118]: https://github.com/jerus-org/hcaptcha-rs/pull/1118
+[#1120]: https://github.com/jerus-org/hcaptcha-rs/pull/1120
 [Unreleased]: https://github.com/jerus-org/hcaptcha-rs/compare/v2.5.0...HEAD
 [2.5.0]: https://github.com/jerus-org/hcaptcha-rs/compare/v2.4.9...v2.5.0
 [2.4.9]: https://github.com/jerus-org/hcaptcha-rs/compare/v2.4.8...v2.4.9

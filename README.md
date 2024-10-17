@@ -4,7 +4,6 @@
 [![MIT licensed][mit-badge]][mit-url]
 [![Build Status][circleci-batch]][circleci-url]
 [![Rust 1.75+][version-badge]][version-url]
-[![FOSSA Status][fossa-badge]][fossa-url]
 [![Docs][docs-badge]][docs-url]
 [![BuyMeaCoffee][bmac-badge]][bmac-url]
 [![GitHubSponsors][ghub-badge]][ghub-url]
@@ -17,8 +16,6 @@
 [circleci-url]: https://dl.circleci.com/status-badge/redirect/gh/jerus-org/hcaptcha-rs/tree/main
 [version-badge]: https://img.shields.io/badge/rust-1.71+-orange.svg
 [version-url]: https://www.rust-lang.org
-[fossa-badge]: https://app.fossa.com/api/projects/custom%2B22707%2Fgithub.com%2Fjerusdp%2Fhcaptcha-rs.svg?type=shield
-[fossa-url]: https://app.fossa.com/projects/custom%2B22707%2Fgithub.com%2Fjerusdp%2Fhcaptcha-rs?ref=badge_shield
 [docs-badge]:  https://docs.rs/hcaptcha/badge.svg
 [docs-url]:  https://docs.rs/hcapatcha
 [bmac-badge]: https://badgen.net/badge/icon/buymeacoffee?color=yellow&icon=buymeacoffee&label
@@ -30,11 +27,12 @@ The rust library hcaptcha is used with your backend service to verify the hcaptc
 
 ## Installation
 
-To use hcaptcha-rs in your project you can add the following to your `Cargo.toml`:
+To use hcaptcha, add the following to your `Cargo.toml`:
 
 ```toml
 [dependencies]
 hcaptcha = "2.5.0"
+
 ```
 
 ## Usage
@@ -53,6 +51,7 @@ pub struct ContactForm {
     #[captcha]
     token: String,
 }
+
 ```
 
 Validate the captcha data.
@@ -71,6 +70,12 @@ Validate the captcha data.
 
 See the examples folder for an AWS Lambda contact form example.
 
+## Web Assembly
+
+Hcaptcha has been tested in a web assembly project using wasm-bindgen and node.
+
+See the `hcaptcha-wasm` example for a sample project which can be run using `wasm-pack test --node`.
+
 ## License
 
 Licensed under either of
@@ -78,12 +83,6 @@ Licensed under either of
 * Apache License, Version 2.0 (LICENSE-APACHE or <http://www.apache.org/licenses/LICENSE-2.0>)
 * MIT license (LICENSE-MIT or <http://opensource.org/licenses/MIT>)
 at your option.
-
-### Third Party Licenses
-
-A summary of third party licenses can be found [here][fossa-report-url]
-
-[fossa-report-url]: https://app.fossa.com/attribution/524389e4-8ef2-4dd1-9453-d07c39efa929
 
 ## Contribution
 
