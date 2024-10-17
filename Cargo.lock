@@ -812,6 +812,18 @@ dependencies = [
 ]
 
 [[package]]
+name = "hcaptcha-wasm"
+version = "0.1.0"
+dependencies = [
+ "claims",
+ "hcaptcha",
+ "hcaptcha_derive",
+ "wasm-bindgen",
+ "wasm-bindgen-futures",
+ "wasm-bindgen-test",
+]
+
+[[package]]
 name = "hcaptcha_derive"
 version = "2.5.0"
 dependencies = [

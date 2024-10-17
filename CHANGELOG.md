@@ -17,6 +17,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - add simple_captcha test case to CLI test suite(pr [#1084])
 - add mock-verifier to build matrix(pr [#1105])
 - add hcaptcha integration and async test support(pr [#1109])
+- add new wasm example with hcaptcha integration(pr [#1117])
 
 ### Changed
 
@@ -478,6 +479,7 @@ emitted if a tracing subscriber is not found.
 [#1114]: https://github.com/jerus-org/hcaptcha-rs/pull/1114
 [#1116]: https://github.com/jerus-org/hcaptcha-rs/pull/1116
 [#1115]: https://github.com/jerus-org/hcaptcha-rs/pull/1115
+[#1117]: https://github.com/jerus-org/hcaptcha-rs/pull/1117
 [Unreleased]: https://github.com/jerus-org/hcaptcha-rs/compare/v2.5.0...HEAD
 [2.5.0]: https://github.com/jerus-org/hcaptcha-rs/compare/v2.4.9...v2.5.0
 [2.4.9]: https://github.com/jerus-org/hcaptcha-rs/compare/v2.4.8...v2.4.9
