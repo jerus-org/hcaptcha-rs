@@ -17,6 +17,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - add simple_captcha test case to CLI test suite(pr [#1084])
 - add mock-verifier to build matrix(pr [#1105])
 - add hcaptcha integration and async test support(pr [#1109])
+- add new wasm example with hcaptcha integration(pr [#1117])
 
 ### Changed
 
@@ -327,7 +328,6 @@ Extended validation for the secret key requires it to conform to "0x" followed b
 The input to .sitekey(sitekey) has been changed to validate that the string slice supplied is a valid UUID.
 
 The input to the .remoteip(remoteip) has been changed to validate that the string slice supplier is a valid ipv4 or ipv6 address.
-
 - Logging / Tracing*
 
 The previous version provided logging behind a feature flag. The log crate has been removed and replaced with tracing. Tracing has been instrumented for all public functions. Tracing is enabled by selected the "trace" feature.
@@ -336,7 +336,6 @@ Tracing is enabled at the info logging level for public methods. Additional trac
 
 The trace crates log feature is enabled so that log records are
 emitted if a tracing subscriber is not found.
-
 ### Changed
 
 - Rename user_ip and site_key to conform to Hcaptcha API documentation (remoteip and sitekey)
@@ -480,6 +479,7 @@ emitted if a tracing subscriber is not found.
 [#1114]: https://github.com/jerus-org/hcaptcha-rs/pull/1114
 [#1116]: https://github.com/jerus-org/hcaptcha-rs/pull/1116
 [#1115]: https://github.com/jerus-org/hcaptcha-rs/pull/1115
+[#1117]: https://github.com/jerus-org/hcaptcha-rs/pull/1117
 [Unreleased]: https://github.com/jerus-org/hcaptcha-rs/compare/v2.5.0...HEAD
 [2.5.0]: https://github.com/jerus-org/hcaptcha-rs/compare/v2.4.9...v2.5.0
 [2.4.9]: https://github.com/jerus-org/hcaptcha-rs/compare/v2.4.8...v2.4.9
