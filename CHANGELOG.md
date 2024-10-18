@@ -73,6 +73,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - deps: update rust crate wasm-bindgen-test to 0.3.45(pr [#1119])
 - deps: update rust crate wasm-bindgen-futures to 0.4.45(pr [#1118])
 - deps: update rust crate serde_json to 1.0.129(pr [#1121])
+- deps: update rust crate serde_json to 1.0.130(pr [#1122])
 
 ### Security
 
@@ -488,6 +489,7 @@ emitted if a tracing subscriber is not found.
 [#1118]: https://github.com/jerus-org/hcaptcha-rs/pull/1118
 [#1120]: https://github.com/jerus-org/hcaptcha-rs/pull/1120
 [#1121]: https://github.com/jerus-org/hcaptcha-rs/pull/1121
+[#1122]: https://github.com/jerus-org/hcaptcha-rs/pull/1122
 [Unreleased]: https://github.com/jerus-org/hcaptcha-rs/compare/v2.5.0...HEAD
 [2.5.0]: https://github.com/jerus-org/hcaptcha-rs/compare/v2.4.9...v2.5.0
 [2.4.9]: https://github.com/jerus-org/hcaptcha-rs/compare/v2.4.8...v2.4.9
