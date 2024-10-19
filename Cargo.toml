@@ -37,7 +37,7 @@ uuid = { version = "1.11.0", features = ["v4"] }
 url = "2.5.2"
 chrono = "0.4.38"
 claims = "0.7.1"
-mockd = { version = "0.4.24", features = ["internet", "unique", "words"] }
+mockd = { version = "0.4.25", features = ["internet", "unique", "words"] }
 itertools = "0.13.0"
 lambda_runtime = "0.13.0"
 log = "0.4.22"
