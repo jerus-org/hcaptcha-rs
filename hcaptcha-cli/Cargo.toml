@@ -1,9 +1,9 @@
 [package]
 name = "hcaptcha-cli"
 version = "0.2.0"
-edition = "2021"
-publish = false
-rust-version = "1.75"
+edition.workspace = true
+publish.workspace = true
+rust-version.workspace = true
 
 [dependencies]
 clap.workspace = true
