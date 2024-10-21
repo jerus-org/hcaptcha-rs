@@ -2,7 +2,9 @@
 name = "test-wasm"
 version = "0.1.0"
 authors = ["Jeremiah Russell <jerry@jrussell.ie>"]
-edition = "2018"
+edition.workspace = true
+rust-version.workspace = true
+publish.workspace = true
 
 [lib]
 crate-type = ["cdylib", "rlib"]

@@ -35,6 +35,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Create CODE_OF_CONDUCT.md(pr [#1097])
 - refactor(test-wasm)-remove console_error_panic_hook and unused utilities(pr [#1116])
 - docs-update README to add Web Assembly section(pr [#1120])
+- chore-update Cargo.toml to use workspace settings for edition, rust-version, and publish(pr [#1130])
 
 ### Fixed
 
@@ -504,6 +505,7 @@ emitted if a tracing subscriber is not found.
 [#1127]: https://github.com/jerus-org/hcaptcha-rs/pull/1127
 [#1128]: https://github.com/jerus-org/hcaptcha-rs/pull/1128
 [#1129]: https://github.com/jerus-org/hcaptcha-rs/pull/1129
+[#1130]: https://github.com/jerus-org/hcaptcha-rs/pull/1130
 [Unreleased]: https://github.com/jerus-org/hcaptcha-rs/compare/v2.5.0...HEAD
 [2.5.0]: https://github.com/jerus-org/hcaptcha-rs/compare/v2.4.9...v2.5.0
 [2.4.9]: https://github.com/jerus-org/hcaptcha-rs/compare/v2.4.8...v2.4.9
