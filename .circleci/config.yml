@@ -223,3 +223,29 @@ workflows:
             - bot-check
           ssh_fingerprint: << pipeline.parameters.fingerprint >>
           min_rust_version: << pipeline.parameters.min-rust-version >>
+          github_release: false
+      - toolkit/make_release:
+          context:
+            - release
+            - bot-check
+          ssh_fingerprint: << pipeline.parameters.fingerprint >>
+          min_rust_version: << pipeline.parameters.min-rust-version >>
+          cargo_release: false
+          matrix:
+            parameters:
+              pcu_prefix:
+                [
+                  hcaptcha-cli-v,
+                  hcaptcha-v,
+                  hcaptcha-wasm-v,
+                  hcaptcha_derive-v,
+                  mock-verifier-v,
+                  test-suite-cli-v,
+                  test-suite-default-v,
+                  test-suite-enterprise-v,
+                  test-suite-native-only-v,
+                  test-suite-no-default-v,
+                  test-suite-rustls-only-v,
+                  test-suite-trace-v,
+                  test-wasm-v,
+                ]
