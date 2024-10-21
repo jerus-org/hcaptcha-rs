@@ -227,12 +227,12 @@ workflows:
           min_rust_version: << pipeline.parameters.min-rust-version >>
           github_release: false
       - toolkit/make_release:
-          name: make github releases
+          name: make github releases - <<matrix.pcu_prefix>>
           context:
             - release
             - bot-check
           requires:
-            - make cargo release - <<matrix.pcu_prefix>>
+            - make cargo release
           ssh_fingerprint: << pipeline.parameters.fingerprint >>
           min_rust_version: << pipeline.parameters.min-rust-version >>
           cargo_release: false
