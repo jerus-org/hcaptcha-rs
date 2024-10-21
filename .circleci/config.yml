@@ -218,6 +218,7 @@ workflows:
         - not: << pipeline.parameters.validation-flag >>
     jobs:
       - toolkit/make_release:
+          name: make cargo release
           context:
             - release
             - bot-check
@@ -225,9 +226,12 @@ workflows:
           min_rust_version: << pipeline.parameters.min-rust-version >>
           github_release: false
       - toolkit/make_release:
+          name: make github releases
           context:
             - release
             - bot-check
+          requires:
+            - make cargo release
           ssh_fingerprint: << pipeline.parameters.fingerprint >>
           min_rust_version: << pipeline.parameters.min-rust-version >>
           cargo_release: false
