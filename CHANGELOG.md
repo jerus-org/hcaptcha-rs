@@ -11,6 +11,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - ci(circleci)-update config to include wasm_test and adjust cargo release requirements(pr [#1133])
 
+### Fixed
+
+- circleci: update workflow dependencies for release jobs(pr [#1134])
+
 ## [2.6.2] - 2024-10-21
 
 ### Changed
@@ -527,6 +531,7 @@ emitted if a tracing subscriber is not found.
 [#1131]: https://github.com/jerus-org/hcaptcha-rs/pull/1131
 [#1132]: https://github.com/jerus-org/hcaptcha-rs/pull/1132
 [#1133]: https://github.com/jerus-org/hcaptcha-rs/pull/1133
+[#1134]: https://github.com/jerus-org/hcaptcha-rs/pull/1134
 [Unreleased]: https://github.com/jerus-org/hcaptcha-rs/compare/v2.6.2...HEAD
 [2.6.2]: https://github.com/jerus-org/hcaptcha-rs/compare/v2.6.1...v2.6.2
 [2.6.1]: https://github.com/jerus-org/hcaptcha-rs/compare/v2.6.0...v2.6.1
