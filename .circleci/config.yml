@@ -191,6 +191,7 @@ workflows:
             - test-suite
             - run_test_program
             - toolkit/security
+            - wasm_test
           context:
             - release
             - bot-check
@@ -231,10 +232,11 @@ workflows:
             - release
             - bot-check
           requires:
-            - make cargo release
+            - make cargo release - <<matrix.pcu_prefix>>
           ssh_fingerprint: << pipeline.parameters.fingerprint >>
           min_rust_version: << pipeline.parameters.min-rust-version >>
           cargo_release: false
+          pcu_no_push: true
           matrix:
             parameters:
               pcu_prefix:
