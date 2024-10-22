@@ -31,6 +31,90 @@ executors:
   base-env:
     docker:
       - image: jerusdp/ci-rust:base
+commands:
+  make_github_release:
+    parameters:
+      pcu_verbosity:
+        type: string
+        default: "-vv"
+        description: "The verbosity of the pcu command"
+      pcu_update_changelog:
+        type: boolean
+        default: false
+        description: "The verbosity of the pcu command"
+      pcu_prefix:
+        type: string
+        default: "v"
+        description: "The verbosity of the pcu command"
+    steps:
+      - run:
+          name: Create Github release
+          command: |
+            set -exo pipefail
+            if [ "" != "${SEMVER}" ] ; then
+              if [ <<parameters.pcu_update_changelog>> == "true" ] ; then
+                update_changelog="-update_changelog"
+              else
+                update_changelog=""
+              fi
+              pcu <<parameters.pcu_verbosity>> release $update_changelog --prefix <<parameters.pcu_prefix>> --semver ${SEMVER}
+            fi
+
+  make_cargo_release:
+    parameters:
+      publish:
+        type: boolean
+        default: true
+        description: "If true, the release will be published."
+      first_release:
+        type: boolean
+        default: false
+        description: "If true, the release will be published as first release."
+      specific_version:
+        type: boolean
+        default: false
+        description: "If true, the release will be published with a specific version."
+      version:
+        type: string
+        default: ""
+        description: "Specific version number to release"
+      no_push:
+        type: boolean
+        default: false
+        description: "Whether or not cargo release should push the changes"
+    steps:
+      - run:
+          name: Find next level and publish update
+          command: |
+            set -exo pipefail
+
+            if [ << parameters.publish >> == true ] ; then
+              publish="--publish"
+            else
+              publish="--no-publish"
+            fi
+
+            cargo release changes
+            if [ << parameters.first_release >> == true ] ; then
+              cargo release $publish --execute --no-confirm --sign-tag -c first-release.toml 0.1.0
+            else
+              if [ << parameters.specific_version >> == true ] && [ "<< parameters.version >>" != "" ] ; then
+                export NEXTSV_LEVEL=<< parameters.version >>
+              else
+                export NEXTSV_LEVEL=$(nextsv -q -c other require -f CHANGELOG.md feature)
+              fi
+              echo $NEXTSV_LEVEL
+              if [ $NEXTSV_LEVEL != "none" ] ; then
+                cargo release changes
+                if [ << parameters.no_push >> == true ] ; then
+                  cargo release "$publish" --no-push --execute --no-confirm --sign-tag "$NEXTSV_LEVEL"
+                else
+                  cargo release "$publish" --execute --no-confirm --sign-tag "$NEXTSV_LEVEL"
+                fi
+              else
+                echo "Not ready to release yet."
+              fi
+            fi
 
 jobs:
   test-suite:
@@ -95,6 +179,139 @@ jobs:
             set -ex
             cd test-wasm
             wasm-pack test --node
+
+  make_release:
+    executor:
+      name: rust_env
+
+    parameters:
+      ssh_fingerprint:
+        type: string
+      min_rust_version:
+        type: string
+      pcu_verbosity:
+        type: string
+        default: "-vv"
+        description: "The verbosity of the pcu command"
+      version:
+        type: string
+        default: ""
+        description: |
+          Specific version number to release
+      specific_version:
+        type: boolean
+        default: false
+        description: |
+          Make a specific release, if true version must be set to the specific version number
+      first_release:
+        type: boolean
+        default: false
+        description: |
+          Request that a first release (v0.1.0) be created
+      publish:
+        type: boolean
+        default: true
+        description: |
+          Publish the release
+      github_release:
+        type: boolean
+        default: true
+        description: |
+          Create a github release
+      cargo_release:
+        type: boolean
+        default: true
+        description: |
+          Create a cargo release
+      update_pcu:
+        type: boolean
+        default: false
+        description: |
+          Update pcu
+      pcu_update_changelog:
+        type: boolean
+        default: false
+        description: "To update the changelog when making the github release"
+      pcu_push:
+        type: boolean
+        default: false
+        description: "To use the pcu push command"
+      pcu_semver:
+        type: boolean
+        default: false
+        description: "Whether or not set the semver version flag"
+      pcu_no_push:
+        type: boolean
+        default: false
+        description: "Whether or not prevent final push of commit"
+      pcu_commit_message:
+        type: string
+        default: "chore: test push"
+        description: "The commit message to use for the pcu test push"
+      pcu_prefix:
+        type: string
+        default: "v"
+        description: "The verbosity of the pcu command"
+
+    steps:
+      - checkout
+      - add_ssh_keys:
+          fingerprints:
+            - << parameters.ssh_fingerprint >>
+      - run:
+          name: Remove original SSH key from agent
+          command: |
+            ssh-add -l
+            ssh-add -d ~/.ssh/id_rsa.pub
+            ssh-add -l
+      - toolkit/gpg_key
+      - toolkit/git_config
+      - when:
+          condition: << parameters.update_pcu >>
+          steps:
+            - toolkit/install_latest_pcu
+      - when:
+          condition: << parameters.github_release >>
+          steps:
+            - toolkit/set_env_var_semver:
+                version: << parameters.version >>
+      - when:
+          condition:
+            and:
+              - << parameters.cargo_release >>
+              - not: << parameters.pcu_push >>
+          steps:
+            - make_cargo_release:
+                publish: << parameters.publish >>
+                first_release: << parameters.first_release >>
+                specific_version: << parameters.specific_version >>
+                version: << parameters.version >>
+      - when:
+          condition:
+            and:
+              - << parameters.cargo_release >>
+              - << parameters.pcu_push >>
+          steps:
+            - make_cargo_release:
+                publish: << parameters.publish >>
+                first_release: << parameters.first_release >>
+                specific_version: << parameters.specific_version >>
+                version: << parameters.version >>
+                no_push: true
+      - when:
+          condition: < parameters.pcu_push >>
+          steps:
+            - toolkit/push_cmd:
+                pcu_no_push: << parameters.pcu_no_push >>
+                pcu_verbosity: << parameters.pcu_verbosity >>
+                pcu_semver: << parameters.pcu_semver >>
+      - when:
+          condition: < parameters.github_release >>
+          steps:
+            - make_github_release:
+                pcu_verbosity: << parameters.pcu_verbosity >>
+                pcu_update_changelog: << parameters.pcu_update_changelog >>
+                pcu_prefix: << parameters.pcu_prefix >>
 
 workflows:
   check_last_commit:
@@ -218,25 +435,13 @@ workflows:
         - not: << pipeline.parameters.success-flag >>
         - not: << pipeline.parameters.validation-flag >>
     jobs:
-      - toolkit/make_release:
-          name: make cargo release
-          context:
-            - release
-            - bot-check
-          ssh_fingerprint: << pipeline.parameters.fingerprint >>
-          min_rust_version: << pipeline.parameters.min-rust-version >>
-          github_release: false
-      - toolkit/make_release:
+      - make_release:
           name: make github releases - <<matrix.pcu_prefix>>
           context:
             - release
             - bot-check
-          requires:
-            - make cargo release
           ssh_fingerprint: << pipeline.parameters.fingerprint >>
           min_rust_version: << pipeline.parameters.min-rust-version >>
-          cargo_release: false
-          pcu_no_push: true
           matrix:
             parameters:
               pcu_prefix:
