@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 - deps: update rust crate serde to 1.0.211(pr [#1135])
+- deps: update rust crate tokio to 1.41.0(pr [#1136])
 
 ## [2.6.3] - 2024-10-21
 
@@ -539,6 +540,7 @@ emitted if a tracing subscriber is not found.
 [#1133]: https://github.com/jerus-org/hcaptcha-rs/pull/1133
 [#1134]: https://github.com/jerus-org/hcaptcha-rs/pull/1134
 [#1135]: https://github.com/jerus-org/hcaptcha-rs/pull/1135
+[#1136]: https://github.com/jerus-org/hcaptcha-rs/pull/1136
 [Unreleased]: https://github.com/jerus-org/hcaptcha-rs/compare/v2.6.3...HEAD
 [2.6.3]: https://github.com/jerus-org/hcaptcha-rs/compare/v2.6.2...v2.6.3
 [2.6.2]: https://github.com/jerus-org/hcaptcha-rs/compare/v2.6.1...v2.6.2
