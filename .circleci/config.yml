@@ -46,6 +46,10 @@ commands:
         type: string
         default: "v"
         description: "The verbosity of the pcu command"
+      pcu_workspace:
+        type: boolean
+        default: false
+        description: "Whether or not to set the workspace flag of the pcu command"
     steps:
       - run:
           name: Create Github release
@@ -58,6 +62,8 @@ commands:
                 update_changelog=""
               fi
               pcu <<parameters.pcu_verbosity>> release $update_changelog --prefix <<parameters.pcu_prefix>> --semver ${SEMVER}
+            else if [ <<parameters.pcu_workspace>> == "true" ] ; then
+                pcu <<parameters.pcu_verbosity>> release $update_changelog --prefix <<parameters.pcu_prefix>> --workspace
             fi
 
   make_cargo_release:
@@ -252,6 +258,10 @@ jobs:
         type: string
         default: "v"
         description: "The verbosity of the pcu command"
+      pcu_workspace:
+        type: boolean
+        default: false
+        description: "Whether or not to set the workspace flag of the pcu command"
 
     steps:
       - checkout
@@ -312,6 +322,7 @@ jobs:
                 pcu_verbosity: << parameters.pcu_verbosity >>
                 pcu_update_changelog: << parameters.pcu_update_changelog >>
                 pcu_prefix: << parameters.pcu_prefix >>
+                pcu_workspace: << parameters.pcu_workspace >>
 
 workflows:
   check_last_commit:
