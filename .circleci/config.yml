@@ -60,13 +60,15 @@ commands:
           command: |
             set -exo pipefail
             if [ "" != "${SEMVER}" ] ; then
-              if [ <<parameters.pcu_update_changelog>> == "true" ] ; then
+              if [ <<parameters.pcu_update_changelog>> == true ] ; then
                 update_changelog="-update_changelog"
               else
                 update_changelog=""
               fi
               pcu <<parameters.pcu_verbosity>> release $update_changelog --prefix <<parameters.pcu_prefix>> --semver ${SEMVER}
-            else if [ <<parameters.pcu_workspace>> == "true" ] ; then
+            fi
+
+            if [ <<parameters.pcu_workspace>> == true ] ; then
                 pcu <<parameters.pcu_verbosity>> release $update_changelog --prefix <<parameters.pcu_prefix>> --workspace
             fi
 
