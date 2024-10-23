@@ -18,6 +18,10 @@ parameters:
     type: boolean
     default: false
     description: "If true, the success pipeline will be executed."
+  pcu_workspace:
+    type: boolean
+    default: true
+    description: "If true, the make release treats as workspace."
 
 orbs:
   toolkit: jerus-org/circleci-toolkit@1.14.0
@@ -447,27 +451,10 @@ workflows:
         - not: << pipeline.parameters.validation-flag >>
     jobs:
       - make_release:
-          name: make github releases - <<matrix.pcu_prefix>>
+          name: make github releases
           context:
             - release
             - bot-check
           ssh_fingerprint: << pipeline.parameters.fingerprint >>
           min_rust_version: << pipeline.parameters.min-rust-version >>
-          matrix:
-            parameters:
-              pcu_prefix:
-                [
-                  hcaptcha-cli-v,
-                  hcaptcha-v,
-                  hcaptcha-wasm-v,
-                  hcaptcha_derive-v,
-                  mock-verifier-v,
-                  test-suite-cli-v,
-                  test-suite-default-v,
-                  test-suite-enterprise-v,
-                  test-suite-native-only-v,
-                  test-suite-no-default-v,
-                  test-suite-rustls-only-v,
-                  test-suite-trace-v,
-                  test-wasm-v,
-                ]
+          pcu_workspace: << pipeline.parameters.pcu_workspace >>
