@@ -282,7 +282,7 @@
 //!
 //! ```toml
 //! [dependency]
-//! hcaptcha = { version = "2.7.3", default-features = false }
+//! hcaptcha = { version = "2.7.4", default-features = false }
 //! ```
 //!
 //! The following feature flags are available:
