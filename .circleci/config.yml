@@ -451,7 +451,7 @@ workflows:
         - not: << pipeline.parameters.validation-flag >>
     jobs:
       - make_release:
-          name: make github releases - <<matrix.pcu_prefix>>
+          name: make github releases
           context:
             - release
             - bot-check
