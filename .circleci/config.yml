@@ -59,6 +59,12 @@ commands:
           name: Create Github release
           command: |
             set -exo pipefail
+
+            if [ <<parameters.pcu_workspace>> == true ] ; then
+                pcu <<parameters.pcu_verbosity>> release $update_changelog --prefix <<parameters.pcu_prefix>> --workspace
+                exit
+            fi
+
             if [ "" != "${SEMVER}" ] ; then
               if [ <<parameters.pcu_update_changelog>> == true ] ; then
                 update_changelog="-update_changelog"
@@ -66,10 +72,6 @@ commands:
                 update_changelog=""
               fi
               pcu <<parameters.pcu_verbosity>> release $update_changelog --prefix <<parameters.pcu_prefix>> --semver ${SEMVER}
-            fi
-
-            if [ <<parameters.pcu_workspace>> == true ] ; then
-                pcu <<parameters.pcu_verbosity>> release $update_changelog --prefix <<parameters.pcu_prefix>> --workspace
             fi
 
   make_cargo_release:
