@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- add pcu_workspace parameter to config for workspace flag support(pr [#1142])
+
 ### Fixed
 
 - deps: update rust crate proc-macro2 to 1.0.89(pr [#1138])
@@ -559,6 +563,7 @@ emitted if a tracing subscriber is not found.
 [#1139]: https://github.com/jerus-org/hcaptcha-rs/pull/1139
 [#1140]: https://github.com/jerus-org/hcaptcha-rs/pull/1140
 [#1141]: https://github.com/jerus-org/hcaptcha-rs/pull/1141
+[#1142]: https://github.com/jerus-org/hcaptcha-rs/pull/1142
 [Unreleased]: https://github.com/jerus-org/hcaptcha-rs/compare/v2.6.4...HEAD
 [2.6.4]: https://github.com/jerus-org/hcaptcha-rs/compare/v2.6.3...v2.6.4
 [2.6.3]: https://github.com/jerus-org/hcaptcha-rs/compare/v2.6.2...v2.6.3
