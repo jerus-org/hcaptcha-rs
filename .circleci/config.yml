@@ -40,7 +40,7 @@ commands:
     parameters:
       pcu_verbosity:
         type: string
-        default: "-vv"
+        default: "-vvvvv"
         description: "The verbosity of the pcu command"
       pcu_update_changelog:
         type: boolean
