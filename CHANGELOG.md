@@ -11,6 +11,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - chore(ci)-update default verbosity level in CircleCI config(pr [#1152])
 
+### Fixed
+
+- deps: update rust crate syn to 2.0.85(pr [#1149])
+
 ## [2.7.8] - 2024-10-24
 
 ### Changed
@@ -627,6 +631,7 @@ emitted if a tracing subscriber is not found.
 [#1150]: https://github.com/jerus-org/hcaptcha-rs/pull/1150
 [#1151]: https://github.com/jerus-org/hcaptcha-rs/pull/1151
 [#1152]: https://github.com/jerus-org/hcaptcha-rs/pull/1152
+[#1149]: https://github.com/jerus-org/hcaptcha-rs/pull/1149
 [Unreleased]: https://github.com/jerus-org/hcaptcha-rs/compare/v2.7.8...HEAD
 [2.7.8]: https://github.com/jerus-org/hcaptcha-rs/compare/v2.7.7...v2.7.8
 [2.7.7]: https://github.com/jerus-org/hcaptcha-rs/compare/v2.7.6...v2.7.7
