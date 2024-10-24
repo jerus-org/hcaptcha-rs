@@ -1,6 +1,6 @@
 [package]
 name = "test-suite-rustls-only"
-version = "0.7.7"
+version = "0.7.8"
 edition = "2021"
 publish = false
 rust-version = "1.75"
