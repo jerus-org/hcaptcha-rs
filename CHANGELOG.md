@@ -5,11 +5,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [2.7.7] - 2024-10-24
 
 ### Changed
 
-- ci(circleci)-increase default verbosity level for pcu command(pr [#1151])
+- ci-update CircleCI config to include pcu_verbosity and publish parameters(pr [#1150])
 
 ## [2.7.6] - 2024-10-24
 
@@ -429,6 +429,7 @@ Extended validation for the secret key requires it to conform to "0x" followed b
 The input to .sitekey(sitekey) has been changed to validate that the string slice supplied is a valid UUID.
 
 The input to the .remoteip(remoteip) has been changed to validate that the string slice supplier is a valid ipv4 or ipv6 address.
+
 - Logging / Tracing*
 
 The previous version provided logging behind a feature flag. The log crate has been removed and replaced with tracing. Tracing has been instrumented for all public functions. Tracing is enabled by selected the "trace" feature.
@@ -437,6 +438,7 @@ Tracing is enabled at the info logging level for public methods. Additional trac
 
 The trace crates log feature is enabled so that log records are
 emitted if a tracing subscriber is not found.
+
 ### Changed
 
 - Rename user_ip and site_key to conform to Hcaptcha API documentation (remoteip and sitekey)
@@ -612,8 +614,8 @@ emitted if a tracing subscriber is not found.
 [#1147]: https://github.com/jerus-org/hcaptcha-rs/pull/1147
 [#1145]: https://github.com/jerus-org/hcaptcha-rs/pull/1145
 [#1148]: https://github.com/jerus-org/hcaptcha-rs/pull/1148
-[#1151]: https://github.com/jerus-org/hcaptcha-rs/pull/1151
-[Unreleased]: https://github.com/jerus-org/hcaptcha-rs/compare/v2.7.6...HEAD
+[#1150]: https://github.com/jerus-org/hcaptcha-rs/pull/1150
+[2.7.7]: https://github.com/jerus-org/hcaptcha-rs/compare/v2.7.6...hcaptcha-v2.7.7
 [2.7.6]: https://github.com/jerus-org/hcaptcha-rs/compare/v2.7.5...v2.7.6
 [2.7.5]: https://github.com/jerus-org/hcaptcha-rs/compare/v2.7.4...v2.7.5
 [2.7.4]: https://github.com/jerus-org/hcaptcha-rs/compare/v2.7.3...v2.7.4
