@@ -40,7 +40,7 @@ commands:
     parameters:
       pcu_verbosity:
         type: string
-        default: "-vvvvv"
+        default: "-vv"
         description: "The verbosity of the pcu command"
       pcu_update_changelog:
         type: boolean
@@ -463,5 +463,5 @@ workflows:
           min_rust_version: << pipeline.parameters.min-rust-version >>
           pcu_workspace: << pipeline.parameters.pcu_workspace >>
           update_pcu: true
-          pcu_verbosity: "-vvvvv"
+          # pcu_verbosity: "-vvvvv"
           publish: false
