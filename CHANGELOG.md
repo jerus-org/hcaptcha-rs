@@ -5,6 +5,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Changed
+
+- ci(circleci)-increase default verbosity level for pcu command(pr [#1151])
+
 ## [2.7.6] - 2024-10-24
 
 ### Fixed
@@ -606,7 +612,9 @@ emitted if a tracing subscriber is not found.
 [#1147]: https://github.com/jerus-org/hcaptcha-rs/pull/1147
 [#1145]: https://github.com/jerus-org/hcaptcha-rs/pull/1145
 [#1148]: https://github.com/jerus-org/hcaptcha-rs/pull/1148
-[2.7.6]: https://github.com/jerus-org/hcaptcha-rs/compare/v2.7.5...hcaptcha-v2.7.6
+[#1151]: https://github.com/jerus-org/hcaptcha-rs/pull/1151
+[Unreleased]: https://github.com/jerus-org/hcaptcha-rs/compare/v2.7.6...HEAD
+[2.7.6]: https://github.com/jerus-org/hcaptcha-rs/compare/v2.7.5...v2.7.6
 [2.7.5]: https://github.com/jerus-org/hcaptcha-rs/compare/v2.7.4...v2.7.5
 [2.7.4]: https://github.com/jerus-org/hcaptcha-rs/compare/v2.7.3...v2.7.4
 [2.7.3]: https://github.com/jerus-org/hcaptcha-rs/compare/v2.7.2...v2.7.3
