@@ -65,11 +65,14 @@ commands:
             set -exo pipefail
 
             if [ << parameters.pcu_package >> != "" ] ; then
-              package="--package << parameters.pcu_package >>"
+                package="--package << parameters.pcu_package >>"
+                # prefix="<< parameters.pcu_package >>-<< parameters.pcu_prefix >> "
+                pcu <<parameters.pcu_verbosity>> release $update_changelog $package --prefix <<parameters.pcu_prefix>> 
+                exit
             fi
 
             if [ <<parameters.pcu_workspace>> == true ] ; then
-                pcu <<parameters.pcu_verbosity>> release $update_changelog $package --prefix <<parameters.pcu_prefix>> --workspace
+                pcu <<parameters.pcu_verbosity>> release $update_changelog --prefix <<parameters.pcu_prefix>> --workspace
                 exit
             fi
 
