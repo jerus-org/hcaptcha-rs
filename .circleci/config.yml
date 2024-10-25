@@ -137,9 +137,9 @@ commands:
               if [ $NEXTSV_LEVEL != "none" ] ; then
                 cargo release changes
                 if [ << parameters.no_push >> == true ] ; then
-                  cargo release "$package" "$publish" --no-push --execute --no-confirm --sign-tag "$NEXTSV_LEVEL"
+                  cargo release $package $publish --no-push --execute --no-confirm --sign-tag "$NEXTSV_LEVEL"
                 else
-                  cargo release "$package" "$publish" --execute --no-confirm --sign-tag "$NEXTSV_LEVEL"
+                  cargo release $package $publish --execute --no-confirm --sign-tag "$NEXTSV_LEVEL"
                 fi
               else
                 echo "Not ready to release yet."
