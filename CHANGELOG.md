@@ -11,6 +11,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - add support for specifying package in release and publish steps(pr [#1153])
 
+### Fixed
+
+- circleci: remove unnecessary quotes in cargo release command(pr [#1154])
+
 ## [2.7.9] - 2024-10-24
 
 ### Changed
@@ -634,6 +638,7 @@ emitted if a tracing subscriber is not found.
 [#1151]: https://github.com/jerus-org/hcaptcha-rs/pull/1151
 [#1152]: https://github.com/jerus-org/hcaptcha-rs/pull/1152
 [#1153]: https://github.com/jerus-org/hcaptcha-rs/pull/1153
+[#1154]: https://github.com/jerus-org/hcaptcha-rs/pull/1154
 [Unreleased]: https://github.com/jerus-org/hcaptcha-rs/compare/v2.7.9...HEAD
 [2.7.9]: https://github.com/jerus-org/hcaptcha-rs/compare/v2.7.8...v2.7.9
 [2.7.8]: https://github.com/jerus-org/hcaptcha-rs/compare/v2.7.7...v2.7.8
