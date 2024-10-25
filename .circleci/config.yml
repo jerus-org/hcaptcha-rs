@@ -482,7 +482,7 @@ workflows:
         - not: << pipeline.parameters.validation-flag >>
     jobs:
       - make_release:
-          name: make github releases
+          name: make github releases - << matrix:package >>
           context:
             - release
             - bot-check
@@ -490,6 +490,8 @@ workflows:
           min_rust_version: << pipeline.parameters.min-rust-version >>
           # pcu_workspace: << pipeline.parameters.pcu_workspace >>
           update_pcu: true
-          package: hcaptcha
           pcu_verbosity: "-vvvvv"
           publish: false
+          matrix:
+            parameters:
+              package: [hcaptcha, hcaptcha-cli, mock-verifier]
