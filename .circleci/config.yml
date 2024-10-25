@@ -482,7 +482,22 @@ workflows:
         - not: << pipeline.parameters.validation-flag >>
     jobs:
       - make_release:
-          name: make github releases - << matrix.package >>
+          name: make for hcaptcha
+          context:
+            - release
+            - bot-check
+          ssh_fingerprint: << pipeline.parameters.fingerprint >>
+          min_rust_version: << pipeline.parameters.min-rust-version >>
+          # pcu_workspace: << pipeline.parameters.pcu_workspace >>
+          update_pcu: true
+          pcu_verbosity: "-vvvvv"
+          publish: false
+          package: hcaptcha
+
+      - make_release:
+          requires:
+            - make for hcaptcha
+          name: make releases - << matrix.package >>
           context:
             - release
             - bot-check
@@ -494,4 +509,4 @@ workflows:
           publish: false
           matrix:
             parameters:
-              package: [hcaptcha, hcaptcha-cli, mock-verifier]
+              package: [hcaptcha-cli, mock-verifier]
