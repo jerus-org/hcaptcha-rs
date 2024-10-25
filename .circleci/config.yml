@@ -54,14 +54,22 @@ commands:
         type: boolean
         default: false
         description: "Whether or not to set the workspace flag of the pcu command"
+      pcu_package:
+        type: string
+        default: ""
+        description: "Package to release and/or publish"
     steps:
       - run:
           name: Create Github release
           command: |
             set -exo pipefail
 
+            if [ << parameters.pcu_package >> != "" ] ; then
+              package="--package << parameters.pcu_package >>"
+            fi
+
             if [ <<parameters.pcu_workspace>> == true ] ; then
-                pcu <<parameters.pcu_verbosity>> release $update_changelog --prefix <<parameters.pcu_prefix>> --workspace
+                pcu <<parameters.pcu_verbosity>> release $update_changelog $package --prefix <<parameters.pcu_prefix>> --workspace
                 exit
             fi
 
@@ -96,11 +104,19 @@ commands:
         type: boolean
         default: false
         description: "Whether or not cargo release should push the changes"
+      package:
+        type: string
+        default: ""
+        description: "Package to release and/or publish"
     steps:
       - run:
           name: Find next level and publish update
           command: |
             set -exo pipefail
+
+            if [ << parameters.package >> != "" ] ; then
+              package="--package << parameters.package >>"
+            fi
 
             if [ << parameters.publish >> == true ] ; then
               publish="--publish"
@@ -110,7 +126,7 @@ commands:
 
             cargo release changes
             if [ << parameters.first_release >> == true ] ; then
-              cargo release $publish --execute --no-confirm --sign-tag -c first-release.toml 0.1.0
+              cargo release $package $publish --execute --no-confirm --sign-tag -c first-release.toml 0.1.0
             else
               if [ << parameters.specific_version >> == true ] && [ "<< parameters.version >>" != "" ] ; then
                 export NEXTSV_LEVEL=<< parameters.version >>
@@ -121,12 +137,13 @@ commands:
               if [ $NEXTSV_LEVEL != "none" ] ; then
                 cargo release changes
                 if [ << parameters.no_push >> == true ] ; then
-                  cargo release "$publish" --no-push --execute --no-confirm --sign-tag "$NEXTSV_LEVEL"
+                  cargo release "$package" "$publish" --no-push --execute --no-confirm --sign-tag "$NEXTSV_LEVEL"
                 else
-                  cargo release "$publish" --execute --no-confirm --sign-tag "$NEXTSV_LEVEL"
+                  cargo release "$package" "$publish" --execute --no-confirm --sign-tag "$NEXTSV_LEVEL"
                 fi
               else
                 echo "Not ready to release yet."
+                circleci step halt
               fi
             fi
 
@@ -270,6 +287,10 @@ jobs:
         type: boolean
         default: false
         description: "Whether or not to set the workspace flag of the pcu command"
+      package:
+        type: string
+        default: ""
+        description: "The package to publish"
 
     steps:
       - checkout
@@ -304,6 +325,7 @@ jobs:
                 first_release: << parameters.first_release >>
                 specific_version: << parameters.specific_version >>
                 version: << parameters.version >>
+                package: << parameters.package >>
       - when:
           condition:
             and:
@@ -315,6 +337,7 @@ jobs:
                 first_release: << parameters.first_release >>
                 specific_version: << parameters.specific_version >>
                 version: << parameters.version >>
+                package: << parameters.package >>
                 no_push: true
       - when:
           condition: < parameters.pcu_push >>
@@ -331,6 +354,7 @@ jobs:
                 pcu_update_changelog: << parameters.pcu_update_changelog >>
                 pcu_prefix: << parameters.pcu_prefix >>
                 pcu_workspace: << parameters.pcu_workspace >>
+                pcu_package: << parameters.package >>
 
 workflows:
   check_last_commit:
@@ -461,7 +485,8 @@ workflows:
             - bot-check
           ssh_fingerprint: << pipeline.parameters.fingerprint >>
           min_rust_version: << pipeline.parameters.min-rust-version >>
-          pcu_workspace: << pipeline.parameters.pcu_workspace >>
+          # pcu_workspace: << pipeline.parameters.pcu_workspace >>
           update_pcu: true
-          # pcu_verbosity: "-vvvvv"
+          package: hcaptcha
+          pcu_verbosity: "-vvvvv"
           publish: false
