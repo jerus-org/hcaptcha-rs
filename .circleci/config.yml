@@ -485,8 +485,8 @@ workflows:
             - bot-check
           ssh_fingerprint: << pipeline.parameters.fingerprint >>
           min_rust_version: << pipeline.parameters.min-rust-version >>
-          pcu_workspace: << pipeline.parameters.pcu_workspace >>
+          # pcu_workspace: << pipeline.parameters.pcu_workspace >>
           update_pcu: true
           package: hcaptcha
-          # pcu_verbosity: "-vvvvv"
+          pcu_verbosity: "-vvvvv"
           publish: false
