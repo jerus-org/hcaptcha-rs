@@ -482,7 +482,7 @@ workflows:
         - not: << pipeline.parameters.validation-flag >>
     jobs:
       - make_release:
-          name: make github releases - << matrix:package >>
+          name: make github releases - << matrix.package >>
           context:
             - release
             - bot-check
