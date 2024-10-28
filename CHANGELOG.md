@@ -5,6 +5,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Fixed
+
+- deps: update rust crate reqwest to 0.12.9(pr [#1159])
+
 ## [2.8.4] - 2024-10-26
 
 ### Fixed
@@ -669,7 +675,9 @@ emitted if a tracing subscriber is not found.
 [#1157]: https://github.com/jerus-org/hcaptcha-rs/pull/1157
 [#1149]: https://github.com/jerus-org/hcaptcha-rs/pull/1149
 [#1158]: https://github.com/jerus-org/hcaptcha-rs/pull/1158
-[2.8.4]: https://github.com/jerus-org/hcaptcha-rs/compare/v2.8.3...hcaptcha-v2.8.4
+[#1159]: https://github.com/jerus-org/hcaptcha-rs/pull/1159
+[Unreleased]: https://github.com/jerus-org/hcaptcha-rs/compare/v2.8.4...HEAD
+[2.8.4]: https://github.com/jerus-org/hcaptcha-rs/compare/v2.8.3...v2.8.4
 [2.8.3]: https://github.com/jerus-org/hcaptcha-rs/compare/v2.8.2...v2.8.3
 [2.8.2]: https://github.com/jerus-org/hcaptcha-rs/compare/v2.8.1...v2.8.2
 [2.8.1]: https://github.com/jerus-org/hcaptcha-rs/compare/v2.8.0...v2.8.1
