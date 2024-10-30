@@ -24,7 +24,7 @@ parameters:
     description: "If true, the make release treats as workspace."
 
 orbs:
-  toolkit: jerus-org/circleci-toolkit@1.14.0
+  toolkit: jerus-org/circleci-toolkit@1.15.0
   node: circleci/node@6.3.0
   # sonarcloud: sonarsource/sonarcloud@2.0.0
 
