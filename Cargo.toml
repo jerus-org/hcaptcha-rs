@@ -34,7 +34,7 @@ serde = { version = "1.0.214", features = ["derive"] }
 thiserror = "1.0.67"
 tracing = { version = "0.1.40", features = ["log", "attributes"] }
 uuid = { version = "1.11.0", features = ["v4"] }
-url = "2.5.2"
+url = "2.5.3"
 chrono = "0.4.38"
 claims = "0.7.1"
 mockd = { version = "0.4.27", features = ["internet", "unique", "words"] }
