@@ -13,7 +13,7 @@
 
 # Used locally only
 /.fossa.yml
-coverage/
+coverage/*
 
 scratchpad/
 wip
