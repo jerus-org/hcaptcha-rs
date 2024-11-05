@@ -359,6 +359,19 @@ jobs:
                 pcu_workspace: << parameters.pcu_workspace >>
                 pcu_package: << parameters.package >>
 
+  code_coverage:
+    executor: rust_env
+    steps:
+      - checkout
+      - run:
+          name: Install cargo-llvm-cov
+          command: cargo install cargo-llvm-cov
+      - run:
+          name: Code coverage
+          command: |
+            cargo llvm-cov --lcov --output-path coverage/lcov.info --package hcaptcha
+            cargo llvm-cov --summary-only
+
 workflows:
   check_last_commit:
     when:
@@ -388,6 +401,7 @@ workflows:
             branches:
               only:
                 - main
+      - code_coverage
       - toolkit/required_builds:
           name: required builds-<< matrix.cargo_package >>
           min_rust_version: << pipeline.parameters.min-rust-version >>
