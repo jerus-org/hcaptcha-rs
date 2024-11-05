@@ -174,4 +174,14 @@ mod tests {
         let secret = "ES_215963ca0f4b4d5e80d2ae736ce35d1d".to_string();
         assert_ok!(HcaptchaSecret::parse(secret));
     }
+
+    #[test]
+    fn test_parse_v2_wrong_length() {
+        let s = "ES_12345678901234567890123456789012345"; // incorrect length
+        let result = HcaptchaSecret::parse_v2(s.to_string());
+        assert!(result.is_err());
+        if let Err(HcaptchaError::Codes(codes)) = result {
+            assert!(codes.contains(&Code::InvalidSecretExtWrongLen));
+        }
+    }
 }
