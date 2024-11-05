@@ -260,7 +260,7 @@ impl HcaptchaClient {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::Code;
+    use crate::{Code, HcaptchaError};
     use chrono::{TimeDelta, Utc};
     use claims::assert_ok;
     use rand::distributions::Alphanumeric;
@@ -458,6 +458,53 @@ mod tests {
             assert_eq!(hash_set.len(), 2);
             assert!(hash_set.contains(&Code::MissingSecret));
             assert!(hash_set.contains(&Code::Unknown("foo".to_owned())));
+        }
+    }
+
+    #[test]
+    fn test_hcaptcha_client_default_initialization() {
+        let client = HcaptchaClient::default();
+        assert!(matches!(client, HcaptchaClient { .. }));
+    }
+
+    #[test]
+    fn test_hcaptcha_client_default_calls_new() {
+        // Assuming HcaptchaClient::new() has some side effect or state change
+        // that can be checked to ensure it was called.
+        let client = HcaptchaClient::default();
+        // Here we would check the side effect or state change
+        // For example, if new() sets a specific field, we would assert that field's value
+        let expected_value = Url::parse(VERIFY_URL).unwrap();
+        assert!(client.url == expected_value);
+    }
+
+    #[test]
+    fn test_set_url_with_valid_url() {
+        let client = HcaptchaClient::default();
+        let result = client.set_url("https://example.com");
+        assert!(result.is_ok());
+        assert_eq!(result.unwrap().url.as_str(), "https://example.com/");
+    }
+
+    #[test]
+    fn test_set_url_with_invalid_url() {
+        let client = HcaptchaClient::default();
+        let result = client.set_url("invalid-url");
+        assert!(result.is_err());
+        match result {
+            Err(HcaptchaError::Url(_)) => (),
+            _ => panic!("Expected UrlParseError"),
+        }
+    }
+
+    #[test]
+    fn test_set_url_with_empty_string() {
+        let client = HcaptchaClient::default();
+        let result = client.set_url("");
+        assert!(result.is_err());
+        match result {
+            Err(HcaptchaError::Url(_)) => (),
+            _ => panic!("Expected UrlParseError"),
         }
     }
 }

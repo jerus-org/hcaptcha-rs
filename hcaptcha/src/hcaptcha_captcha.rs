@@ -539,4 +539,23 @@ mod tests {
 
         assert_none!(captcha.remoteip());
     }
+
+    fn get_captcha() -> (String, HcaptchaCaptcha) {
+        let remoteip = mockd::internet::ipv4_address();
+        let response = random_response();
+        let captcha = HcaptchaCaptcha::new(&response)
+            .unwrap()
+            .set_remoteip(&remoteip)
+            .unwrap()
+            .set_sitekey(&mockd::unique::uuid_v4())
+            .unwrap();
+        (response, captcha)
+    }
+
+    #[test]
+    fn test_hcaptcha_captcha_default_initialization() {
+        let (response, captcha) = get_captcha();
+
+        assert_eq!(response, captcha.response().to_string());
+    }
 }
