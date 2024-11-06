@@ -160,3 +160,227 @@ impl fmt::Display for Code {
         }
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use serde_test::{assert_ser_tokens, Token};
+
+    #[test]
+    fn test_serialize_missing_secret() {
+        let code = Code::MissingSecret;
+        assert_ser_tokens(&code, &[Token::Str("missing-input-secret")]);
+    }
+
+    #[test]
+    fn test_serialize_invalid_secret() {
+        let code = Code::InvalidSecret;
+        assert_ser_tokens(&code, &[Token::Str("invalid-input-secret")]);
+    }
+
+    #[test]
+    fn test_serialize_missing_user_ip() {
+        let code = Code::MissingUserIp;
+        assert_ser_tokens(&code, &[Token::Str("missing-input-user-ip")]);
+    }
+
+    #[test]
+    fn test_serialize_invalid_user_ip() {
+        let code = Code::InvalidUserIp;
+        assert_ser_tokens(&code, &[Token::Str("invalid-input-user-ip")]);
+    }
+
+    #[test]
+    fn test_serialize_missing_site_key() {
+        let code = Code::MissingSiteKey;
+        assert_ser_tokens(&code, &[Token::Str("missing-input-sitekey")]);
+    }
+
+    #[test]
+    fn test_serialize_invalid_site_key() {
+        let code = Code::InvalidSiteKey;
+        assert_ser_tokens(&code, &[Token::Str("invalid-input-sitekey")]);
+    }
+
+    #[test]
+    fn test_serialize_missing_response() {
+        let code = Code::MissingResponse;
+        assert_ser_tokens(&code, &[Token::Str("missing-input-response")]);
+    }
+
+    #[test]
+    fn test_serialize_invalid_response() {
+        let code = Code::InvalidResponse;
+        assert_ser_tokens(&code, &[Token::Str("invalid-input-response")]);
+    }
+
+    #[test]
+    fn test_serialize_bad_request() {
+        let code = Code::BadRequest;
+        assert_ser_tokens(&code, &[Token::Str("bad-request")]);
+    }
+
+    #[test]
+    fn test_serialize_invalid_already_seen() {
+        let code = Code::InvalidAlreadySeen;
+        assert_ser_tokens(&code, &[Token::Str("invalid-or-already-seen-response")]);
+    }
+
+    #[test]
+    fn test_serialize_site_secret_mismatch() {
+        let code = Code::SiteSecretMismatch;
+        assert_ser_tokens(&code, &[Token::Str("sitekey-secret-mismatch")]);
+    }
+
+    #[test]
+    fn test_serialize_secret_version_unknown() {
+        let code = Code::SecretVersionUnknown;
+        assert_ser_tokens(&code, &[Token::Str("secret-version-unknown")]);
+    }
+
+    #[test]
+    fn test_serialize_secret_ext_not_hex() {
+        let code = Code::InvalidSecretExtNotHex;
+        assert_ser_tokens(&code, &[Token::Str("invalid-secret-ext-not-hex")]);
+    }
+
+    #[test]
+    fn test_serialize_unknown_variant() {
+        let code = Code::Unknown("unexpected-error".to_string());
+        assert_ser_tokens(&code, &[Token::Str("unexpected-error")]);
+    }
+
+    #[test]
+    fn test_serialize_invalid_secret_ext_wrong_len() {
+        let code = Code::InvalidSecretExtWrongLen;
+        assert_ser_tokens(&code, &[Token::Str("invalid-secret-ext-wrong-len")]);
+    }
+
+    #[test]
+    fn test_fmt_missing_secret() {
+        let code = Code::MissingSecret;
+        let formatted = format!("{}", code);
+        assert_eq!(formatted, "Secret key is missing.");
+    }
+
+    #[test]
+    fn test_fmt_invalid_secret() {
+        let code = Code::InvalidSecret;
+        let formatted = format!("{}", code);
+        assert_eq!(formatted, "Secret key is invalid or malformed.");
+    }
+
+    #[test]
+    fn test_fmt_missing_user_ip() {
+        let code = Code::MissingUserIp;
+        let formatted = format!("{}", code);
+        assert_eq!(formatted, "User IP string is missing.");
+    }
+
+    #[test]
+    fn test_fmt_invalid_user_ip() {
+        let code = Code::InvalidUserIp;
+        let formatted = format!("{}", code);
+        assert_eq!(formatted, "User IP string is invalid.");
+    }
+
+    #[test]
+    fn test_fmt_missing_site_key() {
+        let code = Code::MissingSiteKey;
+        let formatted = format!("{}", code);
+        assert_eq!(formatted, "Site Key string is missing.");
+    }
+
+    #[test]
+    fn test_fmt_invalid_site_key() {
+        let code = Code::InvalidSiteKey;
+        let formatted = format!("{}", code);
+        assert_eq!(formatted, "Site Key string is invalid.");
+    }
+
+    #[test]
+    fn test_fmt_invlid_secret_ext_wrong_len() {
+        let code = Code::InvalidSecretExtWrongLen;
+        let formatted = format!("{}", code);
+        assert_eq!(formatted, "Secret key is not the correct length.");
+    }
+
+    #[test]
+    fn test_fmt_invalid_secret_ext_no_hex() {
+        let code = Code::InvalidSecretExtNotHex;
+        let formatted = format!("{}", code);
+        assert_eq!(formatted, "Secret key is not a hex string.");
+    }
+
+    #[test]
+    fn test_fmt_missing_response() {
+        let code = Code::MissingResponse;
+        let formatted = format!("{}", code);
+        assert_eq!(
+            formatted,
+            "The response parameter (verification token) is missing."
+        );
+    }
+
+    #[test]
+    fn test_fmt_invalid_response() {
+        let code = Code::InvalidResponse;
+        let formatted = format!("{}", code);
+        assert_eq!(
+            formatted,
+            "The response parameter (verification token) is invalid or malformed."
+        );
+    }
+
+    #[test]
+    fn test_fmt_bad_request() {
+        let code = Code::BadRequest;
+        let formatted = format!("{}", code);
+        assert_eq!(formatted, "The request is invalid or malformed.");
+    }
+
+    #[test]
+    fn test_fmt_invalid_already_seen() {
+        let code = Code::InvalidAlreadySeen;
+        let formatted = format!("{}", code);
+        assert_eq!(
+            formatted,
+            "The response parameter has already been checked, or has another issue."
+        );
+    }
+
+    #[test]
+    fn test_fmt_site_secret_mismatch() {
+        let code = Code::SiteSecretMismatch;
+        let formatted = format!("{}", code);
+        assert_eq!(
+            formatted,
+            "The sitekey is not registered with the provided secret."
+        );
+    }
+
+    #[test]
+    fn test_fmt_secret_version_unknown() {
+        let code = Code::SecretVersionUnknown;
+        let formatted = format!("{}", code);
+        assert_eq!(
+            formatted,
+            "The version of the site secret is not recognise."
+        );
+    }
+
+    #[test]
+    fn test_fmt_invalid_secret_ext_not_hex() {
+        let code = Code::InvalidSecretExtNotHex;
+        let formatted = format!("{}", code);
+        assert_eq!(formatted, "Secret key is not a hex string.");
+    }
+
+    #[test]
+    fn test_fmt_unknown_error() {
+        let error_message = "Some unknown error occurred.";
+        let code = Code::Unknown(error_message.to_string());
+        let formatted = format!("{}", code);
+        assert_eq!(formatted, format!("Unkown error: {}", error_message));
+    }
+}

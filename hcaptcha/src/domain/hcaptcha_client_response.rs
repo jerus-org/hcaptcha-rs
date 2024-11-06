@@ -2,7 +2,7 @@ use crate::{Code, HcaptchaError};
 use std::collections::HashSet;
 use std::fmt;
 
-#[derive(Debug, Default, Clone, serde::Deserialize, serde::Serialize)]
+#[derive(Debug, Default, Clone, PartialEq, serde::Deserialize, serde::Serialize)]
 pub struct HcaptchaClientResponse(String);
 
 impl HcaptchaClientResponse {
@@ -54,5 +54,11 @@ mod tests {
         if let Err(HcaptchaError::Codes(hs)) = HcaptchaClientResponse::parse(response) {
             assert!(hs.contains(&Code::MissingResponse));
         }
+    }
+
+    #[test]
+    fn test_as_str() {
+        let response = HcaptchaClientResponse("test_response".to_string());
+        assert_eq!(response.as_str(), "test_response");
     }
 }

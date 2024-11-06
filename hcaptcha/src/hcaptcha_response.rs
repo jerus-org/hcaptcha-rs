@@ -611,4 +611,52 @@ mod tests {
             assert!(hash_set.contains("second-reason"));
         }
     }
+
+    #[test]
+    fn test_successful_decoding_with_error_codes() {
+        use crate::Code::*;
+
+        let response = json!({
+            "success": true,
+            "error-codes": ["missing-input-secret", "foo"],
+            "hostname": "hostname"
+        });
+        let response: HcaptchaResponse = serde_json::from_value(response).unwrap();
+
+        assert!(response.success);
+        assert!(response.error_codes.is_some());
+
+        let errors = response.error_codes.unwrap();
+        assert!(errors.len() == 2);
+        assert!(errors.contains(&MissingSecret));
+        assert!(errors.contains(&Unknown("foo".to_string())));
+    }
+
+    #[test]
+    fn test_error_codes_handling() {
+        use crate::Code::*;
+
+        let response = json!({
+            "success": true,
+            "error-codes": ["missing-input-secret", "foo"],
+            "hostname": "hostname"
+        });
+        let response: HcaptchaResponse = serde_json::from_value(response).unwrap();
+
+        let errors = response.error_codes.unwrap();
+        assert!(errors.contains(&MissingSecret));
+        assert!(errors.contains(&Unknown("foo".to_string())));
+    }
+
+    #[test]
+    fn test_success_field_decoding() {
+        let response = json!({
+            "success": true,
+            "error-codes": ["missing-input-secret", "foo"],
+            "hostname": "hostname"
+        });
+        let response: HcaptchaResponse = serde_json::from_value(response).unwrap();
+
+        assert!(response.success);
+    }
 }
