@@ -374,7 +374,7 @@ jobs:
       - run:
           name: Code Coverage Summary
           command: |
-            cargo llvm-cov --summary-only
+            cargo llvm-cov report --summary-only
       - codecov/upload
 
 workflows:
@@ -480,6 +480,7 @@ workflows:
             - run_test_program
             - toolkit/security
             - wasm_test
+            - code_coverage
           context:
             - release
             - bot-check
