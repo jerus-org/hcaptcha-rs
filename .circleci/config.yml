@@ -184,7 +184,7 @@ jobs:
             set -ex
             if [ ! -f bin/hcaptcha-cli ]; then
                 cargo +stable build \
-                  --release --locked \
+                  --release \
                   --package hcaptcha-cli
                 mkdir -p bin
                 cp target/release/hcaptcha-cli bin/
