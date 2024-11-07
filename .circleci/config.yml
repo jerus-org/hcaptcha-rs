@@ -27,7 +27,6 @@ orbs:
   toolkit: jerus-org/circleci-toolkit@1.17.0
   node: circleci/node@6.3.0
   # sonarcloud: sonarsource/sonarcloud@2.0.0
-  codecov: codecov/codecov@5.0.1
 
 executors:
   rust_env:
@@ -360,20 +359,6 @@ jobs:
                 pcu_workspace: << parameters.pcu_workspace >>
                 pcu_package: << parameters.package >>
 
-  code_coverage:
-    executor: rust_env
-    steps:
-      - checkout
-      - run:
-          name: Code coverage
-          command: |
-            cargo llvm-cov --lcov --output-path coverage/lcov.info --package hcaptcha
-      - run:
-          name: Code Coverage Summary
-          command: |
-            cargo llvm-cov report --summary-only
-      - codecov/upload
-
 workflows:
   check_last_commit:
     when:
@@ -403,7 +388,7 @@ workflows:
             branches:
               only:
                 - main
-      - code_coverage:
+      - toolkit/code_coverage:
           context: Codecov
           filters:
             branches:
@@ -477,7 +462,7 @@ workflows:
             - run_test_program
             - toolkit/security
             - wasm_test
-            - code_coverage
+            - toolkit/code_coverage
           context:
             - release
             - bot-check
