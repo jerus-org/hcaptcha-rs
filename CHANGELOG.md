@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - ci-add code coverage job to CircleCI config(pr [#1169])
 - chore(circleci)-update toolkit orb to version 1.16.1(pr [#1171])
+- chore(circleci)-remove custom code coverage job and use toolkit/code_coverage instead(pr [#1173])
 
 ### Fixed
 
@@ -715,6 +716,7 @@ emitted if a tracing subscriber is not found.
 [#1170]: https://github.com/jerus-org/hcaptcha-rs/pull/1170
 [#1171]: https://github.com/jerus-org/hcaptcha-rs/pull/1171
 [#1172]: https://github.com/jerus-org/hcaptcha-rs/pull/1172
+[#1173]: https://github.com/jerus-org/hcaptcha-rs/pull/1173
 [Unreleased]: https://github.com/jerus-org/hcaptcha-rs/compare/v2.8.6...HEAD
 [2.8.6]: https://github.com/jerus-org/hcaptcha-rs/compare/v2.8.5...v2.8.6
 [2.8.5]: https://github.com/jerus-org/hcaptcha-rs/compare/v2.8.4...v2.8.5
