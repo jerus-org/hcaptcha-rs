@@ -365,9 +365,6 @@ jobs:
     steps:
       - checkout
       - run:
-          name: Install cargo-llvm-cov
-          command: cargo install cargo-llvm-cov
-      - run:
           name: Code coverage
           command: |
             cargo llvm-cov --lcov --output-path coverage/lcov.info --package hcaptcha
