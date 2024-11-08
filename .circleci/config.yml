@@ -24,7 +24,7 @@ parameters:
     description: "If true, the make release treats as workspace."
 
 orbs:
-  toolkit: jerus-org/circleci-toolkit@1.18.0
+  toolkit: jerus-org/circleci-toolkit@1.19.0
   node: circleci/node@6.3.0
   # sonarcloud: sonarsource/sonarcloud@2.0.0
 
@@ -389,12 +389,8 @@ workflows:
               only:
                 - main
       - toolkit/code_coverage:
+          min_rust_version: << pipeline.parameters.min-rust-version >>
           package: hcaptcha
-          filters:
-            branches:
-              ignore:
-                - main
-
       - toolkit/required_builds:
           name: required builds-<< matrix.cargo_package >>
           min_rust_version: << pipeline.parameters.min-rust-version >>
