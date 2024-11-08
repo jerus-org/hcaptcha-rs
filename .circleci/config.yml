@@ -389,12 +389,8 @@ workflows:
               only:
                 - main
       - toolkit/code_coverage:
+          min_rust_version: << pipeline.parameters.min-rust-version >>
           package: hcaptcha
-          filters:
-            branches:
-              ignore:
-                - main
-
       - toolkit/required_builds:
           name: required builds-<< matrix.cargo_package >>
           min_rust_version: << pipeline.parameters.min-rust-version >>
