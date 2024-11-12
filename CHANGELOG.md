@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - deps: update rust crate thiserror to 2.0.2(pr [#1179])
 - deps: update rust crate thiserror to 2.0.3(pr [#1180])
+- deps: update rust crate serde to 1.0.215(pr [#1181])
 
 ## [2.8.7] - 2024-11-09
 
@@ -736,6 +737,7 @@ emitted if a tracing subscriber is not found.
 [#1178]: https://github.com/jerus-org/hcaptcha-rs/pull/1178
 [#1179]: https://github.com/jerus-org/hcaptcha-rs/pull/1179
 [#1180]: https://github.com/jerus-org/hcaptcha-rs/pull/1180
+[#1181]: https://github.com/jerus-org/hcaptcha-rs/pull/1181
 [Unreleased]: https://github.com/jerus-org/hcaptcha-rs/compare/v2.8.7...HEAD
 [2.8.7]: https://github.com/jerus-org/hcaptcha-rs/compare/v2.8.6...v2.8.7
 [2.8.6]: https://github.com/jerus-org/hcaptcha-rs/compare/v2.8.5...v2.8.6
