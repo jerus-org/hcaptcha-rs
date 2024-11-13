@@ -4,6 +4,9 @@
   "rangeStrategy": "bump",
   "semanticCommits": "enabled",
   "semanticCommitType": "fix",
+  "schedule": [
+    "before 6:00am on Friday"
+  ],
   "versioning": "cargo",
   "packageRules": [
     {
