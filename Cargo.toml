@@ -54,7 +54,7 @@ syn = { version = "2.0.87", features = ["extra-traits"] }
 quote = "1.0.37"
 proc-macro2 = "1.0.89"
 proc-macro-error2 = "2.0.1"
-clap = "4.5.20"
+clap = "4.5.21"
 clap-verbosity-flag = "2.2.2"
 color-eyre = "0.6.3"
 trybuild = "1.0.101"
