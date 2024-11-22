@@ -49,7 +49,7 @@
 //!
 //! ```
 
-use crate::domain::HcaptchaSecret;
+use crate::domain::Secret;
 use crate::Error;
 use crate::HcaptchaCaptcha;
 
@@ -61,7 +61,7 @@ pub struct HcaptchaRequest {
     /// and sitekey reported by the client.
     captcha: HcaptchaCaptcha,
     /// The secret_key related to the sitekey used to capture the response.
-    secret: HcaptchaSecret,
+    secret: Secret,
 }
 
 #[cfg_attr(docsrs, allow(rustdoc::missing_doc_code_examples))]
@@ -132,7 +132,7 @@ impl HcaptchaRequest {
     pub fn new(secret: &str, captcha: HcaptchaCaptcha) -> Result<HcaptchaRequest, Error> {
         Ok(HcaptchaRequest {
             captcha,
-            secret: HcaptchaSecret::parse(secret.to_owned())?,
+            secret: Secret::parse(secret.to_owned())?,
         })
     }
 
@@ -324,7 +324,7 @@ impl HcaptchaRequest {
     }
 
     #[allow(dead_code)]
-    pub(crate) fn secret(&self) -> HcaptchaSecret {
+    pub(crate) fn secret(&self) -> Secret {
         self.secret.clone()
     }
 
