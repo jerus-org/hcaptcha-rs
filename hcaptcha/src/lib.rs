@@ -286,7 +286,7 @@
 //! ```
 //!
 //! The following feature flags are available:
-//! * `enterprise` - Enable methods to access enterprise service fields in the  `HcaptchaResponse`
+//! * `enterprise` - Enable methods to access enterprise service fields in the  `Response`
 //! * `ext` - Enables extended validation of secret
 //! * `trace` - Enables tracing instrumentation on all functions. Traces are logged at the debug level. The value of the secret is not logged.
 //! * `nativetls-backend` - Enables native-tls backend in reqwests
@@ -302,16 +302,16 @@ mod client;
 pub(crate) mod domain;
 mod error;
 mod hcaptcha;
-mod hcaptcha_response;
 mod request;
+mod response;
 
 pub use captcha::Captcha;
 pub use client::Client;
 pub use client::VERIFY_URL;
 pub use error::Code;
 pub use error::Error;
-pub use hcaptcha_response::HcaptchaResponse;
 pub use request::Request;
+pub use response::Response;
 
 pub use crate::hcaptcha::Hcaptcha;
 pub use hcaptcha_derive::*;

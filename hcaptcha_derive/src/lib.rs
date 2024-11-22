@@ -49,7 +49,7 @@
 //!     ) -> std::pin::Pin<
 //!         Box<
 //!             dyn std::future::Future<
-//!                     Output = Result<hcaptcha::HcaptchaResponse,
+//!                     Output = Result<hcaptcha::Response,
 //!                                     hcaptcha::Error>,
 //!                                     >,
 //!         >,
@@ -150,7 +150,7 @@ fn impl_hcaptcha(ast: &DeriveInput) -> TokenStream {
 
     let gen = quote! {
         impl #impl_generics Hcaptcha for #name #ty_generics #where_clause {
-            fn valid_response(&self, secret: &str, uri: Option<String>) -> std::pin::Pin<Box<dyn std::future::Future<Output = Result<hcaptcha::HcaptchaResponse, hcaptcha::Error>> >>  {
+            fn valid_response(&self, secret: &str, uri: Option<String>) -> std::pin::Pin<Box<dyn std::future::Future<Output = Result<hcaptcha::Response, hcaptcha::Error>> >>  {
                 let mut client = hcaptcha::Client::new();
                 if let Some(u) = uri {
                         match client.set_url(&u)

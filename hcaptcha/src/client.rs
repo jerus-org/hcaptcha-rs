@@ -58,8 +58,8 @@
 // const RESET: &str = "\u{001b}[0m";
 
 use crate::Error;
-use crate::HcaptchaResponse;
 use crate::Request;
+use crate::Response;
 use reqwest::Url;
 // #[cfg(target_arch = "wasm32")]
 // use tokio::runtime;
@@ -167,7 +167,7 @@ impl Client {
     ///
     /// # Outputs
     ///
-    /// This method returns [HcaptchaResponse] if successful and [Error] if
+    /// This method returns [Response] if successful and [Error] if
     /// unsuccessful.
     ///
     /// # Example
@@ -232,7 +232,7 @@ impl Client {
             level = "debug"
         )
     )]
-    pub async fn verify_client_response(self, request: Request) -> Result<HcaptchaResponse, Error> {
+    pub async fn verify_client_response(self, request: Request) -> Result<Response, Error> {
         let form: Form = request.into();
         #[cfg(feature = "trace")]
         tracing::debug!(
@@ -245,7 +245,7 @@ impl Client {
             .form(&form)
             .send()
             .await?
-            .json::<HcaptchaResponse>()
+            .json::<Response>()
             .await?;
         #[cfg(feature = "trace")]
         tracing::debug!("The response is: {:?}", response);
@@ -428,7 +428,7 @@ mod tests {
             "score": null,
             "score_reason": [],
         });
-        let response: HcaptchaResponse = serde_json::from_value(api_response).unwrap();
+        let response: Response = serde_json::from_value(api_response).unwrap();
         assert!(response.success());
         assert_eq!(
             response.timestamp(),
@@ -448,7 +448,7 @@ mod tests {
             "score": null,
             "score_reason": [],
         });
-        let response: HcaptchaResponse = serde_json::from_value(api_response).unwrap();
+        let response: Response = serde_json::from_value(api_response).unwrap();
         assert!(!response.success());
         assert!(response.error_codes().is_some());
         if let Some(hash_set) = response.error_codes() {
