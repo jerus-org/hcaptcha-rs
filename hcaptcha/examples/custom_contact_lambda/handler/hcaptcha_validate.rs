@@ -1,6 +1,6 @@
 use super::error::ContactError;
 use super::param;
-use hcaptcha::{Captcha, Client, Response, Request};
+use hcaptcha::{Captcha, Client, Request, Response};
 
 const HCAPTCHA_SECRET: &str = "/hcaptcha/secret";
 
