@@ -13,7 +13,7 @@ crate-type = ["cdylib", "rlib"]
 # default = ["console_error_panic_hook"]
 
 [dependencies]
-claims = "0.7.1"
+claims = "0.8.0"
 hcaptcha = { path = "../../", features = ["enterprise"] }
 hcaptcha_derive = { path = "../../../hcaptcha_derive" }
 wasm-bindgen = "0.2.95"

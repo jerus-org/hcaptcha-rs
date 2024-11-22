@@ -36,7 +36,7 @@ tracing = { version = "0.1.40", features = ["log", "attributes"] }
 uuid = { version = "1.11.0", features = ["v4"] }
 url = "2.5.3"
 chrono = "0.4.38"
-claims = "0.7.1"
+claims = "0.8.0"
 mockd = { version = "0.4.29", features = ["internet", "unique", "words"] }
 itertools = "0.13.0"
 lambda_runtime = "0.13.0"
