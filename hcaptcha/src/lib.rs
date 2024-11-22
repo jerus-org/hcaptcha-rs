@@ -22,7 +22,7 @@
 //! Token needs to be supplied by the client.
 //! This example will fail as a client-provided token is not used.
 //! ```no_run
-//!     use hcaptcha::{HcaptchaClient, HcaptchaRequest};
+//!     use hcaptcha::{Client, HcaptchaRequest};
 //! # use itertools::Itertools;
 //!
 //! # #[tokio::main]
@@ -34,7 +34,7 @@
 //!     let request = HcaptchaRequest::new(&secret, captcha)?
 //!         .set_remoteip(&remoteip)?;
 //!
-//!     let client = HcaptchaClient::new();
+//!     let client = Client::new();
 //!
 //!     let response = client.verify_client_response(request).await?;
 //!
@@ -173,7 +173,7 @@
 //!
 //! #     const HCAPTCHA_SECRET: &str = "/hcaptcha/secret";
 //! #
-//! #     use hcaptcha::{HcaptchaCaptcha, HcaptchaClient, HcaptchaRequest};
+//! #     use hcaptcha::{HcaptchaCaptcha, Client, HcaptchaRequest};
 //! #     use lambda_runtime::{Context, Error};
 //! #     use send::ContactForm;
 //! #     use serde::{Deserialize, Serialize};
@@ -222,7 +222,7 @@
 //!         let request = HcaptchaRequest::new(&hcaptcha_secret,
 //!             captcha)?;
 //!         
-//!         let client = HcaptchaClient::new();
+//!         let client = Client::new();
 //!         let _response = client.verify_client_response(request).await?;
 //!
 //!         let contact_form: ContactForm = serde_json::from_str(&body_str)?;
@@ -296,20 +296,20 @@
 //!
 //! This version of hcaptcha requires Rust v1.71 or later.
 
+mod client;
 #[doc(hidden)]
 pub(crate) mod domain;
 mod error;
 mod hcaptcha;
 mod hcaptcha_captcha;
-mod hcaptcha_client;
 mod hcaptcha_request;
 mod hcaptcha_response;
 
+pub use client::Client;
+pub use client::VERIFY_URL;
 pub use error::Code;
 pub use error::Error;
 pub use hcaptcha_captcha::HcaptchaCaptcha;
-pub use hcaptcha_client::HcaptchaClient;
-pub use hcaptcha_client::VERIFY_URL;
 pub use hcaptcha_request::HcaptchaRequest;
 pub use hcaptcha_response::HcaptchaResponse;
 

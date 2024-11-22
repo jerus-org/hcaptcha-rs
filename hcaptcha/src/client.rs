@@ -11,20 +11,20 @@
 //! # Examples
 //! Create client to connect to default API endpoint.
 //! ```
-//!     use hcaptcha::HcaptchaClient;
-//!     let client = HcaptchaClient::new();
+//!     use hcaptcha::Client;
+//!     let client = Client::new();
 //! ```
 //!
 //! Create a client and submit for verification.
 //!```no_run
-//!     use hcaptcha::{HcaptchaCaptcha, HcaptchaClient, HcaptchaRequest};
+//!     use hcaptcha::{HcaptchaCaptcha, Client, HcaptchaRequest};
 //!
 //! # #[tokio::main]
 //! # async fn main() -> Result<(), hcaptcha::Error> {
 //! #   let secret = get_your_secret();
 //! #   let captcha = dummy_captcha();
 //! #   let request = HcaptchaRequest::new(&secret, captcha)?; // <- returns error
-//!     let client = HcaptchaClient::new();
+//!     let client = Client::new();
 //!     let response = client.verify_client_response(request).await?;
 //! # Ok(())
 //! # }
@@ -60,13 +60,13 @@
 use crate::Error;
 use crate::HcaptchaRequest;
 use crate::HcaptchaResponse;
-use reqwest::{Client, Url};
+use reqwest::Url;
 // #[cfg(target_arch = "wasm32")]
 // use tokio::runtime;
 
-mod hcaptcha_form;
+mod form;
 
-use hcaptcha_form::HcaptchaForm;
+use form::Form;
 
 /// Endpoint url for the Hcaptcha siteverify API.
 pub const VERIFY_URL: &str = "https://hcaptcha.com/siteverify";
@@ -74,30 +74,30 @@ pub const VERIFY_URL: &str = "https://hcaptcha.com/siteverify";
 /// Client to submit a request to a Hcaptcha validation endpoint.
 #[cfg_attr(docsrs, allow(rustdoc::missing_doc_code_examples))]
 #[derive(Debug)]
-pub struct HcaptchaClient {
+pub struct Client {
     /// HTTP Client to submit request to endpoint and read the response.
-    client: Client,
+    client: reqwest::Client,
     /// Url for the endpoint.
     url: Url,
 }
 
 #[cfg_attr(docsrs, allow(rustdoc::missing_doc_code_examples))]
-impl Default for HcaptchaClient {
-    fn default() -> HcaptchaClient {
-        HcaptchaClient::new()
+impl Default for Client {
+    fn default() -> Client {
+        Client::new()
     }
 }
 
 #[cfg_attr(docsrs, allow(rustdoc::missing_doc_code_examples))]
-impl HcaptchaClient {
+impl Client {
     /// Create a new Hcaptcha Client to connect with the default Hcaptcha
     /// siteverify API endpoint specified in [VERIFY_URL].
     ///
     /// # Example
     /// Initialise client to connect to default API endpoint.
     /// ```
-    ///     use hcaptcha::HcaptchaClient;
-    ///     let client = HcaptchaClient::new();
+    ///     use hcaptcha::Client;
+    ///     let client = Client::new();
     /// ```
     /// # Panic
     ///
@@ -105,9 +105,9 @@ impl HcaptchaClient {
     /// will panic.
     #[allow(unknown_lints)]
     #[cfg_attr(docsrs, allow(rustdoc::bare_urls))]
-    pub fn new() -> HcaptchaClient {
-        HcaptchaClient {
-            client: Client::new(),
+    pub fn new() -> Client {
+        Client {
+            client: reqwest::Client::new(),
             url: Url::parse(VERIFY_URL).expect("API url string corrupt"),
         }
     }
@@ -119,15 +119,15 @@ impl HcaptchaClient {
     /// # Example
     /// Initialise client to connect to custom Hcaptcha API
     /// ```
-    ///     use hcaptcha::HcaptchaClient;
+    ///     use hcaptcha::Client;
     ///     use url::Url;
     ///
     ///     let url = "https://domain.com/siteverify";
-    ///     let _client = HcaptchaClient::new_with(url);
+    ///     let _client = Client::new_with(url);
     /// ```
-    pub fn new_with(url: &str) -> Result<HcaptchaClient, url::ParseError> {
-        Ok(HcaptchaClient {
-            client: Client::new(),
+    pub fn new_with(url: &str) -> Result<Client, url::ParseError> {
+        Ok(Client {
+            client: reqwest::Client::new(),
             url: Url::parse(url)?,
         })
     }
@@ -141,11 +141,11 @@ impl HcaptchaClient {
     /// Initialise client to connect to custom Hcaptcha API
     /// ```no_run
     /// # fn main() -> Result<(), hcaptcha::Error> {
-    ///     use hcaptcha::HcaptchaClient;
+    ///     use hcaptcha::Client;
     ///     use url::Url;
     ///
     ///     let url = "https://domain.com/siteverify";
-    ///     let client = HcaptchaClient::new()
+    ///     let client = Client::new()
     ///                        .set_url(url)?;
     /// #    Ok(())
     /// # }
@@ -174,7 +174,7 @@ impl HcaptchaClient {
     ///
     ///
     ///  ```no_run
-    ///     use hcaptcha::{HcaptchaClient, HcaptchaRequest};
+    ///     use hcaptcha::{Client, HcaptchaRequest};
     /// # use hcaptcha::HcaptchaCaptcha;
     /// # use rand::distributions::Alphanumeric;
     /// # use rand::{thread_rng, Rng};
@@ -186,7 +186,7 @@ impl HcaptchaClient {
     ///
     ///     let request = HcaptchaRequest::new(&secret, captcha)?;
     ///
-    ///     let client = HcaptchaClient::new();
+    ///     let client = Client::new();
     ///
     ///     let response = client.verify_client_response(request).await?;
     ///
@@ -236,7 +236,7 @@ impl HcaptchaClient {
         self,
         request: HcaptchaRequest,
     ) -> Result<HcaptchaResponse, Error> {
-        let form: HcaptchaForm = request.into();
+        let form: Form = request.into();
         #[cfg(feature = "trace")]
         tracing::debug!(
             "The form to submit to Hcaptcha API: {:?}",
@@ -314,7 +314,7 @@ mod tests {
             .await;
         let uri = format!("{}{}", mock_server.uri(), "/siteverify");
 
-        let client = HcaptchaClient::new_with(&uri).unwrap();
+        let client = Client::new_with(&uri).unwrap();
         let response = client.verify_client_response(request).await;
         assert_ok!(&response);
         let response = response.unwrap();
@@ -361,7 +361,7 @@ mod tests {
             .await;
         let uri = format!("{}{}", mock_server.uri(), "/siteverify");
 
-        let client = HcaptchaClient::new_with(&uri).unwrap();
+        let client = Client::new_with(&uri).unwrap();
         let response = client.verify_client_response(request).await;
         assert_ok!(&response);
         let response = response.unwrap();
@@ -408,7 +408,7 @@ mod tests {
             .await;
         let uri = format!("{}{}", mock_server.uri(), "/siteverify");
 
-        let client = HcaptchaClient::new_with(&uri).unwrap();
+        let client = Client::new_with(&uri).unwrap();
         let response = client.verify_client_response(request).await;
         assert_ok!(&response);
         let response = response.unwrap();
@@ -463,15 +463,15 @@ mod tests {
 
     #[test]
     fn test_hcaptcha_client_default_initialization() {
-        let client = HcaptchaClient::default();
-        assert!(matches!(client, HcaptchaClient { .. }));
+        let client = Client::default();
+        assert!(matches!(client, Client { .. }));
     }
 
     #[test]
     fn test_hcaptcha_client_default_calls_new() {
-        // Assuming HcaptchaClient::new() has some side effect or state change
+        // Assuming Client::new() has some side effect or state change
         // that can be checked to ensure it was called.
-        let client = HcaptchaClient::default();
+        let client = Client::default();
         // Here we would check the side effect or state change
         // For example, if new() sets a specific field, we would assert that field's value
         let expected_value = Url::parse(VERIFY_URL).unwrap();
@@ -480,7 +480,7 @@ mod tests {
 
     #[test]
     fn test_set_url_with_valid_url() {
-        let client = HcaptchaClient::default();
+        let client = Client::default();
         let result = client.set_url("https://example.com");
         assert!(result.is_ok());
         assert_eq!(result.unwrap().url.as_str(), "https://example.com/");
@@ -488,7 +488,7 @@ mod tests {
 
     #[test]
     fn test_set_url_with_invalid_url() {
-        let client = HcaptchaClient::default();
+        let client = Client::default();
         let result = client.set_url("invalid-url");
         assert!(result.is_err());
         match result {
@@ -499,7 +499,7 @@ mod tests {
 
     #[test]
     fn test_set_url_with_empty_string() {
-        let client = HcaptchaClient::default();
+        let client = Client::default();
         let result = client.set_url("");
         assert!(result.is_err());
         match result {

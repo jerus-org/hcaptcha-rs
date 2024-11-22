@@ -3,14 +3,14 @@
 //! # Example
 //!
 //! ```no_run
-//! #   use hcaptcha::{HcaptchaRequest, HcaptchaClient};
+//! #   use hcaptcha::{HcaptchaRequest, Client};
 //! # #[tokio::main]
 //! # async fn main() -> Result<(), hcaptcha::Error> {
 //! # let request = HcaptchaRequest::new(
 //! #    "0x123456789abcedf0123456789abcdef012345678",
 //! #    get_captcha(),
 //! # )?;
-//! # let client = HcaptchaClient::new();
+//! # let client = Client::new();
 //!     let response = client.verify_client_response(request).await?;
 //!
 //!     if let Some(timestamp) = response.timestamp() {
@@ -196,14 +196,14 @@ impl HcaptchaResponse {
     ///
     /// # Example
     /// ```no_run
-    /// #   use hcaptcha::{HcaptchaRequest, HcaptchaClient};
+    /// #   use hcaptcha::{HcaptchaRequest, Client};
     /// # #[tokio::main]
     /// # async fn main() -> Result<(), hcaptcha::Error> {
     /// # let request = HcaptchaRequest::new(
     /// #    "0x123456789abcedf0123456789abcdef012345678",
     /// #    get_captcha(),
     /// # )?;
-    /// # let client = HcaptchaClient::new();
+    /// # let client = Client::new();
     ///     let response = client.verify_client_response(request).await?;
     ///     println!("Success returns true: {}", response.success());
     /// # Ok(())
@@ -238,14 +238,14 @@ impl HcaptchaResponse {
     ///
     /// # Example
     /// ```no_run
-    /// #   use hcaptcha::{HcaptchaRequest, HcaptchaClient};
+    /// #   use hcaptcha::{HcaptchaRequest, Client};
     /// # #[tokio::main]
     /// # async fn main() -> Result<(), hcaptcha::Error> {
     /// # let request = HcaptchaRequest::new(
     /// #    "0x123456789abcedf0123456789abcdef012345678",
     /// #    get_captcha(),
     /// # )?;
-    /// # let client = HcaptchaClient::new();
+    /// # let client = Client::new();
     ///     let response = client.verify_client_response(request).await?;
     ///
     ///     if let Some(hostname) = response.hostname() {
@@ -283,14 +283,14 @@ impl HcaptchaResponse {
     ///
     /// # Example
     /// ```no_run
-    /// #   use hcaptcha::{HcaptchaRequest, HcaptchaClient};
+    /// #   use hcaptcha::{HcaptchaRequest, Client};
     /// # #[tokio::main]
     /// # async fn main() -> Result<(), hcaptcha::Error> {
     /// # let request = HcaptchaRequest::new(
     /// #    "0x123456789abcedf0123456789abcdef012345678",
     /// #    get_captcha(),
     /// # )?;
-    /// # let client = HcaptchaClient::new();
+    /// # let client = Client::new();
     ///     let response = client.verify_client_response(request).await?;
     ///
     ///     if let Some(timestamp) = response.timestamp() {
@@ -328,14 +328,14 @@ impl HcaptchaResponse {
     ///
     /// # Example
     /// ```no_run
-    /// #   use hcaptcha::{HcaptchaRequest, HcaptchaClient};
+    /// #   use hcaptcha::{HcaptchaRequest, Client};
     /// # #[tokio::main]
     /// # async fn main() -> Result<(), hcaptcha::Error> {
     /// # let request = HcaptchaRequest::new(
     /// #    "0x123456789abcedf0123456789abcdef012345678",
     /// #    get_captcha(),
     /// # )?;
-    /// # let client = HcaptchaClient::new();
+    /// # let client = Client::new();
     ///     let response = client.verify_client_response(request).await?;
     ///
     ///     if let Some(credit) = response.credit() {
@@ -374,14 +374,14 @@ impl HcaptchaResponse {
     ///
     /// # Example
     /// ```no_run
-    /// #   use hcaptcha::{HcaptchaRequest, HcaptchaClient};
+    /// #   use hcaptcha::{HcaptchaRequest, Client};
     /// # #[tokio::main]
     /// # async fn main() -> Result<(), hcaptcha::Error> {
     /// # let request = HcaptchaRequest::new(
     /// #    "0x123456789abcedf0123456789abcdef012345678",
     /// #    get_captcha(),
     /// # )?;
-    /// # let client = HcaptchaClient::new();
+    /// # let client = Client::new();
     ///     let response = client.verify_client_response(request).await?;
     ///
     ///     if let Some(error_codes) = response.error_codes() {
@@ -419,14 +419,14 @@ impl HcaptchaResponse {
     ///
     /// # Example
     /// ```no_run
-    /// #   use hcaptcha::{HcaptchaRequest, HcaptchaClient};
+    /// #   use hcaptcha::{HcaptchaRequest, Client};
     /// # #[tokio::main]
     /// # async fn main() -> Result<(), hcaptcha::Error> {
     /// # let request = HcaptchaRequest::new(
     /// #    "0x123456789abcedf0123456789abcdef012345678",
     /// #    get_captcha(),
     /// # )?;
-    /// # let client = HcaptchaClient::new();
+    /// # let client = Client::new();
     ///     let response = client.verify_client_response(request).await?;
     ///
     ///     if let Some(score) = response.score() {
@@ -467,14 +467,14 @@ impl HcaptchaResponse {
     ///
     /// # Example
     /// ```no_run
-    /// #   use hcaptcha::{HcaptchaRequest, HcaptchaClient};
+    /// #   use hcaptcha::{HcaptchaRequest, Client};
     /// # #[tokio::main]
     /// # async fn main() -> Result<(), hcaptcha::Error> {
     /// # let request = HcaptchaRequest::new(
     /// #    "0x123456789abcedf0123456789abcdef012345678",
     /// #    get_captcha(),
     /// # )?;
-    /// # let client = HcaptchaClient::new();
+    /// # let client = Client::new();
     ///     let response = client.verify_client_response(request).await?;
     ///
     ///     if let Some(score_reason) = response.score_reason() {

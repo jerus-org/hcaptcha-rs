@@ -54,7 +54,7 @@
 //!                                     >,
 //!         >,
 //!     > {
-//!         let mut client = hcaptcha::HcaptchaClient::new();
+//!         let mut client = hcaptcha::Client::new();
 //!         if let Some(u) = uri {
 //!             match client.set_url(&u) {
 //!                 Ok(c) => client = c,
@@ -151,7 +151,7 @@ fn impl_hcaptcha(ast: &DeriveInput) -> TokenStream {
     let gen = quote! {
         impl #impl_generics Hcaptcha for #name #ty_generics #where_clause {
             fn valid_response(&self, secret: &str, uri: Option<String>) -> std::pin::Pin<Box<dyn std::future::Future<Output = Result<hcaptcha::HcaptchaResponse, hcaptcha::Error>> >>  {
-                let mut client = hcaptcha::HcaptchaClient::new();
+                let mut client = hcaptcha::Client::new();
                 if let Some(u) = uri {
                         match client.set_url(&u)
                          {

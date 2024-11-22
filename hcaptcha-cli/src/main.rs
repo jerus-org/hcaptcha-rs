@@ -1,7 +1,7 @@
 use clap::Parser;
 use cli::Cli;
 use color_eyre::Result;
-use hcaptcha::{HcaptchaCaptcha, HcaptchaClient, HcaptchaRequest, HcaptchaResponse};
+use hcaptcha::{Client, HcaptchaCaptcha, HcaptchaRequest, HcaptchaResponse};
 
 mod cli;
 
@@ -32,7 +32,7 @@ async fn handle_cli(args: Cli) -> Result<HcaptchaResponse> {
 
     let secret = args.secret;
 
-    let client = HcaptchaClient::new();
+    let client = Client::new();
 
     let request = HcaptchaRequest::new(&secret, captcha)?;
 
