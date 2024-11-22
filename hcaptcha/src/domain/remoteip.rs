@@ -5,15 +5,15 @@ use std::net::{Ipv4Addr, Ipv6Addr};
 use std::str::FromStr;
 
 #[derive(Debug, Default, Clone, serde::Deserialize, serde::Serialize)]
-pub struct HcaptchaRemoteip(String);
+pub struct Remoteip(String);
 
-impl fmt::Display for HcaptchaRemoteip {
+impl fmt::Display for Remoteip {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         write!(f, "{}", self.0)
     }
 }
 
-impl HcaptchaRemoteip {
+impl Remoteip {
     #[cfg_attr(
         feature = "trace",
         tracing::instrument(name = "Validate User IP.", skip(s), level = "debug")
@@ -22,7 +22,7 @@ impl HcaptchaRemoteip {
         empty_ip_string(&s)?;
         invalid_ip_string(&s)?;
 
-        Ok(HcaptchaRemoteip(s))
+        Ok(Remoteip(s))
     }
 }
 
@@ -64,7 +64,7 @@ fn invalid_ip_string(s: &str) -> Result<(), Error> {
 
 #[cfg(test)]
 mod tests {
-    use super::HcaptchaRemoteip;
+    use super::Remoteip;
     use crate::Code;
     use crate::Error;
     use claims::{assert_err, assert_ok};
@@ -72,19 +72,19 @@ mod tests {
     #[test]
     fn whitespace_only_ip_strings_are_rejected() {
         let ip_string = " ".to_string();
-        assert_err!(HcaptchaRemoteip::parse(ip_string));
+        assert_err!(Remoteip::parse(ip_string));
     }
 
     #[test]
     fn empty_string_is_rejected() {
         let ip_string = "".to_string();
-        assert_err!(HcaptchaRemoteip::parse(ip_string));
+        assert_err!(Remoteip::parse(ip_string));
     }
 
     #[test]
     fn error_set_contains_missing_ip_string_error() {
         let ip_string = "".to_string();
-        if let Err(Error::Codes(hs)) = HcaptchaRemoteip::parse(ip_string) {
+        if let Err(Error::Codes(hs)) = Remoteip::parse(ip_string) {
             assert!(hs.contains(&Code::MissingUserIp));
         }
     }
@@ -92,7 +92,7 @@ mod tests {
     #[test]
     fn error_set_contains_invalid_ip_string_error() {
         let ip_string = "1922.20".to_string();
-        let res = HcaptchaRemoteip::parse(ip_string);
+        let res = Remoteip::parse(ip_string);
         assert_err!(&res);
 
         if let Err(Error::Codes(hs)) = res {
@@ -104,12 +104,12 @@ mod tests {
     #[test]
     fn test_ip_string_key_is_valid_ip4() {
         let ip_string = mockd::internet::ipv4_address();
-        assert_ok!(HcaptchaRemoteip::parse(ip_string));
+        assert_ok!(Remoteip::parse(ip_string));
     }
 
     #[test]
     fn test_ip_string_key_is_valid_ip6() {
         let ip_string = mockd::internet::ipv6_address();
-        assert_ok!(HcaptchaRemoteip::parse(ip_string));
+        assert_ok!(Remoteip::parse(ip_string));
     }
 }
