@@ -7,6 +7,7 @@
   "schedule": [
     "before 6:00am on Friday"
   ],
+  "prConcurrentLimit": 0,
   "versioning": "cargo",
   "packageRules": [
     {
