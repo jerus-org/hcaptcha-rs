@@ -61,7 +61,7 @@ async fn main() {
 
     if let Err(codes) = response {
         match codes {
-            hcaptcha::HcaptchaError::Codes(hash_set) => {
+            hcaptcha::Error::Codes(hash_set) => {
                 assert_eq!(hash_set.len(), 2);
                 assert!(hash_set.contains(&Code::InvalidSecretExtNotHex));
                 assert!(hash_set.contains(&Code::InvalidSecretExtWrongLen));

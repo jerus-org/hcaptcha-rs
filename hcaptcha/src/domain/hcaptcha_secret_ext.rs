@@ -1,4 +1,4 @@
-use crate::{Code, HcaptchaError};
+use crate::{Code, Error};
 use std::collections::HashSet;
 use std::fmt;
 
@@ -20,14 +20,14 @@ impl HcaptchaSecret {
         tracing::instrument(name = "Extended check of secret.", skip(s), level = "debug")
     )]
 
-    pub fn parse(s: String) -> Result<Self, HcaptchaError> {
+    pub fn parse(s: String) -> Result<Self, Error> {
         match SecretVersions::parse(s)? {
             SecretVersions::V1(s) => HcaptchaSecret::parse_v1(s),
             SecretVersions::V2(s) => HcaptchaSecret::parse_v2(s),
         }
     }
 
-    pub fn parse_v1(s: String) -> Result<Self, HcaptchaError> {
+    pub fn parse_v1(s: String) -> Result<Self, Error> {
         let is_wrong_length = s.len() != SECRET_LEN_V1;
         let is_not_a_hex_string = !is_hex_string(&s);
         let mut codes = HashSet::new();
@@ -42,11 +42,11 @@ impl HcaptchaSecret {
         } else {
             #[cfg(feature = "trace")]
             tracing::debug!("Extended check found errors in secret string: {:?}", &codes);
-            Err(HcaptchaError::Codes(codes))
+            Err(Error::Codes(codes))
         }
     }
 
-    pub fn parse_v2(s: String) -> Result<Self, HcaptchaError> {
+    pub fn parse_v2(s: String) -> Result<Self, Error> {
         let is_wrong_length = s.len() != SECRET_LEN_V2;
         let hex_portion = s.replace("ES_", "0x");
         let is_not_a_hex_string = !is_hex_string(&hex_portion);
@@ -62,7 +62,7 @@ impl HcaptchaSecret {
         } else {
             #[cfg(feature = "trace")]
             tracing::debug!("Extended check found errors in secret string: {:?}", &codes);
-            Err(HcaptchaError::Codes(codes))
+            Err(Error::Codes(codes))
         }
     }
 }
@@ -85,14 +85,14 @@ enum SecretVersions {
 }
 
 impl SecretVersions {
-    pub fn parse(s: String) -> Result<Self, HcaptchaError> {
+    pub fn parse(s: String) -> Result<Self, Error> {
         let mut codes = HashSet::new();
         let is_empty_or_whitespace = s.trim().is_empty();
         if is_empty_or_whitespace {
             codes.insert(Code::MissingSecret);
             #[cfg(feature = "trace")]
             tracing::debug!("Extended check found errors in secret string: {:?}", &codes);
-            return Err(HcaptchaError::Codes(codes));
+            return Err(Error::Codes(codes));
         }
         let start = &s[0..2];
         match start {
@@ -102,7 +102,7 @@ impl SecretVersions {
                 codes.insert(Code::SecretVersionUnknown);
                 #[cfg(feature = "trace")]
                 tracing::debug!("Extended check found errors in secret string: {:?}", &codes);
-                Err(HcaptchaError::Codes(codes))
+                Err(Error::Codes(codes))
             }
         }
     }
@@ -112,7 +112,7 @@ impl SecretVersions {
 mod tests {
     use super::HcaptchaSecret;
     use crate::Code;
-    use crate::HcaptchaError;
+    use crate::Error;
     use claims::{assert_err, assert_ok};
 
     #[test]
@@ -148,7 +148,7 @@ mod tests {
     #[test]
     fn error_set_contains_missing_secret_error() {
         let secret = "".to_string();
-        if let Err(HcaptchaError::Codes(hs)) = HcaptchaSecret::parse(secret) {
+        if let Err(Error::Codes(hs)) = HcaptchaSecret::parse(secret) {
             assert!(hs.contains(&Code::MissingSecret));
         }
     }
@@ -156,7 +156,7 @@ mod tests {
     #[test]
     fn error_set_contains_invalid_secret_error() {
         let secret = "0xcdefghijklmnopqrstuvxyzabcdefghijk".to_string();
-        if let Err(HcaptchaError::Codes(hs)) = HcaptchaSecret::parse(secret) {
+        if let Err(Error::Codes(hs)) = HcaptchaSecret::parse(secret) {
             assert!(hs.contains(&Code::InvalidSecretExtNotHex));
             assert!(hs.contains(&Code::InvalidSecretExtWrongLen));
         }
@@ -180,7 +180,7 @@ mod tests {
         let s = "ES_12345678901234567890123456789012345"; // incorrect length
         let result = HcaptchaSecret::parse_v2(s.to_string());
         assert!(result.is_err());
-        if let Err(HcaptchaError::Codes(codes)) = result {
+        if let Err(Error::Codes(codes)) = result {
             assert!(codes.contains(&Code::InvalidSecretExtWrongLen));
         }
     }

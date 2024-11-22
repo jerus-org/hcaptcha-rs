@@ -20,7 +20,7 @@
 //!     use hcaptcha::{HcaptchaCaptcha, HcaptchaClient, HcaptchaRequest};
 //!
 //! # #[tokio::main]
-//! # async fn main() -> Result<(), hcaptcha::HcaptchaError> {
+//! # async fn main() -> Result<(), hcaptcha::Error> {
 //! #   let secret = get_your_secret();
 //! #   let captcha = dummy_captcha();
 //! #   let request = HcaptchaRequest::new(&secret, captcha)?; // <- returns error
@@ -57,7 +57,7 @@
 // const CYAN: &str = "\u{001b}[35m";
 // const RESET: &str = "\u{001b}[0m";
 
-use crate::HcaptchaError;
+use crate::Error;
 use crate::HcaptchaRequest;
 use crate::HcaptchaResponse;
 use reqwest::{Client, Url};
@@ -140,7 +140,7 @@ impl HcaptchaClient {
     /// # Example
     /// Initialise client to connect to custom Hcaptcha API
     /// ```no_run
-    /// # fn main() -> Result<(), hcaptcha::HcaptchaError> {
+    /// # fn main() -> Result<(), hcaptcha::Error> {
     ///     use hcaptcha::HcaptchaClient;
     ///     use url::Url;
     ///
@@ -150,7 +150,7 @@ impl HcaptchaClient {
     /// #    Ok(())
     /// # }
     /// ```
-    pub fn set_url(mut self, url: &str) -> Result<Self, HcaptchaError> {
+    pub fn set_url(mut self, url: &str) -> Result<Self, Error> {
         self.url = Url::parse(url)?;
         Ok(self)
     }
@@ -167,7 +167,7 @@ impl HcaptchaClient {
     ///
     /// # Outputs
     ///
-    /// This method returns [HcaptchaResponse] if successful and [HcaptchaError] if
+    /// This method returns [HcaptchaResponse] if successful and [Error] if
     /// unsuccessful.
     ///
     /// # Example
@@ -180,7 +180,7 @@ impl HcaptchaClient {
     /// # use rand::{thread_rng, Rng};
     /// # use std::iter;
     /// # #[tokio::main]
-    /// # async fn main() -> Result<(), hcaptcha::HcaptchaError> {
+    /// # async fn main() -> Result<(), hcaptcha::Error> {
     ///     let secret = get_your_secret(); // your secret key
     ///     let captcha = get_captcha();  // user's token
     ///
@@ -235,7 +235,7 @@ impl HcaptchaClient {
     pub async fn verify_client_response(
         self,
         request: HcaptchaRequest,
-    ) -> Result<HcaptchaResponse, HcaptchaError> {
+    ) -> Result<HcaptchaResponse, Error> {
         let form: HcaptchaForm = request.into();
         #[cfg(feature = "trace")]
         tracing::debug!(
@@ -260,7 +260,7 @@ impl HcaptchaClient {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::{Code, HcaptchaError};
+    use crate::{Code, Error};
     use chrono::{TimeDelta, Utc};
     use claims::assert_ok;
     use rand::distributions::Alphanumeric;
@@ -492,7 +492,7 @@ mod tests {
         let result = client.set_url("invalid-url");
         assert!(result.is_err());
         match result {
-            Err(HcaptchaError::Url(_)) => (),
+            Err(Error::Url(_)) => (),
             _ => panic!("Expected UrlParseError"),
         }
     }
@@ -503,7 +503,7 @@ mod tests {
         let result = client.set_url("");
         assert!(result.is_err());
         match result {
-            Err(HcaptchaError::Url(_)) => (),
+            Err(Error::Url(_)) => (),
             _ => panic!("Expected UrlParseError"),
         }
     }

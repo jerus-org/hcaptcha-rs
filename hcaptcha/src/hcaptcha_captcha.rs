@@ -10,7 +10,7 @@
 //! #   body: Option<String>,
 //! # }
 //! # #[tokio::main]
-//! # async fn main() -> Result<(), hcaptcha::HcaptchaError> {
+//! # async fn main() -> Result<(), hcaptcha::Error> {
 //! # let e = CustomEvent {
 //! #         body: Some("{\"response\":\"thisisthelonglistofcharactersthatformsaresponse\",\"remoteip\":\"10.10.20.10\"}".to_owned()),
 // //! #         body: None,
@@ -25,7 +25,7 @@
 //! ```
 
 use crate::domain::{HcaptchaClientResponse, HcaptchaRemoteip, HcaptchaSitekey};
-use crate::HcaptchaError;
+use crate::Error;
 
 /// Capture the Hcaptcha data coming from the client.
 #[derive(Debug, Default, Clone, serde::Serialize, serde::Deserialize)]
@@ -48,7 +48,7 @@ impl HcaptchaCaptcha {
     /// # Output
     ///
     /// The HcaptchaCaptcha is returned if the input is valid.
-    /// A [HcaptchaError] is returned if the validation fails.
+    /// A [Error] is returned if the validation fails.
     ///
     /// # Example
     /// Create HcaptchaCaptcha from response key.
@@ -68,7 +68,7 @@ impl HcaptchaCaptcha {
     /// #   response: String,
     /// # }
     /// # #[tokio::main]
-    /// # async fn main() -> Result<(), hcaptcha::HcaptchaError> {
+    /// # async fn main() -> Result<(), hcaptcha::Error> {
     /// # let e = CustomEvent {
     /// #         body: Some("{\"response\":\"thisisthelonglistofcharactersthatformsaresponse\",\"remoteip\":\"10.10.20.10\"}".to_owned()),
     // //! #         body: None,
@@ -96,7 +96,7 @@ impl HcaptchaCaptcha {
             level = "debug"
         )
     )]
-    pub fn new(response: &str) -> Result<Self, HcaptchaError> {
+    pub fn new(response: &str) -> Result<Self, Error> {
         Ok(HcaptchaCaptcha {
             response: HcaptchaClientResponse::parse(response.to_owned())?,
             remoteip: None,
@@ -115,7 +115,7 @@ impl HcaptchaCaptcha {
     /// If the remoteip string is empty the field is set to None.
     /// If the remoteip string is a valid v4 or v6 ip address the field is
     /// set to Some(remoteip).
-    /// If the remoteip string is invalid a [HcaptchaError] is returned.
+    /// If the remoteip string is invalid a [Error] is returned.
     ///
     /// # Example
     ///
@@ -136,7 +136,7 @@ impl HcaptchaCaptcha {
     /// #   response: String,
     /// # }
     /// # #[tokio::main]
-    /// # async fn main() -> Result<(), hcaptcha::HcaptchaError> {
+    /// # async fn main() -> Result<(), hcaptcha::Error> {
     /// # let e = CustomEvent {
     /// #         body: Some("{\"response\":\"thisisthelonglistofcharactersthatformsaresponse\",\"remoteip\":\"10.10.20.10\"}".to_owned()),
     // //! #         body: None,
@@ -170,7 +170,7 @@ impl HcaptchaCaptcha {
         feature = "trace",
         tracing::instrument(name = "Update remoteip field in HcaptchaCaptcha.", level = "debug")
     )]
-    pub fn set_remoteip(&mut self, remoteip: &str) -> Result<Self, HcaptchaError> {
+    pub fn set_remoteip(&mut self, remoteip: &str) -> Result<Self, Error> {
         if remoteip.is_empty() {
             self.remoteip = None;
         } else {
@@ -190,7 +190,7 @@ impl HcaptchaCaptcha {
     ///
     /// If the sitekey string is empty the field is set to None.
     /// If the sitekey string is a valid uuid the field is set to Some(sitekey).
-    /// If the sitekey string is invalid a [HcaptchaError] is returned.
+    /// If the sitekey string is invalid a [Error] is returned.
     ///
     /// # Example
     ///
@@ -211,7 +211,7 @@ impl HcaptchaCaptcha {
     /// #   response: String,
     /// # }
     /// # #[tokio::main]
-    /// # async fn main() -> Result<(), hcaptcha::HcaptchaError> {
+    /// # async fn main() -> Result<(), hcaptcha::Error> {
     /// # let e = CustomEvent {
     /// #         body: Some("{\"response\":\"thisisthelonglistofcharactersthatformsaresponse\",\"remoteip\":\"10.10.20.10\"}".to_owned()),
     // //! #         body: None,
@@ -246,7 +246,7 @@ impl HcaptchaCaptcha {
         feature = "trace",
         tracing::instrument(name = "Update sitekey field in HcaptchaCaptcha.", level = "debug")
     )]
-    pub fn set_sitekey(&mut self, sitekey: &str) -> Result<Self, HcaptchaError> {
+    pub fn set_sitekey(&mut self, sitekey: &str) -> Result<Self, Error> {
         if sitekey.is_empty() {
             self.sitekey = None;
         } else {
@@ -468,7 +468,7 @@ mod tests {
             .unwrap()
             .set_remoteip(&mockd::words::word());
         assert_err!(&captcha);
-        if let Err(HcaptchaError::Codes(hs)) = captcha {
+        if let Err(Error::Codes(hs)) = captcha {
             assert!(hs.contains(&Code::InvalidUserIp));
         }
     }
@@ -496,7 +496,7 @@ mod tests {
             .set_sitekey(&mockd::words::word());
 
         assert_err!(&captcha);
-        if let Err(HcaptchaError::Codes(hs)) = captcha {
+        if let Err(Error::Codes(hs)) = captcha {
             assert!(hs.contains(&Code::InvalidSiteKey));
         }
     }

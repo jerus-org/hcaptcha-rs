@@ -1,4 +1,4 @@
-use crate::{Code, HcaptchaError};
+use crate::{Code, Error};
 use std::collections::HashSet;
 use std::fmt;
 
@@ -6,12 +6,12 @@ use std::fmt;
 pub struct HcaptchaClientResponse(String);
 
 impl HcaptchaClientResponse {
-    pub fn parse(s: String) -> Result<HcaptchaClientResponse, HcaptchaError> {
+    pub fn parse(s: String) -> Result<HcaptchaClientResponse, Error> {
         if s.trim().is_empty() {
             let mut codes = HashSet::new();
             codes.insert(Code::MissingResponse);
 
-            Err(HcaptchaError::Codes(codes))
+            Err(Error::Codes(codes))
         } else {
             Ok(HcaptchaClientResponse(s))
         }
@@ -32,7 +32,7 @@ impl fmt::Display for HcaptchaClientResponse {
 mod tests {
     use super::HcaptchaClientResponse;
     use crate::Code;
-    use crate::HcaptchaError;
+    use crate::Error;
     use claims::assert_err;
 
     #[test]
@@ -51,7 +51,7 @@ mod tests {
     fn error_set_contains_missing_response_error() {
         let response = "".to_string();
 
-        if let Err(HcaptchaError::Codes(hs)) = HcaptchaClientResponse::parse(response) {
+        if let Err(Error::Codes(hs)) = HcaptchaClientResponse::parse(response) {
             assert!(hs.contains(&Code::MissingResponse));
         }
     }

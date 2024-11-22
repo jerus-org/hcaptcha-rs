@@ -1,4 +1,4 @@
-use crate::{Code, HcaptchaError};
+use crate::{Code, Error};
 use std::collections::HashSet;
 use std::fmt;
 
@@ -16,14 +16,14 @@ impl HcaptchaSecret {
         feature = "trace",
         tracing::instrument(name = "Simple check of secret.", skip(s), level = "debug")
     )]
-    pub fn parse(s: String) -> Result<Self, HcaptchaError> {
+    pub fn parse(s: String) -> Result<Self, Error> {
         if s.trim().is_empty() {
             let mut codes = HashSet::new();
             codes.insert(Code::MissingSecret);
 
             #[cfg(feature = "trace")]
             tracing::debug!("Secret string is missing");
-            Err(HcaptchaError::Codes(codes))
+            Err(Error::Codes(codes))
         } else {
             Ok(HcaptchaSecret(s))
         }
@@ -34,7 +34,7 @@ impl HcaptchaSecret {
 mod tests {
     use super::HcaptchaSecret;
     use crate::Code;
-    use crate::HcaptchaError;
+    use crate::Error;
     use claims::{assert_err, assert_ok};
 
     #[test]
@@ -64,7 +64,7 @@ mod tests {
     #[test]
     fn error_set_contains_missing_secret_error() {
         let secret = "".to_string();
-        if let Err(HcaptchaError::Codes(hs)) = HcaptchaSecret::parse(secret) {
+        if let Err(Error::Codes(hs)) = HcaptchaSecret::parse(secret) {
             assert!(hs.contains(&Code::MissingSecret));
         }
     }

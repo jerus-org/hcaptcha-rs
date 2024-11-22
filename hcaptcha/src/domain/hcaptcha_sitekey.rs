@@ -1,4 +1,4 @@
-use crate::{Code, HcaptchaError};
+use crate::{Code, Error};
 use std::collections::HashSet;
 use std::fmt;
 use std::str::FromStr;
@@ -18,7 +18,7 @@ impl HcaptchaSitekey {
         feature = "trace",
         tracing::instrument(name = "Validate Site Key.", skip(s), level = "debug")
     )]
-    pub fn parse(s: String) -> Result<Self, HcaptchaError> {
+    pub fn parse(s: String) -> Result<Self, Error> {
         empty_sitekey(&s)?;
         invalid_sitekey(&s)?;
 
@@ -30,14 +30,14 @@ impl HcaptchaSitekey {
     feature = "trace",
     tracing::instrument(name = "Return error on empty string.", skip(s), level = "debug")
 )]
-fn empty_sitekey(s: &str) -> Result<(), HcaptchaError> {
+fn empty_sitekey(s: &str) -> Result<(), Error> {
     if s.trim().is_empty() {
         let mut codes = HashSet::new();
         codes.insert(Code::MissingSiteKey);
 
         #[cfg(feature = "trace")]
         tracing::debug!("{}", Code::MissingSiteKey);
-        Err(HcaptchaError::Codes(codes))
+        Err(Error::Codes(codes))
     } else {
         Ok(())
     }
@@ -47,14 +47,14 @@ fn empty_sitekey(s: &str) -> Result<(), HcaptchaError> {
     feature = "trace",
     tracing::instrument(name = "Return error if not an ip string.", skip(s), level = "debug")
 )]
-fn invalid_sitekey(s: &str) -> Result<(), HcaptchaError> {
+fn invalid_sitekey(s: &str) -> Result<(), Error> {
     if Uuid::from_str(s).is_err() {
         let mut codes = HashSet::new();
         codes.insert(Code::InvalidSiteKey);
 
         #[cfg(feature = "trace")]
         tracing::debug!("{}", Code::InvalidSiteKey);
-        Err(HcaptchaError::Codes(codes))
+        Err(Error::Codes(codes))
     } else {
         Ok(())
     }
@@ -64,7 +64,7 @@ fn invalid_sitekey(s: &str) -> Result<(), HcaptchaError> {
 mod tests {
     use super::HcaptchaSitekey;
     use crate::Code;
-    use crate::HcaptchaError;
+    use crate::Error;
     use claims::{assert_err, assert_ok};
 
     // const CYAN: &str = "\u{001b}[36m";
@@ -85,7 +85,7 @@ mod tests {
     #[test]
     fn error_set_contains_missing_sitekey_error() {
         let sitekey = "".to_string();
-        if let Err(HcaptchaError::Codes(hs)) = HcaptchaSitekey::parse(sitekey) {
+        if let Err(Error::Codes(hs)) = HcaptchaSitekey::parse(sitekey) {
             assert!(hs.contains(&Code::MissingSiteKey));
         }
     }
@@ -96,7 +96,7 @@ mod tests {
         let res = HcaptchaSitekey::parse(sitekey);
         assert_err!(&res);
 
-        if let Err(HcaptchaError::Codes(hs)) = res {
+        if let Err(Error::Codes(hs)) = res {
             assert!(hs.contains(&Code::InvalidSiteKey));
         }
     }

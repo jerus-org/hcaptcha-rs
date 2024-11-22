@@ -5,7 +5,7 @@
 //! ```
 //!     use hcaptcha::HcaptchaRequest;
 //! # #[tokio::main]
-//! # async fn main() -> Result<(), hcaptcha::HcaptchaError> {
+//! # async fn main() -> Result<(), hcaptcha::Error> {
 //!     let secret = get_your_secret();         // your secret key
 //!     let captcha = get_captcha();            // user's response token
 //!     let sitekey = get_your_sitekey();     // your site key
@@ -50,8 +50,8 @@
 //! ```
 
 use crate::domain::HcaptchaSecret;
+use crate::Error;
 use crate::HcaptchaCaptcha;
-use crate::HcaptchaError;
 
 /// Capture the required and optional data for a call to the hcaptcha API
 #[cfg_attr(docsrs, allow(rustdoc::missing_doc_code_examples))]
@@ -77,13 +77,13 @@ impl HcaptchaRequest {
     /// # Output
     ///
     /// HcaptchaRequest is returned if the input strings are valid.
-    /// [HcaptchaError] is returned if the validation fails.
+    /// [Error] is returned if the validation fails.
     ///
     /// # Example
     ///
     /// ``` no_run
     ///     use hcaptcha::HcaptchaRequest;
-    /// # fn main() -> Result<(), hcaptcha::HcaptchaError>{
+    /// # fn main() -> Result<(), hcaptcha::Error>{
     ///     let secret = get_your_secret();     // your secret key
     ///     let captcha = get_captcha();        // captcha with response token
     ///
@@ -129,7 +129,7 @@ impl HcaptchaRequest {
             level = "debug"
         )
     )]
-    pub fn new(secret: &str, captcha: HcaptchaCaptcha) -> Result<HcaptchaRequest, HcaptchaError> {
+    pub fn new(secret: &str, captcha: HcaptchaCaptcha) -> Result<HcaptchaRequest, Error> {
         Ok(HcaptchaRequest {
             captcha,
             secret: HcaptchaSecret::parse(secret.to_owned())?,
@@ -147,13 +147,13 @@ impl HcaptchaRequest {
     /// # Output
     ///
     /// HcaptchaRequest is returned if the inputs are valid.
-    /// [HcaptchaError] is returned if the validation fails.
+    /// [Error] is returned if the validation fails.
     ///
     /// # Example
     ///
     /// ``` no_run
     ///     use hcaptcha::HcaptchaRequest;
-    /// # fn main() -> Result<(), hcaptcha::HcaptchaError>{
+    /// # fn main() -> Result<(), hcaptcha::Error>{
     ///     let secret = get_your_secret();     // your secret key
     ///     let response = get_response();    // Hcaptcha client response
     ///
@@ -190,10 +190,7 @@ impl HcaptchaRequest {
             level = "debug"
         )
     )]
-    pub fn new_from_response(
-        secret: &str,
-        response: &str,
-    ) -> Result<HcaptchaRequest, HcaptchaError> {
+    pub fn new_from_response(secret: &str, response: &str) -> Result<HcaptchaRequest, Error> {
         let captcha = HcaptchaCaptcha::new(response)?;
         HcaptchaRequest::new(secret, captcha)
     }
@@ -206,7 +203,7 @@ impl HcaptchaRequest {
     /// ``` no_run
     ///     use hcaptcha::HcaptchaRequest;
     /// # #[tokio::main]
-    /// # async fn main() -> Result<(), hcaptcha::HcaptchaError> {
+    /// # async fn main() -> Result<(), hcaptcha::Error> {
     ///     let secret = get_your_secret();         // your secret key
     ///     let response = get_response();          // user's response token
     ///     let remoteip = get_remoteip_address();    // user's ip address
@@ -253,7 +250,7 @@ impl HcaptchaRequest {
             level = "debug"
         )
     )]
-    pub fn set_remoteip(mut self, remoteip: &str) -> Result<Self, HcaptchaError> {
+    pub fn set_remoteip(mut self, remoteip: &str) -> Result<Self, Error> {
         self.captcha.set_remoteip(remoteip)?;
         Ok(self)
     }
@@ -267,7 +264,7 @@ impl HcaptchaRequest {
     /// ```
     ///     use hcaptcha::HcaptchaRequest;
     /// # #[tokio::main]
-    /// # async fn main() -> Result<(), hcaptcha::HcaptchaError> {
+    /// # async fn main() -> Result<(), hcaptcha::Error> {
     ///     let secret = get_your_secret();     // your secret key
     ///     let captcha = get_captcha();        // captcha
     ///     let sitekey = get_your_sitekey();   // your site key
@@ -321,7 +318,7 @@ impl HcaptchaRequest {
             level = "debug"
         )
     )]
-    pub fn set_sitekey(mut self, sitekey: &str) -> Result<Self, HcaptchaError> {
+    pub fn set_sitekey(mut self, sitekey: &str) -> Result<Self, Error> {
         self.captcha.set_sitekey(sitekey)?;
         Ok(self)
     }

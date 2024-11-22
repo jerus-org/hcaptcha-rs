@@ -26,7 +26,7 @@
 //! # use itertools::Itertools;
 //!
 //! # #[tokio::main]
-//! # async fn main() -> Result<(), hcaptcha::HcaptchaError> {
+//! # async fn main() -> Result<(), hcaptcha::Error> {
 //! #   let secret = get_your_secret();
 //! #   let captcha = get_captcha();
 //! #   let remoteip = get_remoteip_address();
@@ -99,7 +99,7 @@
 //! #         #[derive(Error, Debug)]
 //! #         pub enum ContactError {
 //! #             #[error("{0}")]
-//! #             Hcaptcha(#[from] hcaptcha::HcaptchaError),
+//! #             Hcaptcha(#[from] hcaptcha::Error),
 //! #             #[error("{0}")]
 //! #             Json(#[from] serde_json::Error),
 //! #         }
@@ -298,18 +298,18 @@
 
 #[doc(hidden)]
 pub(crate) mod domain;
+mod error;
 mod hcaptcha;
 mod hcaptcha_captcha;
 mod hcaptcha_client;
-mod hcaptcha_error;
 mod hcaptcha_request;
 mod hcaptcha_response;
 
+pub use error::Code;
+pub use error::Error;
 pub use hcaptcha_captcha::HcaptchaCaptcha;
 pub use hcaptcha_client::HcaptchaClient;
 pub use hcaptcha_client::VERIFY_URL;
-pub use hcaptcha_error::Code;
-pub use hcaptcha_error::HcaptchaError;
 pub use hcaptcha_request::HcaptchaRequest;
 pub use hcaptcha_response::HcaptchaResponse;
 

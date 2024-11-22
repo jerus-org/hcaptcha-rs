@@ -1,4 +1,4 @@
-use crate::{Code, HcaptchaError};
+use crate::{Code, Error};
 use std::collections::HashSet;
 use std::fmt;
 use std::net::{Ipv4Addr, Ipv6Addr};
@@ -18,7 +18,7 @@ impl HcaptchaRemoteip {
         feature = "trace",
         tracing::instrument(name = "Validate User IP.", skip(s), level = "debug")
     )]
-    pub fn parse(s: String) -> Result<Self, HcaptchaError> {
+    pub fn parse(s: String) -> Result<Self, Error> {
         empty_ip_string(&s)?;
         invalid_ip_string(&s)?;
 
@@ -30,14 +30,14 @@ impl HcaptchaRemoteip {
     feature = "trace",
     tracing::instrument(name = "Return error on empty string.", skip(s), level = "debug")
 )]
-fn empty_ip_string(s: &str) -> Result<(), HcaptchaError> {
+fn empty_ip_string(s: &str) -> Result<(), Error> {
     if s.trim().is_empty() {
         let mut codes = HashSet::new();
         codes.insert(Code::MissingUserIp);
 
         #[cfg(feature = "trace")]
         tracing::debug!("UserIP string is missing");
-        Err(HcaptchaError::Codes(codes))
+        Err(Error::Codes(codes))
     } else {
         Ok(())
     }
@@ -47,7 +47,7 @@ fn empty_ip_string(s: &str) -> Result<(), HcaptchaError> {
     feature = "trace",
     tracing::instrument(name = "Return error if not an ip string.", skip(s), level = "debug")
 )]
-fn invalid_ip_string(s: &str) -> Result<(), HcaptchaError> {
+fn invalid_ip_string(s: &str) -> Result<(), Error> {
     let invalid_ip4 = Ipv4Addr::from_str(s).is_err();
     let invalid_ip6 = Ipv6Addr::from_str(s).is_err();
     if invalid_ip4 && invalid_ip6 {
@@ -56,7 +56,7 @@ fn invalid_ip_string(s: &str) -> Result<(), HcaptchaError> {
 
         #[cfg(feature = "trace")]
         tracing::debug!("UserIP string is invalid");
-        Err(HcaptchaError::Codes(codes))
+        Err(Error::Codes(codes))
     } else {
         Ok(())
     }
@@ -66,7 +66,7 @@ fn invalid_ip_string(s: &str) -> Result<(), HcaptchaError> {
 mod tests {
     use super::HcaptchaRemoteip;
     use crate::Code;
-    use crate::HcaptchaError;
+    use crate::Error;
     use claims::{assert_err, assert_ok};
 
     #[test]
@@ -84,7 +84,7 @@ mod tests {
     #[test]
     fn error_set_contains_missing_ip_string_error() {
         let ip_string = "".to_string();
-        if let Err(HcaptchaError::Codes(hs)) = HcaptchaRemoteip::parse(ip_string) {
+        if let Err(Error::Codes(hs)) = HcaptchaRemoteip::parse(ip_string) {
             assert!(hs.contains(&Code::MissingUserIp));
         }
     }
@@ -95,7 +95,7 @@ mod tests {
         let res = HcaptchaRemoteip::parse(ip_string);
         assert_err!(&res);
 
-        if let Err(HcaptchaError::Codes(hs)) = res {
+        if let Err(Error::Codes(hs)) = res {
             println!("Error Codes: {:?}", &hs);
             assert!(hs.contains(&Code::InvalidUserIp));
         }
