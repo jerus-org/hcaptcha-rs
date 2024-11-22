@@ -5,68 +5,67 @@
   "semanticCommits": "enabled",
   "semanticCommitType": "fix",
   "schedule": [
-    "before 1:00pm on Friday"
+    "before 6:00am on Friday"
   ],
   "prConcurrentLimit": 0,
   "versioning": "cargo",
   "packageRules": [
     {
-      "excludePackageNames": [
-        "jerusdp/ci-rust"
+      "matchPackageNames": [
+        "!jerusdp/ci-rust"
       ]
     },
     {
-      "packagePatterns": [
-        "^futures[-_]?"
-      ],
-      "groupName": "futures packages"
+      "groupName": "futures packages",
+      "matchPackageNames": [
+        "/^futures[-_]?/"
+      ]
     },
     {
-      "packagePatterns": [
-        "^serde[-_]?"
-      ],
-      "groupName": "serde packages"
+      "groupName": "serde packages",
+      "matchPackageNames": [
+        "/^serde[-_]?/"
+      ]
     },
     {
-      "packagePatterns": [
-        "^tokio[-_]?"
-      ],
-      "groupName": "tokio packages"
+      "groupName": "tokio packages",
+      "matchPackageNames": [
+        "/^tokio[-_]?/"
+      ]
     },
     {
-      "packagePatterns": [
-        "^tracing[-_]?"
-      ],
-      "excludePackageNames": [
-        "tracing-opentelemetry"
-      ],
-      "groupName": "tracing packages"
+      "groupName": "tracing packages",
+      "matchPackageNames": [
+        "/^tracing[-_]?/",
+        "!tracing-opentelemetry"
+      ]
     },
     {
-      "packagePatterns": [
-        "^liquid[-_]?",
-        "^kstring$"
-      ],
-      "groupName": "liquid packages"
+      "groupName": "liquid packages",
+      "matchPackageNames": [
+        "/^liquid[-_]?/",
+        "/^kstring$/"
+      ]
     },
     {
-      "matchPackagePatterns": [
-        "github/codeql-action",
-        "ossf/scorecard-action",
-        "actions/checkout"
-      ],
-      "automerge": true
+      "automerge": true,
+      "matchPackageNames": [
+        "/github/codeql-action/",
+        "/ossf/scorecard-action/",
+        "/actions/checkout/"
+      ]
     },
     {
-      "matchPackagePatterns": [
-        "jerus-org/circleci-toolkit"
-      ],
       "sourceUrl": "https://github.com/jerus-org/circleci-toolkit",
-      "enabled": true
+      "enabled": true,
+      "matchPackageNames": [
+        "/jerus-org/circleci-toolkit/"
+      ]
     }
   ],
-  "regexManagers": [
+  "customManagers": [
     {
+      "customType": "regex",
       "fileMatch": [
         "^rust-toolchain\\.toml?$"
       ],
@@ -74,7 +73,7 @@
         "channel\\s*=\\s*\"(?<currentValue>\\d+\\.\\d+\\.\\d+)\""
       ],
       "depNameTemplate": "rust",
-      "lookupNameTemplate": "rust-lang/rust",
+      "packageNameTemplate": "rust-lang/rust",
       "datasourceTemplate": "github-releases"
     }
   ]
