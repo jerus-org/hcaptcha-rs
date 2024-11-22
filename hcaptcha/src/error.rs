@@ -36,7 +36,7 @@ pub enum Error {
 }
 
 /// Error code mapping for the error responses from the hcaptcha API.
-/// Returned in the [Error] type.
+/// Returned in the [enum@Error] type.
 #[non_exhaustive]
 #[derive(PartialEq, Eq, Hash, Clone, Debug)]
 pub enum Code {
@@ -80,7 +80,7 @@ pub enum Code {
 
 impl<'de> Deserialize<'de> for Code {
     /// Custom deserialize to map the hcaptcha API error codes for reporting as
-    /// a [Code] in [Error].
+    /// a [Code] in [enum@Error].
     fn deserialize<D>(de: D) -> Result<Self, D::Error>
     where
         D: Deserializer<'de>,
