@@ -1,6 +1,6 @@
 use super::error::ContactError;
 use super::param;
-use hcaptcha::{Client, Captcha, HcaptchaRequest, HcaptchaResponse};
+use hcaptcha::{Captcha, Client, HcaptchaResponse, Request};
 
 const HCAPTCHA_SECRET: &str = "/hcaptcha/secret";
 
@@ -9,7 +9,7 @@ pub async fn response_valid(captcha: Captcha) -> Result<HcaptchaResponse, Contac
 
     let client = Client::new();
 
-    let request = HcaptchaRequest::new(&secret, captcha)?;
+    let request = Request::new(&secret, captcha)?;
 
     let res = client.verify_client_response(request).await?;
 

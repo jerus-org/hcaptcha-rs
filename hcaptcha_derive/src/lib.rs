@@ -84,7 +84,7 @@
 //!             }
 //!         };
 //!         let request;
-//!         match hcaptcha::HcaptchaRequest::new(&secret, captcha) {
+//!         match hcaptcha::Request::new(&secret, captcha) {
 //!             Ok(r) => request = r,
 //!             Err(e) => {
 //!                 return Box::pin(async { Err(e) });
@@ -166,7 +166,7 @@ fn impl_hcaptcha(ast: &DeriveInput) -> TokenStream {
                 #remoteip
                 #sitekey;
                 let request;
-                match hcaptcha::HcaptchaRequest::new(&secret, captcha) {
+                match hcaptcha::Request::new(&secret, captcha) {
                     Ok(r) => request = r,
                     Err(e) => {
                         return Box::pin(async { Err(e) } );

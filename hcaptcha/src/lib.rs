@@ -22,7 +22,7 @@
 //! Token needs to be supplied by the client.
 //! This example will fail as a client-provided token is not used.
 //! ```no_run
-//!     use hcaptcha::{Client, HcaptchaRequest};
+//!     use hcaptcha::{Client, Request};
 //! # use itertools::Itertools;
 //!
 //! # #[tokio::main]
@@ -31,7 +31,7 @@
 //! #   let captcha = get_captcha();
 //! #   let remoteip = get_remoteip_address();
 //!
-//!     let request = HcaptchaRequest::new(&secret, captcha)?
+//!     let request = Request::new(&secret, captcha)?
 //!         .set_remoteip(&remoteip)?;
 //!
 //!     let client = Client::new();
@@ -173,7 +173,7 @@
 //!
 //! #     const HCAPTCHA_SECRET: &str = "/hcaptcha/secret";
 //! #
-//! #     use hcaptcha::{Captcha, Client, HcaptchaRequest};
+//! #     use hcaptcha::{Captcha, Client, Request};
 //! #     use lambda_runtime::{Context, Error};
 //! #     use send::ContactForm;
 //! #     use serde::{Deserialize, Serialize};
@@ -219,7 +219,7 @@
 //!
 //!         let hcaptcha_secret = param::get_parameter(HCAPTCHA_SECRET).await?;
 //!
-//!         let request = HcaptchaRequest::new(&hcaptcha_secret,
+//!         let request = Request::new(&hcaptcha_secret,
 //!             captcha)?;
 //!         
 //!         let client = Client::new();
@@ -302,16 +302,16 @@ mod client;
 pub(crate) mod domain;
 mod error;
 mod hcaptcha;
-mod hcaptcha_request;
 mod hcaptcha_response;
+mod request;
 
 pub use captcha::Captcha;
 pub use client::Client;
 pub use client::VERIFY_URL;
 pub use error::Code;
 pub use error::Error;
-pub use hcaptcha_request::HcaptchaRequest;
 pub use hcaptcha_response::HcaptchaResponse;
+pub use request::Request;
 
 pub use crate::hcaptcha::Hcaptcha;
 pub use hcaptcha_derive::*;

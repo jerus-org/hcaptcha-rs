@@ -17,13 +17,13 @@
 //!
 //! Create a client and submit for verification.
 //!```no_run
-//!     use hcaptcha::{Captcha, Client, HcaptchaRequest};
+//!     use hcaptcha::{Captcha, Client, Request};
 //!
 //! # #[tokio::main]
 //! # async fn main() -> Result<(), hcaptcha::Error> {
 //! #   let secret = get_your_secret();
 //! #   let captcha = dummy_captcha();
-//! #   let request = HcaptchaRequest::new(&secret, captcha)?; // <- returns error
+//! #   let request = Request::new(&secret, captcha)?; // <- returns error
 //!     let client = Client::new();
 //!     let response = client.verify_client_response(request).await?;
 //! # Ok(())
@@ -58,8 +58,8 @@
 // const RESET: &str = "\u{001b}[0m";
 
 use crate::Error;
-use crate::HcaptchaRequest;
 use crate::HcaptchaResponse;
+use crate::Request;
 use reqwest::Url;
 // #[cfg(target_arch = "wasm32")]
 // use tokio::runtime;
@@ -157,11 +157,11 @@ impl Client {
 
     /// Verify the client token with the Hcaptcha API.
     ///
-    /// Call the Hcaptcha api providing a [HcaptchaRequest] struct.
+    /// Call the Hcaptcha api providing a [Request] struct.
     ///
     /// # Inputs
     ///
-    /// HcaptchaRequest contains the required and optional fields
+    /// Request contains the required and optional fields
     /// for the Hcaptcha API. The required fields include the response
     /// code to validate and the secret key.
     ///
@@ -174,7 +174,7 @@ impl Client {
     ///
     ///
     ///  ```no_run
-    ///     use hcaptcha::{Client, HcaptchaRequest};
+    ///     use hcaptcha::{Client, Request};
     /// # use hcaptcha::Captcha;
     /// # use rand::distributions::Alphanumeric;
     /// # use rand::{thread_rng, Rng};
@@ -184,7 +184,7 @@ impl Client {
     ///     let secret = get_your_secret(); // your secret key
     ///     let captcha = get_captcha();  // user's token
     ///
-    ///     let request = HcaptchaRequest::new(&secret, captcha)?;
+    ///     let request = Request::new(&secret, captcha)?;
     ///
     ///     let client = Client::new();
     ///
@@ -232,10 +232,7 @@ impl Client {
             level = "debug"
         )
     )]
-    pub async fn verify_client_response(
-        self,
-        request: HcaptchaRequest,
-    ) -> Result<HcaptchaResponse, Error> {
+    pub async fn verify_client_response(self, request: Request) -> Result<HcaptchaResponse, Error> {
         let form: Form = request.into();
         #[cfg(feature = "trace")]
         tracing::debug!(
@@ -291,7 +288,7 @@ mod tests {
     async fn hcaptcha_mock() {
         let token = random_string(100);
         let secret = format!("0x{}", hex::encode(random_string(20)));
-        let request = HcaptchaRequest::new_from_response(&secret, &token).unwrap();
+        let request = Request::new_from_response(&secret, &token).unwrap();
 
         let expected_body = format!("response={}&secret={}", &token, &secret);
 
@@ -332,7 +329,7 @@ mod tests {
         let token = random_string(100);
         let secret = format!("0x{}", hex::encode(random_string(20)));
         let remoteip = mockd::internet::ipv4_address();
-        let request = HcaptchaRequest::new_from_response(&secret, &token)
+        let request = Request::new_from_response(&secret, &token)
             .unwrap()
             .set_remoteip(&remoteip)
             .unwrap();
@@ -379,7 +376,7 @@ mod tests {
         let token = random_string(100);
         let secret = format!("0x{}", hex::encode(random_string(20)));
         let sitekey = mockd::unique::uuid_v4();
-        let request = HcaptchaRequest::new_from_response(&secret, &token)
+        let request = Request::new_from_response(&secret, &token)
             .unwrap()
             .set_sitekey(&sitekey)
             .unwrap();

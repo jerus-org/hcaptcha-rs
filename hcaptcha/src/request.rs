@@ -3,7 +3,7 @@
 //! # Example
 //!
 //! ```
-//!     use hcaptcha::HcaptchaRequest;
+//!     use hcaptcha::Request;
 //! # #[tokio::main]
 //! # async fn main() -> Result<(), hcaptcha::Error> {
 //!     let secret = get_your_secret();         // your secret key
@@ -11,7 +11,7 @@
 //!     let sitekey = get_your_sitekey();     // your site key
 //!     let remoteip = get_remoteip_address();    // user's ip address
 //!
-//!     let request = HcaptchaRequest::new(&secret, captcha)?
+//!     let request = Request::new(&secret, captcha)?
 //!         .set_sitekey(&sitekey)?
 //!         .set_remoteip(&remoteip)?;
 //! # Ok(())
@@ -56,7 +56,7 @@ use crate::Error;
 /// Capture the required and optional data for a call to the hcaptcha API
 #[cfg_attr(docsrs, allow(rustdoc::missing_doc_code_examples))]
 #[derive(Debug, Default, serde::Serialize)]
-pub struct HcaptchaRequest {
+pub struct Request {
     /// [Captcha] captures the response and, optionally, the remoteip
     /// and sitekey reported by the client.
     captcha: Captcha,
@@ -65,8 +65,8 @@ pub struct HcaptchaRequest {
 }
 
 #[cfg_attr(docsrs, allow(rustdoc::missing_doc_code_examples))]
-impl HcaptchaRequest {
-    /// Create a new HcaptchaRequest
+impl Request {
+    /// Create a new Request
     ///
     /// # Input
     ///
@@ -76,18 +76,18 @@ impl HcaptchaRequest {
     ///
     /// # Output
     ///
-    /// HcaptchaRequest is returned if the input strings are valid.
+    /// Request is returned if the input strings are valid.
     /// [Error] is returned if the validation fails.
     ///
     /// # Example
     ///
     /// ``` no_run
-    ///     use hcaptcha::HcaptchaRequest;
+    ///     use hcaptcha::Request;
     /// # fn main() -> Result<(), hcaptcha::Error>{
     ///     let secret = get_your_secret();     // your secret key
     ///     let captcha = get_captcha();        // captcha with response token
     ///
-    ///     let request = HcaptchaRequest::new(&secret, captcha)?;
+    ///     let request = Request::new(&secret, captcha)?;
     /// # Ok(())
     /// # }
     /// # fn get_your_secret() -> String {
@@ -124,19 +124,19 @@ impl HcaptchaRequest {
     #[cfg_attr(
         feature = "trace",
         tracing::instrument(
-            name = "Create new HcaptchaRequest from Captcha struct.",
+            name = "Create new Request from Captcha struct.",
             skip(secret),
             level = "debug"
         )
     )]
-    pub fn new(secret: &str, captcha: Captcha) -> Result<HcaptchaRequest, Error> {
-        Ok(HcaptchaRequest {
+    pub fn new(secret: &str, captcha: Captcha) -> Result<Request, Error> {
+        Ok(Request {
             captcha,
             secret: Secret::parse(secret.to_owned())?,
         })
     }
 
-    /// Create a new HcaptchaRequest from only the response string
+    /// Create a new Request from only the response string
     ///
     /// # Input
     ///
@@ -146,18 +146,18 @@ impl HcaptchaRequest {
     ///
     /// # Output
     ///
-    /// HcaptchaRequest is returned if the inputs are valid.
+    /// Request is returned if the inputs are valid.
     /// [Error] is returned if the validation fails.
     ///
     /// # Example
     ///
     /// ``` no_run
-    ///     use hcaptcha::HcaptchaRequest;
+    ///     use hcaptcha::Request;
     /// # fn main() -> Result<(), hcaptcha::Error>{
     ///     let secret = get_your_secret();     // your secret key
     ///     let response = get_response();    // Hcaptcha client response
     ///
-    ///     let request = HcaptchaRequest::new_from_response(&secret, &response)?;
+    ///     let request = Request::new_from_response(&secret, &response)?;
     /// # Ok(())
     /// # }
     /// # fn get_your_secret() -> String {
@@ -185,14 +185,14 @@ impl HcaptchaRequest {
     #[cfg_attr(
         feature = "trace",
         tracing::instrument(
-            name = "Create new HcaptchaRequest from response string.",
+            name = "Create new Request from response string.",
             skip(secret),
             level = "debug"
         )
     )]
-    pub fn new_from_response(secret: &str, response: &str) -> Result<HcaptchaRequest, Error> {
+    pub fn new_from_response(secret: &str, response: &str) -> Result<Request, Error> {
         let captcha = Captcha::new(response)?;
-        HcaptchaRequest::new(secret, captcha)
+        Request::new(secret, captcha)
     }
 
     /// Specify the optional ip address value
@@ -201,14 +201,14 @@ impl HcaptchaRequest {
     ///
     /// # Example
     /// ``` no_run
-    ///     use hcaptcha::HcaptchaRequest;
+    ///     use hcaptcha::Request;
     /// # #[tokio::main]
     /// # async fn main() -> Result<(), hcaptcha::Error> {
     ///     let secret = get_your_secret();         // your secret key
     ///     let response = get_response();          // user's response token
     ///     let remoteip = get_remoteip_address();    // user's ip address
     ///
-    ///     let request = HcaptchaRequest::new_from_response(&secret, &response)?
+    ///     let request = Request::new_from_response(&secret, &response)?
     ///         .set_remoteip(&remoteip)?;
     /// # Ok(())
     /// # }
@@ -262,14 +262,14 @@ impl HcaptchaRequest {
     /// # Example
     /// Create a new request and set the sitekey field in the request.
     /// ```
-    ///     use hcaptcha::HcaptchaRequest;
+    ///     use hcaptcha::Request;
     /// # #[tokio::main]
     /// # async fn main() -> Result<(), hcaptcha::Error> {
     ///     let secret = get_your_secret();     // your secret key
     ///     let captcha = get_captcha();        // captcha
     ///     let sitekey = get_your_sitekey();   // your site key
     ///
-    ///     let request = HcaptchaRequest::new(&secret, captcha)?
+    ///     let request = Request::new(&secret, captcha)?
     ///         .set_sitekey(&sitekey);
     /// # Ok(())
     /// # }
@@ -376,7 +376,7 @@ mod tests {
         let secret = format!("0x{}", random_hex_string(40));
         let captcha = dummy_captcha();
 
-        assert_ok!(HcaptchaRequest::new(&secret, captcha));
+        assert_ok!(Request::new(&secret, captcha));
     }
 
     #[test]
@@ -384,7 +384,7 @@ mod tests {
         let secret = format!("0x{}", random_hex_string(40));
         let response = random_response();
 
-        let request = HcaptchaRequest::new_from_response(&secret, &response).unwrap();
+        let request = Request::new_from_response(&secret, &response).unwrap();
 
         assert_eq!(&secret, &request.secret().to_string().as_str());
 
