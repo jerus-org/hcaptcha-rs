@@ -4,7 +4,7 @@ mod param;
 mod record;
 mod send;
 
-use hcaptcha::HcaptchaCaptcha;
+use hcaptcha::Captcha;
 use lambda_runtime::{Error, LambdaEvent};
 use send::ContactForm;
 use serde::{Deserialize, Serialize};
@@ -52,7 +52,7 @@ pub async fn my_handler(event: LambdaEvent<ApiGatewayEvent>) -> Result<GatewayRe
     let body_str = e.body.unwrap_or_else(|| "".to_owned());
 
     // Extract the reCaptcha response from the body string in the event
-    let captcha: HcaptchaCaptcha = serde_json::from_str(&body_str)?;
+    let captcha: Captcha = serde_json::from_str(&body_str)?;
 
     hcaptcha_validate::response_valid(captcha).await?;
 

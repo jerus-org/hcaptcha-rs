@@ -55,7 +55,7 @@
 //! # fn get_your_secret() -> String {
 //! #   "0x123456789abcde0f123456789abcdef012345678".to_string()
 //! # }
-//! # use hcaptcha::HcaptchaCaptcha;
+//! # use hcaptcha::Captcha;
 //! # use rand::distributions::Alphanumeric;
 //! # use rand::{thread_rng, Rng};
 //! # use std::iter;
@@ -67,8 +67,8 @@
 //! #        .take(100)
 //! #        .collect()
 //! # }
-//! # fn get_captcha() -> HcaptchaCaptcha {
-//! #    HcaptchaCaptcha::new(&random_response())
+//! # fn get_captcha() -> Captcha {
+//! #    Captcha::new(&random_response())
 //! #       .unwrap()
 //! #       .set_remoteip(&mockd::internet::ipv4_address())
 //! #       .unwrap()
@@ -173,7 +173,7 @@
 //!
 //! #     const HCAPTCHA_SECRET: &str = "/hcaptcha/secret";
 //! #
-//! #     use hcaptcha::{HcaptchaCaptcha, Client, HcaptchaRequest};
+//! #     use hcaptcha::{Captcha, Client, HcaptchaRequest};
 //! #     use lambda_runtime::{Context, Error};
 //! #     use send::ContactForm;
 //! #     use serde::{Deserialize, Serialize};
@@ -215,7 +215,7 @@
 //!         debug!("The event logged is: {:?}", e);
 //!
 //!         let body_str = e.body.unwrap_or_else(|| "".to_owned());
-//!         let captcha: HcaptchaCaptcha = serde_json::from_str(&body_str)?;
+//!         let captcha: Captcha = serde_json::from_str(&body_str)?;
 //!
 //!         let hcaptcha_secret = param::get_parameter(HCAPTCHA_SECRET).await?;
 //!
@@ -296,20 +296,20 @@
 //!
 //! This version of hcaptcha requires Rust v1.71 or later.
 
+mod captcha;
 mod client;
 #[doc(hidden)]
 pub(crate) mod domain;
 mod error;
 mod hcaptcha;
-mod hcaptcha_captcha;
 mod hcaptcha_request;
 mod hcaptcha_response;
 
+pub use captcha::Captcha;
 pub use client::Client;
 pub use client::VERIFY_URL;
 pub use error::Code;
 pub use error::Error;
-pub use hcaptcha_captcha::HcaptchaCaptcha;
 pub use hcaptcha_request::HcaptchaRequest;
 pub use hcaptcha_response::HcaptchaResponse;
 

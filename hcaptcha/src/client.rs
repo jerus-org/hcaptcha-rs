@@ -17,7 +17,7 @@
 //!
 //! Create a client and submit for verification.
 //!```no_run
-//!     use hcaptcha::{HcaptchaCaptcha, Client, HcaptchaRequest};
+//!     use hcaptcha::{Captcha, Client, HcaptchaRequest};
 //!
 //! # #[tokio::main]
 //! # async fn main() -> Result<(), hcaptcha::Error> {
@@ -43,8 +43,8 @@
 //! #        .take(100)
 //! #        .collect()
 //! # }
-//! # fn dummy_captcha() -> HcaptchaCaptcha {
-//! #    HcaptchaCaptcha::new(&random_response())
+//! # fn dummy_captcha() -> Captcha {
+//! #    Captcha::new(&random_response())
 //! #       .unwrap()
 //! #       .set_remoteip(&mockd::internet::ipv4_address())
 //! #       .unwrap()
@@ -175,7 +175,7 @@ impl Client {
     ///
     ///  ```no_run
     ///     use hcaptcha::{Client, HcaptchaRequest};
-    /// # use hcaptcha::HcaptchaCaptcha;
+    /// # use hcaptcha::Captcha;
     /// # use rand::distributions::Alphanumeric;
     /// # use rand::{thread_rng, Rng};
     /// # use std::iter;
@@ -208,8 +208,8 @@ impl Client {
     /// #        .take(100)
     /// #        .collect()
     /// # }
-    /// # fn get_captcha() -> HcaptchaCaptcha {
-    /// #    HcaptchaCaptcha::new(&random_response())
+    /// # fn get_captcha() -> Captcha {
+    /// #    Captcha::new(&random_response())
     /// #       .unwrap()
     /// #       .set_remoteip(&mockd::internet::ipv4_address())
     /// #       .unwrap()

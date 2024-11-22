@@ -34,7 +34,7 @@
 //!
 //! # Ok(())
 //! # }
-//! # use hcaptcha::HcaptchaCaptcha;
+//! # use hcaptcha::Captcha;
 //! # use rand::distributions::Alphanumeric;
 //! # use rand::{thread_rng, Rng};
 //! # use std::iter;
@@ -46,8 +46,8 @@
 //! #        .take(100)
 //! #        .collect()
 //! # }
-//! # fn get_captcha() -> HcaptchaCaptcha {
-//! #    HcaptchaCaptcha::new(&random_response())
+//! # fn get_captcha() -> Captcha {
+//! #    Captcha::new(&random_response())
 //! #       .unwrap()
 //! #       .set_remoteip(&mockd::internet::ipv4_address())
 //! #       .unwrap()
@@ -208,7 +208,7 @@ impl HcaptchaResponse {
     ///     println!("Success returns true: {}", response.success());
     /// # Ok(())
     /// # }
-    /// # use hcaptcha::HcaptchaCaptcha;
+    /// # use hcaptcha::Captcha;
     /// # use rand::distributions::Alphanumeric;
     /// # use rand::{thread_rng, Rng};
     /// # use std::iter;
@@ -220,8 +220,8 @@ impl HcaptchaResponse {
     /// #        .take(100)
     /// #        .collect()
     /// # }
-    /// # fn get_captcha() -> HcaptchaCaptcha {
-    /// #    HcaptchaCaptcha::new(&random_response())
+    /// # fn get_captcha() -> Captcha {
+    /// #    Captcha::new(&random_response())
     /// #       .unwrap()
     /// #       .set_remoteip(&mockd::internet::ipv4_address())
     /// #       .unwrap()
@@ -253,7 +253,7 @@ impl HcaptchaResponse {
     ///     };
     /// # Ok(())
     /// # }
-    /// # use hcaptcha::HcaptchaCaptcha;
+    /// # use hcaptcha::Captcha;
     /// # use rand::distributions::Alphanumeric;
     /// # use rand::{thread_rng, Rng};
     /// # use std::iter;
@@ -265,8 +265,8 @@ impl HcaptchaResponse {
     /// #        .take(100)
     /// #        .collect()
     /// # }
-    /// # fn get_captcha() -> HcaptchaCaptcha {
-    /// #    HcaptchaCaptcha::new(&random_response())
+    /// # fn get_captcha() -> Captcha {
+    /// #    Captcha::new(&random_response())
     /// #       .unwrap()
     /// #       .set_remoteip(&mockd::internet::ipv4_address())
     /// #       .unwrap()
@@ -298,7 +298,7 @@ impl HcaptchaResponse {
     ///     };
     /// # Ok(())
     /// # }
-    /// # use hcaptcha::HcaptchaCaptcha;
+    /// # use hcaptcha::Captcha;
     /// # use rand::distributions::Alphanumeric;
     /// # use rand::{thread_rng, Rng};
     /// # use std::iter;
@@ -310,8 +310,8 @@ impl HcaptchaResponse {
     /// #        .take(100)
     /// #        .collect()
     /// # }
-    /// # fn get_captcha() -> HcaptchaCaptcha {
-    /// #    HcaptchaCaptcha::new(&random_response())
+    /// # fn get_captcha() -> Captcha {
+    /// #    Captcha::new(&random_response())
     /// #       .unwrap()
     /// #       .set_remoteip(&mockd::internet::ipv4_address())
     /// #       .unwrap()
@@ -344,7 +344,7 @@ impl HcaptchaResponse {
     ///
     /// # Ok(())
     /// # }
-    /// # use hcaptcha::HcaptchaCaptcha;
+    /// # use hcaptcha::Captcha;
     /// # use rand::distributions::Alphanumeric;
     /// # use rand::{thread_rng, Rng};
     /// # use std::iter;
@@ -356,8 +356,8 @@ impl HcaptchaResponse {
     /// #        .take(100)
     /// #        .collect()
     /// # }
-    /// # fn get_captcha() -> HcaptchaCaptcha {
-    /// #    HcaptchaCaptcha::new(&random_response())
+    /// # fn get_captcha() -> Captcha {
+    /// #    Captcha::new(&random_response())
     /// #       .unwrap()
     /// #       .set_remoteip(&mockd::internet::ipv4_address())
     /// #       .unwrap()
@@ -390,7 +390,7 @@ impl HcaptchaResponse {
     ///
     /// # Ok(())
     /// # }
-    /// # use hcaptcha::HcaptchaCaptcha;
+    /// # use hcaptcha::Captcha;
     /// # use rand::distributions::Alphanumeric;
     /// # use rand::{thread_rng, Rng};
     /// # use std::iter;
@@ -402,8 +402,8 @@ impl HcaptchaResponse {
     /// #        .take(100)
     /// #        .collect()
     /// # }
-    /// # fn get_captcha() -> HcaptchaCaptcha {
-    /// #    HcaptchaCaptcha::new(&random_response())
+    /// # fn get_captcha() -> Captcha {
+    /// #    Captcha::new(&random_response())
     /// #       .unwrap()
     /// #       .set_remoteip(&mockd::internet::ipv4_address())
     /// #       .unwrap()
@@ -435,7 +435,7 @@ impl HcaptchaResponse {
     ///
     /// # Ok(())
     /// # }
-    /// # use hcaptcha::HcaptchaCaptcha;
+    /// # use hcaptcha::Captcha;
     /// # use rand::distributions::Alphanumeric;
     /// # use rand::{thread_rng, Rng};
     /// # use std::iter;
@@ -447,8 +447,8 @@ impl HcaptchaResponse {
     /// #        .take(100)
     /// #        .collect()
     /// # }
-    /// # fn get_captcha() -> HcaptchaCaptcha {
-    /// #    HcaptchaCaptcha::new(&random_response())
+    /// # fn get_captcha() -> Captcha {
+    /// #    Captcha::new(&random_response())
     /// #       .unwrap()
     /// #       .set_remoteip(&mockd::internet::ipv4_address())
     /// #       .unwrap()
@@ -483,7 +483,7 @@ impl HcaptchaResponse {
     ///
     /// # Ok(())
     /// # }
-    /// # use hcaptcha::HcaptchaCaptcha;
+    /// # use hcaptcha::Captcha;
     /// # use rand::distributions::Alphanumeric;
     /// # use rand::{thread_rng, Rng};
     /// # use std::iter;
@@ -495,8 +495,8 @@ impl HcaptchaResponse {
     /// #        .take(100)
     /// #        .collect()
     /// # }
-    /// # fn get_captcha() -> HcaptchaCaptcha {
-    /// #    HcaptchaCaptcha::new(&random_response())
+    /// # fn get_captcha() -> Captcha {
+    /// #    Captcha::new(&random_response())
     /// #       .unwrap()
     /// #       .set_remoteip(&mockd::internet::ipv4_address())
     /// #       .unwrap()

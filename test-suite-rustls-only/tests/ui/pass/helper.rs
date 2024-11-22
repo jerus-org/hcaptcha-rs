@@ -1,4 +1,4 @@
-use hcaptcha::HcaptchaCaptcha;
+use hcaptcha::Captcha;
 use rand::distributions::Alphanumeric;
 use rand::{thread_rng, Rng};
 use std::iter;
@@ -12,8 +12,8 @@ pub fn random_response() -> String {
         .collect()
 }
 
-pub fn dummy_captcha() -> HcaptchaCaptcha {
-    HcaptchaCaptcha::new(&random_response())
+pub fn dummy_captcha() -> Captcha {
+    Captcha::new(&random_response())
         .unwrap()
         .set_remoteip(&mockd::internet::ipv4_address())
         .unwrap()

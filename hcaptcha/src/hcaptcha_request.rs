@@ -19,7 +19,7 @@
 //! # fn get_your_secret() -> String {
 //! #   "0x123456789abcde0f123456789abcdef012345678".to_string()
 //! # }
-//! # use hcaptcha::HcaptchaCaptcha;
+//! # use hcaptcha::Captcha;
 //! # use rand::distributions::Alphanumeric;
 //! # use rand::{thread_rng, Rng};
 //! # use std::iter;
@@ -31,8 +31,8 @@
 //! #        .take(100)
 //! #        .collect()
 //! # }
-//! # fn get_captcha() -> HcaptchaCaptcha {
-//! #    HcaptchaCaptcha::new(&random_response())
+//! # fn get_captcha() -> Captcha {
+//! #    Captcha::new(&random_response())
 //! #       .unwrap()
 //! #       .set_remoteip(&mockd::internet::ipv4_address())
 //! #       .unwrap()
@@ -50,16 +50,16 @@
 //! ```
 
 use crate::domain::Secret;
+use crate::Captcha;
 use crate::Error;
-use crate::HcaptchaCaptcha;
 
 /// Capture the required and optional data for a call to the hcaptcha API
 #[cfg_attr(docsrs, allow(rustdoc::missing_doc_code_examples))]
 #[derive(Debug, Default, serde::Serialize)]
 pub struct HcaptchaRequest {
-    /// [HcaptchaCaptcha] captures the response and, optionally, the remoteip
+    /// [Captcha] captures the response and, optionally, the remoteip
     /// and sitekey reported by the client.
-    captcha: HcaptchaCaptcha,
+    captcha: Captcha,
     /// The secret_key related to the sitekey used to capture the response.
     secret: Secret,
 }
@@ -72,7 +72,7 @@ impl HcaptchaRequest {
     ///
     /// The Hcaptcha API has two mandatory parameters:
     ///     `secret`:     The client's secret key for authentication
-    ///     `captcha`:    [HcaptchaCaptcha] (including response token)
+    ///     `captcha`:    [Captcha] (including response token)
     ///
     /// # Output
     ///
@@ -93,7 +93,7 @@ impl HcaptchaRequest {
     /// # fn get_your_secret() -> String {
     /// #   "0x123456789abcde0f123456789abcdef012345678".to_string()
     /// # }
-    /// # use hcaptcha::HcaptchaCaptcha;
+    /// # use hcaptcha::Captcha;
     /// # use rand::distributions::Alphanumeric;
     /// # use rand::{thread_rng, Rng};
     /// # use std::iter;
@@ -105,8 +105,8 @@ impl HcaptchaRequest {
     /// #        .take(100)
     /// #        .collect()
     /// # }
-    /// # fn get_captcha() -> HcaptchaCaptcha {
-    /// #    HcaptchaCaptcha::new(&random_response())
+    /// # fn get_captcha() -> Captcha {
+    /// #    Captcha::new(&random_response())
     /// #       .unwrap()
     /// #       .set_remoteip(&mockd::internet::ipv4_address())
     /// #       .unwrap()
@@ -124,12 +124,12 @@ impl HcaptchaRequest {
     #[cfg_attr(
         feature = "trace",
         tracing::instrument(
-            name = "Create new HcaptchaRequest from HcaptchaCaptcha struct.",
+            name = "Create new HcaptchaRequest from Captcha struct.",
             skip(secret),
             level = "debug"
         )
     )]
-    pub fn new(secret: &str, captcha: HcaptchaCaptcha) -> Result<HcaptchaRequest, Error> {
+    pub fn new(secret: &str, captcha: Captcha) -> Result<HcaptchaRequest, Error> {
         Ok(HcaptchaRequest {
             captcha,
             secret: Secret::parse(secret.to_owned())?,
@@ -191,7 +191,7 @@ impl HcaptchaRequest {
         )
     )]
     pub fn new_from_response(secret: &str, response: &str) -> Result<HcaptchaRequest, Error> {
-        let captcha = HcaptchaCaptcha::new(response)?;
+        let captcha = Captcha::new(response)?;
         HcaptchaRequest::new(secret, captcha)
     }
 
@@ -215,7 +215,7 @@ impl HcaptchaRequest {
     /// # fn get_your_secret() -> String {
     /// #   "0x123456789abcde0f123456789abcdef012345678".to_string()
     /// # }
-    /// # use hcaptcha::HcaptchaCaptcha;
+    /// # use hcaptcha::Captcha;
     /// # use rand::distributions::Alphanumeric;
     /// # use rand::{thread_rng, Rng};
     /// # use std::iter;
@@ -276,7 +276,7 @@ impl HcaptchaRequest {
     /// # fn get_your_secret() -> String {
     /// #   "0x123456789abcde0f123456789abcdef012345678".to_string()
     /// # }
-    /// # use hcaptcha::HcaptchaCaptcha;
+    /// # use hcaptcha::Captcha;
     /// # use rand::distributions::Alphanumeric;
     /// # use rand::{thread_rng, Rng};
     /// # use std::iter;
@@ -288,8 +288,8 @@ impl HcaptchaRequest {
     /// #        .take(100)
     /// #        .collect()
     /// # }
-    /// # fn get_captcha() -> HcaptchaCaptcha {
-    /// #    HcaptchaCaptcha::new(&random_response())
+    /// # fn get_captcha() -> Captcha {
+    /// #    Captcha::new(&random_response())
     /// #       .unwrap()
     /// #       .set_remoteip(&mockd::internet::ipv4_address())
     /// #       .unwrap()
@@ -329,14 +329,14 @@ impl HcaptchaRequest {
     }
 
     #[allow(dead_code)]
-    pub(crate) fn captcha(&self) -> HcaptchaCaptcha {
+    pub(crate) fn captcha(&self) -> Captcha {
         self.captcha.clone()
     }
 }
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::HcaptchaCaptcha;
+    use crate::Captcha;
     use claims::{assert_none, assert_ok};
     use rand::distributions::Alphanumeric;
     use rand::{thread_rng, Rng};
@@ -362,8 +362,8 @@ mod tests {
             .collect()
     }
 
-    fn dummy_captcha() -> HcaptchaCaptcha {
-        HcaptchaCaptcha::new(&random_response())
+    fn dummy_captcha() -> Captcha {
+        Captcha::new(&random_response())
             .unwrap()
             .set_remoteip(&mockd::internet::ipv4_address())
             .unwrap()
@@ -388,7 +388,7 @@ mod tests {
 
         assert_eq!(&secret, &request.secret().to_string().as_str());
 
-        let HcaptchaCaptcha {
+        let Captcha {
             response: resp,
             remoteip: ip,
             sitekey: key,

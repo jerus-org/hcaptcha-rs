@@ -65,7 +65,7 @@
 //!         };
 //!         #[allow(unused_mut)]
 //!         let mut captcha;
-//!         match hcaptcha::HcaptchaCaptcha::new(&self.hcaptcha) {
+//!         match hcaptcha::Captcha::new(&self.hcaptcha) {
 //!             Ok(c) => captcha = c,
 //!             Err(e) => {
 //!                 return Box::pin(async { Err(e) });
@@ -235,7 +235,7 @@ fn get_required_attribute(
             quote! {
                 #[allow(unused_mut)]
                 let mut captcha;
-                match hcaptcha::HcaptchaCaptcha::new(&self.#i) {
+                match hcaptcha::Captcha::new(&self.#i) {
                     Ok(c) => captcha = c,
                     Err(e) => {
                         return Box::pin(async{Err(e)});
