@@ -24,7 +24,7 @@
 //! # }
 //! ```
 
-use crate::domain::{ClientResponse, Remoteip, HcaptchaSitekey};
+use crate::domain::{ClientResponse, Remoteip, Sitekey};
 use crate::Error;
 
 /// Capture the Hcaptcha data coming from the client.
@@ -35,7 +35,7 @@ pub struct HcaptchaCaptcha {
     /// The remoteip of the client submitting the request.
     pub(crate) remoteip: Option<Remoteip>,
     /// The sitekey submitted to Hcaptcha by the client.
-    pub(crate) sitekey: Option<HcaptchaSitekey>,
+    pub(crate) sitekey: Option<Sitekey>,
 }
 
 impl HcaptchaCaptcha {
@@ -250,7 +250,7 @@ impl HcaptchaCaptcha {
         if sitekey.is_empty() {
             self.sitekey = None;
         } else {
-            self.sitekey = Some(HcaptchaSitekey::parse(sitekey.to_owned())?);
+            self.sitekey = Some(Sitekey::parse(sitekey.to_owned())?);
         };
 
         Ok(self.clone())
@@ -422,7 +422,7 @@ impl HcaptchaCaptcha {
         feature = "trace",
         tracing::instrument(name = "Get sitekey field.", level = "debug")
     )]
-    pub fn sitekey(&self) -> Option<HcaptchaSitekey> {
+    pub fn sitekey(&self) -> Option<Sitekey> {
         self.sitekey.clone()
     }
 }

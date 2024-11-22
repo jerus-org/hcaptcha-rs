@@ -5,15 +5,15 @@ use std::str::FromStr;
 use uuid::Uuid;
 
 #[derive(Debug, Default, Clone, serde::Deserialize, serde::Serialize)]
-pub struct HcaptchaSitekey(String);
+pub struct Sitekey(String);
 
-impl fmt::Display for HcaptchaSitekey {
+impl fmt::Display for Sitekey {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         write!(f, "{}", self.0)
     }
 }
 
-impl HcaptchaSitekey {
+impl Sitekey {
     #[cfg_attr(
         feature = "trace",
         tracing::instrument(name = "Validate Site Key.", skip(s), level = "debug")
@@ -22,7 +22,7 @@ impl HcaptchaSitekey {
         empty_sitekey(&s)?;
         invalid_sitekey(&s)?;
 
-        Ok(HcaptchaSitekey(s))
+        Ok(Sitekey(s))
     }
 }
 
@@ -62,7 +62,7 @@ fn invalid_sitekey(s: &str) -> Result<(), Error> {
 
 #[cfg(test)]
 mod tests {
-    use super::HcaptchaSitekey;
+    use super::Sitekey;
     use crate::Code;
     use crate::Error;
     use claims::{assert_err, assert_ok};
@@ -73,19 +73,19 @@ mod tests {
     #[test]
     fn whitespace_only_sitekeys_are_rejected() {
         let sitekey = " ".to_string();
-        assert_err!(HcaptchaSitekey::parse(sitekey));
+        assert_err!(Sitekey::parse(sitekey));
     }
 
     #[test]
     fn empty_string_is_rejected() {
         let sitekey = "".to_string();
-        assert_err!(HcaptchaSitekey::parse(sitekey));
+        assert_err!(Sitekey::parse(sitekey));
     }
 
     #[test]
     fn error_set_contains_missing_sitekey_error() {
         let sitekey = "".to_string();
-        if let Err(Error::Codes(hs)) = HcaptchaSitekey::parse(sitekey) {
+        if let Err(Error::Codes(hs)) = Sitekey::parse(sitekey) {
             assert!(hs.contains(&Code::MissingSiteKey));
         }
     }
@@ -93,7 +93,7 @@ mod tests {
     #[test]
     fn error_set_contains_invalid_sitekey_error() {
         let sitekey = "1922.20".to_string();
-        let res = HcaptchaSitekey::parse(sitekey);
+        let res = Sitekey::parse(sitekey);
         assert_err!(&res);
 
         if let Err(Error::Codes(hs)) = res {
@@ -105,6 +105,6 @@ mod tests {
     fn valid_sitekey_key_is_valid() {
         let sitekey = mockd::unique::uuid_v4();
 
-        assert_ok!(HcaptchaSitekey::parse(sitekey));
+        assert_ok!(Sitekey::parse(sitekey));
     }
 }
