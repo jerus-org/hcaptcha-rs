@@ -24,14 +24,14 @@
 //! # }
 //! ```
 
-use crate::domain::{HcaptchaClientResponse, HcaptchaRemoteip, HcaptchaSitekey};
+use crate::domain::{ClientResponse, HcaptchaRemoteip, HcaptchaSitekey};
 use crate::Error;
 
 /// Capture the Hcaptcha data coming from the client.
 #[derive(Debug, Default, Clone, serde::Serialize, serde::Deserialize)]
 pub struct HcaptchaCaptcha {
     /// The response string collected by client from Hcaptcha.
-    pub(crate) response: HcaptchaClientResponse,
+    pub(crate) response: ClientResponse,
     /// The remoteip of the client submitting the request.
     pub(crate) remoteip: Option<HcaptchaRemoteip>,
     /// The sitekey submitted to Hcaptcha by the client.
@@ -98,7 +98,7 @@ impl HcaptchaCaptcha {
     )]
     pub fn new(response: &str) -> Result<Self, Error> {
         Ok(HcaptchaCaptcha {
-            response: HcaptchaClientResponse::parse(response.to_owned())?,
+            response: ClientResponse::parse(response.to_owned())?,
             remoteip: None,
             sitekey: None,
         })
@@ -306,7 +306,7 @@ impl HcaptchaCaptcha {
         feature = "trace",
         tracing::instrument(name = "Get response field.", level = "debug")
     )]
-    pub fn response(self) -> HcaptchaClientResponse {
+    pub fn response(self) -> ClientResponse {
         self.response
     }
 

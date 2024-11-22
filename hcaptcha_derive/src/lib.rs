@@ -51,7 +51,7 @@
 //!             dyn std::future::Future<
 //!                     Output = Result<hcaptcha::HcaptchaResponse,
 //!                                     hcaptcha::Error>,
-//!                                     > + Send,
+//!                                     >,
 //!         >,
 //!     > {
 //!         let mut client = hcaptcha::HcaptchaClient::new();
