@@ -57,7 +57,7 @@
 
 //! ```
 use crate::Code;
-use crate::HcaptchaError;
+use crate::Error;
 use serde::Deserialize;
 use std::collections::HashSet;
 use std::fmt;
@@ -177,14 +177,14 @@ impl fmt::Display for HcaptchaResponse {
 impl HcaptchaResponse {
     /// Check success of API call and return HcaptchaError
     /// with the error codes if not successful.
-    pub(crate) fn check_error(&self) -> Result<(), HcaptchaError> {
+    pub(crate) fn check_error(&self) -> Result<(), Error> {
         if !self.success() {
             match &self.error_codes {
-                Some(codes) => Err(HcaptchaError::Codes(codes.clone())),
+                Some(codes) => Err(Error::Codes(codes.clone())),
                 None => {
                     let mut codes = HashSet::new();
                     codes.insert(Code::Unknown("No error codes returned".to_owned()));
-                    Err(HcaptchaError::Codes(codes))
+                    Err(Error::Codes(codes))
                 }
             }
         } else {

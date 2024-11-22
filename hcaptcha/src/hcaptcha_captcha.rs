@@ -25,7 +25,7 @@
 //! ```
 
 use crate::domain::{HcaptchaClientResponse, HcaptchaRemoteip, HcaptchaSitekey};
-use crate::HcaptchaError;
+use crate::Error;
 
 /// Capture the Hcaptcha data coming from the client.
 #[derive(Debug, Default, Clone, serde::Serialize, serde::Deserialize)]
@@ -96,7 +96,7 @@ impl HcaptchaCaptcha {
             level = "debug"
         )
     )]
-    pub fn new(response: &str) -> Result<Self, HcaptchaError> {
+    pub fn new(response: &str) -> Result<Self, Error> {
         Ok(HcaptchaCaptcha {
             response: HcaptchaClientResponse::parse(response.to_owned())?,
             remoteip: None,
@@ -170,7 +170,7 @@ impl HcaptchaCaptcha {
         feature = "trace",
         tracing::instrument(name = "Update remoteip field in HcaptchaCaptcha.", level = "debug")
     )]
-    pub fn set_remoteip(&mut self, remoteip: &str) -> Result<Self, HcaptchaError> {
+    pub fn set_remoteip(&mut self, remoteip: &str) -> Result<Self, Error> {
         if remoteip.is_empty() {
             self.remoteip = None;
         } else {
@@ -246,7 +246,7 @@ impl HcaptchaCaptcha {
         feature = "trace",
         tracing::instrument(name = "Update sitekey field in HcaptchaCaptcha.", level = "debug")
     )]
-    pub fn set_sitekey(&mut self, sitekey: &str) -> Result<Self, HcaptchaError> {
+    pub fn set_sitekey(&mut self, sitekey: &str) -> Result<Self, Error> {
         if sitekey.is_empty() {
             self.sitekey = None;
         } else {
@@ -468,7 +468,7 @@ mod tests {
             .unwrap()
             .set_remoteip(&mockd::words::word());
         assert_err!(&captcha);
-        if let Err(HcaptchaError::Codes(hs)) = captcha {
+        if let Err(Error::Codes(hs)) = captcha {
             assert!(hs.contains(&Code::InvalidUserIp));
         }
     }
@@ -496,7 +496,7 @@ mod tests {
             .set_sitekey(&mockd::words::word());
 
         assert_err!(&captcha);
-        if let Err(HcaptchaError::Codes(hs)) = captcha {
+        if let Err(Error::Codes(hs)) = captcha {
             assert!(hs.contains(&Code::InvalidSiteKey));
         }
     }

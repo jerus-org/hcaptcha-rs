@@ -11,7 +11,7 @@ use thiserror::Error;
 /// and errors output from crates used by the library.
 #[non_exhaustive]
 #[derive(Error, Debug)]
-pub enum HcaptchaError {
+pub enum Error {
     /// Error(s) returned from the hcaptcha API and mapped to the [Code] enum.
     #[error("{0:?}")]
     Codes(HashSet<Code>),

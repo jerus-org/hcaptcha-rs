@@ -50,8 +50,8 @@
 //! ```
 
 use crate::domain::HcaptchaSecret;
+use crate::Error;
 use crate::HcaptchaCaptcha;
-use crate::HcaptchaError;
 
 /// Capture the required and optional data for a call to the hcaptcha API
 #[cfg_attr(docsrs, allow(rustdoc::missing_doc_code_examples))]
@@ -129,7 +129,7 @@ impl HcaptchaRequest {
             level = "debug"
         )
     )]
-    pub fn new(secret: &str, captcha: HcaptchaCaptcha) -> Result<HcaptchaRequest, HcaptchaError> {
+    pub fn new(secret: &str, captcha: HcaptchaCaptcha) -> Result<HcaptchaRequest, Error> {
         Ok(HcaptchaRequest {
             captcha,
             secret: HcaptchaSecret::parse(secret.to_owned())?,
@@ -190,10 +190,7 @@ impl HcaptchaRequest {
             level = "debug"
         )
     )]
-    pub fn new_from_response(
-        secret: &str,
-        response: &str,
-    ) -> Result<HcaptchaRequest, HcaptchaError> {
+    pub fn new_from_response(secret: &str, response: &str) -> Result<HcaptchaRequest, Error> {
         let captcha = HcaptchaCaptcha::new(response)?;
         HcaptchaRequest::new(secret, captcha)
     }
@@ -253,7 +250,7 @@ impl HcaptchaRequest {
             level = "debug"
         )
     )]
-    pub fn set_remoteip(mut self, remoteip: &str) -> Result<Self, HcaptchaError> {
+    pub fn set_remoteip(mut self, remoteip: &str) -> Result<Self, Error> {
         self.captcha.set_remoteip(remoteip)?;
         Ok(self)
     }
@@ -321,7 +318,7 @@ impl HcaptchaRequest {
             level = "debug"
         )
     )]
-    pub fn set_sitekey(mut self, sitekey: &str) -> Result<Self, HcaptchaError> {
+    pub fn set_sitekey(mut self, sitekey: &str) -> Result<Self, Error> {
         self.captcha.set_sitekey(sitekey)?;
         Ok(self)
     }
