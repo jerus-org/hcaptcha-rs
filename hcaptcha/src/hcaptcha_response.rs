@@ -5,7 +5,7 @@
 //! ```no_run
 //! #   use hcaptcha::{HcaptchaRequest, HcaptchaClient};
 //! # #[tokio::main]
-//! # async fn main() -> Result<(), hcaptcha::HcaptchaError> {
+//! # async fn main() -> Result<(), hcaptcha::Error> {
 //! # let request = HcaptchaRequest::new(
 //! #    "0x123456789abcedf0123456789abcdef012345678",
 //! #    get_captcha(),
@@ -175,7 +175,7 @@ impl fmt::Display for HcaptchaResponse {
 
 #[cfg_attr(docsrs, allow(rustdoc::missing_doc_code_examples))]
 impl HcaptchaResponse {
-    /// Check success of API call and return HcaptchaError
+    /// Check success of API call and return Error
     /// with the error codes if not successful.
     pub(crate) fn check_error(&self) -> Result<(), Error> {
         if !self.success() {
@@ -198,7 +198,7 @@ impl HcaptchaResponse {
     /// ```no_run
     /// #   use hcaptcha::{HcaptchaRequest, HcaptchaClient};
     /// # #[tokio::main]
-    /// # async fn main() -> Result<(), hcaptcha::HcaptchaError> {
+    /// # async fn main() -> Result<(), hcaptcha::Error> {
     /// # let request = HcaptchaRequest::new(
     /// #    "0x123456789abcedf0123456789abcdef012345678",
     /// #    get_captcha(),
@@ -240,7 +240,7 @@ impl HcaptchaResponse {
     /// ```no_run
     /// #   use hcaptcha::{HcaptchaRequest, HcaptchaClient};
     /// # #[tokio::main]
-    /// # async fn main() -> Result<(), hcaptcha::HcaptchaError> {
+    /// # async fn main() -> Result<(), hcaptcha::Error> {
     /// # let request = HcaptchaRequest::new(
     /// #    "0x123456789abcedf0123456789abcdef012345678",
     /// #    get_captcha(),
@@ -285,7 +285,7 @@ impl HcaptchaResponse {
     /// ```no_run
     /// #   use hcaptcha::{HcaptchaRequest, HcaptchaClient};
     /// # #[tokio::main]
-    /// # async fn main() -> Result<(), hcaptcha::HcaptchaError> {
+    /// # async fn main() -> Result<(), hcaptcha::Error> {
     /// # let request = HcaptchaRequest::new(
     /// #    "0x123456789abcedf0123456789abcdef012345678",
     /// #    get_captcha(),
@@ -330,7 +330,7 @@ impl HcaptchaResponse {
     /// ```no_run
     /// #   use hcaptcha::{HcaptchaRequest, HcaptchaClient};
     /// # #[tokio::main]
-    /// # async fn main() -> Result<(), hcaptcha::HcaptchaError> {
+    /// # async fn main() -> Result<(), hcaptcha::Error> {
     /// # let request = HcaptchaRequest::new(
     /// #    "0x123456789abcedf0123456789abcdef012345678",
     /// #    get_captcha(),
@@ -376,7 +376,7 @@ impl HcaptchaResponse {
     /// ```no_run
     /// #   use hcaptcha::{HcaptchaRequest, HcaptchaClient};
     /// # #[tokio::main]
-    /// # async fn main() -> Result<(), hcaptcha::HcaptchaError> {
+    /// # async fn main() -> Result<(), hcaptcha::Error> {
     /// # let request = HcaptchaRequest::new(
     /// #    "0x123456789abcedf0123456789abcdef012345678",
     /// #    get_captcha(),
@@ -421,7 +421,7 @@ impl HcaptchaResponse {
     /// ```no_run
     /// #   use hcaptcha::{HcaptchaRequest, HcaptchaClient};
     /// # #[tokio::main]
-    /// # async fn main() -> Result<(), hcaptcha::HcaptchaError> {
+    /// # async fn main() -> Result<(), hcaptcha::Error> {
     /// # let request = HcaptchaRequest::new(
     /// #    "0x123456789abcedf0123456789abcdef012345678",
     /// #    get_captcha(),
@@ -469,7 +469,7 @@ impl HcaptchaResponse {
     /// ```no_run
     /// #   use hcaptcha::{HcaptchaRequest, HcaptchaClient};
     /// # #[tokio::main]
-    /// # async fn main() -> Result<(), hcaptcha::HcaptchaError> {
+    /// # async fn main() -> Result<(), hcaptcha::Error> {
     /// # let request = HcaptchaRequest::new(
     /// #    "0x123456789abcedf0123456789abcdef012345678",
     /// #    get_captcha(),

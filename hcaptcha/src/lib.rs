@@ -26,7 +26,7 @@
 //! # use itertools::Itertools;
 //!
 //! # #[tokio::main]
-//! # async fn main() -> Result<(), hcaptcha::HcaptchaError> {
+//! # async fn main() -> Result<(), hcaptcha::Error> {
 //! #   let secret = get_your_secret();
 //! #   let captcha = get_captcha();
 //! #   let remoteip = get_remoteip_address();
@@ -99,7 +99,7 @@
 //! #         #[derive(Error, Debug)]
 //! #         pub enum ContactError {
 //! #             #[error("{0}")]
-//! #             Hcaptcha(#[from] hcaptcha::HcaptchaError),
+//! #             Hcaptcha(#[from] hcaptcha::Error),
 //! #             #[error("{0}")]
 //! #             Json(#[from] serde_json::Error),
 //! #         }

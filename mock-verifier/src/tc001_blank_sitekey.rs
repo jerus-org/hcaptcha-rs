@@ -148,7 +148,7 @@ pub fn tc001(token: Form<RequestData>) -> Result<Json<SuccessResponse>, Json<Err
 
 //     if let Err(codes) = response {
 //         match codes {
-//             hcaptcha::HcaptchaError::Codes(hash_set) => {
+//             hcaptcha::Error::Codes(hash_set) => {
 //                 assert_eq!(hash_set.len(), 1);
 //                 assert!(hash_set.contains(&Code::MissingSiteKey));
 //             }

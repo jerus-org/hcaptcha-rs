@@ -20,7 +20,7 @@
 //!     use hcaptcha::{HcaptchaCaptcha, HcaptchaClient, HcaptchaRequest};
 //!
 //! # #[tokio::main]
-//! # async fn main() -> Result<(), hcaptcha::HcaptchaError> {
+//! # async fn main() -> Result<(), hcaptcha::Error> {
 //! #   let secret = get_your_secret();
 //! #   let captcha = dummy_captcha();
 //! #   let request = HcaptchaRequest::new(&secret, captcha)?; // <- returns error
@@ -140,7 +140,7 @@ impl HcaptchaClient {
     /// # Example
     /// Initialise client to connect to custom Hcaptcha API
     /// ```no_run
-    /// # fn main() -> Result<(), hcaptcha::HcaptchaError> {
+    /// # fn main() -> Result<(), hcaptcha::Error> {
     ///     use hcaptcha::HcaptchaClient;
     ///     use url::Url;
     ///
@@ -167,7 +167,7 @@ impl HcaptchaClient {
     ///
     /// # Outputs
     ///
-    /// This method returns [HcaptchaResponse] if successful and [HcaptchaError] if
+    /// This method returns [HcaptchaResponse] if successful and [Error] if
     /// unsuccessful.
     ///
     /// # Example
@@ -180,7 +180,7 @@ impl HcaptchaClient {
     /// # use rand::{thread_rng, Rng};
     /// # use std::iter;
     /// # #[tokio::main]
-    /// # async fn main() -> Result<(), hcaptcha::HcaptchaError> {
+    /// # async fn main() -> Result<(), hcaptcha::Error> {
     ///     let secret = get_your_secret(); // your secret key
     ///     let captcha = get_captcha();  // user's token
     ///

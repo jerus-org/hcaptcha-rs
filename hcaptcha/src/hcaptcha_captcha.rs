@@ -10,7 +10,7 @@
 //! #   body: Option<String>,
 //! # }
 //! # #[tokio::main]
-//! # async fn main() -> Result<(), hcaptcha::HcaptchaError> {
+//! # async fn main() -> Result<(), hcaptcha::Error> {
 //! # let e = CustomEvent {
 //! #         body: Some("{\"response\":\"thisisthelonglistofcharactersthatformsaresponse\",\"remoteip\":\"10.10.20.10\"}".to_owned()),
 // //! #         body: None,
@@ -48,7 +48,7 @@ impl HcaptchaCaptcha {
     /// # Output
     ///
     /// The HcaptchaCaptcha is returned if the input is valid.
-    /// A [HcaptchaError] is returned if the validation fails.
+    /// A [Error] is returned if the validation fails.
     ///
     /// # Example
     /// Create HcaptchaCaptcha from response key.
@@ -68,7 +68,7 @@ impl HcaptchaCaptcha {
     /// #   response: String,
     /// # }
     /// # #[tokio::main]
-    /// # async fn main() -> Result<(), hcaptcha::HcaptchaError> {
+    /// # async fn main() -> Result<(), hcaptcha::Error> {
     /// # let e = CustomEvent {
     /// #         body: Some("{\"response\":\"thisisthelonglistofcharactersthatformsaresponse\",\"remoteip\":\"10.10.20.10\"}".to_owned()),
     // //! #         body: None,
@@ -115,7 +115,7 @@ impl HcaptchaCaptcha {
     /// If the remoteip string is empty the field is set to None.
     /// If the remoteip string is a valid v4 or v6 ip address the field is
     /// set to Some(remoteip).
-    /// If the remoteip string is invalid a [HcaptchaError] is returned.
+    /// If the remoteip string is invalid a [Error] is returned.
     ///
     /// # Example
     ///
@@ -136,7 +136,7 @@ impl HcaptchaCaptcha {
     /// #   response: String,
     /// # }
     /// # #[tokio::main]
-    /// # async fn main() -> Result<(), hcaptcha::HcaptchaError> {
+    /// # async fn main() -> Result<(), hcaptcha::Error> {
     /// # let e = CustomEvent {
     /// #         body: Some("{\"response\":\"thisisthelonglistofcharactersthatformsaresponse\",\"remoteip\":\"10.10.20.10\"}".to_owned()),
     // //! #         body: None,
@@ -190,7 +190,7 @@ impl HcaptchaCaptcha {
     ///
     /// If the sitekey string is empty the field is set to None.
     /// If the sitekey string is a valid uuid the field is set to Some(sitekey).
-    /// If the sitekey string is invalid a [HcaptchaError] is returned.
+    /// If the sitekey string is invalid a [Error] is returned.
     ///
     /// # Example
     ///
@@ -211,7 +211,7 @@ impl HcaptchaCaptcha {
     /// #   response: String,
     /// # }
     /// # #[tokio::main]
-    /// # async fn main() -> Result<(), hcaptcha::HcaptchaError> {
+    /// # async fn main() -> Result<(), hcaptcha::Error> {
     /// # let e = CustomEvent {
     /// #         body: Some("{\"response\":\"thisisthelonglistofcharactersthatformsaresponse\",\"remoteip\":\"10.10.20.10\"}".to_owned()),
     // //! #         body: None,

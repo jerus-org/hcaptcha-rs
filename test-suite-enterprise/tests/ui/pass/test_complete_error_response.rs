@@ -59,7 +59,7 @@ async fn main() {
 
     if let Err(response) = response {
         match response {
-            hcaptcha::HcaptchaError::Codes(hash_set) => {
+            hcaptcha::Error::Codes(hash_set) => {
                 assert_eq!(hash_set.len(), 2);
                 assert!(hash_set.contains(&Code::MissingSecret));
                 assert!(hash_set.contains(&Code::Unknown("foo".to_owned())));

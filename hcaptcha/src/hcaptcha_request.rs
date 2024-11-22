@@ -5,7 +5,7 @@
 //! ```
 //!     use hcaptcha::HcaptchaRequest;
 //! # #[tokio::main]
-//! # async fn main() -> Result<(), hcaptcha::HcaptchaError> {
+//! # async fn main() -> Result<(), hcaptcha::Error> {
 //!     let secret = get_your_secret();         // your secret key
 //!     let captcha = get_captcha();            // user's response token
 //!     let sitekey = get_your_sitekey();     // your site key
@@ -77,13 +77,13 @@ impl HcaptchaRequest {
     /// # Output
     ///
     /// HcaptchaRequest is returned if the input strings are valid.
-    /// [HcaptchaError] is returned if the validation fails.
+    /// [Error] is returned if the validation fails.
     ///
     /// # Example
     ///
     /// ``` no_run
     ///     use hcaptcha::HcaptchaRequest;
-    /// # fn main() -> Result<(), hcaptcha::HcaptchaError>{
+    /// # fn main() -> Result<(), hcaptcha::Error>{
     ///     let secret = get_your_secret();     // your secret key
     ///     let captcha = get_captcha();        // captcha with response token
     ///
@@ -147,13 +147,13 @@ impl HcaptchaRequest {
     /// # Output
     ///
     /// HcaptchaRequest is returned if the inputs are valid.
-    /// [HcaptchaError] is returned if the validation fails.
+    /// [Error] is returned if the validation fails.
     ///
     /// # Example
     ///
     /// ``` no_run
     ///     use hcaptcha::HcaptchaRequest;
-    /// # fn main() -> Result<(), hcaptcha::HcaptchaError>{
+    /// # fn main() -> Result<(), hcaptcha::Error>{
     ///     let secret = get_your_secret();     // your secret key
     ///     let response = get_response();    // Hcaptcha client response
     ///
@@ -203,7 +203,7 @@ impl HcaptchaRequest {
     /// ``` no_run
     ///     use hcaptcha::HcaptchaRequest;
     /// # #[tokio::main]
-    /// # async fn main() -> Result<(), hcaptcha::HcaptchaError> {
+    /// # async fn main() -> Result<(), hcaptcha::Error> {
     ///     let secret = get_your_secret();         // your secret key
     ///     let response = get_response();          // user's response token
     ///     let remoteip = get_remoteip_address();    // user's ip address
@@ -264,7 +264,7 @@ impl HcaptchaRequest {
     /// ```
     ///     use hcaptcha::HcaptchaRequest;
     /// # #[tokio::main]
-    /// # async fn main() -> Result<(), hcaptcha::HcaptchaError> {
+    /// # async fn main() -> Result<(), hcaptcha::Error> {
     ///     let secret = get_your_secret();     // your secret key
     ///     let captcha = get_captcha();        // captcha
     ///     let sitekey = get_your_sitekey();   // your site key
