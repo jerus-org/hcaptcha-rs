@@ -5,7 +5,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [2.8.9] - 2024-11-23
 
 ### Changed
 
@@ -774,7 +774,7 @@ emitted if a tracing subscriber is not found.
 [#1193]: https://github.com/jerus-org/hcaptcha-rs/pull/1193
 [#1194]: https://github.com/jerus-org/hcaptcha-rs/pull/1194
 [#1195]: https://github.com/jerus-org/hcaptcha-rs/pull/1195
-[Unreleased]: https://github.com/jerus-org/hcaptcha-rs/compare/v2.8.8...HEAD
+[2.8.9]: https://github.com/jerus-org/hcaptcha-rs/compare/v2.8.8...hcaptcha-v2.8.9
 [2.8.8]: https://github.com/jerus-org/hcaptcha-rs/compare/v2.8.7...v2.8.8
 [2.8.7]: https://github.com/jerus-org/hcaptcha-rs/compare/v2.8.6...v2.8.7
 [2.8.6]: https://github.com/jerus-org/hcaptcha-rs/compare/v2.8.5...v2.8.6
