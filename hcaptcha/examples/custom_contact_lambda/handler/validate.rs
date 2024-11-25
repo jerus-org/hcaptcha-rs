@@ -11,7 +11,7 @@ pub async fn response_valid(captcha: Captcha) -> Result<Response, ContactError> 
 
     let request = Request::new(&secret, captcha)?;
 
-    let res = client.verify_client_response(request).await?;
+    let res = client.verify(request).await?;
 
     Ok(res)
 }
