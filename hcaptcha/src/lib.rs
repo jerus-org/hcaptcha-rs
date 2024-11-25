@@ -7,7 +7,7 @@
 //!
 //! # Build the request and verify
 //!
-//! Initiailise a client using the [`Client`] builder to submit requests to the hcaptcha service validataion.
+//! Initialise a client using the [`Client`] builder to submit requests to the hcaptcha service validation.
 //!
 //! For each request build the request using the [`Request`] builder.
 //!
@@ -17,12 +17,13 @@
 //!
 //! ## Examples
 //!
+//! ### Enterprise example (requires `enterprise` feature)
+//!
 //! Token needs to be supplied by the client.
 //! This example will fail as a client-provided token is not used.
 //! ```no_run
 //!     use hcaptcha::{Client, Request};
 //! # use itertools::Itertools;
-//!
 //! # #[tokio::main]
 //! # async fn main() -> Result<(), hcaptcha::Error> {
 //! #   let secret = get_your_secret();
@@ -82,7 +83,9 @@
 //! # }
 //! ```
 //!
-//! ### Lambda backend implementation. See examples for more detail.
+//! ### Lambda backend implementation.
+//!
+//! See examples for more detail.
 //!
 //! ``` no_run
 //! # use lambda_runtime::Error;
@@ -253,8 +256,8 @@
 //!     }
 //! }
 //!
-//! #[tokio::main]
-//! async fn main() -> Result<(), Error> {
+//! # #[tokio::main]
+//! # async fn main() -> Result<(), Error> {
 //! #    LogTracer::init()?;
 //! #
 //! #    let app_name = concat!(env!("CARGO_PKG_NAME"), "-", env!("CARGO_PKG_VERSION")).to_string();
@@ -267,13 +270,13 @@
 //! #        .with(JsonStorageLayer)
 //! #        .with(bunyan_formatting_layer);
 //! #    tracing::subscriber::set_global_default(subscriber)?;
-//!
-//!     lambda_runtime::run(lambda_runtime::handler_fn(handler::my_handler)).await?;
-//!     Ok(())
-//! }
+//! #
+//! #     lambda_runtime::run(lambda_runtime::handler_fn(handler::my_handler)).await?;
+//! #     Ok(())
+//! # }
 //!
 //! ```
-//! # Feature Flags
+//! ## Feature Flags
 //!
 //! The default library includes extended validation for the secret field and use of native TLS as the TLS backend
 //! Disable this validation by setting default-features = false and to enable rustls features=["rustls"]
@@ -290,7 +293,7 @@
 //! * `nativetls-backend` - Enables native-tls backend in reqwests
 //! * `rustls-backend` - Enables rustls backend in reqwests
 //!
-//! # Rust Version
+//! ## Rust Version
 //!
 //! This version of hcaptcha requires Rust v1.75 or later.
 
