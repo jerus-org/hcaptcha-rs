@@ -26,6 +26,10 @@ pub struct Recaptcha {
     re_captcha_response: String,
 }
 
+/// Struct to represent the response to the client
+///
+/// Serde will serialize the response to JSON
+///
 #[derive(Serialize, Clone, Debug, PartialEq, Eq)]
 pub struct GatewayResponse {
     #[serde(rename = "isBase64Encoded")]
