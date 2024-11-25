@@ -166,6 +166,38 @@ commands:
             fi
 
 jobs:
+  idiomatic_rust:
+    executor:
+      name: rust_env
+
+    parameters:
+      min_rust_version:
+        type: string
+        description: "Required: The minimum version of the rust compiler to use"
+      docker_tag_suffix:
+        type: string
+        default: ""
+        description: "The suffix to append to the docker tag"
+      lint_flags:
+        type: string
+        default: ""
+        description: "Additional lint flags to pass to clippy"
+
+    steps:
+      - checkout
+      - run:
+          name: Check rust version for code
+          command: cargo --version
+      - run:
+          name: Check idiomatic code use with Clippy
+          command: |
+            cargo clippy \
+             --all \
+             --tests \
+             --all-features \
+             -- -D warnings \
+             << parameters.lint_flags >>
+
   test-suite:
     parameters:
       test-suite:
@@ -454,8 +486,9 @@ workflows:
           min_rust_version: << pipeline.parameters.min-rust-version >>
           matrix:
             <<: *builds
-      - toolkit/idiomatic_rust:
+      - idiomatic_rust:
           min_rust_version: << pipeline.parameters.min-rust-version >>
+          lint_flags: "-A deprecated"
       - toolkit/test_doc_build:
           min_rust_version: << pipeline.parameters.min-rust-version >>
       - run_test_program:
