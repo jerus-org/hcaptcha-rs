@@ -11,7 +11,7 @@
 //! #    get_captcha(),
 //! # )?;
 //! # let client = Client::new();
-//!     let response = client.verify_client_response(request).await?;
+//!     let response = client.verify(request).await?;
 //!
 //!     if let Some(timestamp) = response.timestamp() {
 //!         println!("Timestamp: {}", timestamp);
@@ -204,7 +204,7 @@ impl Response {
     /// #    get_captcha(),
     /// # )?;
     /// # let client = Client::new();
-    ///     let response = client.verify_client_response(request).await?;
+    ///     let response = client.verify(request).await?;
     ///     println!("Success returns true: {}", response.success());
     /// # Ok(())
     /// # }
@@ -246,7 +246,7 @@ impl Response {
     /// #    get_captcha(),
     /// # )?;
     /// # let client = Client::new();
-    ///     let response = client.verify_client_response(request).await?;
+    ///     let response = client.verify(request).await?;
     ///
     ///     if let Some(hostname) = response.hostname() {
     ///         println!("Timestamp: {}", hostname);
@@ -291,7 +291,7 @@ impl Response {
     /// #    get_captcha(),
     /// # )?;
     /// # let client = Client::new();
-    ///     let response = client.verify_client_response(request).await?;
+    ///     let response = client.verify(request).await?;
     ///
     ///     if let Some(timestamp) = response.timestamp() {
     ///         println!("Timestamp: {}", timestamp);
@@ -336,7 +336,7 @@ impl Response {
     /// #    get_captcha(),
     /// # )?;
     /// # let client = Client::new();
-    ///     let response = client.verify_client_response(request).await?;
+    ///     let response = client.verify(request).await?;
     ///
     ///     if let Some(credit) = response.credit() {
     ///         println!("Timestamp: {}", credit);
@@ -382,7 +382,7 @@ impl Response {
     /// #    get_captcha(),
     /// # )?;
     /// # let client = Client::new();
-    ///     let response = client.verify_client_response(request).await?;
+    ///     let response = client.verify(request).await?;
     ///
     ///     if let Some(error_codes) = response.error_codes() {
     ///         println!("Error Codes: {:?}", error_codes);
@@ -427,7 +427,7 @@ impl Response {
     /// #    get_captcha(),
     /// # )?;
     /// # let client = Client::new();
-    ///     let response = client.verify_client_response(request).await?;
+    ///     let response = client.verify(request).await?;
     ///
     ///     if let Some(score) = response.score() {
     ///         println!("Score: {}", score);
@@ -475,7 +475,7 @@ impl Response {
     /// #    get_captcha(),
     /// # )?;
     /// # let client = Client::new();
-    ///     let response = client.verify_client_response(request).await?;
+    ///     let response = client.verify(request).await?;
     ///
     ///     if let Some(score_reason) = response.score_reason() {
     ///         println!("Score reasons: {:?}", score_reason);

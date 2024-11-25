@@ -90,7 +90,7 @@
 //!                 return Box::pin(async { Err(e) });
 //!             }
 //!         };
-//!         Box::pin(client.verify_client_response(request))
+//!         Box::pin(client.verify(request))
 //!     }
 //! }
 //!```
@@ -172,7 +172,7 @@ fn impl_hcaptcha(ast: &DeriveInput) -> TokenStream {
                         return Box::pin(async { Err(e) } );
                     }
                 };
-                Box::pin(client.verify_client_response(request))
+                Box::pin(client.verify(request))
             }
         }
     };

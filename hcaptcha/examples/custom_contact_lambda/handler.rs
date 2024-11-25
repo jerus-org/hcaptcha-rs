@@ -1,8 +1,8 @@
 mod error;
-mod hcaptcha_validate;
 mod param;
 mod record;
 mod send;
+mod validate;
 
 use hcaptcha::Captcha;
 use lambda_runtime::{Error, LambdaEvent};
@@ -54,7 +54,7 @@ pub async fn my_handler(event: LambdaEvent<ApiGatewayEvent>) -> Result<GatewayRe
     // Extract the reCaptcha response from the body string in the event
     let captcha: Captcha = serde_json::from_str(&body_str)?;
 
-    hcaptcha_validate::response_valid(captcha).await?;
+    validate::response_valid(captcha).await?;
 
     let contact_form: ContactForm = serde_json::from_str(&body_str)?;
 

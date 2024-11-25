@@ -7,24 +7,23 @@
 //!
 //! # Build the request and verify
 //!
-//! Build the request using the [`Hcaptcha`] builder.
+//! Initialise a client using the [`Client`] builder to submit requests to the hcaptcha service validation.
 //!
-//! Execute [`verify`] on the request once to execute.
+//! For each request build the request using the [`Request`] builder.
 //!
-//! Following a successful response the additional response in can be
-//! requested from the [`Hcaptcha`] struct.
+//! Submit the request using the [`Client`] struct's [`Client::verify`] method.
 //!
-//! [`Hcaptcha`]: ./struct.hcaptcha_request.Hcaptcha.html
-//! [`verify`]: ./function.hcaptcha_request.verify.html
+//! A [`Response`] is returned if the validation was successful or the method fails with a set of [`Error`] [`Code`]s if the validation failed.
 //!
-//! # Examples
+//! ## Examples
+//!
+//! ### Enterprise example (requires `enterprise` feature)
 //!
 //! Token needs to be supplied by the client.
 //! This example will fail as a client-provided token is not used.
 //! ```no_run
 //!     use hcaptcha::{Client, Request};
 //! # use itertools::Itertools;
-//!
 //! # #[tokio::main]
 //! # async fn main() -> Result<(), hcaptcha::Error> {
 //! #   let secret = get_your_secret();
@@ -36,7 +35,7 @@
 //!
 //!     let client = Client::new();
 //!
-//!     let response = client.verify_client_response(request).await?;
+//!     let response = client.verify(request).await?;
 //!
 //! # #[cfg(feature = "enterprise")]
 //!     let score = match &response.score() {
@@ -84,7 +83,9 @@
 //! # }
 //! ```
 //!
-//! Lambda backend implementation. See examples for more detail.
+//! ### Lambda backend implementation.
+//!
+//! See examples for more detail.
 //!
 //! ``` no_run
 //! # use lambda_runtime::Error;
@@ -223,7 +224,7 @@
 //!             captcha)?;
 //!         
 //!         let client = Client::new();
-//!         let _response = client.verify_client_response(request).await?;
+//!         let _response = client.verify(request).await?;
 //!
 //!         let contact_form: ContactForm = serde_json::from_str(&body_str)?;
 //!
@@ -255,8 +256,8 @@
 //!     }
 //! }
 //!
-//! #[tokio::main]
-//! async fn main() -> Result<(), Error> {
+//! # #[tokio::main]
+//! # async fn main() -> Result<(), Error> {
 //! #    LogTracer::init()?;
 //! #
 //! #    let app_name = concat!(env!("CARGO_PKG_NAME"), "-", env!("CARGO_PKG_VERSION")).to_string();
@@ -269,13 +270,13 @@
 //! #        .with(JsonStorageLayer)
 //! #        .with(bunyan_formatting_layer);
 //! #    tracing::subscriber::set_global_default(subscriber)?;
-//!
-//!     lambda_runtime::run(lambda_runtime::handler_fn(handler::my_handler)).await?;
-//!     Ok(())
-//! }
+//! #
+//! #     lambda_runtime::run(lambda_runtime::handler_fn(handler::my_handler)).await?;
+//! #     Ok(())
+//! # }
 //!
 //! ```
-//! # Feature Flags
+//! ## Feature Flags
 //!
 //! The default library includes extended validation for the secret field and use of native TLS as the TLS backend
 //! Disable this validation by setting default-features = false and to enable rustls features=["rustls"]
@@ -292,9 +293,9 @@
 //! * `nativetls-backend` - Enables native-tls backend in reqwests
 //! * `rustls-backend` - Enables rustls backend in reqwests
 //!
-//! # Rust Version
+//! ## Rust Version
 //!
-//! This version of hcaptcha requires Rust v1.71 or later.
+//! This version of hcaptcha requires Rust v1.75 or later.
 
 mod captcha;
 mod client;
