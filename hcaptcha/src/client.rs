@@ -512,7 +512,7 @@ mod tests {
 
     #[tokio::test]
     #[cfg_attr(feature = "trace", traced_test)]
-    async fn hcaptcha_mock_with_remoteip_failure() {
+    async fn hcaptcha_mock_with_remoteip() {
         let token = random_string(100);
         let secret = format!("0x{}", hex::encode(random_string(20)));
         let remoteip = mockd::internet::ipv4_address();
@@ -531,8 +531,8 @@ mod tests {
             .unwrap()
             .to_rfc3339();
 
-        let response_template = ResponseTemplate::new(404).set_body_json(json!({
-            "success": false,
+        let response_template = ResponseTemplate::new(200).set_body_json(json!({
+            "success": true,
             "challenge_ts": timestamp,
             "hostname": "test-host",
         }));
