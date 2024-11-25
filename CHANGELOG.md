@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - refactor-rename HcaptchaError to Error across the codebase(pr [#1197])
 - 1191 version 30(pr [#1198])
 - refactor-rename and deprecate verify_client_response method in favour of verify(pr [#1200])
+- refactor-rename and deprecate verify_client_response method in favor of verify(pr [#1200])
 
 ### Fixed
 
@@ -546,7 +547,6 @@ Extended validation for the secret key requires it to conform to "0x" followed b
 The input to .sitekey(sitekey) has been changed to validate that the string slice supplied is a valid UUID.
 
 The input to the .remoteip(remoteip) has been changed to validate that the string slice supplier is a valid ipv4 or ipv6 address.
-
 - Logging / Tracing*
 
 The previous version provided logging behind a feature flag. The log crate has been removed and replaced with tracing. Tracing has been instrumented for all public functions. Tracing is enabled by selected the "trace" feature.
@@ -555,7 +555,6 @@ Tracing is enabled at the info logging level for public methods. Additional trac
 
 The trace crates log feature is enabled so that log records are
 emitted if a tracing subscriber is not found.
-
 ### Changed
 
 - Rename user_ip and site_key to conform to Hcaptcha API documentation (remoteip and sitekey)
@@ -779,6 +778,7 @@ emitted if a tracing subscriber is not found.
 [#1195]: https://github.com/jerus-org/hcaptcha-rs/pull/1195
 [#1197]: https://github.com/jerus-org/hcaptcha-rs/pull/1197
 [#1198]: https://github.com/jerus-org/hcaptcha-rs/pull/1198
+[#1200]: https://github.com/jerus-org/hcaptcha-rs/pull/1200
 [#1200]: https://github.com/jerus-org/hcaptcha-rs/pull/1200
 [Unreleased]: https://github.com/jerus-org/hcaptcha-rs/compare/v2.8.8...HEAD
 [2.8.8]: https://github.com/jerus-org/hcaptcha-rs/compare/v2.8.7...v2.8.8
