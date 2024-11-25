@@ -531,7 +531,7 @@ workflows:
 
       - toolkit/update_changelog:
           requires:
-            - toolkit/idiomatic_rust
+            - idiomatic_rust
             - test-suite
             - run_test_program
             - security
