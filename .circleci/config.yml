@@ -26,7 +26,7 @@ parameters:
 orbs:
   toolkit: jerus-org/circleci-toolkit@1.19.0
   node: circleci/node@6.3.0
-  # sonarcloud: sonarsource/sonarcloud@2.0.0
+  sonarcloud: sonarsource/sonarcloud@2.0.0
 
 executors:
   rust_env:
@@ -148,6 +148,21 @@ commands:
                 echo "Not ready to release yet."
                 circleci step halt
               fi
+            fi
+
+  cargo_audit:
+    parameters:
+      ignore_advisories:
+        type: string
+        default: ""
+        description: "Additional parameters to list advisories that should be ignored"
+    steps:
+      - run:
+          name: Security audit against RUSTSEC
+          command: |
+            if ! cargo audit -D warnings << parameters.ignore_advisories >> ; then
+              cargo update && cargo audit -D warnings << parameters.ignore_advisories >>
+              cargo test 
             fi
 
 jobs:
@@ -359,6 +374,36 @@ jobs:
                 pcu_workspace: << parameters.pcu_workspace >>
                 pcu_package: << parameters.package >>
 
+  security:
+    executor:
+      name: base-env
+
+    parameters:
+      ignore_advisories:
+        default: ""
+        description: List of advisories to ignore each prefixed with "--ignore "
+        type: string
+      cargo_audit:
+        default: true
+        description: Don't run the cargo audit scan
+        type: boolean
+      sonarcloud:
+        default: true
+        description: Don't run the sonarcloud scan
+        type: boolean
+
+    steps:
+      - checkout
+      - when:
+          condition: << parameters.cargo_audit >>
+          steps:
+            - cargo_audit:
+                ignore_advisories: << parameters.ignore_advisories >>
+      - when:
+          condition: << parameters.sonarcloud >>
+          steps:
+            - sonarcloud/scan
+
 workflows:
   check_last_commit:
     when:
@@ -448,7 +493,7 @@ workflows:
             - toolkit/required_builds
             - toolkit/test_doc_build
 
-      - toolkit/security:
+      - security:
           context: SonarCloud
 
       - toolkit/update_changelog:
@@ -456,7 +501,7 @@ workflows:
             - toolkit/idiomatic_rust
             - test-suite
             - run_test_program
-            - toolkit/security
+            - security
             - wasm_test
             - toolkit/code_coverage
           context:
