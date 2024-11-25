@@ -1,6 +1,6 @@
 //! Structure to capture the response from the hcaptcha api
 //!
-//! # Example
+//! ## Example
 //!
 //! ```no_run
 //! #   use hcaptcha::{Request, Client};
@@ -514,7 +514,9 @@ impl Response {
 
 #[cfg(test)]
 mod tests {
-    use crate::Response;
+    use std::collections::HashSet;
+
+    use crate::{Code, Response};
     use serde_json::json;
 
     #[test]
@@ -658,5 +660,82 @@ mod tests {
         let response: Response = serde_json::from_value(response).unwrap();
 
         assert!(response.success);
+    }
+
+    #[cfg(feature = "enterprise")]
+    #[test]
+    fn test_display_format_enterprise() {
+        {
+            let mut codes = HashSet::new();
+            codes.insert(Code::MissingSecret);
+            let mut reasons = HashSet::new();
+            reasons.insert("reason1".to_string());
+
+            let response = Response {
+                success: true,
+                challenge_ts: Some("2023-01-01T00:00:00Z".to_string()),
+                hostname: Some("test.com".to_string()),
+                credit: Some(true),
+                error_codes: Some(codes),
+                score: Some(0.9),
+                score_reason: Some(reasons),
+            };
+
+            let formatted = format!("{}", response);
+            println!("{}", formatted);
+            assert!(formatted.contains("Status:         true"));
+            assert!(formatted.contains("Timestamp:      2023-01-01T00:00:00Z"));
+            assert!(formatted.contains("Hostname:       test.com"));
+            assert!(formatted.contains("Credit:         true"));
+            assert!(formatted.contains(r#"Error Codes:    {MissingSecret}"#));
+            assert!(formatted.contains("Score:          0.9"));
+            assert!(formatted.contains(r#"Score Reason:   {"reason1"}"#));
+        }
+    }
+
+    #[cfg(not(feature = "enterprise"))]
+    #[test]
+    fn test_display_format_non_enterprise() {
+        {
+            let mut codes = HashSet::new();
+            codes.insert(Code::MissingSecret);
+
+            let response = Response {
+                success: false,
+                challenge_ts: Some("2023-01-01T00:00:00Z".to_string()),
+                hostname: Some("test.com".to_string()),
+                credit: Some(false),
+                error_codes: Some(codes),
+                score: None,
+                score_reason: None,
+            };
+
+            let formatted = format!("{}", response);
+            assert!(formatted.contains("Status:         false"));
+            assert!(formatted.contains("Timestamp:      2023-01-01T00:00:00Z"));
+            assert!(formatted.contains("Hostname:       test.com"));
+            assert!(formatted.contains("Credit:         false"));
+            assert!(formatted.contains(r#"Error Codes:    {MissingSecret}"#));
+        }
+    }
+
+    #[test]
+    fn test_display_format_empty_fields() {
+        let response = Response {
+            success: true,
+            challenge_ts: None,
+            hostname: None,
+            credit: None,
+            error_codes: None,
+            score: None,
+            score_reason: None,
+        };
+
+        let formatted = format!("{}", response);
+        assert!(formatted.contains("Status:         true"));
+        assert!(formatted.contains("Timestamp:      "));
+        assert!(formatted.contains("Hostname:       "));
+        assert!(formatted.contains("Credit:         "));
+        assert!(formatted.contains("Error Codes:    "));
     }
 }
