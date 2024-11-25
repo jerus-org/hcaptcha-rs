@@ -516,7 +516,7 @@ impl Response {
 mod tests {
     use std::collections::HashSet;
 
-    use crate::{Code, Response};
+    use crate::{Code, Error, Response};
     use serde_json::json;
 
     #[test]
@@ -737,5 +737,62 @@ mod tests {
         assert!(formatted.contains("Hostname:       "));
         assert!(formatted.contains("Credit:         "));
         assert!(formatted.contains("Error Codes:    "));
+    }
+
+    #[test]
+    fn test_check_error_success() {
+        let response = Response {
+            success: true,
+            challenge_ts: None,
+            hostname: None,
+            credit: None,
+            error_codes: None,
+            score: None,
+            score_reason: None,
+        };
+        assert!(response.check_error().is_ok());
+    }
+
+    #[test]
+    fn test_check_error_with_codes() {
+        let mut error_codes = HashSet::new();
+        error_codes.insert(Code::MissingResponse);
+        let response = Response {
+            success: false,
+            challenge_ts: None,
+            hostname: None,
+            credit: None,
+            error_codes: Some(error_codes.clone()),
+            score: None,
+            score_reason: None,
+        };
+        match response.check_error() {
+            Err(Error::Codes(codes)) => {
+                assert_eq!(codes, error_codes);
+            }
+            _ => panic!("Expected Error::Codes"),
+        }
+    }
+
+    #[test]
+    fn test_check_error_without_codes() {
+        let response = Response {
+            success: false,
+            challenge_ts: None,
+            hostname: None,
+            credit: None,
+            error_codes: None,
+            score: None,
+            score_reason: None,
+        };
+        match response.check_error() {
+            Err(Error::Codes(codes)) => {
+                assert_eq!(codes.len(), 1);
+                assert!(codes.iter().any(
+                    |code| matches!(code, Code::Unknown(msg) if msg == "No error codes returned")
+                ));
+            }
+            _ => panic!("Expected Error::Codes with unknown error"),
+        }
     }
 }
