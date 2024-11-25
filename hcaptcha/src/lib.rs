@@ -23,25 +23,46 @@
 //! This example will fail as a client-provided token is not used.
 //! ```no_run
 //!     use hcaptcha::{Client, Request};
+//! # use itertools::Itertools;
+//!
+//! # #[tokio::main]
+//! # async fn main() -> Result<(), hcaptcha::Error> {
+//! #   let secret = "0x123456789abcde0f123456789abcdef012345678".to_string();
+//! #   let captcha = Captcha::new(&random_response())?
+//! #       .set_remoteip(&mockd::internet::ipv4_address())?
+//! #       .set_sitekey(&mockd::unique::uuid_v4())?;
+//! #   let remoteip = mockd::internet::ipv4_address();
 //!
 //!     let request = Request::new(&secret, captcha)?
 //!         .set_remoteip(&remoteip)?;
 //!
 //!     let client = Client::new();
 //!
-//!     let response = client.verify(request).await?;
+//!     let response = client.verify_client_response(request).await?;
 //!
 //!     let score = match &response.score() {
 //!         Some(v) => *v,
 //!         None => 0.0,
 //!     };
-//!
 //!     let score_reasons = match &response.score_reason() {
 //!         Some(v) => v.iter().join(", "),
 //!         None => "".to_owned(),
 //!     };
-//!
 //!     println!("\tScore: {:?}\n\tReasons: {:?}", score, score_reasons);
+//!     # Ok(())
+//! # }
+//! # use hcaptcha::Captcha;
+//! # use rand::distributions::Alphanumeric;
+//! # use rand::{thread_rng, Rng};
+//! # use std::iter;
+//! # fn random_response() -> String {
+//! #    let mut rng = thread_rng();
+//! #    iter::repeat(())
+//! #        .map(|()| rng.sample(Alphanumeric))
+//! #        .map(char::from)
+//! #        .take(100)
+//! #        .collect()
+//! # }
 //! ```
 //!
 //! ### Lambda backend implementation.
@@ -49,7 +70,130 @@
 //! See examples for more detail.
 //!
 //! ``` no_run
+//! # use lambda_runtime::Error;
+//! # use tracing_bunyan_formatter::{BunyanFormattingLayer, JsonStorageLayer};
+//! # use tracing_log::LogTracer;
+//! # use tracing_subscriber::layer::SubscriberExt;
+//! # use tracing_subscriber::{EnvFilter, Registry};
+//! #
+//! mod handler {
+//! #     mod error {
+//! #         use thiserror::Error;
+//! #         #[derive(Error, Debug)]
+//! #         pub enum ContactError {
+//! #             #[error("{0}")]
+//! #             Hcaptcha(#[from] hcaptcha::Error),
+//! #             #[error("{0}")]
+//! #             Json(#[from] serde_json::Error),
+//! #         }
+//! #     }
+//! #
+//! #     mod param {
+//! #         use super::error::ContactError;
+//! #         use tracing::instrument;
+//! #         #[instrument(name = "get the secret key from parameter store")]
+//! #         pub async fn get_parameter(key: &str) -> Result<String, ContactError> {
+//! #             // Extract the secret key from your parameter store
+//! #             Ok("0x123456789abcedf0123456789abcedf012345678".to_owned())
+//! #         }
+//! #     }
+//! #
+//! #     mod record {
+//! #         use super::error::ContactError;
+//! #         use super::send::ContactForm;
+//! #         use tracing::instrument;
+//! #
+//! #         #[instrument(
+//! #     name = "Write record to database"
+//! #     skip(form)
+//! #     fields(email = %form.email)
+//! # )]
+//! #         pub async fn write(form: &ContactForm) -> Result<(), ContactError> {
+//! #             // Write the contact form data to dynamodb
+//! #             Ok(())
+//! #         }
+//! #     }
+//! #
+//! #     mod send {
+//! #         use super::error::ContactError;
+//! #         use serde::{Deserialize, Serialize};
+//! #         use tracing::instrument;
+//! #
+//! #         #[derive(Deserialize, Serialize, Clone, Debug, Default)]
+//! #         pub struct ContactForm {
+//! #             #[serde(default)]
+//! #             pub name: String,
+//! #             #[serde(default)]
+//! #             pub phone: String,
+//! #             #[serde(default)]
+//! #             pub email: String,
+//! #             #[serde(default)]
+//! #             pub message: String,
+//! #             #[serde(default)]
+//! #             pub page: String,
+//! #             #[serde(default)]
+//! #             pub site: String,
+//! #         }
+//! #
+//! #         #[instrument(name = "send notification to info mailbox", skip(_contact_form))]
+//! #         pub async fn notify_office(
+//! #             _contact_form: &ContactForm,
+//! #         ) -> Result<(), ContactError> {
+//! #             // Construct email and send message to the office info mailbox
+//! #
+//! #             Ok(())
+//! #         }
+//! #
+//! #         #[instrument(name = "Send notification to the contact", skip(_contact_form))]
+//! #         pub async fn notify_contact(
+//! #             _contact_form: &ContactForm,
+//! #         ) -> Result<(), ContactError> {
+//! #             // Construct and send email to the contact
+//! #
+//! #             Ok(())
+//! #         }
+//! #     }
 //!
+//! #     const HCAPTCHA_SECRET: &str = "/hcaptcha/secret";
+//! #
+//! #     use hcaptcha::{Captcha, Client, Request};
+//! #     use lambda_runtime::{Context, Error};
+//! #     use send::ContactForm;
+//! #     use serde::{Deserialize, Serialize};
+//! #     use tokio::join;
+//! #     use tracing::{debug, error};
+//! #
+//! #     #[derive(Deserialize, Serialize, Clone, Debug, Default)]
+//! #     pub struct CustomEvent {
+//! #         body: Option<String>,
+//! #     }
+//! #
+//! #     #[derive(Deserialize, Serialize, Clone, Default)]
+//! #     pub struct Recaptcha {
+//! #         #[serde(rename = "reCaptchaResponse")]
+//! #         re_captcha_response: String,
+//! #     }
+//! #
+//! #     #[derive(Serialize, Clone, Debug, PartialEq)]
+//! #     pub struct CustomOutput {
+//! #         #[serde(rename = "isBase64Encoded")]
+//! #         is_base64_encoded: bool,
+//! #         #[serde(rename = "statusCode")]
+//! #         status_code: u16,
+//! #         body: String,
+//! #     }
+//! #
+//! #     impl CustomOutput {
+//! #         fn new(status_code: u16, body: String) -> CustomOutput {
+//! #             CustomOutput {
+//! #                 is_base64_encoded: false,
+//! #                 status_code,
+//! #                 body,
+//! #             }
+//! #         }
+//! #     }
+//! #
+//! #
 //!     pub async fn my_handler(e: CustomEvent, _c: Context) -> Result<CustomOutput,  Error> {
 //!         debug!("The event logged is: {:?}", e);
 //!
@@ -62,7 +206,7 @@
 //!             captcha)?;
 //!         
 //!         let client = Client::new();
-//!         let _response = client.verify(request).await?;
+//!         let _response = client.verify_client_response(request).await?;
 //!
 //!         let contact_form: ContactForm = serde_json::from_str(&body_str)?;
 //!
@@ -92,6 +236,26 @@
 //!             format!("{}, thank you for your contact request.", contact_form.name),
 //!         ))
 //!     }
+//! }
+//!
+//! #[tokio::main]
+//! async fn main() -> Result<(), Error> {
+//! #    LogTracer::init()?;
+//! #
+//! #    let app_name = concat!(env!("CARGO_PKG_NAME"), "-", env!("CARGO_PKG_VERSION")).to_string();
+//! #    let (non_blocking_writer, _guard) = tracing_appender::non_blocking(std::io::stdout());
+//! #    let bunyan_formatting_layer = BunyanFormattingLayer::new(app_name, non_blocking_writer);
+//! #    let subscriber = Registry::default()
+//! #        .with(EnvFilter::new(
+//! #            std::env::var("RUST_LOG").unwrap_or_else(|_| "INFO".to_owned()),
+//! #        ))
+//! #        .with(JsonStorageLayer)
+//! #        .with(bunyan_formatting_layer);
+//! #    tracing::subscriber::set_global_default(subscriber)?;
+//!
+//!     lambda_runtime::run(lambda_runtime::handler_fn(handler::my_handler)).await?;
+//!     Ok(())
+//! }
 //!
 //! ```
 //! ## Feature Flags
