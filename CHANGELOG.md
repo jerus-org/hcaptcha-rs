@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - chore-update renovate schedule to run before 11:00am on Friday(pr [#1190])
 - refactor-rename HcaptchaError to Error across the codebase(pr [#1197])
 - 1191 version 30(pr [#1198])
+- refactor-rename and deprecate verify_client_response method in favor of verify(pr [#1200])
 
 ### Fixed
 
@@ -776,6 +777,7 @@ emitted if a tracing subscriber is not found.
 [#1195]: https://github.com/jerus-org/hcaptcha-rs/pull/1195
 [#1197]: https://github.com/jerus-org/hcaptcha-rs/pull/1197
 [#1198]: https://github.com/jerus-org/hcaptcha-rs/pull/1198
+[#1200]: https://github.com/jerus-org/hcaptcha-rs/pull/1200
 [Unreleased]: https://github.com/jerus-org/hcaptcha-rs/compare/v2.8.8...HEAD
 [2.8.8]: https://github.com/jerus-org/hcaptcha-rs/compare/v2.8.7...v2.8.8
 [2.8.7]: https://github.com/jerus-org/hcaptcha-rs/compare/v2.8.6...v2.8.7
