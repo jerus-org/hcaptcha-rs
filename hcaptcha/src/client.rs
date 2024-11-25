@@ -25,7 +25,7 @@
 //! #   let captcha = dummy_captcha();
 //! #   let request = Request::new(&secret, captcha)?; // <- returns error
 //!     let client = Client::new();
-//!     let response = client.verify_client_response(request).await?;
+//!     let response = client.verify(request).await?;
 //! # Ok(())
 //! # }
 //!
@@ -287,7 +287,7 @@ impl Client {
     ///
     ///     let client = Client::new();
     ///
-    ///     let response = client.verify_client_response(request).await?;
+    ///     let response = client.verify(request).await?;
     ///
     /// # #[cfg(feature = "enterprise")]
     ///     let score = response.score();
@@ -358,7 +358,7 @@ mod tests {
     use super::*;
     use crate::{Code, Error};
     use chrono::{TimeDelta, Utc};
-    use claims::assert_ok;
+    use claims::{assert_err, assert_ok};
     use rand::distributions::Alphanumeric;
     use rand::{thread_rng, Rng};
     use serde_json::json;
@@ -384,7 +384,7 @@ mod tests {
 
     #[tokio::test]
     #[cfg_attr(feature = "trace", traced_test)]
-    async fn hcaptcha_mock() {
+    async fn hcaptcha_mock_verify() {
         let token = random_string(100);
         let secret = format!("0x{}", hex::encode(random_string(20)));
         let request = Request::new_from_response(&secret, &token).unwrap();
@@ -424,7 +424,95 @@ mod tests {
 
     #[tokio::test]
     #[cfg_attr(feature = "trace", traced_test)]
-    async fn hcaptcha_mock_with_remoteip() {
+    async fn hcaptcha_mock_verify_not_found() {
+        let token = random_string(100);
+        let secret = format!("0x{}", hex::encode(random_string(20)));
+        let request = Request::new_from_response(&secret, &token).unwrap();
+
+        let expected_body = format!("response={}&secret={}", &token, &secret);
+
+        let response_template = ResponseTemplate::new(404);
+        let mock_server = MockServer::start().await;
+        Mock::given(method("POST"))
+            .and(path("/siteverify"))
+            .and(body_string(&expected_body))
+            .respond_with(response_template)
+            .mount(&mock_server)
+            .await;
+        let uri = format!("{}{}", mock_server.uri(), "/siteverify");
+
+        let client = Client::new_with(&uri).unwrap();
+        let response = client.verify(request).await;
+        assert_err!(&response);
+    }
+
+    #[tokio::test]
+    #[cfg_attr(feature = "trace", traced_test)]
+    async fn hcaptcha_mock_verify_client_response() {
+        let token = random_string(100);
+        let secret = format!("0x{}", hex::encode(random_string(20)));
+        let request = Request::new_from_response(&secret, &token).unwrap();
+
+        let expected_body = format!("response={}&secret={}", &token, &secret);
+
+        let timestamp = Utc::now()
+            .checked_sub_signed(TimeDelta::try_minutes(10).unwrap())
+            .unwrap()
+            .to_rfc3339();
+
+        let response_template = ResponseTemplate::new(200).set_body_json(json!({
+            "success": true,
+            "challenge_ts": timestamp,
+            "hostname": "test-host",
+        }));
+        let mock_server = MockServer::start().await;
+        Mock::given(method("POST"))
+            .and(path("/siteverify"))
+            .and(body_string(&expected_body))
+            .respond_with(response_template)
+            .mount(&mock_server)
+            .await;
+        let uri = format!("{}{}", mock_server.uri(), "/siteverify");
+
+        let client = Client::new_with(&uri).unwrap();
+        let response = client.verify_client_response(request).await;
+        assert_ok!(&response);
+        let response = response.unwrap();
+        assert!(&response.success());
+        assert_eq!(&response.timestamp().unwrap(), &timestamp);
+        #[cfg(feature = "trace")]
+        assert!(logs_contain("Hcaptcha API"));
+        #[cfg(feature = "trace")]
+        assert!(logs_contain("The response is"));
+    }
+
+    #[tokio::test]
+    #[cfg_attr(feature = "trace", traced_test)]
+    async fn hcaptcha_mock_verify_client_response_not_found() {
+        let token = random_string(100);
+        let secret = format!("0x{}", hex::encode(random_string(20)));
+        let request = Request::new_from_response(&secret, &token).unwrap();
+
+        let expected_body = format!("response={}&secret={}", &token, &secret);
+
+        let response_template = ResponseTemplate::new(404);
+        let mock_server = MockServer::start().await;
+        Mock::given(method("POST"))
+            .and(path("/siteverify"))
+            .and(body_string(&expected_body))
+            .respond_with(response_template)
+            .mount(&mock_server)
+            .await;
+        let uri = format!("{}{}", mock_server.uri(), "/siteverify");
+
+        let client = Client::new_with(&uri).unwrap();
+        let response = client.verify_client_response(request).await;
+        assert_err!(&response);
+    }
+
+    #[tokio::test]
+    #[cfg_attr(feature = "trace", traced_test)]
+    async fn hcaptcha_mock_with_remoteip_failure() {
         let token = random_string(100);
         let secret = format!("0x{}", hex::encode(random_string(20)));
         let remoteip = mockd::internet::ipv4_address();
@@ -443,8 +531,8 @@ mod tests {
             .unwrap()
             .to_rfc3339();
 
-        let response_template = ResponseTemplate::new(200).set_body_json(json!({
-            "success": true,
+        let response_template = ResponseTemplate::new(404).set_body_json(json!({
+            "success": false,
             "challenge_ts": timestamp,
             "hostname": "test-host",
         }));
