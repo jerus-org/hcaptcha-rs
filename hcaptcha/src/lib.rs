@@ -24,35 +24,32 @@
 //! ```no_run
 //!     use hcaptcha::{Client, Request};
 //! # use itertools::Itertools;
+//!
 //! # #[tokio::main]
 //! # async fn main() -> Result<(), hcaptcha::Error> {
-//! #   let secret = get_your_secret();
-//! #   let captcha = get_captcha();
-//! #   let remoteip = get_remoteip_address();
+//! #   let secret = "0x123456789abcde0f123456789abcdef012345678".to_string();
+//! #   let captcha = Captcha::new(&random_response())?
+//! #       .set_remoteip(&mockd::internet::ipv4_address())?
+//! #       .set_sitekey(&mockd::unique::uuid_v4())?;
+//! #   let remoteip = mockd::internet::ipv4_address();
 //!
 //!     let request = Request::new(&secret, captcha)?
 //!         .set_remoteip(&remoteip)?;
 //!
 //!     let client = Client::new();
 //!
-//!     let response = client.verify(request).await?;
+//!     let response = client.verify_client_response(request).await?;
 //!
-//! # #[cfg(feature = "enterprise")]
 //!     let score = match &response.score() {
 //!         Some(v) => *v,
 //!         None => 0.0,
 //!     };
-//! # #[cfg(feature = "enterprise")]
 //!     let score_reasons = match &response.score_reason() {
 //!         Some(v) => v.iter().join(", "),
 //!         None => "".to_owned(),
 //!     };
-//! # #[cfg(feature = "enterprise")]
 //!     println!("\tScore: {:?}\n\tReasons: {:?}", score, score_reasons);
 //!     # Ok(())
-//! # }
-//! # fn get_your_secret() -> String {
-//! #   "0x123456789abcde0f123456789abcdef012345678".to_string()
 //! # }
 //! # use hcaptcha::Captcha;
 //! # use rand::distributions::Alphanumeric;
@@ -65,21 +62,6 @@
 //! #        .map(char::from)
 //! #        .take(100)
 //! #        .collect()
-//! # }
-//! # fn get_captcha() -> Captcha {
-//! #    Captcha::new(&random_response())
-//! #       .unwrap()
-//! #       .set_remoteip(&mockd::internet::ipv4_address())
-//! #       .unwrap()
-//! #       .set_sitekey(&mockd::unique::uuid_v4())
-//! #       .unwrap()
-//! #       }
-//! # fn get_remoteip_address() -> String {
-//! #    "192.168.0.17".to_string()
-//! # }
-//! # use uuid::Uuid;
-//! # fn get_your_sitekey() -> Uuid {
-//! #    Uuid::new_v4()
 //! # }
 //! ```
 //!
@@ -224,7 +206,7 @@
 //!             captcha)?;
 //!         
 //!         let client = Client::new();
-//!         let _response = client.verify(request).await?;
+//!         let _response = client.verify_client_response(request).await?;
 //!
 //!         let contact_form: ContactForm = serde_json::from_str(&body_str)?;
 //!
@@ -256,8 +238,8 @@
 //!     }
 //! }
 //!
-//! # #[tokio::main]
-//! # async fn main() -> Result<(), Error> {
+//! #[tokio::main]
+//! async fn main() -> Result<(), Error> {
 //! #    LogTracer::init()?;
 //! #
 //! #    let app_name = concat!(env!("CARGO_PKG_NAME"), "-", env!("CARGO_PKG_VERSION")).to_string();
@@ -270,16 +252,16 @@
 //! #        .with(JsonStorageLayer)
 //! #        .with(bunyan_formatting_layer);
 //! #    tracing::subscriber::set_global_default(subscriber)?;
-//! #
-//! #     lambda_runtime::run(lambda_runtime::handler_fn(handler::my_handler)).await?;
-//! #     Ok(())
-//! # }
+//!
+//!     lambda_runtime::run(lambda_runtime::handler_fn(handler::my_handler)).await?;
+//!     Ok(())
+//! }
 //!
 //! ```
 //! ## Feature Flags
 //!
-//! The default library includes extended validation for the secret field and use of native TLS as the TLS backend
-//! Disable this validation by setting default-features = false and to enable rustls features=["rustls"]
+//! The default library includes extended validation for the secret field and use of rustls TLS as the TLS backend.
+//! Disable this validation by setting default-features = false and enable rustls with features=["nativetls-backend"].
 //!
 //! ```toml
 //! [dependency]
@@ -287,7 +269,7 @@
 //! ```
 //!
 //! The following feature flags are available:
-//! * `enterprise` - Enable methods to access enterprise service fields in the  `Response`
+//! * `enterprise` - Enable methods to access enterprise service fields in the `Response`
 //! * `ext` - Enables extended validation of secret
 //! * `trace` - Enables tracing instrumentation on all functions. Traces are logged at the debug level. The value of the secret is not logged.
 //! * `nativetls-backend` - Enables native-tls backend in reqwests
