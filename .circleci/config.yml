@@ -186,6 +186,9 @@ jobs:
     steps:
       - checkout
       - run:
+          name: report all rustc versions available
+          command: rustup show
+      - run:
           name: Check rust version for code
           command: cargo --version
       - run:
