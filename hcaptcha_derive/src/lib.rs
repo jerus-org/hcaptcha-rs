@@ -301,3 +301,115 @@ fn get_attributes(data_struct: &DataStruct) -> HashMap<String, &Ident> {
 
     attributes
 }
+
+#[cfg(test)]
+mod tests {
+    use quote::format_ident;
+    use std::iter::FromIterator;
+    use syn::parse::Parser;
+    use syn::{Attribute, Field, Fields, FieldsNamed};
+
+    use super::*;
+
+    #[test]
+    fn test_get_attributes_empty_struct() {
+        let data_struct = DataStruct {
+            fields: Fields::Named(FieldsNamed {
+                named: Default::default(),
+                brace_token: Default::default(),
+            }),
+            struct_token: Default::default(),
+            semi_token: None,
+        };
+
+        let attributes = get_attributes(&data_struct);
+        assert!(attributes.is_empty());
+    }
+
+    #[test]
+    fn test_get_attributes_with_single_field() {
+        let ident = format_ident!("field_name");
+        let attr = Attribute::parse_outer.parse_str("#[serde]").unwrap();
+
+        let field = Field {
+            attrs: vec![attr[0].clone()],
+            vis: syn::Visibility::Inherited,
+            ident: Some(ident.clone()),
+            colon_token: None,
+            ty: syn::Type::Verbatim(proc_macro2::TokenStream::new()),
+            mutability: syn::FieldMutability::None,
+        };
+
+        let data_struct = DataStruct {
+            fields: Fields::Named(FieldsNamed {
+                named: syn::punctuated::Punctuated::from_iter(vec![field]),
+                brace_token: Default::default(),
+            }),
+            struct_token: Default::default(),
+            semi_token: None,
+        };
+
+        let attributes = get_attributes(&data_struct);
+        assert_eq!(attributes.len(), 1);
+        assert_eq!(attributes.get("serde").unwrap().to_string(), "field_name");
+    }
+
+    #[test]
+    fn test_get_attributes_multiple_fields() {
+        let field1 = Field {
+            attrs: vec![Attribute::parse_outer.parse_str("#[serde]").unwrap()[0].clone()],
+            vis: syn::Visibility::Inherited,
+            ident: Some(format_ident!("field1")),
+            colon_token: None,
+            ty: syn::Type::Verbatim(proc_macro2::TokenStream::new()),
+            mutability: syn::FieldMutability::None,
+        };
+
+        let field2 = Field {
+            attrs: vec![Attribute::parse_outer.parse_str("#[rename]").unwrap()[0].clone()],
+            vis: syn::Visibility::Inherited,
+            ident: Some(format_ident!("field2")),
+            colon_token: None,
+            ty: syn::Type::Verbatim(proc_macro2::TokenStream::new()),
+            mutability: syn::FieldMutability::None,
+        };
+
+        let data_struct = DataStruct {
+            fields: Fields::Named(FieldsNamed {
+                named: syn::punctuated::Punctuated::from_iter(vec![field1, field2]),
+                brace_token: Default::default(),
+            }),
+            struct_token: Default::default(),
+            semi_token: None,
+        };
+
+        let attributes = get_attributes(&data_struct);
+        assert_eq!(attributes.len(), 2);
+        assert_eq!(attributes.get("serde").unwrap().to_string(), "field1");
+        assert_eq!(attributes.get("rename").unwrap().to_string(), "field2");
+    }
+
+    #[test]
+    fn test_get_attributes_no_attributes() {
+        let field = Field {
+            attrs: vec![],
+            vis: syn::Visibility::Inherited,
+            ident: Some(format_ident!("field1")),
+            colon_token: None,
+            ty: syn::Type::Verbatim(proc_macro2::TokenStream::new()),
+            mutability: syn::FieldMutability::None,
+        };
+
+        let data_struct = DataStruct {
+            fields: Fields::Named(FieldsNamed {
+                named: syn::punctuated::Punctuated::from_iter(vec![field]),
+                brace_token: Default::default(),
+            }),
+            struct_token: Default::default(),
+            semi_token: None,
+        };
+
+        let attributes = get_attributes(&data_struct);
+        assert!(attributes.is_empty());
+    }
+}
