@@ -304,12 +304,105 @@ fn get_attributes(data_struct: &DataStruct) -> HashMap<String, &Ident> {
 
 #[cfg(test)]
 mod tests {
+    use proc_macro2::Span;
     use quote::format_ident;
     use std::iter::FromIterator;
     use syn::parse::Parser;
     use syn::{Attribute, Field, Fields, FieldsNamed};
 
     use super::*;
+
+    #[test]
+    fn test_get_required_attribute_with_valid_field() {
+        let mut attributes = HashMap::new();
+        let field_ident = Ident::new("hcaptcha_field", Span::call_site());
+        let struct_ident = Ident::new("TestStruct", Span::call_site());
+
+        attributes.insert("captcha".to_string(), &field_ident);
+
+        let result = get_required_attribute(&attributes, "captcha", &struct_ident);
+        assert!(!result.is_empty());
+    }
+
+    // #[test]
+    // #[should_panic]
+    // fn test_get_required_attribute_missing_field() {
+    //     let attributes = HashMap::new();
+    //     let struct_ident = Ident::new("TestStruct", Span::call_site());
+
+    //     get_required_attribute(&attributes, "captcha", &struct_ident);
+    // }
+
+    #[test]
+    fn test_get_required_attribute_wrong_field_name() {
+        let mut attributes = HashMap::new();
+        let field_ident = Ident::new("hcaptcha_field", Span::call_site());
+        let struct_ident = Ident::new("TestStruct", Span::call_site());
+
+        attributes.insert("wrong_name".to_string(), &field_ident);
+
+        std::panic::catch_unwind(|| {
+            get_required_attribute(&attributes, "captcha", &struct_ident);
+        })
+        .expect_err("Should panic when captcha field is not found");
+    }
+
+    #[test]
+    fn test_get_required_attribute_multiple_fields() {
+        let mut attributes = HashMap::new();
+        let captcha_field = Ident::new("hcaptcha_field", Span::call_site());
+        let other_field = Ident::new("other_field", Span::call_site());
+        let struct_ident = Ident::new("TestStruct", Span::call_site());
+
+        attributes.insert("captcha".to_string(), &captcha_field);
+        attributes.insert("other".to_string(), &other_field);
+
+        let result = get_required_attribute(&attributes, "captcha", &struct_ident);
+        assert!(!result.is_empty());
+    }
+
+    #[test]
+    fn test_get_struct_data_valid_struct() {
+        let name = Ident::new("TestStruct", Span::call_site());
+        let fields = Fields::Named(FieldsNamed {
+            brace_token: Default::default(),
+            named: Default::default(),
+        });
+        let data_struct = DataStruct {
+            struct_token: Default::default(),
+            fields,
+            semi_token: None,
+        };
+        let data = Data::Struct(data_struct.clone());
+
+        let result = get_struct_data(&data, &name);
+        assert_eq!(result, &data_struct);
+    }
+
+    // #[test]
+    // #[should_panic(expected = "Must derive on a struct")]
+    // fn test_get_struct_data_enum() {
+    //     let name = Ident::new("TestEnum", Span::call_site());
+    //     let data = Data::Enum(syn::DataEnum {
+    //         enum_token: Default::default(),
+    //         brace_token: Default::default(),
+    //         variants: Default::default(),
+    //     });
+
+    //     get_struct_data(&data, &name);
+    // }
+
+    // #[test]
+    // #[should_panic(expected = "Must derive on a struct")]
+    // fn test_get_struct_data_union() {
+    //     let name = Ident::new("TestUnion", Span::call_site());
+    //     let data = Data::Union(syn::DataUnion {
+    //         union_token: Default::default(),
+    //         fields: syn::FieldsNamed {
+    //             brace_token: Default::default(),
+    //             named: Default::default(),
+    //         },
+    //     });
 
     #[test]
     fn test_get_attributes_empty_struct() {
