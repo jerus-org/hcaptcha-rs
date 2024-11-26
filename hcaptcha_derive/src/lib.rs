@@ -373,15 +373,6 @@ mod tests {
         assert!(!result.is_empty());
     }
 
-    // #[test]
-    // #[should_panic]
-    // fn test_get_required_attribute_missing_field() {
-    //     let attributes = HashMap::new();
-    //     let struct_ident = Ident::new("TestStruct", Span::call_site());
-
-    //     get_required_attribute(&attributes, "captcha", &struct_ident);
-    // }
-
     #[test]
     fn test_get_required_attribute_wrong_field_name() {
         let mut attributes = HashMap::new();
@@ -427,31 +418,6 @@ mod tests {
         let result = get_struct_data(&data, &name);
         assert_eq!(result, &data_struct);
     }
-
-    // #[test]
-    // #[should_panic(expected = "Must derive on a struct")]
-    // fn test_get_struct_data_enum() {
-    //     let name = Ident::new("TestEnum", Span::call_site());
-    //     let data = Data::Enum(syn::DataEnum {
-    //         enum_token: Default::default(),
-    //         brace_token: Default::default(),
-    //         variants: Default::default(),
-    //     });
-
-    //     get_struct_data(&data, &name);
-    // }
-
-    // #[test]
-    // #[should_panic(expected = "Must derive on a struct")]
-    // fn test_get_struct_data_union() {
-    //     let name = Ident::new("TestUnion", Span::call_site());
-    //     let data = Data::Union(syn::DataUnion {
-    //         union_token: Default::default(),
-    //         fields: syn::FieldsNamed {
-    //             brace_token: Default::default(),
-    //             named: Default::default(),
-    //         },
-    //     });
 
     #[test]
     fn test_get_attributes_empty_struct() {
