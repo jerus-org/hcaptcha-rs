@@ -770,7 +770,7 @@ mod tests {
             Err(Error::Codes(codes)) => {
                 assert_eq!(codes, error_codes);
             }
-            _ => panic!("Expected Error::Codes"),
+            _ => unreachable!(),
         }
     }
 
@@ -785,6 +785,7 @@ mod tests {
             score: None,
             score_reason: None,
         };
+
         match response.check_error() {
             Err(Error::Codes(codes)) => {
                 assert_eq!(codes.len(), 1);
@@ -792,7 +793,7 @@ mod tests {
                     |code| matches!(code, Code::Unknown(msg) if msg == "No error codes returned")
                 ));
             }
-            _ => panic!("Expected Error::Codes with unknown error"),
+            _ => unreachable!(),
         }
     }
 }
