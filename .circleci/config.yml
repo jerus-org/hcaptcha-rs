@@ -535,7 +535,7 @@ workflows:
           matrix:
             <<: *builds
       - common_tests:
-          name: common tests for x86_64
+          name: common tests for x86_64-<< matrix.cargo_package >>
           min_rust_version: << pipeline.parameters.min-rust-version >>
           matrix:
             <<: *builds
