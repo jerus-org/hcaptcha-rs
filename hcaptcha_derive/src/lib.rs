@@ -313,6 +313,55 @@ mod tests {
     use super::*;
 
     #[test]
+    fn test_get_optional_attribute_with_valid_attribute() {
+        let mut attributes = HashMap::new();
+        let ident = Ident::new("test_field", Span::call_site());
+        attributes.insert("test".to_string(), &ident);
+
+        let result = get_optional_attribute(&attributes, "test", "test_method");
+
+        let expected = quote! {
+            match captcha.test_method(&self.test_field) {
+                Ok(c) => captcha = c,
+                Err(e) => {
+                    return Box::pin(async { Err(e) });
+                }
+            };
+        };
+
+        assert_eq!(result.to_string(), expected.to_string());
+    }
+
+    #[test]
+    fn test_get_optional_attribute_with_missing_attribute() {
+        let attributes = HashMap::new();
+
+        let result = get_optional_attribute(&attributes, "test", "test_method");
+
+        assert_eq!(result.to_string(), quote! {}.to_string());
+    }
+
+    #[test]
+    fn test_get_optional_attribute_with_different_method_name() {
+        let mut attributes = HashMap::new();
+        let ident = Ident::new("field", Span::call_site());
+        attributes.insert("attr".to_string(), &ident);
+
+        let result = get_optional_attribute(&attributes, "attr", "custom_method");
+
+        let expected = quote! {
+            match captcha.custom_method(&self.field) {
+                Ok(c) => captcha = c,
+                Err(e) => {
+                    return Box::pin(async { Err(e) });
+                }
+            };
+        };
+
+        assert_eq!(result.to_string(), expected.to_string());
+    }
+
+    #[test]
     fn test_get_required_attribute_with_valid_field() {
         let mut attributes = HashMap::new();
         let field_ident = Ident::new("hcaptcha_field", Span::call_site());
