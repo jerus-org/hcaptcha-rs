@@ -526,7 +526,8 @@ workflows:
           docker_tag_suffix: << pipeline.parameters.docker-tag-suffix >>
           matrix: &builds
             parameters:
-              cargo_package: [hcaptcha, hcaptcha-cli, mock-verifier]
+              cargo_package:
+                [hcaptcha, hcaptcha_derive, hcaptcha-cli, mock-verifier]
       - toolkit/optional_builds:
           name: optional builds-<< matrix.cargo_package >>
           min_rust_version: << pipeline.parameters.min-rust-version >>
