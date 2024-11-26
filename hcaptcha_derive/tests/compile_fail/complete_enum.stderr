@@ -1,0 +1,14 @@
+error: Must derive on a struct
+
+         = help: This macro can only be implemented on a struct.
+
+               #[derive(Hcaptcha)]
+               struct MyStruct {
+                   #[captcha]
+                   hcaptcha: String,
+               }
+
+ --> tests/compile_fail/complete_enum.rs:4:10
+  |
+4 | pub enum ContactEnum {
+  |          ^^^^^^^^^^^

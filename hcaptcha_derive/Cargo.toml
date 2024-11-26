@@ -33,6 +33,8 @@ proc-macro-error2.workspace = true
 
 [dev-dependencies]
 hcaptcha = { path = "../hcaptcha" }
+macrotest.workspace = true
+trybuild.workspace = true
 
 [package.metadata.docs.rs]
 all-features = true

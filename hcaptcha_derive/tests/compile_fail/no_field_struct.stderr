@@ -1,0 +1,14 @@
+error: Field containing hcaptcha not identified
+
+         = help: The field containing the hcaptcha response string must be identified with #[captcha]
+
+               #[derive(Hcaptcha)]
+               struct MyStruct {
+                   #[captcha]
+                   hcaptcha: String,
+               }
+
+ --> tests/compile_fail/no_field_struct.rs:4:12
+  |
+4 | pub struct ContactForm {
+  |            ^^^^^^^^^^^
