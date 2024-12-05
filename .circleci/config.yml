@@ -166,55 +166,6 @@ commands:
             fi
 
 jobs:
-  common_tests:
-    executor:
-      name: rust_env
-
-    parameters:
-      min_rust_version:
-        type: string
-        description: "Required: The minimum version of the rust compiler to use"
-      docker_tag_suffix:
-        type: string
-        default: ""
-        description: "The suffix to append to the docker tag"
-      cargo_args:
-        type: string
-        default: ""
-        description: "Additional parameters to pass to cargo build"
-      cargo_all_features:
-        type: boolean
-        default: true
-        description: "Build all features"
-      cargo_package:
-        type: string
-        default: ""
-        description: "Package to pass to cargo build"
-      cargo_target:
-        type: string
-        default: ""
-        description: "Target to pass to cargo build"
-
-    steps:
-      - checkout
-      - run:
-          name: Check rust version for code
-          command: cargo --version
-      - run:
-          name: Check formatting for code
-          command: |
-            rustfmt --version
-            cargo fmt --all -- --check
-      - run:
-          name: Install cargo-expand to support derive testing
-          command: cargo install --locked --version 1.0.95 cargo-expand
-      - toolkit/cargo_test:
-          rust_version: "<<parameters.min_rust_version>>"
-          cargo_args: <<parameters.cargo_args>>
-          cargo_all_features: <<parameters.cargo_all_features>>
-          cargo_package: << parameters.cargo_package >>
-          cargo_target: << parameters.cargo_target >>
-
   idiomatic_rust:
     executor:
       name: rust_env
@@ -534,7 +485,7 @@ workflows:
           docker_tag_suffix: << pipeline.parameters.docker-tag-suffix >>
           matrix:
             <<: *builds
-      - common_tests:
+      - toolkit/common_tests:
           name: common tests for x86_64-<< matrix.cargo_package >>
           min_rust_version: << pipeline.parameters.min-rust-version >>
           matrix:
@@ -552,7 +503,7 @@ workflows:
             parameters:
               cargo_bin: [long_help, no_options, short_help, simple_captcha]
           requires:
-            - common_tests
+            - toolkit/common_tests
             - toolkit/required_builds
             - toolkit/test_doc_build
 
@@ -569,13 +520,13 @@ workflows:
                   test-suite-enterprise,
                 ]
           requires:
-            - common_tests
+            - toolkit/common_tests
             - toolkit/required_builds
             - toolkit/test_doc_build
 
       - wasm_test:
           requires:
-            - common_tests
+            - toolkit/common_tests
             - toolkit/required_builds
             - toolkit/test_doc_build
 
