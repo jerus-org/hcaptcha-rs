@@ -42,6 +42,7 @@ hcaptcha = "2.8.8"
 
 - The `Hcaptcha` prefix has been removed from all types.
 - The default feature now uses `rustls-backend` and not the `nativetls-backend`.
+- The `verify_client_response` method has been deprecated in favour or the `verify` method.
 
 ## Usage
 
