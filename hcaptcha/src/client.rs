@@ -475,6 +475,7 @@ mod tests {
         let uri = format!("{}{}", mock_server.uri(), "/siteverify");
 
         let client = Client::new_with(&uri).unwrap();
+        #[allow(deprecated)]
         let response = client.verify_client_response(request).await;
         assert_ok!(&response);
         let response = response.unwrap();
@@ -506,6 +507,7 @@ mod tests {
         let uri = format!("{}{}", mock_server.uri(), "/siteverify");
 
         let client = Client::new_with(&uri).unwrap();
+        #[allow(deprecated)]
         let response = client.verify_client_response(request).await;
         assert_err!(&response);
     }

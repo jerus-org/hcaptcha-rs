@@ -20,6 +20,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - refactor-rename and deprecate verify_client_response method in favour of verify(pr [#1200])
 - Ver3/1199 update documentation(pr [#1201])
 - test-additional tests to improve code coverage(pr [#1204])
+- BREAKING: docs-update README with breaking changes for version 3.0.0(pr [#1207])
 
 ### Fixed
 
@@ -787,6 +788,7 @@ emitted if a tracing subscriber is not found.
 [#1201]: https://github.com/jerus-org/hcaptcha-rs/pull/1201
 [#1203]: https://github.com/jerus-org/hcaptcha-rs/pull/1203
 [#1204]: https://github.com/jerus-org/hcaptcha-rs/pull/1204
+[#1207]: https://github.com/jerus-org/hcaptcha-rs/pull/1207
 [Unreleased]: https://github.com/jerus-org/hcaptcha-rs/compare/v2.8.8...HEAD
 [2.8.8]: https://github.com/jerus-org/hcaptcha-rs/compare/v2.8.7...v2.8.8
 [2.8.7]: https://github.com/jerus-org/hcaptcha-rs/compare/v2.8.6...v2.8.7

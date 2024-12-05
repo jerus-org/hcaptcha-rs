@@ -38,6 +38,12 @@ hcaptcha = "2.8.8"
 
 ```
 
+## Breaking changes with version 3.0.0
+
+- The `Hcaptcha` prefix has been removed from all types.
+- The default feature now uses `rustls-backend` and not the `nativetls-backend`.
+- The `verify_client_response` method has been deprecated in favour or the `verify` method.
+
 ## Usage
 
 Derive a validation method on the data structure representing your data, marking the captcha components in the data structure.
@@ -83,8 +89,8 @@ See the `hcaptcha-wasm` example for a sample project which can be run using `was
 
 Licensed under either of
 
-* Apache License, Version 2.0 (LICENSE-APACHE or <http://www.apache.org/licenses/LICENSE-2.0>)
-* MIT license (LICENSE-MIT or <http://opensource.org/licenses/MIT>)
+- Apache License, Version 2.0 (LICENSE-APACHE or <http://www.apache.org/licenses/LICENSE-2.0>)
+- MIT license (LICENSE-MIT or <http://opensource.org/licenses/MIT>)
 at your option.
 
 ## Contribution
