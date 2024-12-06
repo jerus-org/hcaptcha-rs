@@ -177,6 +177,7 @@ workflows:
             - toolkit/test_doc_build
 
       - toolkit/test_wasm:
+          min_rust_version: << pipeline.parameters.min-rust-version >>
           requires:
             - toolkit/common_tests
             - toolkit/required_builds
