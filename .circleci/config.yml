@@ -162,7 +162,7 @@ commands:
           command: |
             if ! cargo audit -D warnings << parameters.ignore_advisories >> ; then
               cargo update && cargo audit -D warnings << parameters.ignore_advisories >>
-              cargo test 
+              toolkit/common_tests
             fi
 
 jobs:
