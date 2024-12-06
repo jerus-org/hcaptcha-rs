@@ -24,9 +24,7 @@ parameters:
     description: "If true, the make release treats as workspace."
 
 orbs:
-  toolkit: jerus-org/circleci-toolkit@1.19.0
-  node: circleci/node@6.3.0
-  sonarcloud: sonarsource/sonarcloud@2.0.0
+  toolkit: jerus-org/circleci-toolkit@1.20.1
 
 executors:
   rust_env:
@@ -35,172 +33,8 @@ executors:
   base-env:
     docker:
       - image: jerusdp/ci-rust:base
-commands:
-  make_github_release:
-    parameters:
-      pcu_verbosity:
-        type: string
-        default: "-vv"
-        description: "The verbosity of the pcu command"
-      pcu_update_changelog:
-        type: boolean
-        default: false
-        description: "The verbosity of the pcu command"
-      pcu_prefix:
-        type: string
-        default: "v"
-        description: "The verbosity of the pcu command"
-      pcu_workspace:
-        type: boolean
-        default: false
-        description: "Whether or not to set the workspace flag of the pcu command"
-      pcu_package:
-        type: string
-        default: ""
-        description: "Package to release and/or publish"
-    steps:
-      - run:
-          name: Create Github release
-          command: |
-            set -exo pipefail
-
-            if [ << parameters.pcu_package >> != "" ] ; then
-                package="--package << parameters.pcu_package >>"
-                # prefix="<< parameters.pcu_package >>-<< parameters.pcu_prefix >> "
-                pcu <<parameters.pcu_verbosity>> release $update_changelog $package --prefix <<parameters.pcu_prefix>> 
-                exit
-            fi
-
-            if [ <<parameters.pcu_workspace>> == true ] ; then
-                pcu <<parameters.pcu_verbosity>> release $update_changelog --prefix <<parameters.pcu_prefix>> --workspace
-                exit
-            fi
-
-            if [ "" != "${SEMVER}" ] ; then
-              if [ <<parameters.pcu_update_changelog>> == true ] ; then
-                update_changelog="-update_changelog"
-              else
-                update_changelog=""
-              fi
-              pcu <<parameters.pcu_verbosity>> release $update_changelog --prefix <<parameters.pcu_prefix>> --semver ${SEMVER}
-            fi
-
-  make_cargo_release:
-    parameters:
-      publish:
-        type: boolean
-        default: true
-        description: "If true, the release will be published."
-      first_release:
-        type: boolean
-        default: false
-        description: "If true, the release will be published as first release."
-      specific_version:
-        type: boolean
-        default: false
-        description: "If true, the release will be published with a specific version."
-      version:
-        type: string
-        default: ""
-        description: "Specific version number to release"
-      no_push:
-        type: boolean
-        default: false
-        description: "Whether or not cargo release should push the changes"
-      package:
-        type: string
-        default: ""
-        description: "Package to release and/or publish"
-    steps:
-      - run:
-          name: Find next level and publish update
-          command: |
-            set -exo pipefail
-
-            if [ << parameters.package >> != "" ] ; then
-              package="--package << parameters.package >>"
-            fi
-
-            if [ << parameters.publish >> == true ] ; then
-              publish="--publish"
-            else
-              publish="--no-publish"
-            fi
-
-            cargo release changes
-            if [ << parameters.first_release >> == true ] ; then
-              cargo release $package $publish --execute --no-confirm --sign-tag -c first-release.toml 0.1.0
-            else
-              if [ << parameters.specific_version >> == true ] && [ "<< parameters.version >>" != "" ] ; then
-                export NEXTSV_LEVEL=<< parameters.version >>
-              else
-                export NEXTSV_LEVEL=$(nextsv -q -c other require -f CHANGELOG.md feature)
-              fi
-              echo $NEXTSV_LEVEL
-              if [ $NEXTSV_LEVEL != "none" ] ; then
-                cargo release changes
-                if [ << parameters.no_push >> == true ] ; then
-                  cargo release $package $publish --no-push --execute --no-confirm --sign-tag "$NEXTSV_LEVEL"
-                else
-                  cargo release $package $publish --execute --no-confirm --sign-tag "$NEXTSV_LEVEL"
-                fi
-              else
-                echo "Not ready to release yet."
-                circleci step halt
-              fi
-            fi
-
-  cargo_audit:
-    parameters:
-      ignore_advisories:
-        type: string
-        default: ""
-        description: "Additional parameters to list advisories that should be ignored"
-    steps:
-      - run:
-          name: Security audit against RUSTSEC
-          command: |
-            if ! cargo audit -D warnings << parameters.ignore_advisories >> ; then
-              cargo update && cargo audit -D warnings << parameters.ignore_advisories >>
-              cargo test 
-            fi
 
 jobs:
-  idiomatic_rust:
-    executor:
-      name: rust_env
-
-    parameters:
-      min_rust_version:
-        type: string
-        description: "Required: The minimum version of the rust compiler to use"
-      docker_tag_suffix:
-        type: string
-        default: ""
-        description: "The suffix to append to the docker tag"
-      lint_flags:
-        type: string
-        default: ""
-        description: "Additional lint flags to pass to clippy"
-
-    steps:
-      - checkout
-      - run:
-          name: report all rustc versions available
-          command: rustup show
-      - run:
-          name: Check rust version for code
-          command: cargo --version
-      - run:
-          name: Check idiomatic code use with Clippy
-          command: |
-            cargo clippy \
-             --all \
-             --tests \
-             --all-features \
-             -- -D warnings \
-             << parameters.lint_flags >>
-
   test-suite:
     parameters:
       test-suite:
@@ -247,198 +81,6 @@ jobs:
           cargo_package: << parameters.cargo_package >>
           cargo_bin: << parameters.cargo_bin >>
 
-  wasm_test:
-    executor: rust_env
-    steps:
-      - checkout
-      - node/install
-      - run:
-          name: Installing wasm-pack
-          command: |
-            cargo install wasm-pack
-            wasm-pack -V
-      - run:
-          name: Running wasm tests
-          command: |
-            set -ex
-            cd test-wasm
-            wasm-pack test --node
-
-  make_release:
-    executor:
-      name: rust_env
-
-    parameters:
-      ssh_fingerprint:
-        type: string
-      min_rust_version:
-        type: string
-      pcu_verbosity:
-        type: string
-        default: "-vv"
-        description: "The verbosity of the pcu command"
-      version:
-        type: string
-        default: ""
-        description: |
-          Specific version number to release
-      specific_version:
-        type: boolean
-        default: false
-        description: |
-          Make a specific release, if true version must be set to the specific version number
-      first_release:
-        type: boolean
-        default: false
-        description: |
-          Request that a first release (v0.1.0) be created
-      publish:
-        type: boolean
-        default: true
-        description: |
-          Publish the release
-      github_release:
-        type: boolean
-        default: true
-        description: |
-          Create a github release
-      cargo_release:
-        type: boolean
-        default: true
-        description: |
-          Create a cargo release
-      update_pcu:
-        type: boolean
-        default: false
-        description: |
-          Update pcu
-      pcu_update_changelog:
-        type: boolean
-        default: false
-        description: "To update the changelog when making the github release"
-      pcu_push:
-        type: boolean
-        default: false
-        description: "To use the pcu push command"
-      pcu_semver:
-        type: boolean
-        default: false
-        description: "Whether or not set the semver version flag"
-      pcu_no_push:
-        type: boolean
-        default: false
-        description: "Whether or not prevent final push of commit"
-      pcu_commit_message:
-        type: string
-        default: "chore: test push"
-        description: "The commit message to use for the pcu test push"
-      pcu_prefix:
-        type: string
-        default: "v"
-        description: "The verbosity of the pcu command"
-      pcu_workspace:
-        type: boolean
-        default: false
-        description: "Whether or not to set the workspace flag of the pcu command"
-      package:
-        type: string
-        default: ""
-        description: "The package to publish"
-
-    steps:
-      - checkout
-      - add_ssh_keys:
-          fingerprints:
-            - << parameters.ssh_fingerprint >>
-      - run:
-          name: Remove original SSH key from agent
-          command: |
-            ssh-add -l
-            ssh-add -d ~/.ssh/id_rsa.pub
-            ssh-add -l
-      - toolkit/gpg_key
-      - toolkit/git_config
-      - when:
-          condition: << parameters.update_pcu >>
-          steps:
-            - toolkit/install_latest_pcu
-      - when:
-          condition: << parameters.github_release >>
-          steps:
-            - toolkit/set_env_var_semver:
-                version: << parameters.version >>
-      - when:
-          condition:
-            and:
-              - << parameters.cargo_release >>
-              - not: << parameters.pcu_push >>
-          steps:
-            - make_cargo_release:
-                publish: << parameters.publish >>
-                first_release: << parameters.first_release >>
-                specific_version: << parameters.specific_version >>
-                version: << parameters.version >>
-                package: << parameters.package >>
-      - when:
-          condition:
-            and:
-              - << parameters.cargo_release >>
-              - << parameters.pcu_push >>
-          steps:
-            - make_cargo_release:
-                publish: << parameters.publish >>
-                first_release: << parameters.first_release >>
-                specific_version: << parameters.specific_version >>
-                version: << parameters.version >>
-                package: << parameters.package >>
-                no_push: true
-      - when:
-          condition: < parameters.pcu_push >>
-          steps:
-            - toolkit/push_cmd:
-                pcu_no_push: << parameters.pcu_no_push >>
-                pcu_verbosity: << parameters.pcu_verbosity >>
-                pcu_semver: << parameters.pcu_semver >>
-      - when:
-          condition: < parameters.github_release >>
-          steps:
-            - make_github_release:
-                pcu_verbosity: << parameters.pcu_verbosity >>
-                pcu_update_changelog: << parameters.pcu_update_changelog >>
-                pcu_prefix: << parameters.pcu_prefix >>
-                pcu_workspace: << parameters.pcu_workspace >>
-                pcu_package: << parameters.package >>
-
-  security:
-    executor:
-      name: base-env
-
-    parameters:
-      ignore_advisories:
-        default: ""
-        description: List of advisories to ignore each prefixed with "--ignore "
-        type: string
-      cargo_audit:
-        default: true
-        description: Don't run the cargo audit scan
-        type: boolean
-      sonarcloud:
-        default: true
-        description: Don't run the sonarcloud scan
-        type: boolean
-
-    steps:
-      - checkout
-      - when:
-          condition: << parameters.cargo_audit >>
-          steps:
-            - cargo_audit:
-                ignore_advisories: << parameters.ignore_advisories >>
-      - when:
-          condition: << parameters.sonarcloud >>
-          steps:
-            - sonarcloud/scan
-
 workflows:
   check_last_commit:
     when:
@@ -471,6 +113,8 @@ workflows:
       - toolkit/code_coverage:
           min_rust_version: << pipeline.parameters.min-rust-version >>
           package: hcaptcha
+          requires:
+            - toolkit/security
       - toolkit/required_builds:
           name: required builds-<< matrix.cargo_package >>
           min_rust_version: << pipeline.parameters.min-rust-version >>
@@ -479,20 +123,28 @@ workflows:
             parameters:
               cargo_package:
                 [hcaptcha, hcaptcha_derive, hcaptcha-cli, mock-verifier]
+          requires:
+            - toolkit/security
       - toolkit/optional_builds:
           name: optional builds-<< matrix.cargo_package >>
           min_rust_version: << pipeline.parameters.min-rust-version >>
           docker_tag_suffix: << pipeline.parameters.docker-tag-suffix >>
           matrix:
             <<: *builds
+          requires:
+            - toolkit/security
       - toolkit/common_tests:
           name: common tests for x86_64-<< matrix.cargo_package >>
           min_rust_version: << pipeline.parameters.min-rust-version >>
           matrix:
             <<: *builds
-      - idiomatic_rust:
+          requires:
+            - toolkit/security
+      - toolkit/idiomatic_rust:
           min_rust_version: << pipeline.parameters.min-rust-version >>
           lint_flags: "-A deprecated"
+          requires:
+            - toolkit/security
       - toolkit/test_doc_build:
           min_rust_version: << pipeline.parameters.min-rust-version >>
       - run_test_program:
@@ -524,22 +176,22 @@ workflows:
             - toolkit/required_builds
             - toolkit/test_doc_build
 
-      - wasm_test:
+      - toolkit/test_wasm:
+          min_rust_version: << pipeline.parameters.min-rust-version >>
           requires:
             - toolkit/common_tests
             - toolkit/required_builds
             - toolkit/test_doc_build
 
-      - security:
+      - toolkit/security:
           context: SonarCloud
 
       - toolkit/update_changelog:
           requires:
-            - idiomatic_rust
+            - toolkit/idiomatic_rust
             - test-suite
             - run_test_program
-            - security
-            - wasm_test
+            - toolkit/test_wasm
             - toolkit/code_coverage
           context:
             - release
@@ -567,7 +219,7 @@ workflows:
         - not: << pipeline.parameters.success-flag >>
         - not: << pipeline.parameters.validation-flag >>
     jobs:
-      - make_release:
+      - toolkit/make_release:
           name: make for hcaptcha
           context:
             - release
@@ -580,7 +232,7 @@ workflows:
           publish: false
           package: hcaptcha
 
-      - make_release:
+      - toolkit/make_release:
           requires:
             - make for hcaptcha
           name: make releases - << matrix.package >>
