@@ -21,6 +21,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Ver3/1199 update documentation(pr [#1201])
 - test-additional tests to improve code coverage(pr [#1204])
 - BREAKING: docs-update README with breaking changes for version 3.0.0(pr [#1207])
+- Merge github.com:jerus-org/hcaptcha-rs into 1191-version-30(pr [#1213])
 
 ## [2.8.10] - 2024-12-07
 
@@ -567,7 +568,6 @@ Extended validation for the secret key requires it to conform to "0x" followed b
 The input to .sitekey(sitekey) has been changed to validate that the string slice supplied is a valid UUID.
 
 The input to the .remoteip(remoteip) has been changed to validate that the string slice supplier is a valid ipv4 or ipv6 address.
-
 - Logging / Tracing*
 
 The previous version provided logging behind a feature flag. The log crate has been removed and replaced with tracing. Tracing has been instrumented for all public functions. Tracing is enabled by selected the "trace" feature.
@@ -576,7 +576,6 @@ Tracing is enabled at the info logging level for public methods. Additional trac
 
 The trace crates log feature is enabled so that log records are
 emitted if a tracing subscriber is not found.
-
 ### Changed
 
 - Rename user_ip and site_key to conform to Hcaptcha API documentation (remoteip and sitekey)
@@ -812,7 +811,9 @@ emitted if a tracing subscriber is not found.
 [#1209]: https://github.com/jerus-org/hcaptcha-rs/pull/1209
 [#1210]: https://github.com/jerus-org/hcaptcha-rs/pull/1210
 [#1211]: https://github.com/jerus-org/hcaptcha-rs/pull/1211
-[2.8.10]: https://github.com/jerus-org/hcaptcha-rs/compare/v2.8.9...hcaptcha-v2.8.10
+[#1213]: https://github.com/jerus-org/hcaptcha-rs/pull/1213
+[Unreleased]: https://github.com/jerus-org/hcaptcha-rs/compare/v2.8.10...HEAD
+[2.8.10]: https://github.com/jerus-org/hcaptcha-rs/compare/v2.8.9...v2.8.10
 [2.8.9]: https://github.com/jerus-org/hcaptcha-rs/compare/v2.8.8...v2.8.9
 [2.8.8]: https://github.com/jerus-org/hcaptcha-rs/compare/v2.8.7...v2.8.8
 [2.8.7]: https://github.com/jerus-org/hcaptcha-rs/compare/v2.8.6...v2.8.7
