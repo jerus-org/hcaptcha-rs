@@ -5,7 +5,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [2.8.10] - 2024-12-07
+
+### Fixed
+
+- deps: update rust crate clap-verbosity-flag to 3.0.1(pr [#1205])
+- deps: update tracing packages(pr [#1206])
+- deps: update github/codeql-action action to v3.27.6(pr [#1208])
+- deps: update rust crate clap to 4.5.23(pr [#1209])
+- deps: update rust crate syn to 2.0.90(pr [#1210])
+- deps: update rust crate thiserror to 2.0.4(pr [#1211])
+
+## [2.8.9] - 2024-11-23
 
 ### Added
 
