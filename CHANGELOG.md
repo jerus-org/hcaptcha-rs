@@ -21,6 +21,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Ver3/1199 update documentation(pr [#1201])
 - test-additional tests to improve code coverage(pr [#1204])
 - BREAKING: docs-update README with breaking changes for version 3.0.0(pr [#1207])
+- Merge github.com:jerus-org/hcaptcha-rs into 1191-version-30(pr [#1213])
+
+## [2.8.10] - 2024-12-07
+
+### Fixed
+
+- deps: update rust crate clap-verbosity-flag to 3.0.1(pr [#1205])
+- deps: update tracing packages(pr [#1206])
+- deps: update github/codeql-action action to v3.27.6(pr [#1208])
+- deps: update rust crate clap to 4.5.23(pr [#1209])
+- deps: update rust crate syn to 2.0.90(pr [#1210])
+- deps: update rust crate thiserror to 2.0.4(pr [#1211])
+
+## [2.8.9] - 2024-11-23
 
 ### Fixed
 
@@ -791,7 +805,16 @@ emitted if a tracing subscriber is not found.
 [#1204]: https://github.com/jerus-org/hcaptcha-rs/pull/1204
 [#1207]: https://github.com/jerus-org/hcaptcha-rs/pull/1207
 [#1212]: https://github.com/jerus-org/hcaptcha-rs/pull/1212
-[Unreleased]: https://github.com/jerus-org/hcaptcha-rs/compare/v2.8.8...HEAD
+[#1205]: https://github.com/jerus-org/hcaptcha-rs/pull/1205
+[#1206]: https://github.com/jerus-org/hcaptcha-rs/pull/1206
+[#1208]: https://github.com/jerus-org/hcaptcha-rs/pull/1208
+[#1209]: https://github.com/jerus-org/hcaptcha-rs/pull/1209
+[#1210]: https://github.com/jerus-org/hcaptcha-rs/pull/1210
+[#1211]: https://github.com/jerus-org/hcaptcha-rs/pull/1211
+[#1213]: https://github.com/jerus-org/hcaptcha-rs/pull/1213
+[Unreleased]: https://github.com/jerus-org/hcaptcha-rs/compare/v2.8.10...HEAD
+[2.8.10]: https://github.com/jerus-org/hcaptcha-rs/compare/v2.8.9...v2.8.10
+[2.8.9]: https://github.com/jerus-org/hcaptcha-rs/compare/v2.8.8...v2.8.9
 [2.8.8]: https://github.com/jerus-org/hcaptcha-rs/compare/v2.8.7...v2.8.8
 [2.8.7]: https://github.com/jerus-org/hcaptcha-rs/compare/v2.8.6...v2.8.7
 [2.8.6]: https://github.com/jerus-org/hcaptcha-rs/compare/v2.8.5...v2.8.6

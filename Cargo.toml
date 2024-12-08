@@ -25,8 +25,8 @@ publish = false
 async-trait = "0.1.83"
 chrono = "0.4.38"
 claims = "0.8.0"
-clap = "4.5.21"
-clap-verbosity-flag = "3.0.0"
+clap = "4.5.23"
+clap-verbosity-flag = "3.0.1"
 color-eyre = "0.6.3"
 env_logger = "0.11.5"
 hex = "0.4.3"
@@ -48,22 +48,22 @@ serde_json = "1.0.133"
 serde_urlencoded = "0.7.1"
 serde = { version = "1.0.215", features = ["derive"] }
 simple_logger = "5.0.0"
-syn = { version = "2.0.89", features = ["extra-traits"] }
-thiserror = "2.0.3"
+syn = { version = "2.0.90", features = ["extra-traits"] }
+thiserror = "2.0.4"
 tokio = { version = "1.41.1", features = ["rt", "macros"] }
-tracing = { version = "0.1.40", features = ["log", "attributes"] }
+tracing = { version = "0.1.41", features = ["log", "attributes"] }
 tracing-appender = "0.2.3"
-tracing-bunyan-formatter = "0.3.9"
+tracing-bunyan-formatter = "0.3.10"
 tracing-log = "0.2.0"
-tracing-subscriber = { version = "0.3.18", features = ["env-filter"] }
+tracing-subscriber = { version = "0.3.19", features = ["env-filter"] }
 tracing-test = "0.2.5"
+wiremock = "0.6.2"
 trybuild = "1.0.101"
 uuid = { version = "1.11.0", features = ["v4"] }
 url = "2.5.3"
 wasm-bindgen = "0.2.95"
 wasm-bindgen-futures = "0.4.45"
 wasm-bindgen-test = "0.3.45"
-wiremock = "0.6.2"
 
 
 [profile.release]
