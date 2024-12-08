@@ -23,43 +23,44 @@ publish = false
 
 [workspace.dependencies]
 async-trait = "0.1.83"
+chrono = "0.4.38"
+claims = "0.8.0"
+clap = "4.5.23"
+clap-verbosity-flag = "3.0.1"
+color-eyre = "0.6.3"
+env_logger = "0.11.5"
 hex = "0.4.3"
+itertools = "0.13.0"
+lambda_runtime = "0.13.0"
+log = "0.4.22"
+macrotest = "1.0.13"
+mockd = { version = "0.4.29", features = ["internet", "unique", "words"] }
+proc-macro2 = "1.0.92"
+proc-macro-error2 = "2.0.1"
+quote = "1.0.37"
+rand = "0.8.5"
 reqwest = { version = "0.12.9", default-features = false, features = [
     "json",
     "http2",
 ] }
+rocket = { version = "0.5.1", features = ["json"] }
 serde_json = "1.0.133"
 serde_urlencoded = "0.7.1"
 serde = { version = "1.0.215", features = ["derive"] }
-thiserror = "2.0.4"
-tracing = { version = "0.1.41", features = ["log", "attributes"] }
-uuid = { version = "1.11.0", features = ["v4"] }
-url = "2.5.3"
-chrono = "0.4.38"
-claims = "0.8.0"
-mockd = { version = "0.4.29", features = ["internet", "unique", "words"] }
-itertools = "0.13.0"
-lambda_runtime = "0.13.0"
-log = "0.4.22"
-rand = "0.8.5"
-tokio = { version = "1.41.1", features = ["rt", "macros"] }
 simple_logger = "5.0.0"
+syn = { version = "2.0.90", features = ["extra-traits"] }
+thiserror = "2.0.4"
+tokio = { version = "1.41.1", features = ["rt", "macros"] }
+tracing = { version = "0.1.41", features = ["log", "attributes"] }
 tracing-appender = "0.2.3"
 tracing-bunyan-formatter = "0.3.10"
 tracing-log = "0.2.0"
 tracing-subscriber = { version = "0.3.19", features = ["env-filter"] }
 tracing-test = "0.2.5"
 wiremock = "0.6.2"
-syn = { version = "2.0.90", features = ["extra-traits"] }
-quote = "1.0.37"
-proc-macro2 = "1.0.92"
-proc-macro-error2 = "2.0.1"
-clap = "4.5.23"
-clap-verbosity-flag = "3.0.1"
-color-eyre = "0.6.3"
 trybuild = "1.0.101"
-env_logger = "0.11.5"
-rocket = { version = "0.5.1", features = ["json"] }
+uuid = { version = "1.11.0", features = ["v4"] }
+url = "2.5.3"
 wasm-bindgen = "0.2.95"
 wasm-bindgen-futures = "0.4.45"
 wasm-bindgen-test = "0.3.45"

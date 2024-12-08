@@ -23,7 +23,7 @@ include = [
 ]
 
 [features]
-default = ["ext", "nativetls-backend"]
+default = ["ext", "rustls-backend"]
 rustls-backend = ["reqwest/rustls-tls"]
 nativetls-backend = ["reqwest/native-tls"]
 ext = ["hex"]

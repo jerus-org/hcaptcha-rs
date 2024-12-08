@@ -1,17 +1,17 @@
 //! Structure to capture the response from the hcaptcha api
 //!
-//! # Example
+//! ## Example
 //!
 //! ```no_run
-//! #   use hcaptcha::{HcaptchaRequest, HcaptchaClient};
+//! #   use hcaptcha::{Request, Client};
 //! # #[tokio::main]
-//! # async fn main() -> Result<(), hcaptcha::HcaptchaError> {
-//! # let request = HcaptchaRequest::new(
+//! # async fn main() -> Result<(), hcaptcha::Error> {
+//! # let request = Request::new(
 //! #    "0x123456789abcedf0123456789abcdef012345678",
 //! #    get_captcha(),
 //! # )?;
-//! # let client = HcaptchaClient::new();
-//!     let response = client.verify_client_response(request).await?;
+//! # let client = Client::new();
+//!     let response = client.verify(request).await?;
 //!
 //!     if let Some(timestamp) = response.timestamp() {
 //!         println!("Timestamp: {}", timestamp);
@@ -34,7 +34,7 @@
 //!
 //! # Ok(())
 //! # }
-//! # use hcaptcha::HcaptchaCaptcha;
+//! # use hcaptcha::Captcha;
 //! # use rand::distributions::Alphanumeric;
 //! # use rand::{thread_rng, Rng};
 //! # use std::iter;
@@ -46,8 +46,8 @@
 //! #        .take(100)
 //! #        .collect()
 //! # }
-//! # fn get_captcha() -> HcaptchaCaptcha {
-//! #    HcaptchaCaptcha::new(&random_response())
+//! # fn get_captcha() -> Captcha {
+//! #    Captcha::new(&random_response())
 //! #       .unwrap()
 //! #       .set_remoteip(&mockd::internet::ipv4_address())
 //! #       .unwrap()
@@ -57,7 +57,7 @@
 
 //! ```
 use crate::Code;
-use crate::HcaptchaError;
+use crate::Error;
 use serde::Deserialize;
 use std::collections::HashSet;
 use std::fmt;
@@ -67,7 +67,7 @@ type Score = f32;
 /// Result from call to verify the client's response
 #[cfg_attr(docsrs, allow(rustdoc::missing_doc_code_examples))]
 #[derive(Debug, Default, Deserialize, Clone)]
-pub struct HcaptchaResponse {
+pub struct Response {
     /// verification status: true or false.
     ///
     /// Successful verification may have additional information.
@@ -96,7 +96,7 @@ pub struct HcaptchaResponse {
 
 #[cfg_attr(docsrs, allow(rustdoc::missing_doc_code_examples))]
 #[cfg(feature = "enterprise")]
-impl fmt::Display for HcaptchaResponse {
+impl fmt::Display for Response {
     #[cfg_attr(docsrs, allow(rustdoc::missing_doc_code_examples))]
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         write!(
@@ -140,7 +140,7 @@ impl fmt::Display for HcaptchaResponse {
 }
 
 #[cfg(not(feature = "enterprise"))]
-impl fmt::Display for HcaptchaResponse {
+impl fmt::Display for Response {
     #[cfg_attr(docsrs, allow(rustdoc::missing_doc_code_examples))]
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         write!(
@@ -174,17 +174,17 @@ impl fmt::Display for HcaptchaResponse {
 }
 
 #[cfg_attr(docsrs, allow(rustdoc::missing_doc_code_examples))]
-impl HcaptchaResponse {
-    /// Check success of API call and return HcaptchaError
+impl Response {
+    /// Check success of API call and return Error
     /// with the error codes if not successful.
-    pub(crate) fn check_error(&self) -> Result<(), HcaptchaError> {
+    pub(crate) fn check_error(&self) -> Result<(), Error> {
         if !self.success() {
             match &self.error_codes {
-                Some(codes) => Err(HcaptchaError::Codes(codes.clone())),
+                Some(codes) => Err(Error::Codes(codes.clone())),
                 None => {
                     let mut codes = HashSet::new();
                     codes.insert(Code::Unknown("No error codes returned".to_owned()));
-                    Err(HcaptchaError::Codes(codes))
+                    Err(Error::Codes(codes))
                 }
             }
         } else {
@@ -196,19 +196,19 @@ impl HcaptchaResponse {
     ///
     /// # Example
     /// ```no_run
-    /// #   use hcaptcha::{HcaptchaRequest, HcaptchaClient};
+    /// #   use hcaptcha::{Request, Client};
     /// # #[tokio::main]
-    /// # async fn main() -> Result<(), hcaptcha::HcaptchaError> {
-    /// # let request = HcaptchaRequest::new(
+    /// # async fn main() -> Result<(), hcaptcha::Error> {
+    /// # let request = Request::new(
     /// #    "0x123456789abcedf0123456789abcdef012345678",
     /// #    get_captcha(),
     /// # )?;
-    /// # let client = HcaptchaClient::new();
-    ///     let response = client.verify_client_response(request).await?;
+    /// # let client = Client::new();
+    ///     let response = client.verify(request).await?;
     ///     println!("Success returns true: {}", response.success());
     /// # Ok(())
     /// # }
-    /// # use hcaptcha::HcaptchaCaptcha;
+    /// # use hcaptcha::Captcha;
     /// # use rand::distributions::Alphanumeric;
     /// # use rand::{thread_rng, Rng};
     /// # use std::iter;
@@ -220,8 +220,8 @@ impl HcaptchaResponse {
     /// #        .take(100)
     /// #        .collect()
     /// # }
-    /// # fn get_captcha() -> HcaptchaCaptcha {
-    /// #    HcaptchaCaptcha::new(&random_response())
+    /// # fn get_captcha() -> Captcha {
+    /// #    Captcha::new(&random_response())
     /// #       .unwrap()
     /// #       .set_remoteip(&mockd::internet::ipv4_address())
     /// #       .unwrap()
@@ -238,22 +238,22 @@ impl HcaptchaResponse {
     ///
     /// # Example
     /// ```no_run
-    /// #   use hcaptcha::{HcaptchaRequest, HcaptchaClient};
+    /// #   use hcaptcha::{Request, Client};
     /// # #[tokio::main]
-    /// # async fn main() -> Result<(), hcaptcha::HcaptchaError> {
-    /// # let request = HcaptchaRequest::new(
+    /// # async fn main() -> Result<(), hcaptcha::Error> {
+    /// # let request = Request::new(
     /// #    "0x123456789abcedf0123456789abcdef012345678",
     /// #    get_captcha(),
     /// # )?;
-    /// # let client = HcaptchaClient::new();
-    ///     let response = client.verify_client_response(request).await?;
+    /// # let client = Client::new();
+    ///     let response = client.verify(request).await?;
     ///
     ///     if let Some(hostname) = response.hostname() {
     ///         println!("Timestamp: {}", hostname);
     ///     };
     /// # Ok(())
     /// # }
-    /// # use hcaptcha::HcaptchaCaptcha;
+    /// # use hcaptcha::Captcha;
     /// # use rand::distributions::Alphanumeric;
     /// # use rand::{thread_rng, Rng};
     /// # use std::iter;
@@ -265,8 +265,8 @@ impl HcaptchaResponse {
     /// #        .take(100)
     /// #        .collect()
     /// # }
-    /// # fn get_captcha() -> HcaptchaCaptcha {
-    /// #    HcaptchaCaptcha::new(&random_response())
+    /// # fn get_captcha() -> Captcha {
+    /// #    Captcha::new(&random_response())
     /// #       .unwrap()
     /// #       .set_remoteip(&mockd::internet::ipv4_address())
     /// #       .unwrap()
@@ -283,22 +283,22 @@ impl HcaptchaResponse {
     ///
     /// # Example
     /// ```no_run
-    /// #   use hcaptcha::{HcaptchaRequest, HcaptchaClient};
+    /// #   use hcaptcha::{Request, Client};
     /// # #[tokio::main]
-    /// # async fn main() -> Result<(), hcaptcha::HcaptchaError> {
-    /// # let request = HcaptchaRequest::new(
+    /// # async fn main() -> Result<(), hcaptcha::Error> {
+    /// # let request = Request::new(
     /// #    "0x123456789abcedf0123456789abcdef012345678",
     /// #    get_captcha(),
     /// # )?;
-    /// # let client = HcaptchaClient::new();
-    ///     let response = client.verify_client_response(request).await?;
+    /// # let client = Client::new();
+    ///     let response = client.verify(request).await?;
     ///
     ///     if let Some(timestamp) = response.timestamp() {
     ///         println!("Timestamp: {}", timestamp);
     ///     };
     /// # Ok(())
     /// # }
-    /// # use hcaptcha::HcaptchaCaptcha;
+    /// # use hcaptcha::Captcha;
     /// # use rand::distributions::Alphanumeric;
     /// # use rand::{thread_rng, Rng};
     /// # use std::iter;
@@ -310,8 +310,8 @@ impl HcaptchaResponse {
     /// #        .take(100)
     /// #        .collect()
     /// # }
-    /// # fn get_captcha() -> HcaptchaCaptcha {
-    /// #    HcaptchaCaptcha::new(&random_response())
+    /// # fn get_captcha() -> Captcha {
+    /// #    Captcha::new(&random_response())
     /// #       .unwrap()
     /// #       .set_remoteip(&mockd::internet::ipv4_address())
     /// #       .unwrap()
@@ -328,15 +328,15 @@ impl HcaptchaResponse {
     ///
     /// # Example
     /// ```no_run
-    /// #   use hcaptcha::{HcaptchaRequest, HcaptchaClient};
+    /// #   use hcaptcha::{Request, Client};
     /// # #[tokio::main]
-    /// # async fn main() -> Result<(), hcaptcha::HcaptchaError> {
-    /// # let request = HcaptchaRequest::new(
+    /// # async fn main() -> Result<(), hcaptcha::Error> {
+    /// # let request = Request::new(
     /// #    "0x123456789abcedf0123456789abcdef012345678",
     /// #    get_captcha(),
     /// # )?;
-    /// # let client = HcaptchaClient::new();
-    ///     let response = client.verify_client_response(request).await?;
+    /// # let client = Client::new();
+    ///     let response = client.verify(request).await?;
     ///
     ///     if let Some(credit) = response.credit() {
     ///         println!("Timestamp: {}", credit);
@@ -344,7 +344,7 @@ impl HcaptchaResponse {
     ///
     /// # Ok(())
     /// # }
-    /// # use hcaptcha::HcaptchaCaptcha;
+    /// # use hcaptcha::Captcha;
     /// # use rand::distributions::Alphanumeric;
     /// # use rand::{thread_rng, Rng};
     /// # use std::iter;
@@ -356,8 +356,8 @@ impl HcaptchaResponse {
     /// #        .take(100)
     /// #        .collect()
     /// # }
-    /// # fn get_captcha() -> HcaptchaCaptcha {
-    /// #    HcaptchaCaptcha::new(&random_response())
+    /// # fn get_captcha() -> Captcha {
+    /// #    Captcha::new(&random_response())
     /// #       .unwrap()
     /// #       .set_remoteip(&mockd::internet::ipv4_address())
     /// #       .unwrap()
@@ -374,15 +374,15 @@ impl HcaptchaResponse {
     ///
     /// # Example
     /// ```no_run
-    /// #   use hcaptcha::{HcaptchaRequest, HcaptchaClient};
+    /// #   use hcaptcha::{Request, Client};
     /// # #[tokio::main]
-    /// # async fn main() -> Result<(), hcaptcha::HcaptchaError> {
-    /// # let request = HcaptchaRequest::new(
+    /// # async fn main() -> Result<(), hcaptcha::Error> {
+    /// # let request = Request::new(
     /// #    "0x123456789abcedf0123456789abcdef012345678",
     /// #    get_captcha(),
     /// # )?;
-    /// # let client = HcaptchaClient::new();
-    ///     let response = client.verify_client_response(request).await?;
+    /// # let client = Client::new();
+    ///     let response = client.verify(request).await?;
     ///
     ///     if let Some(error_codes) = response.error_codes() {
     ///         println!("Error Codes: {:?}", error_codes);
@@ -390,7 +390,7 @@ impl HcaptchaResponse {
     ///
     /// # Ok(())
     /// # }
-    /// # use hcaptcha::HcaptchaCaptcha;
+    /// # use hcaptcha::Captcha;
     /// # use rand::distributions::Alphanumeric;
     /// # use rand::{thread_rng, Rng};
     /// # use std::iter;
@@ -402,8 +402,8 @@ impl HcaptchaResponse {
     /// #        .take(100)
     /// #        .collect()
     /// # }
-    /// # fn get_captcha() -> HcaptchaCaptcha {
-    /// #    HcaptchaCaptcha::new(&random_response())
+    /// # fn get_captcha() -> Captcha {
+    /// #    Captcha::new(&random_response())
     /// #       .unwrap()
     /// #       .set_remoteip(&mockd::internet::ipv4_address())
     /// #       .unwrap()
@@ -419,15 +419,15 @@ impl HcaptchaResponse {
     ///
     /// # Example
     /// ```no_run
-    /// #   use hcaptcha::{HcaptchaRequest, HcaptchaClient};
+    /// #   use hcaptcha::{Request, Client};
     /// # #[tokio::main]
-    /// # async fn main() -> Result<(), hcaptcha::HcaptchaError> {
-    /// # let request = HcaptchaRequest::new(
+    /// # async fn main() -> Result<(), hcaptcha::Error> {
+    /// # let request = Request::new(
     /// #    "0x123456789abcedf0123456789abcdef012345678",
     /// #    get_captcha(),
     /// # )?;
-    /// # let client = HcaptchaClient::new();
-    ///     let response = client.verify_client_response(request).await?;
+    /// # let client = Client::new();
+    ///     let response = client.verify(request).await?;
     ///
     ///     if let Some(score) = response.score() {
     ///         println!("Score: {}", score);
@@ -435,7 +435,7 @@ impl HcaptchaResponse {
     ///
     /// # Ok(())
     /// # }
-    /// # use hcaptcha::HcaptchaCaptcha;
+    /// # use hcaptcha::Captcha;
     /// # use rand::distributions::Alphanumeric;
     /// # use rand::{thread_rng, Rng};
     /// # use std::iter;
@@ -447,8 +447,8 @@ impl HcaptchaResponse {
     /// #        .take(100)
     /// #        .collect()
     /// # }
-    /// # fn get_captcha() -> HcaptchaCaptcha {
-    /// #    HcaptchaCaptcha::new(&random_response())
+    /// # fn get_captcha() -> Captcha {
+    /// #    Captcha::new(&random_response())
     /// #       .unwrap()
     /// #       .set_remoteip(&mockd::internet::ipv4_address())
     /// #       .unwrap()
@@ -467,15 +467,15 @@ impl HcaptchaResponse {
     ///
     /// # Example
     /// ```no_run
-    /// #   use hcaptcha::{HcaptchaRequest, HcaptchaClient};
+    /// #   use hcaptcha::{Request, Client};
     /// # #[tokio::main]
-    /// # async fn main() -> Result<(), hcaptcha::HcaptchaError> {
-    /// # let request = HcaptchaRequest::new(
+    /// # async fn main() -> Result<(), hcaptcha::Error> {
+    /// # let request = Request::new(
     /// #    "0x123456789abcedf0123456789abcdef012345678",
     /// #    get_captcha(),
     /// # )?;
-    /// # let client = HcaptchaClient::new();
-    ///     let response = client.verify_client_response(request).await?;
+    /// # let client = Client::new();
+    ///     let response = client.verify(request).await?;
     ///
     ///     if let Some(score_reason) = response.score_reason() {
     ///         println!("Score reasons: {:?}", score_reason);
@@ -483,7 +483,7 @@ impl HcaptchaResponse {
     ///
     /// # Ok(())
     /// # }
-    /// # use hcaptcha::HcaptchaCaptcha;
+    /// # use hcaptcha::Captcha;
     /// # use rand::distributions::Alphanumeric;
     /// # use rand::{thread_rng, Rng};
     /// # use std::iter;
@@ -495,8 +495,8 @@ impl HcaptchaResponse {
     /// #        .take(100)
     /// #        .collect()
     /// # }
-    /// # fn get_captcha() -> HcaptchaCaptcha {
-    /// #    HcaptchaCaptcha::new(&random_response())
+    /// # fn get_captcha() -> Captcha {
+    /// #    Captcha::new(&random_response())
     /// #       .unwrap()
     /// #       .set_remoteip(&mockd::internet::ipv4_address())
     /// #       .unwrap()
@@ -514,7 +514,9 @@ impl HcaptchaResponse {
 
 #[cfg(test)]
 mod tests {
-    use crate::HcaptchaResponse;
+    use std::collections::HashSet;
+
+    use crate::{Code, Error, Response};
     use serde_json::json;
 
     #[test]
@@ -526,7 +528,7 @@ mod tests {
             "error-codes": ["missing-input-secret", "foo"],
             "hostname": "hostname"
         });
-        let response: HcaptchaResponse = serde_json::from_value(response).unwrap();
+        let response: Response = serde_json::from_value(response).unwrap();
 
         assert!(response.success);
         assert!(response.error_codes.is_some());
@@ -537,7 +539,7 @@ mod tests {
         assert!(errors.contains(&Unknown("foo".to_string())));
     }
 
-    fn test_response() -> HcaptchaResponse {
+    fn test_response() -> Response {
         let response = json!({
             "success": true,
             "challenge_ts": "2020-11-11T23:27:00Z",
@@ -621,7 +623,7 @@ mod tests {
             "error-codes": ["missing-input-secret", "foo"],
             "hostname": "hostname"
         });
-        let response: HcaptchaResponse = serde_json::from_value(response).unwrap();
+        let response: Response = serde_json::from_value(response).unwrap();
 
         assert!(response.success);
         assert!(response.error_codes.is_some());
@@ -641,7 +643,7 @@ mod tests {
             "error-codes": ["missing-input-secret", "foo"],
             "hostname": "hostname"
         });
-        let response: HcaptchaResponse = serde_json::from_value(response).unwrap();
+        let response: Response = serde_json::from_value(response).unwrap();
 
         let errors = response.error_codes.unwrap();
         assert!(errors.contains(&MissingSecret));
@@ -655,8 +657,143 @@ mod tests {
             "error-codes": ["missing-input-secret", "foo"],
             "hostname": "hostname"
         });
-        let response: HcaptchaResponse = serde_json::from_value(response).unwrap();
+        let response: Response = serde_json::from_value(response).unwrap();
 
         assert!(response.success);
+    }
+
+    #[cfg(feature = "enterprise")]
+    #[test]
+    fn test_display_format_enterprise() {
+        {
+            let mut codes = HashSet::new();
+            codes.insert(Code::MissingSecret);
+            let mut reasons = HashSet::new();
+            reasons.insert("reason1".to_string());
+
+            let response = Response {
+                success: true,
+                challenge_ts: Some("2023-01-01T00:00:00Z".to_string()),
+                hostname: Some("test.com".to_string()),
+                credit: Some(true),
+                error_codes: Some(codes),
+                score: Some(0.9),
+                score_reason: Some(reasons),
+            };
+
+            let formatted = format!("{}", response);
+            println!("{}", formatted);
+            assert!(formatted.contains("Status:         true"));
+            assert!(formatted.contains("Timestamp:      2023-01-01T00:00:00Z"));
+            assert!(formatted.contains("Hostname:       test.com"));
+            assert!(formatted.contains("Credit:         true"));
+            assert!(formatted.contains(r#"Error Codes:    {MissingSecret}"#));
+            assert!(formatted.contains("Score:          0.9"));
+            assert!(formatted.contains(r#"Score Reason:   {"reason1"}"#));
+        }
+    }
+
+    #[cfg(not(feature = "enterprise"))]
+    #[test]
+    fn test_display_format_non_enterprise() {
+        {
+            let mut codes = HashSet::new();
+            codes.insert(Code::MissingSecret);
+
+            let response = Response {
+                success: false,
+                challenge_ts: Some("2023-01-01T00:00:00Z".to_string()),
+                hostname: Some("test.com".to_string()),
+                credit: Some(false),
+                error_codes: Some(codes),
+                score: None,
+                score_reason: None,
+            };
+
+            let formatted = format!("{}", response);
+            assert!(formatted.contains("Status:         false"));
+            assert!(formatted.contains("Timestamp:      2023-01-01T00:00:00Z"));
+            assert!(formatted.contains("Hostname:       test.com"));
+            assert!(formatted.contains("Credit:         false"));
+            assert!(formatted.contains(r#"Error Codes:    {MissingSecret}"#));
+        }
+    }
+
+    #[test]
+    fn test_display_format_empty_fields() {
+        let response = Response {
+            success: true,
+            challenge_ts: None,
+            hostname: None,
+            credit: None,
+            error_codes: None,
+            score: None,
+            score_reason: None,
+        };
+
+        let formatted = format!("{}", response);
+        assert!(formatted.contains("Status:         true"));
+        assert!(formatted.contains("Timestamp:      "));
+        assert!(formatted.contains("Hostname:       "));
+        assert!(formatted.contains("Credit:         "));
+        assert!(formatted.contains("Error Codes:    "));
+    }
+
+    #[test]
+    fn test_check_error_success() {
+        let response = Response {
+            success: true,
+            challenge_ts: None,
+            hostname: None,
+            credit: None,
+            error_codes: None,
+            score: None,
+            score_reason: None,
+        };
+        assert!(response.check_error().is_ok());
+    }
+
+    #[test]
+    fn test_check_error_with_codes() {
+        let mut error_codes = HashSet::new();
+        error_codes.insert(Code::MissingResponse);
+        let response = Response {
+            success: false,
+            challenge_ts: None,
+            hostname: None,
+            credit: None,
+            error_codes: Some(error_codes.clone()),
+            score: None,
+            score_reason: None,
+        };
+        match response.check_error() {
+            Err(Error::Codes(codes)) => {
+                assert_eq!(codes, error_codes);
+            }
+            _ => unreachable!(),
+        }
+    }
+
+    #[test]
+    fn test_check_error_without_codes() {
+        let response = Response {
+            success: false,
+            challenge_ts: None,
+            hostname: None,
+            credit: None,
+            error_codes: None,
+            score: None,
+            score_reason: None,
+        };
+
+        match response.check_error() {
+            Err(Error::Codes(codes)) => {
+                assert_eq!(codes.len(), 1);
+                assert!(codes.iter().any(
+                    |code| matches!(code, Code::Unknown(msg) if msg == "No error codes returned")
+                ));
+            }
+            _ => unreachable!(),
+        }
     }
 }

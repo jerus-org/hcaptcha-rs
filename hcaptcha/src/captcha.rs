@@ -2,15 +2,15 @@
 //! hcaptcha api request.
 //!
 //! # Example
-//! Create HcaptchaCaptcha struct from the body of JSON submitted as an event.
+//! Create Captcha struct from the body of JSON submitted as an event.
 //! ```no_run
-//!     use hcaptcha::HcaptchaCaptcha;
+//!     use hcaptcha::Captcha;
 //! # #[derive(serde::Deserialize, serde::Serialize, Clone, Debug, Default)]
 //! # pub struct CustomEvent {
 //! #   body: Option<String>,
 //! # }
 //! # #[tokio::main]
-//! # async fn main() -> Result<(), hcaptcha::HcaptchaError> {
+//! # async fn main() -> Result<(), hcaptcha::Error> {
 //! # let e = CustomEvent {
 //! #         body: Some("{\"response\":\"thisisthelonglistofcharactersthatformsaresponse\",\"remoteip\":\"10.10.20.10\"}".to_owned()),
 // //! #         body: None,
@@ -18,28 +18,28 @@
 //!     // Create captcha struct from json string provided by client in
 //!     // the body of the http post that submitted a form.
 //!     let body_str = e.body.unwrap_or_else(|| "".to_owned());
-//!     let captcha: HcaptchaCaptcha = serde_json::from_str(&body_str)?;
+//!     let captcha: Captcha = serde_json::from_str(&body_str)?;
 //!
 //!  # Ok(())
 //! # }
 //! ```
 
-use crate::domain::{HcaptchaClientResponse, HcaptchaRemoteip, HcaptchaSitekey};
-use crate::HcaptchaError;
+use crate::domain::{ClientResponse, Remoteip, Sitekey};
+use crate::Error;
 
 /// Capture the Hcaptcha data coming from the client.
 #[derive(Debug, Default, Clone, serde::Serialize, serde::Deserialize)]
-pub struct HcaptchaCaptcha {
+pub struct Captcha {
     /// The response string collected by client from Hcaptcha.
-    pub(crate) response: HcaptchaClientResponse,
+    pub(crate) response: ClientResponse,
     /// The remoteip of the client submitting the request.
-    pub(crate) remoteip: Option<HcaptchaRemoteip>,
+    pub(crate) remoteip: Option<Remoteip>,
     /// The sitekey submitted to Hcaptcha by the client.
-    pub(crate) sitekey: Option<HcaptchaSitekey>,
+    pub(crate) sitekey: Option<Sitekey>,
 }
 
-impl HcaptchaCaptcha {
-    /// Create a new HcaptchaCaptcha from a response string slice.
+impl Captcha {
+    /// Create a new Captcha from a response string slice.
     ///
     /// # Input
     ///
@@ -47,13 +47,13 @@ impl HcaptchaCaptcha {
     ///
     /// # Output
     ///
-    /// The HcaptchaCaptcha is returned if the input is valid.
-    /// A [HcaptchaError] is returned if the validation fails.
+    /// The Captcha is returned if the input is valid.
+    /// A [Error] is returned if the validation fails.
     ///
     /// # Example
-    /// Create HcaptchaCaptcha from response key.
+    /// Create Captcha from response key.
     /// ```no_run
-    ///     use hcaptcha::HcaptchaCaptcha;
+    ///     use hcaptcha::Captcha;
     /// # #[derive(serde::Deserialize, serde::Serialize, Clone, Debug, Default)]
     /// # struct CustomEvent {
     /// #   body: Option<String>,
@@ -68,7 +68,7 @@ impl HcaptchaCaptcha {
     /// #   response: String,
     /// # }
     /// # #[tokio::main]
-    /// # async fn main() -> Result<(), hcaptcha::HcaptchaError> {
+    /// # async fn main() -> Result<(), hcaptcha::Error> {
     /// # let e = CustomEvent {
     /// #         body: Some("{\"response\":\"thisisthelonglistofcharactersthatformsaresponse\",\"remoteip\":\"10.10.20.10\"}".to_owned()),
     // //! #         body: None,
@@ -78,7 +78,7 @@ impl HcaptchaCaptcha {
     ///     // Get the form data from the body string.
     ///     let form: Form = serde_json::from_str(&body_str)?;
     ///
-    ///     let captcha = HcaptchaCaptcha::new(&form.response)?;
+    ///     let captcha = Captcha::new(&form.response)?;
     ///  # Ok(())
     /// # }
     ///
@@ -91,20 +91,17 @@ impl HcaptchaCaptcha {
     #[allow(dead_code)]
     #[cfg_attr(
         feature = "trace",
-        tracing::instrument(
-            name = "Create new HcaptchaCaptcha from a response string.",
-            level = "debug"
-        )
+        tracing::instrument(name = "Create new Captcha from a response string.", level = "debug")
     )]
-    pub fn new(response: &str) -> Result<Self, HcaptchaError> {
-        Ok(HcaptchaCaptcha {
-            response: HcaptchaClientResponse::parse(response.to_owned())?,
+    pub fn new(response: &str) -> Result<Self, Error> {
+        Ok(Captcha {
+            response: ClientResponse::parse(response.to_owned())?,
             remoteip: None,
             sitekey: None,
         })
     }
 
-    /// Update the remoteip field in HcaptchaCaptcha.
+    /// Update the remoteip field in Captcha.
     ///
     /// # Input
     ///
@@ -115,12 +112,12 @@ impl HcaptchaCaptcha {
     /// If the remoteip string is empty the field is set to None.
     /// If the remoteip string is a valid v4 or v6 ip address the field is
     /// set to Some(remoteip).
-    /// If the remoteip string is invalid a [HcaptchaError] is returned.
+    /// If the remoteip string is invalid a [Error] is returned.
     ///
     /// # Example
     ///
     /// ```no_run
-    ///     use hcaptcha::HcaptchaCaptcha;
+    ///     use hcaptcha::Captcha;
     /// # use claims::assert_some;
     /// # #[derive(serde::Deserialize, serde::Serialize, Clone, Debug, Default)]
     /// # struct CustomEvent {
@@ -136,7 +133,7 @@ impl HcaptchaCaptcha {
     /// #   response: String,
     /// # }
     /// # #[tokio::main]
-    /// # async fn main() -> Result<(), hcaptcha::HcaptchaError> {
+    /// # async fn main() -> Result<(), hcaptcha::Error> {
     /// # let e = CustomEvent {
     /// #         body: Some("{\"response\":\"thisisthelonglistofcharactersthatformsaresponse\",\"remoteip\":\"10.10.20.10\"}".to_owned()),
     // //! #         body: None,
@@ -147,7 +144,7 @@ impl HcaptchaCaptcha {
     /// #    let form: Form = serde_json::from_str(&body_str)?;
     ///     let remoteip = get_remoteip_address();
     ///
-    ///     let captcha = HcaptchaCaptcha::new(&form.response)?
+    ///     let captcha = Captcha::new(&form.response)?
     ///                     .set_remoteip(&remoteip)?;
     ///
     ///     assert_some!(captcha.remoteip());
@@ -168,19 +165,19 @@ impl HcaptchaCaptcha {
     #[allow(dead_code)]
     #[cfg_attr(
         feature = "trace",
-        tracing::instrument(name = "Update remoteip field in HcaptchaCaptcha.", level = "debug")
+        tracing::instrument(name = "Update remoteip field in Captcha.", level = "debug")
     )]
-    pub fn set_remoteip(&mut self, remoteip: &str) -> Result<Self, HcaptchaError> {
+    pub fn set_remoteip(&mut self, remoteip: &str) -> Result<Self, Error> {
         if remoteip.is_empty() {
             self.remoteip = None;
         } else {
-            self.remoteip = Some(HcaptchaRemoteip::parse(remoteip.to_owned())?);
+            self.remoteip = Some(Remoteip::parse(remoteip.to_owned())?);
         };
 
         Ok(self.clone())
     }
 
-    /// Update the remoteip field in HcaptchaCaptcha.
+    /// Update the remoteip field in Captcha.
     ///
     /// # Input
     ///
@@ -190,12 +187,12 @@ impl HcaptchaCaptcha {
     ///
     /// If the sitekey string is empty the field is set to None.
     /// If the sitekey string is a valid uuid the field is set to Some(sitekey).
-    /// If the sitekey string is invalid a [HcaptchaError] is returned.
+    /// If the sitekey string is invalid a [Error] is returned.
     ///
     /// # Example
     ///
     /// ```no_run
-    ///     use hcaptcha::HcaptchaCaptcha;
+    ///     use hcaptcha::Captcha;
     /// # use claims::assert_some;
     /// # #[derive(serde::Deserialize, serde::Serialize, Clone, Debug, Default)]
     /// # struct CustomEvent {
@@ -211,7 +208,7 @@ impl HcaptchaCaptcha {
     /// #   response: String,
     /// # }
     /// # #[tokio::main]
-    /// # async fn main() -> Result<(), hcaptcha::HcaptchaError> {
+    /// # async fn main() -> Result<(), hcaptcha::Error> {
     /// # let e = CustomEvent {
     /// #         body: Some("{\"response\":\"thisisthelonglistofcharactersthatformsaresponse\",\"remoteip\":\"10.10.20.10\"}".to_owned()),
     // //! #         body: None,
@@ -222,7 +219,7 @@ impl HcaptchaCaptcha {
     ///     let form: Form = serde_json::from_str(&body_str)?;
     ///     let sitekey = get_sitekey();
     ///
-    ///     let captcha = HcaptchaCaptcha::new(&form.response)?
+    ///     let captcha = Captcha::new(&form.response)?
     ///                     .set_sitekey(&sitekey)?;
     ///
     ///     assert_some!(captcha.sitekey());
@@ -244,13 +241,13 @@ impl HcaptchaCaptcha {
     #[allow(dead_code)]
     #[cfg_attr(
         feature = "trace",
-        tracing::instrument(name = "Update sitekey field in HcaptchaCaptcha.", level = "debug")
+        tracing::instrument(name = "Update sitekey field in Captcha.", level = "debug")
     )]
-    pub fn set_sitekey(&mut self, sitekey: &str) -> Result<Self, HcaptchaError> {
+    pub fn set_sitekey(&mut self, sitekey: &str) -> Result<Self, Error> {
         if sitekey.is_empty() {
             self.sitekey = None;
         } else {
-            self.sitekey = Some(HcaptchaSitekey::parse(sitekey.to_owned())?);
+            self.sitekey = Some(Sitekey::parse(sitekey.to_owned())?);
         };
 
         Ok(self.clone())
@@ -265,7 +262,7 @@ impl HcaptchaCaptcha {
     /// # Example
     ///
     /// ```no_run
-    ///     use hcaptcha::HcaptchaCaptcha;
+    ///     use hcaptcha::Captcha;
     ///     let (response, captcha) = get_captcha();
     ///
     ///     assert_eq!(response, captcha.response().to_string());
@@ -282,9 +279,9 @@ impl HcaptchaCaptcha {
     /// #         .collect()
     /// # }
     /// #
-    /// # fn get_captcha() -> (String, HcaptchaCaptcha) {
+    /// # fn get_captcha() -> (String, Captcha) {
     /// #     let response = random_response();
-    /// #     let captcha = HcaptchaCaptcha::new(&response)
+    /// #     let captcha = Captcha::new(&response)
     /// #         .unwrap()
     /// #         .set_remoteip(&mockd::internet::ipv4_address())
     /// #         .unwrap()
@@ -306,7 +303,7 @@ impl HcaptchaCaptcha {
         feature = "trace",
         tracing::instrument(name = "Get response field.", level = "debug")
     )]
-    pub fn response(self) -> HcaptchaClientResponse {
+    pub fn response(self) -> ClientResponse {
         self.response
     }
 
@@ -320,7 +317,7 @@ impl HcaptchaCaptcha {
     /// # Example
     ///
     /// ```no_run
-    ///     use hcaptcha::HcaptchaCaptcha;
+    ///     use hcaptcha::Captcha;
     /// # use claims::assert_some;
     ///     let (remoteip, captcha) = get_captcha();
     ///     
@@ -343,9 +340,9 @@ impl HcaptchaCaptcha {
     /// #         .collect()
     /// # }
     /// #
-    /// # fn get_captcha() -> (String, HcaptchaCaptcha) {
+    /// # fn get_captcha() -> (String, Captcha) {
     /// #     let remoteip = mockd::internet::ipv4_address();
-    /// #     let captcha = HcaptchaCaptcha::new(&random_response())
+    /// #     let captcha = Captcha::new(&random_response())
     /// #         .unwrap()
     /// #         .set_remoteip(&remoteip)
     /// #         .unwrap()
@@ -364,7 +361,7 @@ impl HcaptchaCaptcha {
         feature = "trace",
         tracing::instrument(name = "Get remoteip field.", level = "debug")
     )]
-    pub fn remoteip(&self) -> Option<HcaptchaRemoteip> {
+    pub fn remoteip(&self) -> Option<Remoteip> {
         self.remoteip.clone()
     }
 
@@ -378,7 +375,7 @@ impl HcaptchaCaptcha {
     /// # Example
     ///
     /// ```no_run
-    ///     use hcaptcha::HcaptchaCaptcha;
+    ///     use hcaptcha::Captcha;
     /// # use claims::assert_some;
     ///     let (sitekey, captcha) = get_captcha();
     ///
@@ -401,9 +398,9 @@ impl HcaptchaCaptcha {
     /// #         .collect()
     /// # }
     /// #
-    /// # fn get_captcha() -> (String, HcaptchaCaptcha) {
+    /// # fn get_captcha() -> (String, Captcha) {
     /// #     let sitekey = mockd::unique::uuid_v4();
-    /// #     let captcha = HcaptchaCaptcha::new(&random_response())
+    /// #     let captcha = Captcha::new(&random_response())
     /// #         .unwrap()
     /// #         .set_remoteip(&mockd::internet::ipv4_address())
     /// #         .unwrap()
@@ -422,7 +419,7 @@ impl HcaptchaCaptcha {
         feature = "trace",
         tracing::instrument(name = "Get sitekey field.", level = "debug")
     )]
-    pub fn sitekey(&self) -> Option<HcaptchaSitekey> {
+    pub fn sitekey(&self) -> Option<Sitekey> {
         self.sitekey.clone()
     }
 }
@@ -445,8 +442,8 @@ mod tests {
             .collect()
     }
 
-    fn dummy_captcha() -> HcaptchaCaptcha {
-        HcaptchaCaptcha::new(&random_response())
+    fn dummy_captcha() -> Captcha {
+        Captcha::new(&random_response())
             .unwrap()
             .set_remoteip(&mockd::internet::ipv4_address())
             .unwrap()
@@ -457,24 +454,24 @@ mod tests {
     #[test]
     fn response_cannot_be_empty_or_blank() {
         let empty = "";
-        assert_err!(HcaptchaCaptcha::new(empty));
+        assert_err!(Captcha::new(empty));
         let blank = "   ";
-        assert_err!(HcaptchaCaptcha::new(blank));
+        assert_err!(Captcha::new(blank));
     }
 
     #[test]
     fn fail_if_remoteip_not_valid_v4_or_v6_address() {
-        let captcha = HcaptchaCaptcha::new("response_string")
+        let captcha = Captcha::new("response_string")
             .unwrap()
             .set_remoteip(&mockd::words::word());
         assert_err!(&captcha);
-        if let Err(HcaptchaError::Codes(hs)) = captcha {
+        if let Err(Error::Codes(hs)) = captcha {
             assert!(hs.contains(&Code::InvalidUserIp));
         }
     }
     #[test]
     fn remoteip_is_optional() {
-        let captcha = HcaptchaCaptcha::new("response_string")
+        let captcha = Captcha::new("response_string")
             .unwrap()
             .set_remoteip(&mockd::internet::ipv4_address())
             .unwrap();
@@ -484,25 +481,25 @@ mod tests {
 
     #[test]
     fn valid_user_id_is_accepted() {
-        assert_ok!(HcaptchaCaptcha::new("response_string")
+        assert_ok!(Captcha::new("response_string")
             .unwrap()
             .set_remoteip(&mockd::internet::ipv4_address()));
     }
 
     #[test]
     fn fail_if_sitekey_not_valid_uuid() {
-        let captcha = HcaptchaCaptcha::new("response_string")
+        let captcha = Captcha::new("response_string")
             .unwrap()
             .set_sitekey(&mockd::words::word());
 
         assert_err!(&captcha);
-        if let Err(HcaptchaError::Codes(hs)) = captcha {
+        if let Err(Error::Codes(hs)) = captcha {
             assert!(hs.contains(&Code::InvalidSiteKey));
         }
     }
     #[test]
     fn sitekey_is_optional() {
-        let captcha = HcaptchaCaptcha::new("response_string")
+        let captcha = Captcha::new("response_string")
             .unwrap()
             .set_sitekey(&mockd::unique::uuid_v4())
             .unwrap();
@@ -512,7 +509,7 @@ mod tests {
 
     #[test]
     fn valid_sitekey_is_accepted() {
-        let captcha = HcaptchaCaptcha::new("response_string")
+        let captcha = Captcha::new("response_string")
             .unwrap()
             .set_sitekey(&mockd::unique::uuid_v4())
             .unwrap();
@@ -540,10 +537,10 @@ mod tests {
         assert_none!(captcha.remoteip());
     }
 
-    fn get_captcha() -> (String, HcaptchaCaptcha) {
+    fn get_captcha() -> (String, Captcha) {
         let remoteip = mockd::internet::ipv4_address();
         let response = random_response();
-        let captcha = HcaptchaCaptcha::new(&response)
+        let captcha = Captcha::new(&response)
             .unwrap()
             .set_remoteip(&remoteip)
             .unwrap()

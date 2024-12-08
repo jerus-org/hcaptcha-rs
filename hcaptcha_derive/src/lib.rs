@@ -49,12 +49,12 @@
 //!     ) -> std::pin::Pin<
 //!         Box<
 //!             dyn std::future::Future<
-//!                     Output = Result<hcaptcha::HcaptchaResponse,
-//!                                     hcaptcha::HcaptchaError>,
-//!                                     > + Send,
+//!                     Output = Result<hcaptcha::Response,
+//!                                     hcaptcha::Error>,
+//!                                     >,
 //!         >,
 //!     > {
-//!         let mut client = hcaptcha::HcaptchaClient::new();
+//!         let mut client = hcaptcha::Client::new();
 //!         if let Some(u) = uri {
 //!             match client.set_url(&u) {
 //!                 Ok(c) => client = c,
@@ -65,7 +65,7 @@
 //!         };
 //!         #[allow(unused_mut)]
 //!         let mut captcha;
-//!         match hcaptcha::HcaptchaCaptcha::new(&self.hcaptcha) {
+//!         match hcaptcha::Captcha::new(&self.hcaptcha) {
 //!             Ok(c) => captcha = c,
 //!             Err(e) => {
 //!                 return Box::pin(async { Err(e) });
@@ -84,13 +84,13 @@
 //!             }
 //!         };
 //!         let request;
-//!         match hcaptcha::HcaptchaRequest::new(&secret, captcha) {
+//!         match hcaptcha::Request::new(&secret, captcha) {
 //!             Ok(r) => request = r,
 //!             Err(e) => {
 //!                 return Box::pin(async { Err(e) });
 //!             }
 //!         };
-//!         Box::pin(client.verify_client_response(request))
+//!         Box::pin(client.verify(request))
 //!     }
 //! }
 //!```
@@ -150,8 +150,8 @@ fn impl_hcaptcha(ast: &DeriveInput) -> TokenStream {
 
     let gen = quote! {
         impl #impl_generics Hcaptcha for #name #ty_generics #where_clause {
-            fn valid_response(&self, secret: &str, uri: Option<String>) -> std::pin::Pin<Box<dyn std::future::Future<Output = Result<hcaptcha::HcaptchaResponse, hcaptcha::HcaptchaError>> >>  {
-                let mut client = hcaptcha::HcaptchaClient::new();
+            fn valid_response(&self, secret: &str, uri: Option<String>) -> std::pin::Pin<Box<dyn std::future::Future<Output = Result<hcaptcha::Response, hcaptcha::Error>> >>  {
+                let mut client = hcaptcha::Client::new();
                 if let Some(u) = uri {
                         match client.set_url(&u)
                          {
@@ -166,13 +166,13 @@ fn impl_hcaptcha(ast: &DeriveInput) -> TokenStream {
                 #remoteip
                 #sitekey;
                 let request;
-                match hcaptcha::HcaptchaRequest::new(&secret, captcha) {
+                match hcaptcha::Request::new(&secret, captcha) {
                     Ok(r) => request = r,
                     Err(e) => {
                         return Box::pin(async { Err(e) } );
                     }
                 };
-                Box::pin(client.verify_client_response(request))
+                Box::pin(client.verify(request))
             }
         }
     };
@@ -235,7 +235,7 @@ fn get_required_attribute(
             quote! {
                 #[allow(unused_mut)]
                 let mut captcha;
-                match hcaptcha::HcaptchaCaptcha::new(&self.#i) {
+                match hcaptcha::Captcha::new(&self.#i) {
                     Ok(c) => captcha = c,
                     Err(e) => {
                         return Box::pin(async{Err(e)});
@@ -300,4 +300,224 @@ fn get_attributes(data_struct: &DataStruct) -> HashMap<String, &Ident> {
         .collect();
 
     attributes
+}
+
+#[cfg(test)]
+mod tests {
+    use proc_macro2::Span;
+    use quote::format_ident;
+    use std::iter::FromIterator;
+    use syn::parse::Parser;
+    use syn::{Attribute, Field, Fields, FieldsNamed};
+
+    use super::*;
+
+    #[test]
+    fn test_get_optional_attribute_with_valid_attribute() {
+        let mut attributes = HashMap::new();
+        let ident = Ident::new("test_field", Span::call_site());
+        attributes.insert("test".to_string(), &ident);
+
+        let result = get_optional_attribute(&attributes, "test", "test_method");
+
+        let expected = quote! {
+            match captcha.test_method(&self.test_field) {
+                Ok(c) => captcha = c,
+                Err(e) => {
+                    return Box::pin(async { Err(e) });
+                }
+            };
+        };
+
+        assert_eq!(result.to_string(), expected.to_string());
+    }
+
+    #[test]
+    fn test_get_optional_attribute_with_missing_attribute() {
+        let attributes = HashMap::new();
+
+        let result = get_optional_attribute(&attributes, "test", "test_method");
+
+        assert_eq!(result.to_string(), quote! {}.to_string());
+    }
+
+    #[test]
+    fn test_get_optional_attribute_with_different_method_name() {
+        let mut attributes = HashMap::new();
+        let ident = Ident::new("field", Span::call_site());
+        attributes.insert("attr".to_string(), &ident);
+
+        let result = get_optional_attribute(&attributes, "attr", "custom_method");
+
+        let expected = quote! {
+            match captcha.custom_method(&self.field) {
+                Ok(c) => captcha = c,
+                Err(e) => {
+                    return Box::pin(async { Err(e) });
+                }
+            };
+        };
+
+        assert_eq!(result.to_string(), expected.to_string());
+    }
+
+    #[test]
+    fn test_get_required_attribute_with_valid_field() {
+        let mut attributes = HashMap::new();
+        let field_ident = Ident::new("hcaptcha_field", Span::call_site());
+        let struct_ident = Ident::new("TestStruct", Span::call_site());
+
+        attributes.insert("captcha".to_string(), &field_ident);
+
+        let result = get_required_attribute(&attributes, "captcha", &struct_ident);
+        assert!(!result.is_empty());
+    }
+
+    #[test]
+    fn test_get_required_attribute_wrong_field_name() {
+        let mut attributes = HashMap::new();
+        let field_ident = Ident::new("hcaptcha_field", Span::call_site());
+        let struct_ident = Ident::new("TestStruct", Span::call_site());
+
+        attributes.insert("wrong_name".to_string(), &field_ident);
+
+        std::panic::catch_unwind(|| {
+            get_required_attribute(&attributes, "captcha", &struct_ident);
+        })
+        .expect_err("Should panic when captcha field is not found");
+    }
+
+    #[test]
+    fn test_get_required_attribute_multiple_fields() {
+        let mut attributes = HashMap::new();
+        let captcha_field = Ident::new("hcaptcha_field", Span::call_site());
+        let other_field = Ident::new("other_field", Span::call_site());
+        let struct_ident = Ident::new("TestStruct", Span::call_site());
+
+        attributes.insert("captcha".to_string(), &captcha_field);
+        attributes.insert("other".to_string(), &other_field);
+
+        let result = get_required_attribute(&attributes, "captcha", &struct_ident);
+        assert!(!result.is_empty());
+    }
+
+    #[test]
+    fn test_get_struct_data_valid_struct() {
+        let name = Ident::new("TestStruct", Span::call_site());
+        let fields = Fields::Named(FieldsNamed {
+            brace_token: Default::default(),
+            named: Default::default(),
+        });
+        let data_struct = DataStruct {
+            struct_token: Default::default(),
+            fields,
+            semi_token: None,
+        };
+        let data = Data::Struct(data_struct.clone());
+
+        let result = get_struct_data(&data, &name);
+        assert_eq!(result, &data_struct);
+    }
+
+    #[test]
+    fn test_get_attributes_empty_struct() {
+        let data_struct = DataStruct {
+            fields: Fields::Named(FieldsNamed {
+                named: Default::default(),
+                brace_token: Default::default(),
+            }),
+            struct_token: Default::default(),
+            semi_token: None,
+        };
+
+        let attributes = get_attributes(&data_struct);
+        assert!(attributes.is_empty());
+    }
+
+    #[test]
+    fn test_get_attributes_with_single_field() {
+        let ident = format_ident!("field_name");
+        let attr = Attribute::parse_outer.parse_str("#[serde]").unwrap();
+
+        let field = Field {
+            attrs: vec![attr[0].clone()],
+            vis: syn::Visibility::Inherited,
+            ident: Some(ident.clone()),
+            colon_token: None,
+            ty: syn::Type::Verbatim(proc_macro2::TokenStream::new()),
+            mutability: syn::FieldMutability::None,
+        };
+
+        let data_struct = DataStruct {
+            fields: Fields::Named(FieldsNamed {
+                named: syn::punctuated::Punctuated::from_iter(vec![field]),
+                brace_token: Default::default(),
+            }),
+            struct_token: Default::default(),
+            semi_token: None,
+        };
+
+        let attributes = get_attributes(&data_struct);
+        assert_eq!(attributes.len(), 1);
+        assert_eq!(attributes.get("serde").unwrap().to_string(), "field_name");
+    }
+
+    #[test]
+    fn test_get_attributes_multiple_fields() {
+        let field1 = Field {
+            attrs: vec![Attribute::parse_outer.parse_str("#[serde]").unwrap()[0].clone()],
+            vis: syn::Visibility::Inherited,
+            ident: Some(format_ident!("field1")),
+            colon_token: None,
+            ty: syn::Type::Verbatim(proc_macro2::TokenStream::new()),
+            mutability: syn::FieldMutability::None,
+        };
+
+        let field2 = Field {
+            attrs: vec![Attribute::parse_outer.parse_str("#[rename]").unwrap()[0].clone()],
+            vis: syn::Visibility::Inherited,
+            ident: Some(format_ident!("field2")),
+            colon_token: None,
+            ty: syn::Type::Verbatim(proc_macro2::TokenStream::new()),
+            mutability: syn::FieldMutability::None,
+        };
+
+        let data_struct = DataStruct {
+            fields: Fields::Named(FieldsNamed {
+                named: syn::punctuated::Punctuated::from_iter(vec![field1, field2]),
+                brace_token: Default::default(),
+            }),
+            struct_token: Default::default(),
+            semi_token: None,
+        };
+
+        let attributes = get_attributes(&data_struct);
+        assert_eq!(attributes.len(), 2);
+        assert_eq!(attributes.get("serde").unwrap().to_string(), "field1");
+        assert_eq!(attributes.get("rename").unwrap().to_string(), "field2");
+    }
+
+    #[test]
+    fn test_get_attributes_no_attributes() {
+        let field = Field {
+            attrs: vec![],
+            vis: syn::Visibility::Inherited,
+            ident: Some(format_ident!("field1")),
+            colon_token: None,
+            ty: syn::Type::Verbatim(proc_macro2::TokenStream::new()),
+            mutability: syn::FieldMutability::None,
+        };
+
+        let data_struct = DataStruct {
+            fields: Fields::Named(FieldsNamed {
+                named: syn::punctuated::Punctuated::from_iter(vec![field]),
+                brace_token: Default::default(),
+            }),
+            struct_token: Default::default(),
+            semi_token: None,
+        };
+
+        let attributes = get_attributes(&data_struct);
+        assert!(attributes.is_empty());
+    }
 }

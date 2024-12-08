@@ -1,5 +1,5 @@
 //! Hcaptcha Trait
-use crate::{HcaptchaError, HcaptchaResponse};
+use crate::{Error, Response};
 // use async_trait::async_trait;
 use std::{future::Future, pin::Pin};
 
@@ -10,5 +10,5 @@ pub trait Hcaptcha {
         &self,
         secret: &str,
         uri: Option<String>,
-    ) -> Pin<Box<dyn Future<Output = Result<HcaptchaResponse, HcaptchaError>>>>;
+    ) -> Pin<Box<dyn Future<Output = Result<Response, Error>>>>;
 }

@@ -1,6 +1,6 @@
 use claims::assert_ok;
+use hcaptcha::Error;
 use hcaptcha::Hcaptcha;
-use hcaptcha::HcaptchaError;
 
 const BOT: &str = "30000000-ffff-ffff-ffff-000000000003";
 const SAFE: &str = "20000000-ffff-ffff-ffff-000000000002";
@@ -17,7 +17,7 @@ pub async fn hcaptcha_integration_test(
     response: &str,
     site_key: &str,
     secret_key: &str,
-) -> Result<(), HcaptchaError> {
+) -> Result<(), Error> {
     let form = Test {
         hcaptcha: response.to_string(),
         sitekey: site_key.to_string(),

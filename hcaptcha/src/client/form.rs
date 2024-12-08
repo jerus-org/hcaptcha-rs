@@ -1,19 +1,19 @@
-use crate::HcaptchaRequest;
+use crate::Request;
 
 #[derive(Debug, Clone, serde::Serialize)]
-pub(crate) struct HcaptchaForm {
+pub(crate) struct Form {
     response: String,
     remoteip: Option<String>,
     sitekey: Option<String>,
     secret: String,
 }
 
-impl From<HcaptchaRequest> for HcaptchaForm {
-    fn from(request: HcaptchaRequest) -> HcaptchaForm {
+impl From<Request> for Form {
+    fn from(request: Request) -> Form {
         let remoteip = request.captcha().remoteip.map(|v| v.to_string());
         let sitekey = request.captcha().sitekey.map(|v| v.to_string());
 
-        HcaptchaForm {
+        Form {
             response: request.captcha().response.to_string(),
             remoteip,
             sitekey,

@@ -1,6 +1,6 @@
 use claims::assert_err;
+use hcaptcha::Error;
 use hcaptcha::Hcaptcha;
-use hcaptcha::HcaptchaError;
 
 #[derive(Debug, Hcaptcha)]
 pub struct Test {
@@ -14,7 +14,7 @@ pub async fn hcaptcha_integration_test(
     response: &str,
     site_key: &str,
     secret_key: &str,
-) -> Result<(), HcaptchaError> {
+) -> Result<(), Error> {
     let form = Test {
         hcaptcha: response.to_string(),
         sitekey: site_key.to_string(),

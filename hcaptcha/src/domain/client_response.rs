@@ -1,19 +1,19 @@
-use crate::{Code, HcaptchaError};
+use crate::{Code, Error};
 use std::collections::HashSet;
 use std::fmt;
 
 #[derive(Debug, Default, Clone, PartialEq, serde::Deserialize, serde::Serialize)]
-pub struct HcaptchaClientResponse(String);
+pub struct ClientResponse(String);
 
-impl HcaptchaClientResponse {
-    pub fn parse(s: String) -> Result<HcaptchaClientResponse, HcaptchaError> {
+impl ClientResponse {
+    pub fn parse(s: String) -> Result<ClientResponse, Error> {
         if s.trim().is_empty() {
             let mut codes = HashSet::new();
             codes.insert(Code::MissingResponse);
 
-            Err(HcaptchaError::Codes(codes))
+            Err(Error::Codes(codes))
         } else {
-            Ok(HcaptchaClientResponse(s))
+            Ok(ClientResponse(s))
         }
     }
 
@@ -22,7 +22,7 @@ impl HcaptchaClientResponse {
     }
 }
 
-impl fmt::Display for HcaptchaClientResponse {
+impl fmt::Display for ClientResponse {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         write!(f, "{}", self.0)
     }
@@ -30,35 +30,35 @@ impl fmt::Display for HcaptchaClientResponse {
 
 #[cfg(test)]
 mod tests {
-    use super::HcaptchaClientResponse;
+    use super::ClientResponse;
     use crate::Code;
-    use crate::HcaptchaError;
+    use crate::Error;
     use claims::assert_err;
 
     #[test]
     fn whitespace_only_names_are_rejected() {
         let response = " ".to_string();
-        assert_err!(HcaptchaClientResponse::parse(response));
+        assert_err!(ClientResponse::parse(response));
     }
 
     #[test]
     fn empty_string_is_rejected() {
         let response = "".to_string();
-        assert_err!(HcaptchaClientResponse::parse(response));
+        assert_err!(ClientResponse::parse(response));
     }
 
     #[test]
     fn error_set_contains_missing_response_error() {
         let response = "".to_string();
 
-        if let Err(HcaptchaError::Codes(hs)) = HcaptchaClientResponse::parse(response) {
+        if let Err(Error::Codes(hs)) = ClientResponse::parse(response) {
             assert!(hs.contains(&Code::MissingResponse));
         }
     }
 
     #[test]
     fn test_as_str() {
-        let response = HcaptchaClientResponse("test_response".to_string());
+        let response = ClientResponse("test_response".to_string());
         assert_eq!(response.as_str(), "test_response");
     }
 }
