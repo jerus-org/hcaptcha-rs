@@ -226,7 +226,9 @@ workflows:
             - bot-check
           ssh_fingerprint: << pipeline.parameters.fingerprint >>
           min_rust_version: << pipeline.parameters.min-rust-version >>
-          package: [hcaptcha, hcaptcha_derive]
+          matrix:
+            parameters:
+              package: [hcaptcha, hcaptcha_derive]
 
       - toolkit/make_release:
           requires:
