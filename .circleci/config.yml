@@ -226,11 +226,7 @@ workflows:
             - bot-check
           ssh_fingerprint: << pipeline.parameters.fingerprint >>
           min_rust_version: << pipeline.parameters.min-rust-version >>
-          # pcu_workspace: << pipeline.parameters.pcu_workspace >>
-          update_pcu: true
-          pcu_verbosity: "-vvvvv"
-          publish: false
-          package: hcaptcha
+          package: [hcaptcha, hcaptcha_derive]
 
       - toolkit/make_release:
           requires:
@@ -241,9 +237,6 @@ workflows:
             - bot-check
           ssh_fingerprint: << pipeline.parameters.fingerprint >>
           min_rust_version: << pipeline.parameters.min-rust-version >>
-          # pcu_workspace: << pipeline.parameters.pcu_workspace >>
-          update_pcu: true
-          pcu_verbosity: "-vvvvv"
           publish: false
           matrix:
             parameters:
