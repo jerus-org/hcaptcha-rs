@@ -226,21 +226,11 @@ workflows:
             - bot-check
           ssh_fingerprint: << pipeline.parameters.fingerprint >>
           min_rust_version: << pipeline.parameters.min-rust-version >>
-          package: hcaptcha
-
-      - toolkit/make_release:
-          name: publish release for hcaptcha_derive
-          context:
-            - release
-            - bot-check
-          ssh_fingerprint: << pipeline.parameters.fingerprint >>
-          min_rust_version: << pipeline.parameters.min-rust-version >>
-          package: hcaptcha_derive
+          package: "hcaptcha hcaptcha_derive"
 
       - toolkit/make_release:
           requires:
             - publish release for hcaptcha
-            - publish release for hcaptcha_derive
           name: make release for << matrix.package >>
           context:
             - release
