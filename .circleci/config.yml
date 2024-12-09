@@ -220,7 +220,8 @@ workflows:
         - not: << pipeline.parameters.validation-flag >>
     jobs:
       - toolkit/make_release:
-          name: make for hcaptcha
+          name: publish release for
+          alias: publish release for << matrix.package >>
           context:
             - release
             - bot-check
@@ -232,8 +233,8 @@ workflows:
 
       - toolkit/make_release:
           requires:
-            - make for hcaptcha
-          name: make releases - << matrix.package >>
+            - publish release for
+          name: make release for << matrix.package >>
           context:
             - release
             - bot-check
