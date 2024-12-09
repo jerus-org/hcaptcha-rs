@@ -845,7 +845,7 @@ dependencies = [
 
 [[package]]
 name = "hcaptcha_derive"
-version = "2.7.9"
+version = "3.0.0"
 dependencies = [
  "hcaptcha",
  "macrotest",
