@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - ci(circleci)-update config to use matrix parameters for package selection(pr [#1215])
 - ci(circleci)-update job names for release workflow(pr [#1216])
 - ci(circleci)-separate release jobs for hcaptcha and hcaptcha_derive(pr [#1217])
+- chore(ci)-consolidate release steps for hcaptcha packages(pr [#1218])
 
 ## [2.8.10] - 2024-12-07
 
@@ -836,6 +837,7 @@ emitted if a tracing subscriber is not found.
 [#1215]: https://github.com/jerus-org/hcaptcha-rs/pull/1215
 [#1216]: https://github.com/jerus-org/hcaptcha-rs/pull/1216
 [#1217]: https://github.com/jerus-org/hcaptcha-rs/pull/1217
+[#1218]: https://github.com/jerus-org/hcaptcha-rs/pull/1218
 [Unreleased]: https://github.com/jerus-org/hcaptcha-rs/compare/v2.8.10...HEAD
 [2.8.10]: https://github.com/jerus-org/hcaptcha-rs/compare/v2.8.10...v2.8.10
 [2.8.10]: https://github.com/jerus-org/hcaptcha-rs/compare/v2.8.10...v2.8.10
