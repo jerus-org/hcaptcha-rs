@@ -228,7 +228,6 @@ impl Response {
     /// #       .set_sitekey(&mockd::unique::uuid_v4())
     /// #       .unwrap()
     /// #       }
-
     #[allow(dead_code)]
     pub fn success(&self) -> bool {
         self.success
@@ -273,7 +272,6 @@ impl Response {
     /// #       .set_sitekey(&mockd::unique::uuid_v4())
     /// #       .unwrap()
     /// #       }
-
     #[allow(dead_code)]
     pub fn hostname(&self) -> Option<String> {
         self.hostname.clone()
@@ -318,7 +316,6 @@ impl Response {
     /// #       .set_sitekey(&mockd::unique::uuid_v4())
     /// #       .unwrap()
     /// #       }
-
     #[allow(dead_code)]
     pub fn timestamp(&self) -> Option<String> {
         self.challenge_ts.clone()
@@ -364,7 +361,6 @@ impl Response {
     /// #       .set_sitekey(&mockd::unique::uuid_v4())
     /// #       .unwrap()
     /// # }
-
     #[allow(dead_code)]
     pub fn credit(&self) -> Option<bool> {
         self.credit
@@ -455,7 +451,6 @@ impl Response {
     /// #       .set_sitekey(&mockd::unique::uuid_v4())
     /// #       .unwrap()
     /// #       }
-
     #[cfg(feature = "enterprise")]
     #[cfg_attr(docsrs, doc(cfg(feature = "enterprise")))]
     #[allow(dead_code)]
@@ -503,7 +498,6 @@ impl Response {
     /// #       .set_sitekey(&mockd::unique::uuid_v4())
     /// #       .unwrap()
     /// #       }
-
     #[allow(dead_code)]
     #[cfg(feature = "enterprise")]
     #[cfg_attr(docsrs, doc(cfg(feature = "enterprise")))]
