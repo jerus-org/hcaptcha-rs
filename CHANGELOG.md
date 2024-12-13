@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 - deps: update github/codeql-action action to v3.27.9(pr [#1221])
+- deps: update rust crate chrono to 0.4.39(pr [#1222])
 
 ## [3.0.0] - 2024-12-09
 
@@ -852,6 +853,7 @@ emitted if a tracing subscriber is not found.
 [#1218]: https://github.com/jerus-org/hcaptcha-rs/pull/1218
 [#1219]: https://github.com/jerus-org/hcaptcha-rs/pull/1219
 [#1221]: https://github.com/jerus-org/hcaptcha-rs/pull/1221
+[#1222]: https://github.com/jerus-org/hcaptcha-rs/pull/1222
 [Unreleased]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.0.0...HEAD
 [3.0.0]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.0.0...v3.0.0
 [3.0.0]: https://github.com/jerus-org/hcaptcha-rs/compare/v2.8.10...v3.0.0
