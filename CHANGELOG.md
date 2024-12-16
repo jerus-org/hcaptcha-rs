@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- chore(circleci)-simplify release workflow by removing redundant job configuration(pr [#1224])
+
 ### Fixed
 
 - deps: update github/codeql-action action to v3.27.9(pr [#1221])
@@ -856,6 +860,7 @@ emitted if a tracing subscriber is not found.
 [#1221]: https://github.com/jerus-org/hcaptcha-rs/pull/1221
 [#1222]: https://github.com/jerus-org/hcaptcha-rs/pull/1222
 [#1223]: https://github.com/jerus-org/hcaptcha-rs/pull/1223
+[#1224]: https://github.com/jerus-org/hcaptcha-rs/pull/1224
 [Unreleased]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.0.0...HEAD
 [3.0.0]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.0.0...v3.0.0
 [3.0.0]: https://github.com/jerus-org/hcaptcha-rs/compare/v2.8.10...v3.0.0
