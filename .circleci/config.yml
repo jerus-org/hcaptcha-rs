@@ -220,24 +220,8 @@ workflows:
         - not: << pipeline.parameters.validation-flag >>
     jobs:
       - toolkit/make_release:
-          name: publish release for hcaptcha
           context:
             - release
             - bot-check
           ssh_fingerprint: << pipeline.parameters.fingerprint >>
           min_rust_version: << pipeline.parameters.min-rust-version >>
-          package: "hcaptcha hcaptcha_derive"
-
-      - toolkit/make_release:
-          requires:
-            - publish release for hcaptcha
-          name: make release for << matrix.package >>
-          context:
-            - release
-            - bot-check
-          ssh_fingerprint: << pipeline.parameters.fingerprint >>
-          min_rust_version: << pipeline.parameters.min-rust-version >>
-          publish: false
-          matrix:
-            parameters:
-              package: [hcaptcha-cli, mock-verifier]
