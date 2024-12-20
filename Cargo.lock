@@ -1480,9 +1480,9 @@ dependencies = [
 
 [[package]]
 name = "mockd"
-version = "0.4.31"
+version = "0.4.32"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "48a00ade26beb9760be5f82f465be39b45c7c6349d9c5e560a3cc50ae6bef1de"
+checksum = "fa3b7e89b3397932ef84059583c5208bdf60b371ca0318e837ff084248c6d647"
 dependencies = [
  "chrono",
  "simplerand",
@@ -2349,9 +2349,9 @@ dependencies = [
 
 [[package]]
 name = "simplerand"
-version = "1.3.0"
+version = "1.5.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "70455a0a21cb984df0f86033ca19f37cced497deb779603e7fa7b032f5b8897b"
+checksum = "90b131e1d73750e4bf76d8d21e6e73ae5642381024ef2419d9ad7886b428df7e"
 dependencies = [
  "lazy_static",
 ]
