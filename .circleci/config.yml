@@ -24,7 +24,7 @@ parameters:
     description: "If true, the make release treats as workspace."
 
 orbs:
-  toolkit: jerus-org/circleci-toolkit@1.20.2
+  toolkit: jerus-org/circleci-toolkit@1.21.0
 
 executors:
   rust_env:
@@ -225,3 +225,17 @@ workflows:
             - bot-check
           ssh_fingerprint: << pipeline.parameters.fingerprint >>
           min_rust_version: << pipeline.parameters.min-rust-version >>
+          when_github_release: false
+      - toolkit/make_release:
+          name: github release << matrix.cargo_package >>
+          context:
+            - release
+            - bot-check
+          requires:
+            - toolkit/make_release
+          ssh_fingerprint: << pipeline.parameters.fingerprint >>
+          min_rust_version: << pipeline.parameters.min-rust-version >>
+          when_cargo_release: false
+          matrix:
+            parameters:
+              cargo_package: [hcaptcha, hcaptcha-derive]
