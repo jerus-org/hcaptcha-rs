@@ -11,6 +11,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - chore(circleci)-update toolkit orb version and add make_release job to workflows(pr [#1229])
 
+### Fixed
+
+- deps: update rust crate quote to 1.0.38(pr [#1231])
+
 ## [3.0.1] - 2024-12-21
 
 ### Changed
@@ -876,6 +880,7 @@ emitted if a tracing subscriber is not found.
 [#1227]: https://github.com/jerus-org/hcaptcha-rs/pull/1227
 [#1228]: https://github.com/jerus-org/hcaptcha-rs/pull/1228
 [#1229]: https://github.com/jerus-org/hcaptcha-rs/pull/1229
+[#1231]: https://github.com/jerus-org/hcaptcha-rs/pull/1231
 [Unreleased]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.0.1...HEAD
 [3.0.1]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.0.0...v3.0.1
 [3.0.0]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.0.0...v3.0.0
