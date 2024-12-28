@@ -227,7 +227,7 @@ workflows:
           min_rust_version: << pipeline.parameters.min-rust-version >>
           when_github_release: false
       - toolkit/make_release:
-          name: github release << matrix.cargo_package >>
+          name: github release << matrix.package >>
           context:
             - release
             - bot-check
@@ -238,4 +238,4 @@ workflows:
           when_cargo_release: false
           matrix:
             parameters:
-              cargo_package: [hcaptcha, hcaptcha-derive]
+              package: [hcaptcha, hcaptcha-derive]
