@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - chore(circleci)-update toolkit orb version and add make_release job to workflows(pr [#1229])
 - chore(circleci)-update parameter name from cargo_package to package in config file(pr [#1234])
+- ci(circleci)-update job naming in release workflow config(pr [#1235])
 
 ### Fixed
 
@@ -889,6 +890,7 @@ emitted if a tracing subscriber is not found.
 [#1232]: https://github.com/jerus-org/hcaptcha-rs/pull/1232
 [#1233]: https://github.com/jerus-org/hcaptcha-rs/pull/1233
 [#1234]: https://github.com/jerus-org/hcaptcha-rs/pull/1234
+[#1235]: https://github.com/jerus-org/hcaptcha-rs/pull/1235
 [Unreleased]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.0.1...HEAD
 [3.0.1]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.0.0...v3.0.1
 [3.0.0]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.0.0...v3.0.0

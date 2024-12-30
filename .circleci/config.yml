@@ -220,6 +220,7 @@ workflows:
         - not: << pipeline.parameters.validation-flag >>
     jobs:
       - toolkit/make_release:
+          name: cargo release
           context:
             - release
             - bot-check
@@ -232,7 +233,7 @@ workflows:
             - release
             - bot-check
           requires:
-            - toolkit/make_release
+            - cargo release
           ssh_fingerprint: << pipeline.parameters.fingerprint >>
           min_rust_version: << pipeline.parameters.min-rust-version >>
           when_cargo_release: false
