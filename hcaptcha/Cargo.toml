@@ -3,7 +3,7 @@ name = "hcaptcha"
 description = """
 hCaptcha client response verification. Validate the hCaptcha response submitted from to your server from the client.
 """
-version = "3.0.1"
+version = "3.0.2"
 authors = ["Jeremiah Russell <jrussell@jerus.ie>"]
 license = "MIT OR Apache-2.0"
 repository = "https://github.com/jerusdp/hcaptcha-rs"
@@ -34,7 +34,7 @@ nightly = []
 [dependencies]
 async-trait.workspace = true
 hex = { workspace = true, optional = true }
-hcaptcha_derive = { version = "3.0.1", path = "../hcaptcha_derive" }
+hcaptcha_derive = { version = "3.0.2", path = "../hcaptcha_derive" }
 reqwest.workspace = true
 serde_json.workspace = true
 serde_urlencoded.workspace = true
