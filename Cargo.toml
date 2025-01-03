@@ -49,7 +49,7 @@ serde_urlencoded = "0.7.1"
 serde = { version = "1.0.216", features = ["derive"] }
 simple_logger = "5.0.0"
 syn = { version = "2.0.94", features = ["extra-traits"] }
-thiserror = "2.0.8"
+thiserror = "2.0.9"
 tokio = { version = "1.41.1", features = ["rt", "macros"] }
 tracing = { version = "0.1.41", features = ["log", "attributes"] }
 tracing-appender = "0.2.3"
