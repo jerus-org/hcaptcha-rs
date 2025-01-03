@@ -24,7 +24,7 @@ parameters:
     description: "If true, the make release treats as workspace."
 
 orbs:
-  toolkit: jerus-org/circleci-toolkit@1.21.0
+  toolkit: jerus-org/circleci-toolkit@2.0.0
 
 executors:
   rust_env:
@@ -219,8 +219,13 @@ workflows:
         - not: << pipeline.parameters.success-flag >>
         - not: << pipeline.parameters.validation-flag >>
     jobs:
+      - toolkit/save_next_version:
+          min_rust_version: << pipeline.parameters.min-rust-version >>
+
       - toolkit/make_release:
           name: cargo release
+          requires:
+            - toolkit/save_next_version
           context:
             - release
             - bot-check
@@ -240,3 +245,8 @@ workflows:
           matrix:
             parameters:
               package: [hcaptcha, hcaptcha-derive]
+      - toolkit/no_release:
+          min_rust_version: << pipeline.parameters.min-rust-version >>
+          requires:
+            - toolkit/save_next_version:
+                - failed
