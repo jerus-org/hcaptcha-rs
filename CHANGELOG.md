@@ -5,6 +5,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Fixed
+
+- deps: update rust crate log to 0.4.25(pr [#1245])
+
 ## [3.0.4] - 2025-01-11
 
 ### Fixed
@@ -922,7 +928,9 @@ emitted if a tracing subscriber is not found.
 [#1242]: https://github.com/jerus-org/hcaptcha-rs/pull/1242
 [#1243]: https://github.com/jerus-org/hcaptcha-rs/pull/1243
 [#1244]: https://github.com/jerus-org/hcaptcha-rs/pull/1244
-[3.0.4]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.0.3...hcaptcha-v3.0.4
+[#1245]: https://github.com/jerus-org/hcaptcha-rs/pull/1245
+[Unreleased]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.0.4...HEAD
+[3.0.4]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.0.3...v3.0.4
 [3.0.3]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.0.2...v3.0.3
 [3.0.2]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.0.1...v3.0.2
 [3.0.1]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.0.0...v3.0.1
