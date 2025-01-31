@@ -4,8 +4,8 @@
 
 | Version | Supported          |
 | ------- | ------------------ |
-| 2.x.x   | :white_check_mark: |
-| < 2.0   | :x:                |
+| 3.x.x   | :white_check_mark: |
+| < 3.0   | :x:                |
 
 ## Reporting a Vulnerability
 
@@ -13,4 +13,4 @@ If you believe you have found a security vulnerability in hcaptcha, please repor
 
 **Please do not report security vulnerabilities through public GitHub issues, discussions, or pull requests.**
 
-Instead, please send an email to security[@]jerus.ie.
+Report the Advisory through [Github's Security Advisory](https://github.com/jerus-org/hcaptcha-rs/security/advisories) service or send an email to security[@]jerus.ie.
