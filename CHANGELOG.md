@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Update SECURITY.md(pr [#1266])
+
 ### Fixed
 
 - deps: update github/codeql-action action to v3.28.8(pr [#1262])
@@ -979,6 +983,7 @@ emitted if a tracing subscriber is not found.
 [#1263]: https://github.com/jerus-org/hcaptcha-rs/pull/1263
 [#1264]: https://github.com/jerus-org/hcaptcha-rs/pull/1264
 [#1265]: https://github.com/jerus-org/hcaptcha-rs/pull/1265
+[#1266]: https://github.com/jerus-org/hcaptcha-rs/pull/1266
 [Unreleased]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.0.6...HEAD
 [3.0.6]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.0.5...v3.0.6
 [3.0.5]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.0.4...v3.0.5
