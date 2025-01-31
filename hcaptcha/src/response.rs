@@ -35,11 +35,11 @@
 //! # Ok(())
 //! # }
 //! # use hcaptcha::Captcha;
-//! # use rand::distributions::Alphanumeric;
-//! # use rand::{thread_rng, Rng};
+//! # use rand::distr::Alphanumeric;
+//! # use rand::{rng, Rng};
 //! # use std::iter;
 //! # fn random_response() -> String {
-//! #    let mut rng = thread_rng();
+//! #    let mut rng = rng();
 //! #    iter::repeat(())
 //! #        .map(|()| rng.sample(Alphanumeric))
 //! #        .map(char::from)
@@ -209,11 +209,11 @@ impl Response {
     /// # Ok(())
     /// # }
     /// # use hcaptcha::Captcha;
-    /// # use rand::distributions::Alphanumeric;
-    /// # use rand::{thread_rng, Rng};
+    /// # use rand::distr::Alphanumeric;
+    /// # use rand::{rng, Rng};
     /// # use std::iter;
     /// # fn random_response() -> String {
-    /// #    let mut rng = thread_rng();
+    /// #    let mut rng = rng();
     /// #    iter::repeat(())
     /// #        .map(|()| rng.sample(Alphanumeric))
     /// #        .map(char::from)
@@ -253,11 +253,11 @@ impl Response {
     /// # Ok(())
     /// # }
     /// # use hcaptcha::Captcha;
-    /// # use rand::distributions::Alphanumeric;
-    /// # use rand::{thread_rng, Rng};
+    /// # use rand::distr::Alphanumeric;
+    /// # use rand::{rng, Rng};
     /// # use std::iter;
     /// # fn random_response() -> String {
-    /// #    let mut rng = thread_rng();
+    /// #    let mut rng = rng();
     /// #    iter::repeat(())
     /// #        .map(|()| rng.sample(Alphanumeric))
     /// #        .map(char::from)
@@ -297,11 +297,11 @@ impl Response {
     /// # Ok(())
     /// # }
     /// # use hcaptcha::Captcha;
-    /// # use rand::distributions::Alphanumeric;
-    /// # use rand::{thread_rng, Rng};
+    /// # use rand::distr::Alphanumeric;
+    /// # use rand::{rng, Rng};
     /// # use std::iter;
     /// # fn random_response() -> String {
-    /// #    let mut rng = thread_rng();
+    /// #    let mut rng = rng();
     /// #    iter::repeat(())
     /// #        .map(|()| rng.sample(Alphanumeric))
     /// #        .map(char::from)
@@ -342,11 +342,11 @@ impl Response {
     /// # Ok(())
     /// # }
     /// # use hcaptcha::Captcha;
-    /// # use rand::distributions::Alphanumeric;
-    /// # use rand::{thread_rng, Rng};
+    /// # use rand::distr::Alphanumeric;
+    /// # use rand::{rng, Rng};
     /// # use std::iter;
     /// # fn random_response() -> String {
-    /// #    let mut rng = thread_rng();
+    /// #    let mut rng = rng();
     /// #    iter::repeat(())
     /// #        .map(|()| rng.sample(Alphanumeric))
     /// #        .map(char::from)
@@ -387,13 +387,12 @@ impl Response {
     /// # Ok(())
     /// # }
     /// # use hcaptcha::Captcha;
-    /// # use rand::distributions::Alphanumeric;
-    /// # use rand::{thread_rng, Rng};
+    /// # use rand::distr::Alphanumeric;
+    /// # use rand::{rng, Rng};
     /// # use std::iter;
     /// # fn random_response() -> String {
-    /// #    let mut rng = thread_rng();
     /// #    iter::repeat(())
-    /// #        .map(|()| rng.sample(Alphanumeric))
+    /// #        .map(|()| rng().sample(Alphanumeric))
     /// #        .map(char::from)
     /// #        .take(100)
     /// #        .collect()
@@ -432,11 +431,11 @@ impl Response {
     /// # Ok(())
     /// # }
     /// # use hcaptcha::Captcha;
-    /// # use rand::distributions::Alphanumeric;
-    /// # use rand::{thread_rng, Rng};
+    /// # use rand::distr::Alphanumeric;
+    /// # use rand::{rng, Rng};
     /// # use std::iter;
     /// # fn random_response() -> String {
-    /// #    let mut rng = thread_rng();
+    /// #    let mut rng = rng();
     /// #    iter::repeat(())
     /// #        .map(|()| rng.sample(Alphanumeric))
     /// #        .map(char::from)
@@ -479,11 +478,11 @@ impl Response {
     /// # Ok(())
     /// # }
     /// # use hcaptcha::Captcha;
-    /// # use rand::distributions::Alphanumeric;
-    /// # use rand::{thread_rng, Rng};
+    /// # use rand::distr::Alphanumeric;
+    /// # use rand::{rng, Rng};
     /// # use std::iter;
     /// # fn random_response() -> String {
-    /// #    let mut rng = thread_rng();
+    /// #    let mut rng = rng();
     /// #    iter::repeat(())
     /// #        .map(|()| rng.sample(Alphanumeric))
     /// #        .map(char::from)

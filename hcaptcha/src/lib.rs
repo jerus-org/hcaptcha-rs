@@ -52,11 +52,11 @@
 //!     # Ok(())
 //! # }
 //! # use hcaptcha::Captcha;
-//! # use rand::distributions::Alphanumeric;
-//! # use rand::{thread_rng, Rng};
+//! # use rand::distr::Alphanumeric;
+//! # use rand::{rng, Rng};
 //! # use std::iter;
 //! # fn random_response() -> String {
-//! #    let mut rng = thread_rng();
+//! #    let mut rng = rng();
 //! #    iter::repeat(())
 //! #        .map(|()| rng.sample(Alphanumeric))
 //! #        .map(char::from)
