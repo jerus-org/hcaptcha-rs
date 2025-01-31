@@ -5,6 +5,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Fixed
+
+- deps: update github/codeql-action action to v3.28.8(pr [#1262])
+
 ## [3.0.6] - 2025-01-25
 
 ### Fixed
@@ -966,7 +972,9 @@ emitted if a tracing subscriber is not found.
 [#1259]: https://github.com/jerus-org/hcaptcha-rs/pull/1259
 [#1260]: https://github.com/jerus-org/hcaptcha-rs/pull/1260
 [#1261]: https://github.com/jerus-org/hcaptcha-rs/pull/1261
-[3.0.6]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.0.5...hcaptcha-v3.0.6
+[#1262]: https://github.com/jerus-org/hcaptcha-rs/pull/1262
+[Unreleased]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.0.6...HEAD
+[3.0.6]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.0.5...v3.0.6
 [3.0.5]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.0.4...v3.0.5
 [3.0.4]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.0.3...v3.0.4
 [3.0.3]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.0.2...v3.0.3
