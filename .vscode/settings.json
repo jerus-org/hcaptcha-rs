@@ -11,11 +11,13 @@
         "mockd",
         "panicbit",
         "remoteip",
+        "resp",
         "sitekey",
         "sitekeys",
         "siteverify",
         "Struct",
-        "thisisnotapropertoken"
+        "thisisnotapropertoken",
+        "thisisthelonglistofcharactersthatformsaresponse"
     ],
     "conventionalCommits.scopes": [
         "lambda-contact",

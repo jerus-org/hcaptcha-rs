@@ -1,10 +1,10 @@
 use hcaptcha::Captcha;
-use rand::distributions::Alphanumeric;
-use rand::{thread_rng, Rng};
+use rand::distr::Alphanumeric;
+use rand::{rng, Rng};
 use std::iter;
 
 pub fn random_response() -> String {
-    let mut rng = thread_rng();
+    let mut rng = rng();
     iter::repeat(())
         .map(|()| rng.sample(Alphanumeric))
         .map(char::from)
@@ -22,7 +22,7 @@ pub fn dummy_captcha() -> Captcha {
 }
 
 pub fn random_string(characters: usize) -> String {
-    let mut rng = thread_rng();
+    let mut rng = rng();
     iter::repeat(())
         .map(|()| rng.sample(Alphanumeric))
         .map(char::from)

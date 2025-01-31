@@ -20,11 +20,11 @@
 //! #   "0x123456789abcde0f123456789abcdef012345678".to_string()
 //! # }
 //! # use hcaptcha::Captcha;
-//! # use rand::distributions::Alphanumeric;
-//! # use rand::{thread_rng, Rng};
+//! # use rand::distr::Alphanumeric;
+//! # use rand::{rng, Rng};
 //! # use std::iter;
 //! # fn random_response() -> String {
-//! #    let mut rng = thread_rng();
+//! #    let mut rng = rng();
 //! #    iter::repeat(())
 //! #        .map(|()| rng.sample(Alphanumeric))
 //! #        .map(char::from)
@@ -94,11 +94,11 @@ impl Request {
     /// #   "0x123456789abcde0f123456789abcdef012345678".to_string()
     /// # }
     /// # use hcaptcha::Captcha;
-    /// # use rand::distributions::Alphanumeric;
-    /// # use rand::{thread_rng, Rng};
+    /// # use rand::distr::Alphanumeric;
+    /// # use rand::{rng, Rng};
     /// # use std::iter;
     /// # fn random_response() -> String {
-    /// #    let mut rng = thread_rng();
+    /// #    let mut rng = rng();
     /// #    iter::repeat(())
     /// #        .map(|()| rng.sample(Alphanumeric))
     /// #        .map(char::from)
@@ -163,11 +163,11 @@ impl Request {
     /// # fn get_your_secret() -> String {
     /// #   "0x123456789abcde0f123456789abcdef012345678".to_string()
     /// # }
-    /// # use rand::distributions::Alphanumeric;
-    /// # use rand::{thread_rng, Rng};
+    /// # use rand::distr::Alphanumeric;
+    /// # use rand::{rng, Rng};
     /// # use std::iter;
     /// # fn get_response() -> String {
-    /// #    let mut rng = thread_rng();
+    /// #    let mut rng = rng();
     /// #    iter::repeat(())
     /// #        .map(|()| rng.sample(Alphanumeric))
     /// #        .map(char::from)
@@ -216,11 +216,11 @@ impl Request {
     /// #   "0x123456789abcde0f123456789abcdef012345678".to_string()
     /// # }
     /// # use hcaptcha::Captcha;
-    /// # use rand::distributions::Alphanumeric;
-    /// # use rand::{thread_rng, Rng};
+    /// # use rand::distr::Alphanumeric;
+    /// # use rand::{rng, Rng};
     /// # use std::iter;
     /// # fn get_response() -> String {
-    /// #    let mut rng = thread_rng();
+    /// #    let mut rng = rng();
     /// #    iter::repeat(())
     /// #        .map(|()| rng.sample(Alphanumeric))
     /// #        .map(char::from)
@@ -277,11 +277,11 @@ impl Request {
     /// #   "0x123456789abcde0f123456789abcdef012345678".to_string()
     /// # }
     /// # use hcaptcha::Captcha;
-    /// # use rand::distributions::Alphanumeric;
-    /// # use rand::{thread_rng, Rng};
+    /// # use rand::distr::Alphanumeric;
+    /// # use rand::{rng, Rng};
     /// # use std::iter;
     /// # fn random_response() -> String {
-    /// #    let mut rng = thread_rng();
+    /// #    let mut rng = rng();
     /// #    iter::repeat(())
     /// #        .map(|()| rng.sample(Alphanumeric))
     /// #        .map(char::from)
@@ -338,12 +338,12 @@ mod tests {
     use super::*;
     use crate::Captcha;
     use claims::{assert_none, assert_ok};
-    use rand::distributions::Alphanumeric;
-    use rand::{thread_rng, Rng};
+    use rand::distr::Alphanumeric;
+    use rand::{rng, Rng};
     use std::iter;
 
     fn random_hex_string(len: usize) -> String {
-        let mut rng = thread_rng();
+        let mut rng = rng();
         let chars: String = iter::repeat(())
             .map(|()| rng.sample(Alphanumeric))
             .map(char::from)
@@ -354,7 +354,7 @@ mod tests {
     }
 
     fn random_response() -> String {
-        let mut rng = thread_rng();
+        let mut rng = rng();
         iter::repeat(())
             .map(|()| rng.sample(Alphanumeric))
             .map(char::from)
