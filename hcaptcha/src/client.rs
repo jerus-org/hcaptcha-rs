@@ -32,11 +32,11 @@
 //! # fn get_your_secret() -> String {
 //! #   "0x123456789abcde0f123456789abcdef012345678".to_string()
 //! # }
-//! # use rand::distributions::Alphanumeric;
-//! # use rand::{thread_rng, Rng};
+//! # use rand::distr::Alphanumeric;
+//! # use rand::{rng, Rng};
 //! # use std::iter;
 //! # fn random_response() -> String {
-//! #    let mut rng = thread_rng();
+//! #    let mut rng = rng();
 //! #    iter::repeat(())
 //! #        .map(|()| rng.sample(Alphanumeric))
 //! #        .map(char::from)
@@ -176,8 +176,8 @@ impl Client {
     ///  ```no_run
     ///     use hcaptcha::{Client, Request};
     /// # use hcaptcha::Captcha;
-    /// # use rand::distributions::Alphanumeric;
-    /// # use rand::{thread_rng, Rng};
+    /// # use rand::distr::Alphanumeric;
+    /// # use rand::{rng, Rng};
     /// # use std::iter;
     /// # #[tokio::main]
     /// # async fn main() -> Result<(), hcaptcha::Error> {
@@ -201,7 +201,7 @@ impl Client {
     /// #   "0x123456789abcde0f123456789abcdef012345678".to_string()
     /// # }
     /// # fn random_response() -> String {
-    /// #    let mut rng = thread_rng();
+    /// #    let mut rng = rng();
     /// #    iter::repeat(())
     /// #        .map(|()| rng.sample(Alphanumeric))
     /// #        .map(char::from)
@@ -275,8 +275,8 @@ impl Client {
     ///  ```no_run
     ///     use hcaptcha::{Client, Request};
     /// # use hcaptcha::Captcha;
-    /// # use rand::distributions::Alphanumeric;
-    /// # use rand::{thread_rng, Rng};
+    /// # use rand::distr::Alphanumeric;
+    /// # use rand::{rng, Rng};
     /// # use std::iter;
     /// # #[tokio::main]
     /// # async fn main() -> Result<(), hcaptcha::Error> {
@@ -300,7 +300,7 @@ impl Client {
     /// #   "0x123456789abcde0f123456789abcdef012345678".to_string()
     /// # }
     /// # fn random_response() -> String {
-    /// #    let mut rng = thread_rng();
+    /// #    let mut rng = rng();
     /// #    iter::repeat(())
     /// #        .map(|()| rng.sample(Alphanumeric))
     /// #        .map(char::from)
@@ -359,8 +359,8 @@ mod tests {
     use crate::{Code, Error};
     use chrono::{TimeDelta, Utc};
     use claims::{assert_err, assert_ok};
-    use rand::distributions::Alphanumeric;
-    use rand::{thread_rng, Rng};
+    use rand::distr::Alphanumeric;
+    use rand::{rng, Rng};
     use serde_json::json;
     use std::iter;
     #[cfg(feature = "trace")]
@@ -374,7 +374,7 @@ mod tests {
     // const RESET: &str = "\t\u{001b}[0m";
 
     fn random_string(characters: usize) -> String {
-        let mut rng = thread_rng();
+        let mut rng = rng();
         iter::repeat(())
             .map(|()| rng.sample(Alphanumeric))
             .map(char::from)
