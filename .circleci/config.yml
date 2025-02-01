@@ -242,6 +242,7 @@ workflows:
           ssh_fingerprint: << pipeline.parameters.fingerprint >>
           min_rust_version: << pipeline.parameters.min-rust-version >>
           when_cargo_release: false
+          pcu_verbosity: "-vvvvv"
           matrix:
             parameters:
               package: [hcaptcha, hcaptcha-derive]
