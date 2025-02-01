@@ -1,6 +1,6 @@
 [package]
 name = "test-wasm"
-version = "3.0.6"
+version = "3.0.7"
 authors = ["Jeremiah Russell <jerry@jrussell.ie>"]
 edition.workspace = true
 rust-version.workspace = true
