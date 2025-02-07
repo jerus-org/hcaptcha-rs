@@ -11,6 +11,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - 👷 ci(circleci): add pcu verbosity to config(pr [#1267])
 
+### Fixed
+
+- deps: update rust crate async-trait to 0.1.86(pr [#1269])
+
 ### Security
 
 - Dependencies: bump openssl from 0.10.68 to 0.10.70 in the cargo group across 1 directory(pr [#1268])
@@ -996,6 +1000,7 @@ emitted if a tracing subscriber is not found.
 [#1266]: https://github.com/jerus-org/hcaptcha-rs/pull/1266
 [#1267]: https://github.com/jerus-org/hcaptcha-rs/pull/1267
 [#1268]: https://github.com/jerus-org/hcaptcha-rs/pull/1268
+[#1269]: https://github.com/jerus-org/hcaptcha-rs/pull/1269
 [Unreleased]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.0.7...HEAD
 [3.0.7]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.0.6...v3.0.7
 [3.0.6]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.0.5...v3.0.6
