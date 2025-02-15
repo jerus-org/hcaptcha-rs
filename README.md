@@ -34,7 +34,7 @@ To use hcaptcha, add the following to your `Cargo.toml`:
 
 ```toml
 [dependencies]
-hcaptcha = "3.0.8"
+hcaptcha = "3.0.9"
 
 ```
 
