@@ -1492,9 +1492,9 @@ dependencies = [
 
 [[package]]
 name = "mockd"
-version = "0.4.39"
+version = "0.4.40"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "5c5dd2406696ba4121ef62bb3e3df380dac3d31d6ddb24a424fd51eb53a24dcf"
+checksum = "6b6968395860e17c5164eb57c5c88dc73a63ebf3301f91a411abeb848f2cf917"
 dependencies = [
  "chrono",
  "simplerand",
@@ -3148,9 +3148,9 @@ checksum = "06abde3611657adf66d383f00b093d7faecc7fa57071cce2578660c9f1010821"
 
 [[package]]
 name = "uuid"
-version = "1.13.1"
+version = "1.14.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "ced87ca4be083373936a67f8de945faa23b6b42384bd5b64434850802c6dccd0"
+checksum = "93d59ca99a559661b96bf898d8fce28ed87935fd2bea9f05983c1464dd6c71b1"
 dependencies = [
  "atomic 0.6.0",
  "getrandom 0.3.1",
