@@ -44,9 +44,9 @@ reqwest = { version = "0.12.12", default-features = false, features = [
     "http2",
 ] }
 rocket = { version = "0.5.1", features = ["json"] }
-serde_json = "1.0.138"
+serde_json = "1.0.139"
 serde_urlencoded = "0.7.1"
-serde = { version = "1.0.217", features = ["derive"] }
+serde = { version = "1.0.218", features = ["derive"] }
 simple_logger = "5.0.0"
 syn = { version = "2.0.98", features = ["extra-traits"] }
 thiserror = "2.0.11"
