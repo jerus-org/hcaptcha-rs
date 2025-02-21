@@ -5,6 +5,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Fixed
+
+- deps: update rust crate clap to 4.5.30(pr [#1277])
+
 ## [3.0.9] - 2025-02-15
 
 ### Fixed
@@ -1020,7 +1026,9 @@ emitted if a tracing subscriber is not found.
 [#1274]: https://github.com/jerus-org/hcaptcha-rs/pull/1274
 [#1275]: https://github.com/jerus-org/hcaptcha-rs/pull/1275
 [#1276]: https://github.com/jerus-org/hcaptcha-rs/pull/1276
-[3.0.9]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.0.8...hcaptcha-v3.0.9
+[#1277]: https://github.com/jerus-org/hcaptcha-rs/pull/1277
+[Unreleased]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.0.9...HEAD
+[3.0.9]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.0.8...v3.0.9
 [3.0.8]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.0.7...v3.0.8
 [3.0.7]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.0.6...v3.0.7
 [3.0.6]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.0.5...v3.0.6
