@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 - deps: update actions/upload-artifact action to v4.6.1(pr [#1282])
+- deps: update dependency toolkit to v2.0.13(pr [#1283])
 
 ## [3.0.10] - 2025-02-22
 
@@ -1042,6 +1043,7 @@ emitted if a tracing subscriber is not found.
 [#1280]: https://github.com/jerus-org/hcaptcha-rs/pull/1280
 [#1281]: https://github.com/jerus-org/hcaptcha-rs/pull/1281
 [#1282]: https://github.com/jerus-org/hcaptcha-rs/pull/1282
+[#1283]: https://github.com/jerus-org/hcaptcha-rs/pull/1283
 [Unreleased]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.0.10...HEAD
 [3.0.10]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.0.9...v3.0.10
 [3.0.9]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.0.8...v3.0.9
