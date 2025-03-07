@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 - deps: update rust crate async-trait to 0.1.87(pr [#1290])
+- deps: update rust crate mockd to 0.4.42(pr [#1291])
 
 ## [3.0.11] - 2025-03-01
 
@@ -1063,6 +1064,7 @@ emitted if a tracing subscriber is not found.
 [#1288]: https://github.com/jerus-org/hcaptcha-rs/pull/1288
 [#1289]: https://github.com/jerus-org/hcaptcha-rs/pull/1289
 [#1290]: https://github.com/jerus-org/hcaptcha-rs/pull/1290
+[#1291]: https://github.com/jerus-org/hcaptcha-rs/pull/1291
 [Unreleased]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.0.11...HEAD
 [3.0.11]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.0.10...v3.0.11
 [3.0.10]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.0.9...v3.0.10
