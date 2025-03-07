@@ -3,7 +3,7 @@
 [![Crates.io][crates-badge]][crates-url]
 [![MIT licensed][mit-badge]][mit-url]
 [![Build Status][circleci-batch]][circleci-url]
-[![Rust 1.75+][version-badge]][version-url]
+[![Rust 1.81+][version-badge]][version-url]
 [![Docs][docs-badge]][docs-url]
 [![BuyMeaCoffee][bmac-badge]][bmac-url]
 [![GitHubSponsors][ghub-badge]][ghub-url]

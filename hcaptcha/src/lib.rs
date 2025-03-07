@@ -277,7 +277,7 @@
 //!
 //! ## Rust Version
 //!
-//! This version of hcaptcha requires Rust v1.75 or later.
+//! This version of hcaptcha requires Rust v1.81 or later.
 
 mod captcha;
 mod client;
