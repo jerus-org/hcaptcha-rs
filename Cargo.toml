@@ -22,7 +22,7 @@ edition = "2021"
 publish = false
 
 [workspace.dependencies]
-async-trait = "0.1.87"
+async-trait = "0.1.88"
 chrono = "0.4.40"
 claims = "0.8.0"
 clap = "4.5.32"
