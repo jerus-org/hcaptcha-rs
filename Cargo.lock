@@ -1503,9 +1503,9 @@ dependencies = [
 
 [[package]]
 name = "mockd"
-version = "0.4.43"
+version = "0.4.44"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "20e824b087dba5bab85b0aa3d803ad4f6743b0274395c1ca590e6dc99f89618d"
+checksum = "3a806637dd7d4269e4c76ac2676150d0b31d20c998d6b7afbaab34dd291a1153"
 dependencies = [
  "chrono",
  "simplerand",
