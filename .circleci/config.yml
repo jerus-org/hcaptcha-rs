@@ -24,7 +24,7 @@ parameters:
     description: "If true, the make release treats as workspace."
 
 orbs:
-  toolkit: jerus-org/circleci-toolkit@2.1.0
+  toolkit: jerus-org/circleci-toolkit@2.5.1
 
 executors:
   rust_env:
