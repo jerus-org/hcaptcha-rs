@@ -32,6 +32,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - deps: update rust crate clap to 4.5.35(pr [#1320])
 - deps: update rust crate env_logger to 0.11.8(pr [#1321])
 
+### Security
+
+- Dependencies: bump openssl from 0.10.71 to 0.10.72 in the cargo group across 1 directory(pr [#1322])
+
 ## [3.0.12] - 2025-03-08
 
 ### Fixed
@@ -1130,6 +1134,7 @@ emitted if a tracing subscriber is not found.
 [#1319]: https://github.com/jerus-org/hcaptcha-rs/pull/1319
 [#1320]: https://github.com/jerus-org/hcaptcha-rs/pull/1320
 [#1321]: https://github.com/jerus-org/hcaptcha-rs/pull/1321
+[#1322]: https://github.com/jerus-org/hcaptcha-rs/pull/1322
 [Unreleased]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.0.12...HEAD
 [3.0.12]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.0.11...v3.0.12
 [3.0.11]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.0.10...v3.0.11
