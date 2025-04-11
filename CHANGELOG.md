@@ -35,6 +35,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Security
 
 - Dependencies: bump openssl from 0.10.71 to 0.10.72 in the cargo group across 1 directory(pr [#1322])
+- Dependencies: bump the cargo group across 1 directory with 2 updates(pr [#1325])
 
 ## [3.0.12] - 2025-03-08
 
@@ -1135,6 +1136,7 @@ emitted if a tracing subscriber is not found.
 [#1320]: https://github.com/jerus-org/hcaptcha-rs/pull/1320
 [#1321]: https://github.com/jerus-org/hcaptcha-rs/pull/1321
 [#1322]: https://github.com/jerus-org/hcaptcha-rs/pull/1322
+[#1325]: https://github.com/jerus-org/hcaptcha-rs/pull/1325
 [Unreleased]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.0.12...HEAD
 [3.0.12]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.0.11...v3.0.12
 [3.0.11]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.0.10...v3.0.11
