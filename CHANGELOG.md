@@ -37,6 +37,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - deps: update rust crate proc-macro2 to 1.0.95(pr [#1327])
 - deps: update rust crate rand to 0.9.1(pr [#1328])
 - deps: update rust crate tokio to 1.44.2(pr [#1329])
+- deps: update dependency toolkit to v2.8.1(pr [#1330])
 
 ### Security
 
@@ -1147,6 +1148,7 @@ emitted if a tracing subscriber is not found.
 [#1327]: https://github.com/jerus-org/hcaptcha-rs/pull/1327
 [#1328]: https://github.com/jerus-org/hcaptcha-rs/pull/1328
 [#1329]: https://github.com/jerus-org/hcaptcha-rs/pull/1329
+[#1330]: https://github.com/jerus-org/hcaptcha-rs/pull/1330
 [Unreleased]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.0.12...HEAD
 [3.0.12]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.0.11...v3.0.12
 [3.0.11]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.0.10...v3.0.11
