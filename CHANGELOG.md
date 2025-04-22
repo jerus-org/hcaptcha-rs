@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- 👷 ci(circleci)-update pipeline configuration for release handling(pr [#1331])
+
 ### Fixed
 
 - deps: update github/codeql-action action to v3.28.11(pr [#1300])
@@ -1149,6 +1153,7 @@ emitted if a tracing subscriber is not found.
 [#1328]: https://github.com/jerus-org/hcaptcha-rs/pull/1328
 [#1329]: https://github.com/jerus-org/hcaptcha-rs/pull/1329
 [#1330]: https://github.com/jerus-org/hcaptcha-rs/pull/1330
+[#1331]: https://github.com/jerus-org/hcaptcha-rs/pull/1331
 [Unreleased]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.0.12...HEAD
 [3.0.12]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.0.11...v3.0.12
 [3.0.11]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.0.10...v3.0.11

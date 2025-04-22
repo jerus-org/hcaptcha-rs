@@ -18,13 +18,17 @@ parameters:
     type: boolean
     default: false
     description: "If true, the success pipeline will be executed."
+  release-flag:
+    type: boolean
+    default: false
+    description: "If true, the release pipeline will be executed."
   pcu_workspace:
     type: boolean
     default: true
     description: "If true, the make release treats as workspace."
 
 orbs:
-  toolkit: jerus-org/circleci-toolkit@2.8.1
+  toolkit: jerus-org/circleci-toolkit@2.9.1
 
 executors:
   rust_env:
@@ -89,6 +93,7 @@ workflows:
             equal: [scheduled_pipeline, << pipeline.trigger_source >>]
         - not: << pipeline.parameters.success-flag >>
         - not: << pipeline.parameters.validation-flag >>
+        - not: << pipeline.parameters.release-flag >>
 
     jobs:
       - toolkit/choose_pipeline:
@@ -101,6 +106,7 @@ workflows:
         - not:
             equal: [scheduled_pipeline, << pipeline.trigger_source >>]
         - not: << pipeline.parameters.success-flag >>
+        - not: << pipeline.parameters.release-flag >>
         - << pipeline.parameters.validation-flag >>
     jobs:
       - toolkit/label:
@@ -207,17 +213,23 @@ workflows:
             equal: [scheduled_pipeline, << pipeline.trigger_source >>]
         - << pipeline.parameters.success-flag >>
         - not: << pipeline.parameters.validation-flag >>
+        - not: << pipeline.parameters.release-flag >>
 
     jobs:
       - toolkit/end_success
 
   release:
     when:
-      and:
-        - equal: [scheduled_pipeline, << pipeline.trigger_source >>]
-        - equal: ["release check", << pipeline.schedule.name >>]
-        - not: << pipeline.parameters.success-flag >>
-        - not: << pipeline.parameters.validation-flag >>
+      or:
+        - and:
+            - << pipeline.parameters.release-flag >>
+            - not: << pipeline.parameters.success-flag >>
+            - not: << pipeline.parameters.validation-flag >>
+        - and:
+            - equal: [scheduled_pipeline, << pipeline.trigger_source >>]
+            - equal: ["release check", << pipeline.schedule.name >>]
+            - not: << pipeline.parameters.success-flag >>
+            - not: << pipeline.parameters.validation-flag >>
     jobs:
       - toolkit/save_next_version:
           min_rust_version: << pipeline.parameters.min-rust-version >>
