@@ -789,7 +789,7 @@ checksum = "bf151400ff0baff5465007dd2f3e717f3fe502074ca563069ce3a6629d07b289"
 
 [[package]]
 name = "hcaptcha"
-version = "3.0.12"
+version = "3.0.15"
 dependencies = [
  "async-trait",
  "chrono",
@@ -822,7 +822,7 @@ dependencies = [
 
 [[package]]
 name = "hcaptcha-cli"
-version = "3.0.12"
+version = "3.0.15"
 dependencies = [
  "clap",
  "clap-verbosity-flag",
@@ -833,7 +833,7 @@ dependencies = [
 
 [[package]]
 name = "hcaptcha-wasm"
-version = "3.0.12"
+version = "3.0.15"
 dependencies = [
  "claims",
  "hcaptcha",
@@ -845,7 +845,7 @@ dependencies = [
 
 [[package]]
 name = "hcaptcha_derive"
-version = "3.0.12"
+version = "3.0.15"
 dependencies = [
  "hcaptcha",
  "macrotest",
@@ -1489,7 +1489,7 @@ dependencies = [
 
 [[package]]
 name = "mock-verifier"
-version = "3.0.12"
+version = "3.0.15"
 dependencies = [
  "chrono",
  "hcaptcha",
@@ -2557,11 +2557,11 @@ dependencies = [
 
 [[package]]
 name = "test-suite-cli"
-version = "3.0.12"
+version = "3.0.15"
 
 [[package]]
 name = "test-suite-default"
-version = "3.0.12"
+version = "3.0.15"
 dependencies = [
  "chrono",
  "claims",
@@ -2580,7 +2580,7 @@ dependencies = [
 
 [[package]]
 name = "test-suite-enterprise"
-version = "3.0.12"
+version = "3.0.15"
 dependencies = [
  "chrono",
  "claims",
@@ -2599,7 +2599,7 @@ dependencies = [
 
 [[package]]
 name = "test-suite-native-only"
-version = "3.0.12"
+version = "3.0.15"
 dependencies = [
  "chrono",
  "claims",
@@ -2618,7 +2618,7 @@ dependencies = [
 
 [[package]]
 name = "test-suite-no-default"
-version = "3.0.12"
+version = "3.0.15"
 dependencies = [
  "chrono",
  "claims",
@@ -2637,7 +2637,7 @@ dependencies = [
 
 [[package]]
 name = "test-suite-rustls-only"
-version = "3.0.12"
+version = "3.0.15"
 dependencies = [
  "chrono",
  "claims",
@@ -2656,7 +2656,7 @@ dependencies = [
 
 [[package]]
 name = "test-suite-trace"
-version = "3.0.12"
+version = "3.0.15"
 dependencies = [
  "chrono",
  "claims",
@@ -2675,7 +2675,7 @@ dependencies = [
 
 [[package]]
 name = "test-wasm"
-version = "3.0.12"
+version = "3.0.15"
 dependencies = [
  "claims",
  "hcaptcha",

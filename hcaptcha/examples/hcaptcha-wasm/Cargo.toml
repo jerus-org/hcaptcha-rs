@@ -1,6 +1,6 @@
 [package]
 name = "hcaptcha-wasm"
-version = "3.0.12"
+version = "3.0.15"
 authors = ["Jeremiah Russell <jerry@jrussell.ie>"]
 edition.workspace = true
 rust-version.workspace = true
