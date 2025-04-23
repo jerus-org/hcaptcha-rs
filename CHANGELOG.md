@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - 👷 ci(circleci)-update pipeline configuration for release handling(pr [#1331])
+- 👷 ci(circleci)-add pcu_verbosity parameter to config(pr [#1332])
 
 ### Fixed
 
@@ -1154,6 +1155,7 @@ emitted if a tracing subscriber is not found.
 [#1329]: https://github.com/jerus-org/hcaptcha-rs/pull/1329
 [#1330]: https://github.com/jerus-org/hcaptcha-rs/pull/1330
 [#1331]: https://github.com/jerus-org/hcaptcha-rs/pull/1331
+[#1332]: https://github.com/jerus-org/hcaptcha-rs/pull/1332
 [Unreleased]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.0.12...HEAD
 [3.0.12]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.0.11...v3.0.12
 [3.0.11]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.0.10...v3.0.11
