@@ -26,6 +26,10 @@ parameters:
     type: boolean
     default: true
     description: "If true, the make release treats as workspace."
+  pcu_verbosity:
+    type: string
+    default: "-vv"
+    description: "Verbosity for pcu application executions."
 
 orbs:
   toolkit: jerus-org/circleci-toolkit@2.9.1
@@ -205,6 +209,7 @@ workflows:
             - pcu-app
           ssh_fingerprint: << pipeline.parameters.fingerprint >>
           min_rust_version: << pipeline.parameters.min-rust-version >>
+          pcu_verbosity: << pipeline.parameters.pcu_verbosity >>
 
   on_success:
     when:
@@ -243,6 +248,7 @@ workflows:
             - bot-check
           ssh_fingerprint: << pipeline.parameters.fingerprint >>
           min_rust_version: << pipeline.parameters.min-rust-version >>
+          pcu_verbosity: << pipeline.parameters.pcu_verbosity >>
           when_github_release: false
       - toolkit/make_release:
           name: github release << matrix.package >>
@@ -254,7 +260,7 @@ workflows:
           ssh_fingerprint: << pipeline.parameters.fingerprint >>
           min_rust_version: << pipeline.parameters.min-rust-version >>
           when_cargo_release: false
-          pcu_verbosity: "-vvvvv"
+          pcu_verbosity: << pipeline.parameters.pcu_verbosity >>
           matrix:
             parameters:
               package: [hcaptcha, hcaptcha-derive]
