@@ -1,6 +1,6 @@
 [package]
 name = "test-suite-default"
-version = "3.0.15"
+version = "3.0.16"
 edition.workspace = true
 publish = false
 rust-version = "1.75"
