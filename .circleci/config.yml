@@ -262,6 +262,7 @@ workflows:
           when_cargo_release: false
           pcu_verbosity: << pipeline.parameters.pcu_verbosity >>
           package: hcaptcha
+          when_update_pcu: true
       - toolkit/no_release:
           min_rust_version: << pipeline.parameters.min-rust-version >>
           requires:
