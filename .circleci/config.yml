@@ -251,7 +251,7 @@ workflows:
           pcu_verbosity: << pipeline.parameters.pcu_verbosity >>
           when_github_release: false
       - toolkit/make_release:
-          name: github release << matrix.package >>
+          name: github release for hcaptcha
           context:
             - release
             - bot-check
