@@ -261,9 +261,7 @@ workflows:
           min_rust_version: << pipeline.parameters.min-rust-version >>
           when_cargo_release: false
           pcu_verbosity: << pipeline.parameters.pcu_verbosity >>
-          matrix:
-            parameters:
-              package: [hcaptcha, hcaptcha-derive]
+          package: hcaptcha
       - toolkit/no_release:
           min_rust_version: << pipeline.parameters.min-rust-version >>
           requires:
