@@ -14,16 +14,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
-- deps: update github/codeql-action action to v3.28.11(pr [#1300])
-- deps: update rust crate clap to 4.5.32(pr [#1301])
-- deps: update rust crate env_logger to 0.11.7(pr [#1302])
-- deps: update rust crate quote to 1.0.40(pr [#1303])
-- deps: update rust crate reqwest to 0.12.14(pr [#1304])
-- deps: update rust crate serde to 1.0.219(pr [#1305])
-- deps: update rust crate syn to 2.0.100(pr [#1306])
-- deps: update rust crate tokio to 1.44.1(pr [#1307])
-- deps: update rust crate mockd to 0.4.43(pr [#1308])
-- deps: update rust crate uuid to 1.16.0(pr [#1309])
+- deps: update rust crate clap to 4.5.36(pr [#1326])
+- deps: update rust crate proc-macro2 to 1.0.95(pr [#1327])
+- deps: update rust crate rand to 0.9.1(pr [#1328])
+- deps: update rust crate tokio to 1.44.2(pr [#1329])
+- deps: update dependency toolkit to v2.8.1(pr [#1330])
+
+## [3.0.14] - 2025-04-13
+
+### Fixed
+
 - deps: update dependency toolkit to v2.5.1(pr [#1314])
 - deps: update actions/upload-artifact action to v4.6.2(pr [#1310])
 - deps: update github/codeql-action action to v3.28.12(pr [#1311])
@@ -38,15 +38,25 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - deps: update rust crate env_logger to 0.11.8(pr [#1321])
 - deps: update rust crate tokio to v1.44.2 [security](pr [#1323])
 - deps: update github/codeql-action action to v3.28.15(pr [#1324])
-- deps: update rust crate clap to 4.5.36(pr [#1326])
-- deps: update rust crate proc-macro2 to 1.0.95(pr [#1327])
-- deps: update rust crate rand to 0.9.1(pr [#1328])
-- deps: update rust crate tokio to 1.44.2(pr [#1329])
-- deps: update dependency toolkit to v2.8.1(pr [#1330])
 
 ### Security
 
 - Dependencies: bump openssl from 0.10.71 to 0.10.72 in the cargo group across 1 directory(pr [#1322])
+
+## [3.0.13] - 2025-03-14
+
+### Fixed
+
+- deps: update github/codeql-action action to v3.28.11(pr [#1300])
+- deps: update rust crate clap to 4.5.32(pr [#1301])
+- deps: update rust crate env_logger to 0.11.7(pr [#1302])
+- deps: update rust crate quote to 1.0.40(pr [#1303])
+- deps: update rust crate reqwest to 0.12.14(pr [#1304])
+- deps: update rust crate serde to 1.0.219(pr [#1305])
+- deps: update rust crate syn to 2.0.100(pr [#1306])
+- deps: update rust crate tokio to 1.44.1(pr [#1307])
+- deps: update rust crate mockd to 0.4.43(pr [#1308])
+- deps: update rust crate uuid to 1.16.0(pr [#1309])
 
 ## [3.0.12] - 2025-03-08
 
@@ -1156,7 +1166,9 @@ emitted if a tracing subscriber is not found.
 [#1330]: https://github.com/jerus-org/hcaptcha-rs/pull/1330
 [#1331]: https://github.com/jerus-org/hcaptcha-rs/pull/1331
 [#1332]: https://github.com/jerus-org/hcaptcha-rs/pull/1332
-[Unreleased]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.0.12...HEAD
+[Unreleased]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.0.14...HEAD
+[3.0.14]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.0.13...v3.0.14
+[3.0.13]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.0.12...v3.0.13
 [3.0.12]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.0.11...v3.0.12
 [3.0.11]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.0.10...v3.0.11
 [3.0.10]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.0.9...v3.0.10

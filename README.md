@@ -15,7 +15,7 @@
 [mit-url]: https://github.com/jerusdp/hcaptcha-rs/blob/main/LICENSE
 [circleci-batch]: https://dl.circleci.com/status-badge/img/gh/jerus-org/hcaptcha-rs/tree/main.svg?style=svg
 [circleci-url]: https://dl.circleci.com/status-badge/redirect/gh/jerus-org/hcaptcha-rs/tree/main
-[version-badge]: https://img.shields.io/badge/rust-1.71+-orange.svg
+[version-badge]: https://img.shields.io/badge/rust-1.81+-orange.svg
 [version-url]: https://www.rust-lang.org
 [docs-badge]:  https://docs.rs/hcaptcha/badge.svg
 [docs-url]:  https://docs.rs/hcapatcha
@@ -34,7 +34,7 @@ To use hcaptcha, add the following to your `Cargo.toml`:
 
 ```toml
 [dependencies]
-hcaptcha = "3.0.12"
+hcaptcha = "3.0.14"
 
 ```
 
