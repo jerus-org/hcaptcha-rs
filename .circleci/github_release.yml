@@ -1,0 +1,75 @@
+version: 2.1
+
+# Filter for release tags.
+release-filters: &release-filters
+  branches:
+    ignore: /.*/
+  tags:
+    only: /^v[0-9]+\.[0-9]+\.[0-9]+$/
+
+parameters:
+  min-rust-version:
+    type: string
+    default: "1.81"
+  docker-tag-suffix:
+    type: string
+    default: "-wasi"
+  fingerprint:
+    type: string
+    default: SHA256:OkxsH8Z6Iim6WDJBaII9eTT9aaO1f3eDc6IpsgYYPVg
+  validation-flag:
+    type: boolean
+    default: false
+    description: "If true, the validation pipeline will be executed."
+  success-flag:
+    type: boolean
+    default: false
+    description: "If true, the success pipeline will be executed."
+  release-flag:
+    type: boolean
+    default: false
+    description: "If true, the release pipeline will be executed."
+  pcu_workspace:
+    type: boolean
+    default: true
+    description: "If true, the make release treats as workspace."
+  pcu_verbosity:
+    type: string
+    default: "-vv"
+    description: "Verbosity for pcu application executions."
+
+orbs:
+  toolkit: jerus-org/circleci-toolkit@2.9.1
+
+executors:
+  rust_env:
+    docker:
+      - image: jerusdp/ci-rust:<<pipeline.parameters.min-rust-version>><< pipeline.parameters.docker-tag-suffix >>
+  base-env:
+    docker:
+      - image: jerusdp/ci-rust:base
+
+workflows:
+  github-release:
+    jobs:
+      - toolkit/save_next_version:
+          filters: *release-filters
+          min_rust_version: << pipeline.parameters.min-rust-version >>
+      - toolkit/make_release:
+          name: github release for hcaptcha
+          context:
+            - release
+            - bot-check
+          requires:
+            - toolkit/save_next_version
+          ssh_fingerprint: << pipeline.parameters.fingerprint >>
+          min_rust_version: << pipeline.parameters.min-rust-version >>
+          when_cargo_release: false
+          pcu_verbosity: << pipeline.parameters.pcu_verbosity >>
+          package: hcaptcha
+          when_update_pcu: true
+      - toolkit/no_release:
+          min_rust_version: << pipeline.parameters.min-rust-version >>
+          requires:
+            - toolkit/save_next_version:
+                - failed
