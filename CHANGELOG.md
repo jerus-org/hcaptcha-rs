@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - 👷 ci(circleci)-remove filters from save_next_version job(pr [#1342])
+- 👷 ci(circleci)-update github release workflow configuration(pr [#1343])
 
 ## [3.0.20] - 2025-04-25
 
@@ -1216,6 +1217,7 @@ emitted if a tracing subscriber is not found.
 [#1340]: https://github.com/jerus-org/hcaptcha-rs/pull/1340
 [#1341]: https://github.com/jerus-org/hcaptcha-rs/pull/1341
 [#1342]: https://github.com/jerus-org/hcaptcha-rs/pull/1342
+[#1343]: https://github.com/jerus-org/hcaptcha-rs/pull/1343
 [Unreleased]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.0.20...HEAD
 [3.0.20]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.0.19...v3.0.20
 [3.0.19]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.0.18...v3.0.19
