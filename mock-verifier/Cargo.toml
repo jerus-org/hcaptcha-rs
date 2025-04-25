@@ -1,6 +1,6 @@
 [package]
 name = "mock-verifier"
-version = "3.0.17"
+version = "3.0.18"
 rust-version.workspace = true
 edition.workspace = true
 publish.workspace = true
