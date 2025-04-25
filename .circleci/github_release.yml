@@ -52,15 +52,15 @@ executors:
 workflows:
   github-release:
     jobs:
-      # - toolkit/save_next_version:
-      #     min_rust_version: << pipeline.parameters.min-rust-version >>
+      - toolkit/save_next_version:
+          min_rust_version: << pipeline.parameters.min-rust-version >>
       - toolkit/make_release:
           name: github release for hcaptcha
           context:
             - release
             - bot-check
-          # requires:
-          # - toolkit/save_next_version
+          requires:
+            - toolkit/save_next_version
           ssh_fingerprint: << pipeline.parameters.fingerprint >>
           min_rust_version: << pipeline.parameters.min-rust-version >>
           when_cargo_release: false
@@ -68,8 +68,8 @@ workflows:
           package: hcaptcha
           when_update_pcu: true
           remove_ssh_key: false
-      # - toolkit/no_release:
-      #     min_rust_version: << pipeline.parameters.min-rust-version >>
-      #     requires:
-      #       - toolkit/save_next_version:
-      #           - failed
+      - toolkit/no_release:
+          min_rust_version: << pipeline.parameters.min-rust-version >>
+          requires:
+            - toolkit/save_next_version:
+                - failed
