@@ -1,12 +1,5 @@
 version: 2.1
 
-# Filter for release tags.
-release-filters: &release-filters
-  branches:
-    ignore: /.*/
-  tags:
-    only: /^v[0-9]+\.[0-9]+\.[0-9]+$/
-
 parameters:
   min-rust-version:
     type: string
