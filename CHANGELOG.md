@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - 👷 ci(circleci)-remove filters from save_next_version job(pr [#1342])
+- 👷 ci(circleci)-update github release workflow configuration(pr [#1343])
 
 ## [3.0.20] - 2025-04-25
 
