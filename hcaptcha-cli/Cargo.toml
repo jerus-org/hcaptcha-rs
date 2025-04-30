@@ -1,6 +1,6 @@
 [package]
 name = "hcaptcha-cli"
-version = "3.0.22"
+version = "3.0.23"
 edition.workspace = true
 publish.workspace = true
 rust-version.workspace = true
