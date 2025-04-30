@@ -10,29 +10,29 @@ parameters:
   fingerprint:
     type: string
     default: SHA256:OkxsH8Z6Iim6WDJBaII9eTT9aaO1f3eDc6IpsgYYPVg
-  validation-flag:
-    type: boolean
-    default: false
-    description: "If true, the validation pipeline will be executed."
-  success-flag:
-    type: boolean
-    default: false
-    description: "If true, the success pipeline will be executed."
-  release-flag:
-    type: boolean
-    default: false
-    description: "If true, the release pipeline will be executed."
-  pcu_workspace:
-    type: boolean
-    default: true
-    description: "If true, the make release treats as workspace."
+  # validation-flag:
+  #   type: boolean
+  #   default: false
+  #   description: "If true, the validation pipeline will be executed."
+  # success-flag:
+  #   type: boolean
+  #   default: false
+  #   description: "If true, the success pipeline will be executed."
+  # release-flag:
+  #   type: boolean
+  #   default: false
+  #   description: "If true, the release pipeline will be executed."
+  # pcu_workspace:
+  #   type: boolean
+  #   default: true
+  #   description: "If true, the make release treats as workspace."
   pcu_verbosity:
     type: string
     default: "-vv"
     description: "Verbosity for pcu application executions."
 
 orbs:
-  toolkit: jerus-org/circleci-toolkit@2.9.1
+  toolkit: jerus-org/circleci-toolkit@2.10.4
 
 executors:
   rust_env:
