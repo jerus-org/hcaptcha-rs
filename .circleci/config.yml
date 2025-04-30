@@ -39,7 +39,7 @@ parameters:
     description: "Verbosity for pcu application executions."
 
 orbs:
-  toolkit: jerus-org/circleci-toolkit@2.9.1
+  toolkit: jerus-org/circleci-toolkit@2.10.4
 
 executors:
   rust_env:
