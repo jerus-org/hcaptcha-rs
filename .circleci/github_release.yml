@@ -1,5 +1,8 @@
 version: 2.1
 
+orbs:
+  toolkit: jerus-org/circleci-toolkit@2.10.7
+
 parameters:
   min-rust-version:
     type: string
@@ -14,9 +17,6 @@ parameters:
     type: string
     default: "-vv"
     description: "Verbosity for pcu application executions."
-
-orbs:
-  toolkit: jerus-org/circleci-toolkit@2.10.4
 
 executors:
   rust_env:
@@ -40,3 +40,4 @@ workflows:
           pcu_verbosity: << pipeline.parameters.pcu_verbosity >>
           package: hcaptcha
           remove_ssh_key: false
+          when_update_pcu: true

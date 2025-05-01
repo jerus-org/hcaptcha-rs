@@ -39,7 +39,7 @@ parameters:
     description: "Verbosity for pcu application executions."
 
 orbs:
-  toolkit: jerus-org/circleci-toolkit@2.10.4
+  toolkit: jerus-org/circleci-toolkit@2.10.7
 
 executors:
   rust_env:
@@ -264,6 +264,10 @@ workflows:
                 - failed
 
   github-release:
+    when:
+      not:
+        equal: ["", << pipeline.git.tag >>]
+
     jobs:
       - toolkit/save_next_version:
           filters: *release-filters
