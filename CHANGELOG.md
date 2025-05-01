@@ -5,6 +5,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Changed
+
+- 👷 ci(circleci)-update circleci toolkit orb version(pr [#1348])
+
 ## [3.0.23] - 2025-04-30
 
 ### Changed
@@ -1235,7 +1241,9 @@ emitted if a tracing subscriber is not found.
 [#1345]: https://github.com/jerus-org/hcaptcha-rs/pull/1345
 [#1346]: https://github.com/jerus-org/hcaptcha-rs/pull/1346
 [#1347]: https://github.com/jerus-org/hcaptcha-rs/pull/1347
-[3.0.23]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.0.22...hcaptcha-v3.0.23
+[#1348]: https://github.com/jerus-org/hcaptcha-rs/pull/1348
+[Unreleased]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.0.23...HEAD
+[3.0.23]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.0.22...v3.0.23
 [3.0.22]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.0.21...v3.0.22
 [3.0.21]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.0.20...v3.0.21
 [3.0.20]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.0.19...v3.0.20
