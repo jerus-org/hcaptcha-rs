@@ -1,8 +1,5 @@
 version: 2.1
 
-orbs:
-  toolkit: jerus-org/circleci-toolkit@2.10.7
-
 # Filter for release tags.
 release-filters: &release-filters
   branches:
@@ -40,6 +37,9 @@ parameters:
     type: string
     default: "-vv"
     description: "Verbosity for pcu application executions."
+
+orbs:
+  toolkit: jerus-org/circleci-toolkit@2.10.7
 
 executors:
   rust_env:

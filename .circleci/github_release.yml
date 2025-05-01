@@ -41,4 +41,4 @@ workflows:
           package: hcaptcha
           remove_ssh_key: false
           when_update_pcu: true
-          when_get_version: false
+          # when_get_version: false
