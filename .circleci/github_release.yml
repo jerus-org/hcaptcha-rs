@@ -1,5 +1,8 @@
 version: 2.1
 
+orbs:
+  toolkit: jerus-org/circleci-toolkit@2.10.5
+
 parameters:
   min-rust-version:
     type: string
@@ -14,9 +17,6 @@ parameters:
     type: string
     default: "-vv"
     description: "Verbosity for pcu application executions."
-
-orbs:
-  toolkit: jerus-org/circleci-toolkit@2.10.4
 
 executors:
   rust_env:
