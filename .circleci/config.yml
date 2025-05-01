@@ -263,30 +263,17 @@ workflows:
             - toolkit/save_next_version:
                 - failed
 
-  github-release:
-    when:
-      not:
-        equal: ["", << pipeline.git.tag >>]
-
-    jobs:
-      - toolkit/save_next_version:
-          filters: *release-filters
-          min_rust_version: << pipeline.parameters.min-rust-version >>
       - toolkit/make_release:
+          requires:
+            - cargo release
           name: github release for hcaptcha
           context:
             - release
             - bot-check
-          requires:
-            - toolkit/save_next_version
           ssh_fingerprint: << pipeline.parameters.fingerprint >>
           min_rust_version: << pipeline.parameters.min-rust-version >>
           when_cargo_release: false
           pcu_verbosity: << pipeline.parameters.pcu_verbosity >>
           package: hcaptcha
+          remove_ssh_key: false
           when_update_pcu: true
-      - toolkit/no_release:
-          min_rust_version: << pipeline.parameters.min-rust-version >>
-          requires:
-            - toolkit/save_next_version:
-                - failed
