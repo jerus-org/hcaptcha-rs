@@ -264,6 +264,10 @@ workflows:
                 - failed
 
   github-release:
+    when:
+      not:
+        equal: ["", << pipeline.git.tag >>]
+
     jobs:
       - toolkit/save_next_version:
           filters: *release-filters
