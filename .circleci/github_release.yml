@@ -38,5 +38,6 @@ workflows:
           min_rust_version: << pipeline.parameters.min-rust-version >>
           when_cargo_release: false
           pcu_verbosity: << pipeline.parameters.pcu_verbosity >>
+          when_update_pcu: true
           package: hcaptcha
           remove_ssh_key: false
