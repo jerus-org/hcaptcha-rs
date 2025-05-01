@@ -1,7 +1,7 @@
 version: 2.1
 
 orbs:
-  toolkit: jerus-org/circleci-toolkit@2.10.5
+  toolkit: jerus-org/circleci-toolkit@2.10.6
 
 # Filter for release tags.
 release-filters: &release-filters
