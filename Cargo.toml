@@ -23,7 +23,7 @@ publish = false
 
 [workspace.dependencies]
 async-trait = "0.1.88"
-chrono = "0.4.40"
+chrono = "0.4.41"
 claims = "0.8.0"
 clap = "4.5.37"
 clap-verbosity-flag = "3.0.2"
