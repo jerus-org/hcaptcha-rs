@@ -275,5 +275,3 @@ workflows:
           when_cargo_release: false
           pcu_verbosity: << pipeline.parameters.pcu_verbosity >>
           package: hcaptcha
-          remove_ssh_key: false
-          when_update_pcu: true
