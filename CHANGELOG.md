@@ -11,6 +11,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - 👷 ci(circleci)-remove unused configuration parameters(pr [#1353])
 
+### Fixed
+
+- deps: update rust crate chrono to 0.4.41(pr [#1350])
+
 ## [3.0.25] - 2025-05-01
 
 ### Changed
@@ -1256,6 +1260,7 @@ emitted if a tracing subscriber is not found.
 [#1348]: https://github.com/jerus-org/hcaptcha-rs/pull/1348
 [#1349]: https://github.com/jerus-org/hcaptcha-rs/pull/1349
 [#1353]: https://github.com/jerus-org/hcaptcha-rs/pull/1353
+[#1350]: https://github.com/jerus-org/hcaptcha-rs/pull/1350
 [Unreleased]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.0.25...HEAD
 [3.0.25]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.0.24...v3.0.25
 [3.0.24]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.0.23...v3.0.24
