@@ -5,7 +5,7 @@
   "semanticCommits": "enabled",
   "semanticCommitType": "fix",
   "schedule": [
-    "before 6:00am on Friday"
+    "* 0-5 24 * *"
   ],
   "prConcurrentLimit": 0,
   "prHourlyLimit": 0,
