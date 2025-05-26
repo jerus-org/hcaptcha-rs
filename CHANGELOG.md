@@ -19,6 +19,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - deps: update rust crate color-eyre to 0.6.4(pr [#1358])
 - deps: update rust crate mockd to 0.4.48(pr [#1359])
 - deps: update rust crate trybuild to 1.0.105(pr [#1360])
+- deps: update rust crate url to 2.5.4(pr [#1361])
 
 ## [3.0.26] - 2025-05-03
 
@@ -1287,6 +1288,7 @@ emitted if a tracing subscriber is not found.
 [#1358]: https://github.com/jerus-org/hcaptcha-rs/pull/1358
 [#1359]: https://github.com/jerus-org/hcaptcha-rs/pull/1359
 [#1360]: https://github.com/jerus-org/hcaptcha-rs/pull/1360
+[#1361]: https://github.com/jerus-org/hcaptcha-rs/pull/1361
 [Unreleased]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.0.26...HEAD
 [3.0.26]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.0.25...v3.0.26
 [3.0.25]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.0.24...v3.0.25
