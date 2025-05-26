@@ -3,7 +3,7 @@
 [![Crates.io][crates-badge]][crates-url]
 [![MIT licensed][mit-badge]][mit-url]
 [![Build Status][circleci-batch]][circleci-url]
-[![Rust 1.81+][version-badge]][version-url]
+[![Rust 1.82+][version-badge]][version-url]
 [![Docs][docs-badge]][docs-url]
 [![BuyMeaCoffee][bmac-badge]][bmac-url]
 [![GitHubSponsors][ghub-badge]][ghub-url]
@@ -15,7 +15,7 @@
 [mit-url]: https://github.com/jerusdp/hcaptcha-rs/blob/main/LICENSE
 [circleci-batch]: https://dl.circleci.com/status-badge/img/gh/jerus-org/hcaptcha-rs/tree/main.svg?style=svg
 [circleci-url]: https://dl.circleci.com/status-badge/redirect/gh/jerus-org/hcaptcha-rs/tree/main
-[version-badge]: https://img.shields.io/badge/rust-1.81+-orange.svg
+[version-badge]: https://img.shields.io/badge/rust-1.82+-orange.svg
 [version-url]: https://www.rust-lang.org
 [docs-badge]:  https://docs.rs/hcaptcha/badge.svg
 [docs-url]:  https://docs.rs/hcapatcha
