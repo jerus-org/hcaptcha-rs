@@ -19,7 +19,6 @@ impl Secret {
         feature = "trace",
         tracing::instrument(name = "Extended check of secret.", skip(s), level = "debug")
     )]
-
     pub fn parse(s: String) -> Result<Self, Error> {
         match SecretVersions::parse(s)? {
             SecretVersions::V1(s) => Secret::parse_v1(s),
