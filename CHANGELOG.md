@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 - deps: update rust crate color-eyre to 0.6.5(pr [#1366])
+- deps: update ossf/scorecard-action action to v2.4.2(pr [#1364])
 
 ## [3.0.27] - 2025-05-28
 
@@ -1300,6 +1301,7 @@ emitted if a tracing subscriber is not found.
 [#1362]: https://github.com/jerus-org/hcaptcha-rs/pull/1362
 [#1363]: https://github.com/jerus-org/hcaptcha-rs/pull/1363
 [#1366]: https://github.com/jerus-org/hcaptcha-rs/pull/1366
+[#1364]: https://github.com/jerus-org/hcaptcha-rs/pull/1364
 [Unreleased]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.0.27...HEAD
 [3.0.27]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.0.26...v3.0.27
 [3.0.26]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.0.25...v3.0.26
