@@ -20,7 +20,7 @@ async fn main() -> Result<()> {
 #[tokio::main]
 async fn main() -> Result<()> {
     let args = Cli::parse();
-    println!("Args found: {:?}", args);
+    println!("Args found: {args:?}");
 
     println!("{}", handle_cli(args).await?);
 
