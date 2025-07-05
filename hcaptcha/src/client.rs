@@ -255,7 +255,7 @@ impl Client {
     }
 
     /// Verify the client token with the Hcaptcha service API.
-    /// 
+    ///
     /// **Note**: This method consumes the client. Consider using [`verify_request`]
     /// instead if you need to reuse the client for multiple requests.
     ///
@@ -385,7 +385,7 @@ impl Client {
     /// # async fn main() -> Result<(), hcaptcha::Error> {
     /// let secret = get_your_secret();
     /// let client = Client::new(); // Create once
-    /// 
+    ///
     /// // Reuse the same client for multiple requests
     /// for token in &["token1", "token2", "token3"] {
     ///     let captcha = Captcha::new(token)?;
@@ -421,14 +421,15 @@ impl Client {
             serde_urlencoded::to_string(&form).unwrap_or_else(|_| "form corrupted".to_owned())
         );
 
-        let response = self.client
+        let response = self
+            .client
             .post(self.url.clone())
             .form(&form)
             .send()
             .await?
             .json::<Response>()
             .await?;
-        
+
         #[cfg(feature = "trace")]
         tracing::debug!("The response is: {:?}", response);
         response.check_error()?;
@@ -511,7 +512,7 @@ mod tests {
         let token1 = random_string(100);
         let token2 = random_string(100);
         let secret = format!("0x{}", hex::encode(random_string(20)));
-        
+
         let timestamp = Utc::now()
             .checked_sub_signed(TimeDelta::try_minutes(10).unwrap())
             .unwrap()
@@ -531,16 +532,16 @@ mod tests {
         let uri = format!("{}{}", mock_server.uri(), "/siteverify");
 
         let client = Client::new_with(&uri).unwrap();
-        
+
         // Test that we can reuse the same client for multiple requests
         let request1 = Request::new_from_response(&secret, &token1).unwrap();
         let response1 = client.verify_request(request1).await;
         assert_ok!(&response1);
-        
+
         let request2 = Request::new_from_response(&secret, &token2).unwrap();
         let response2 = client.verify_request(request2).await;
         assert_ok!(&response2);
-        
+
         // Verify both responses are successful
         assert!(response1.unwrap().success());
         assert!(response2.unwrap().success());
