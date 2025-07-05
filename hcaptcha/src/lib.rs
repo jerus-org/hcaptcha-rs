@@ -11,7 +11,8 @@
 //!
 //! For each request build the request using the [`Request`] builder.
 //!
-//! Submit the request using the [`Client`] struct's [`Client::verify`] method.
+//! Submit the request using the [`Client`] struct's [`Client::verify_request`] method to reuse the same client instance.
+//! The [`Client::verify`] method is also available but consumes the client.
 //!
 //! A [`Response`] is returned if the validation was successful or the method fails with a set of [`Error`] [`Code`]s if the validation failed.
 //!
