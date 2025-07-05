@@ -155,6 +155,38 @@ impl Client {
         Ok(self)
     }
 
+    /// Internal method to handle the actual HTTP request and response processing.
+    #[cfg_attr(
+        feature = "trace",
+        tracing::instrument(
+            name = "Internal HTTP request to hCaptcha API.",
+            skip(self),
+            level = "debug"
+        )
+    )]
+    async fn make_request(&self, request: Request) -> Result<Response, Error> {
+        let form: Form = request.into();
+        #[cfg(feature = "trace")]
+        tracing::debug!(
+            "The form to submit to Hcaptcha API: {:?}",
+            serde_urlencoded::to_string(&form).unwrap_or_else(|_| "form corrupted".to_owned())
+        );
+
+        let response = self
+            .client
+            .post(self.url.clone())
+            .form(&form)
+            .send()
+            .await?
+            .json::<Response>()
+            .await?;
+
+        #[cfg(feature = "trace")]
+        tracing::debug!("The response is: {:?}", response);
+        response.check_error()?;
+        Ok(response)
+    }
+
     /// Verify the client token with the Hcaptcha service API.
     ///
     /// Call the Hcaptcha api and provide a [Request] struct.
@@ -234,24 +266,7 @@ impl Client {
     )]
     #[deprecated(since = "3.0.0", note = "please use `verify` instead")]
     pub async fn verify_client_response(self, request: Request) -> Result<Response, Error> {
-        let form: Form = request.into();
-        #[cfg(feature = "trace")]
-        tracing::debug!(
-            "The form to submit to Hcaptcha API: {:?}",
-            serde_urlencoded::to_string(&form).unwrap_or_else(|_| "form corrupted".to_owned())
-        );
-        let response = self
-            .client
-            .post(self.url.clone())
-            .form(&form)
-            .send()
-            .await?
-            .json::<Response>()
-            .await?;
-        #[cfg(feature = "trace")]
-        tracing::debug!("The response is: {:?}", response);
-        response.check_error()?;
-        Ok(response)
+        self.make_request(request).await
     }
 
     /// Verify the client token with the Hcaptcha service API.
@@ -337,24 +352,7 @@ impl Client {
         )
     )]
     pub async fn verify(self, request: Request) -> Result<Response, Error> {
-        let form: Form = request.into();
-        #[cfg(feature = "trace")]
-        tracing::debug!(
-            "The form to submit to Hcaptcha API: {:?}",
-            serde_urlencoded::to_string(&form).unwrap_or_else(|_| "form corrupted".to_owned())
-        );
-        let response = self
-            .client
-            .post(self.url.clone())
-            .form(&form)
-            .send()
-            .await?
-            .json::<Response>()
-            .await?;
-        #[cfg(feature = "trace")]
-        tracing::debug!("The response is: {:?}", response);
-        response.check_error()?;
-        Ok(response)
+        self.make_request(request).await
     }
 
     /// Verify the client token with the Hcaptcha service API.
@@ -414,26 +412,7 @@ impl Client {
         )
     )]
     pub async fn verify_request(&self, request: Request) -> Result<Response, Error> {
-        let form: Form = request.into();
-        #[cfg(feature = "trace")]
-        tracing::debug!(
-            "The form to submit to Hcaptcha API: {:?}",
-            serde_urlencoded::to_string(&form).unwrap_or_else(|_| "form corrupted".to_owned())
-        );
-
-        let response = self
-            .client
-            .post(self.url.clone())
-            .form(&form)
-            .send()
-            .await?
-            .json::<Response>()
-            .await?;
-
-        #[cfg(feature = "trace")]
-        tracing::debug!("The response is: {:?}", response);
-        response.check_error()?;
-        Ok(response)
+        self.make_request(request).await
     }
 }
 
