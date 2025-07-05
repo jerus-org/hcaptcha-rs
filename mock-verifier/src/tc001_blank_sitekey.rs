@@ -32,14 +32,17 @@ pub struct SuccessResponse {
 }
 
 impl SuccessResponse {
+    #[allow(dead_code)]
     pub fn success(&self) -> bool {
         self.success
     }
 
+    #[allow(dead_code)]
     pub fn credit(&self) -> bool {
         self.credit
     }
 
+    #[allow(dead_code)]
     pub fn hostname(&self) -> &str {
         &self.hostname
     }
@@ -62,7 +65,7 @@ pub struct RequestData {
 
 impl Display for RequestData {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "{:?}", self)
+        write!(f, "{self:?}")
     }
 }
 

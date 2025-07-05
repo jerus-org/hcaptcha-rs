@@ -259,63 +259,63 @@ mod tests {
     #[test]
     fn test_fmt_missing_secret() {
         let code = Code::MissingSecret;
-        let formatted = format!("{}", code);
+        let formatted = format!("{code}");
         assert_eq!(formatted, "Secret key is missing.");
     }
 
     #[test]
     fn test_fmt_invalid_secret() {
         let code = Code::InvalidSecret;
-        let formatted = format!("{}", code);
+        let formatted = format!("{code}");
         assert_eq!(formatted, "Secret key is invalid or malformed.");
     }
 
     #[test]
     fn test_fmt_missing_user_ip() {
         let code = Code::MissingUserIp;
-        let formatted = format!("{}", code);
+        let formatted = format!("{code}");
         assert_eq!(formatted, "User IP string is missing.");
     }
 
     #[test]
     fn test_fmt_invalid_user_ip() {
         let code = Code::InvalidUserIp;
-        let formatted = format!("{}", code);
+        let formatted = format!("{code}");
         assert_eq!(formatted, "User IP string is invalid.");
     }
 
     #[test]
     fn test_fmt_missing_site_key() {
         let code = Code::MissingSiteKey;
-        let formatted = format!("{}", code);
+        let formatted = format!("{code}");
         assert_eq!(formatted, "Site Key string is missing.");
     }
 
     #[test]
     fn test_fmt_invalid_site_key() {
         let code = Code::InvalidSiteKey;
-        let formatted = format!("{}", code);
+        let formatted = format!("{code}");
         assert_eq!(formatted, "Site Key string is invalid.");
     }
 
     #[test]
     fn test_fmt_invlid_secret_ext_wrong_len() {
         let code = Code::InvalidSecretExtWrongLen;
-        let formatted = format!("{}", code);
+        let formatted = format!("{code}");
         assert_eq!(formatted, "Secret key is not the correct length.");
     }
 
     #[test]
     fn test_fmt_invalid_secret_ext_no_hex() {
         let code = Code::InvalidSecretExtNotHex;
-        let formatted = format!("{}", code);
+        let formatted = format!("{code}");
         assert_eq!(formatted, "Secret key is not a hex string.");
     }
 
     #[test]
     fn test_fmt_missing_response() {
         let code = Code::MissingResponse;
-        let formatted = format!("{}", code);
+        let formatted = format!("{code}");
         assert_eq!(
             formatted,
             "The response parameter (verification token) is missing."
@@ -325,7 +325,7 @@ mod tests {
     #[test]
     fn test_fmt_invalid_response() {
         let code = Code::InvalidResponse;
-        let formatted = format!("{}", code);
+        let formatted = format!("{code}");
         assert_eq!(
             formatted,
             "The response parameter (verification token) is invalid or malformed."
@@ -335,14 +335,14 @@ mod tests {
     #[test]
     fn test_fmt_bad_request() {
         let code = Code::BadRequest;
-        let formatted = format!("{}", code);
+        let formatted = format!("{code}");
         assert_eq!(formatted, "The request is invalid or malformed.");
     }
 
     #[test]
     fn test_fmt_invalid_already_seen() {
         let code = Code::InvalidAlreadySeen;
-        let formatted = format!("{}", code);
+        let formatted = format!("{code}");
         assert_eq!(
             formatted,
             "The response parameter has already been checked, or has another issue."
@@ -352,7 +352,7 @@ mod tests {
     #[test]
     fn test_fmt_site_secret_mismatch() {
         let code = Code::SiteSecretMismatch;
-        let formatted = format!("{}", code);
+        let formatted = format!("{code}");
         assert_eq!(
             formatted,
             "The sitekey is not registered with the provided secret."
@@ -362,7 +362,7 @@ mod tests {
     #[test]
     fn test_fmt_secret_version_unknown() {
         let code = Code::SecretVersionUnknown;
-        let formatted = format!("{}", code);
+        let formatted = format!("{code}");
         assert_eq!(
             formatted,
             "The version of the site secret is not recognise."
@@ -372,7 +372,7 @@ mod tests {
     #[test]
     fn test_fmt_invalid_secret_ext_not_hex() {
         let code = Code::InvalidSecretExtNotHex;
-        let formatted = format!("{}", code);
+        let formatted = format!("{code}");
         assert_eq!(formatted, "Secret key is not a hex string.");
     }
 
@@ -380,7 +380,7 @@ mod tests {
     fn test_fmt_unknown_error() {
         let error_message = "Some unknown error occurred.";
         let code = Code::Unknown(error_message.to_string());
-        let formatted = format!("{}", code);
-        assert_eq!(formatted, format!("Unkown error: {}", error_message));
+        let formatted = format!("{code}");
+        assert_eq!(formatted, format!("Unkown error: {error_message}"));
     }
 }
