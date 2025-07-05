@@ -31,5 +31,9 @@
         "derive",
         "CI"
     ],
-    "rust-analyzer.rustc.source": null
+    "rust-analyzer.rustc.source": null,
+    "sonarlint.connectedMode.project": {
+        "connectionId": "jerus-org",
+        "projectKey": "jerus-org_hcaptcha-rs"
+    }
 }

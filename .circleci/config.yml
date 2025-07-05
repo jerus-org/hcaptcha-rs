@@ -1,12 +1,5 @@
 version: 2.1
 
-# Filter for release tags.
-release-filters: &release-filters
-  branches:
-    ignore: /.*/
-  tags:
-    only: /^v[0-9]+\.[0-9]+\.[0-9]+$/
-
 parameters:
   min-rust-version:
     type: string
@@ -39,7 +32,7 @@ parameters:
     description: "Verbosity for pcu application executions."
 
 orbs:
-  toolkit: jerus-org/circleci-toolkit@2.10.7
+  toolkit: jerus-org/circleci-toolkit@2.11.0
 
 executors:
   rust_env:

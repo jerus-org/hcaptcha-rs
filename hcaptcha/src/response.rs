@@ -162,11 +162,11 @@ impl fmt::Display for Response {
                 None => "".to_owned(),
             },
             match self.credit() {
-                Some(v) => format!("{}", v),
+                Some(v) => format!("{v}"),
                 None => "".to_owned(),
             },
             match self.error_codes() {
-                Some(v) => format!("{:?}", v),
+                Some(v) => format!("{v:?}"),
                 None => "".to_owned(),
             },
         )
@@ -674,8 +674,8 @@ mod tests {
                 score_reason: Some(reasons),
             };
 
-            let formatted = format!("{}", response);
-            println!("{}", formatted);
+            let formatted = format!("{response}");
+            println!("{formatted}");
             assert!(formatted.contains("Status:         true"));
             assert!(formatted.contains("Timestamp:      2023-01-01T00:00:00Z"));
             assert!(formatted.contains("Hostname:       test.com"));
@@ -724,7 +724,7 @@ mod tests {
             score_reason: None,
         };
 
-        let formatted = format!("{}", response);
+        let formatted = format!("{response}");
         assert!(formatted.contains("Status:         true"));
         assert!(formatted.contains("Timestamp:      "));
         assert!(formatted.contains("Hostname:       "));
