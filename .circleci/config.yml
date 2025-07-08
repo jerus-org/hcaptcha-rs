@@ -98,11 +98,14 @@ commands:
             else
               echo "Last committer is not the bot"
               BODY+='","parameters":{"<< parameters.pipeline_flag_if_not >>":true'
-              BODY+=',"pcu_verbosity":"<< parameters.pipeline_pcu_verbosity >>'
-              if [[ "<< parameters.pipeline_pcu_allow_no_pull_request >>" != "" ]]; then
-                BODY+='","pcu_allow_no_pull_request":"<< parameters.pipeline_pcu_allow_no_pull_request >>'
+              # BODY+=',"pcu_verbosity":"<< parameters.pipeline_pcu_verbosity >>"'
+              # if [[ "<< parameters.pipeline_pcu_allow_no_pull_request >>" != "" ]]; then
+              #   BODY+=',"pcu_allow_no_pull_request":"<< parameters.pipeline_pcu_allow_no_pull_request >>"'
+              # fi
+              if [[ "<< parameters.pipeline_extra_parameters >>" != "" ]]; then
+                BODY+=${<< parameters.pipeline_extra_parameters >>}
               fi
-              BODY+='"}}'
+              BODY+='}}'
             fi
             echo $BODY
             curl -u ${CIRCLE_TOKEN}: \
@@ -227,6 +230,7 @@ workflows:
           context: bot-check
           pipeline_pcu_verbosity: << pipeline.parameters.pcu_verbosity >>
           pipeline_pcu_allow_no_pull_request: << pipeline.parameters.pcu_allow_no_pull_request >>
+          pipeline_extra_parameters: ',"pcu_verbosity":"<< pipeline.parameters.pcu_verbosity >>","pcu_allow_no_pull_request":"<< pipeline.parameters.pcu_allow_no_pull_request >>"'
 
   validation:
     when:
