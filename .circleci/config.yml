@@ -30,9 +30,16 @@ parameters:
     type: string
     default: "-vv"
     description: "Verbosity for pcu application executions."
+  pcu_allow_no_pull_request:
+    type: enum
+    enum:
+      - ""
+      - "--allow-no-pull-request"
+    default: ""
+    description: "Optional flag to allows successful exit if no pull request in CI environment"
 
 orbs:
-  toolkit: jerus-org/circleci-toolkit@2.11.0
+  toolkit: jerus-org/circleci-toolkit@2.12.1
 
 executors:
   rust_env:
@@ -210,6 +217,7 @@ workflows:
           ssh_fingerprint: << pipeline.parameters.fingerprint >>
           min_rust_version: << pipeline.parameters.min-rust-version >>
           pcu_verbosity: << pipeline.parameters.pcu_verbosity >>
+          pcu_allow_no_pull_request: << pipeline.parameters.pcu_allow_no_pull_request >>
 
   on_success:
     when:
