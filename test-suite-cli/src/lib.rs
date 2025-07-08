@@ -37,7 +37,7 @@ impl Cmd {
 
 pub fn cargo_bin(name: &str) -> std::path::PathBuf {
     let bin = if env::var("WASI").is_ok() {
-        let file_name = format!("{}{}", name, WASM_SUFFIX);
+        let file_name = format!("{name}{WASM_SUFFIX}");
         let bin_dir = bin_dir();
         bin_dir.join(file_name)
     } else {
