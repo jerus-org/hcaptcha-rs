@@ -99,16 +99,10 @@ commands:
                           }}'
             else
               echo "Last committer is not the bot"
-              BODY+='","parameters":{"'
-              BODY+=${<< parameters.pipeline_flag_if_not >>}
-              BODY+='":true'
-              BODY+=',"pcu_verbosity": "'
-              BODY+=${<< parameters.pipeline_pcu_verbosity >>}
-              BODY+='"'
+              BODY+='","parameters":{"<< parameters.pipeline_flag_if_not >>":true'
+              BODY+=',"pcu_verbosity": "<< parameters.pipeline_pcu_verbosity >>"'
               if [[ "<< parameters.pipeline_pcu_allow_no_pull_request >>" != "" ]]; then
-                BODY+=',"pcu_allow_no_pull_request": "'
-                BODY+=${<< parameters.pipeline_pcu_allow_no_pull_request >>}
-                BODY+='"'
+                BODY+=',"pcu_allow_no_pull_request": "<< parameters.pipeline_pcu_allow_no_pull_request >>"'
               fi
               BODY+='}}'
             fi
