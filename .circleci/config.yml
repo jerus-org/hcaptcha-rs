@@ -94,17 +94,15 @@ commands:
             BODY+=${<< parameters.branch >>}
             if [[ "$committer" == "<< parameters.committer >>" ]]; then
               echo "Last committer is the bot"
-              BODY+='","parameters":{"<< parameters.pipeline_flag_if >>":true\
-                          << parameters.pipeline_extra_parameters >>\
-                          }}'
+              BODY+='","parameters":{"<< parameters.pipeline_flag_if >>":true}}'
             else
               echo "Last committer is not the bot"
               BODY+='","parameters":{"<< parameters.pipeline_flag_if_not >>":true'
-              BODY+=',"pcu_verbosity": "<< parameters.pipeline_pcu_verbosity >>"'
+              BODY+=',"pcu_verbosity": "<< parameters.pipeline_pcu_verbosity >>'
               if [[ "<< parameters.pipeline_pcu_allow_no_pull_request >>" != "" ]]; then
-                BODY+=',"pcu_allow_no_pull_request": "<< parameters.pipeline_pcu_allow_no_pull_request >>"'
+                BODY+='","pcu_allow_no_pull_request": "<< parameters.pipeline_pcu_allow_no_pull_request >>'
               fi
-              BODY+='}}'
+              BODY+='"}}'
             fi
             echo $BODY
             curl -u ${CIRCLE_TOKEN}: \
