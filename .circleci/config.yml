@@ -69,10 +69,6 @@ commands:
       pipeline_flag_if:
         type: string
         description: The pipeline flag to set if the last commit was by the committer
-      pipeline_extra_parameters:
-        type: string
-        default: ""
-        description: Additional parameters to pass to the pipeline (start ", ")
       pipeline_pcu_verbosity:
         type: string
         default: "-vv"
@@ -102,9 +98,6 @@ commands:
               if [[ "<< parameters.pipeline_pcu_allow_no_pull_request >>" != "" ]]; then
                 BODY+=',"pcu_allow_no_pull_request":"<< parameters.pipeline_pcu_allow_no_pull_request >>"'
               fi
-              # if [[ "<< parameters.pipeline_extra_parameters >>" != "" ]]; then
-              #   BODY+=${<< parameters.pipeline_extra_parameters >>}
-              # fi
               BODY+='}}'
             fi
             echo $BODY
@@ -186,10 +179,6 @@ jobs:
         type: string
         default: "success-flag"
         description: The pipeline flag to set if the test passed
-      pipeline_extra_parameters:
-        type: string
-        default: ""
-        description: Additional parameters to pass to the pipeline (start ", ")
       pipeline_pcu_verbosity:
         type: string
         default: "-vv"
@@ -210,7 +199,6 @@ jobs:
                 committer: "<< parameters.committer >>"
                 pipeline_flag_if_not: "<< parameters.pipeline_flag_test_failed >>"
                 pipeline_flag_if: "<< parameters.pipeline_flag_test_passed >>"
-                pipeline_extra_parameters: "<< parameters.pipeline_extra_parameters >>"
                 pipeline_pcu_verbosity: "<< pipeline.parameters.pcu_verbosity >>"
                 pipeline_pcu_allow_no_pull_request: "<< pipeline.parameters.pcu_allow_no_pull_request >>"
 
@@ -230,7 +218,6 @@ workflows:
           context: bot-check
           pipeline_pcu_verbosity: << pipeline.parameters.pcu_verbosity >>
           pipeline_pcu_allow_no_pull_request: << pipeline.parameters.pcu_allow_no_pull_request >>
-          pipeline_extra_parameters: ',"pcu_verbosity":"<< pipeline.parameters.pcu_verbosity >>","pcu_allow_no_pull_request":"<< pipeline.parameters.pcu_allow_no_pull_request >>"'
 
   validation:
     when:
