@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Use-new-formatting-syntax-for-variables(pr [#1375])
 - Update-configuration-and-toolkit-version(pr [#1376])
 - 👷 ci(config)-add committer-based pipeline selection(pr [#1377])
+- 👷 ci(circleci)-add update_pcu parameter to config(pr [#1378])
 
 ## [3.0.28] - 2025-06-28
 
@@ -1329,6 +1330,7 @@ emitted if a tracing subscriber is not found.
 [#1375]: https://github.com/jerus-org/hcaptcha-rs/pull/1375
 [#1376]: https://github.com/jerus-org/hcaptcha-rs/pull/1376
 [#1377]: https://github.com/jerus-org/hcaptcha-rs/pull/1377
+[#1378]: https://github.com/jerus-org/hcaptcha-rs/pull/1378
 [Unreleased]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.0.28...HEAD
 [3.0.28]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.0.27...v3.0.28
 [3.0.27]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.0.26...v3.0.27
