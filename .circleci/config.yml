@@ -199,8 +199,8 @@ jobs:
                 committer: "<< parameters.committer >>"
                 pipeline_flag_if_not: "<< parameters.pipeline_flag_test_failed >>"
                 pipeline_flag_if: "<< parameters.pipeline_flag_test_passed >>"
-                pipeline_pcu_verbosity: "<< pipeline.parameters.pipeline_pcu_verbosity >>"
-                pipeline_pcu_allow_no_pull_request: "<< pipeline.parameters.pipeline_pcu_allow_no_pull_request >>"
+                pipeline_pcu_verbosity: "<< parameters.pipeline_pcu_verbosity >>"
+                pipeline_pcu_allow_no_pull_request: "<< parameters.pipeline_pcu_allow_no_pull_request >>"
 
 workflows:
   check_last_commit:
