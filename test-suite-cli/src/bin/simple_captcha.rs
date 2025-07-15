@@ -7,7 +7,7 @@ fn main() {
     // Options:
     //   -v, --verbose...       Increase logging verbosity
     //   -q, --quiet...         Decrease logging verbosity
-    //   -t, --token <TOKEN>    The captcha token proivded by the client for validation
+    //   -t, --token <TOKEN>    The captcha token provided by the client for validation
     //   -k, --key <KEY>        The sitekey for hcapthca validation
     //   -s, --secret <SECRET>  The secret key for hcaptcha validation
     //   -i, --ip <IP>          The ip address of the system generating the request

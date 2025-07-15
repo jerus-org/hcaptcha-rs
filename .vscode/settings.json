@@ -4,6 +4,7 @@
         "dd'T'HH",
         "fakeit",
         "hcaptcha",
+        "hcapthca",
         "invalidhcaptchastring",
         "itertools",
         "Itertools",
@@ -16,8 +17,9 @@
         "sitekeys",
         "siteverify",
         "Struct",
+        "testdata",
         "thisisnotapropertoken",
-        "thisisthelonglistofcharactersthatformsaresponse"
+        "thisisthelonglistofcharactersthatformsaresponse",
     ],
     "conventionalCommits.scopes": [
         "lambda-contact",
