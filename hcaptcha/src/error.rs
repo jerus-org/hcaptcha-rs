@@ -381,6 +381,6 @@ mod tests {
         let error_message = "Some unknown error occurred.";
         let code = Code::Unknown(error_message.to_string());
         let formatted = format!("{code}");
-        assert_eq!(formatted, format!("Unkown error: {error_message}"));
+        assert_eq!(formatted, format!("Unknown error: {error_message}"));
     }
 }

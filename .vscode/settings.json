@@ -20,7 +20,6 @@
         "testdata",
         "thisisnotapropertoken",
         "thisisthelonglistofcharactersthatformsaresponse",
-        "Unkown"
     ],
     "conventionalCommits.scopes": [
         "lambda-contact",
