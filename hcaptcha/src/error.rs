@@ -156,7 +156,7 @@ impl fmt::Display for Code {
             Code::SecretVersionUnknown => {
                 write!(f, "The version of the site secret is not recognise.")
             }
-            Code::Unknown(e) => write!(f, "Unkown error: {e}"),
+            Code::Unknown(e) => write!(f, "Unknown error: {e}"),
         }
     }
 }
@@ -299,7 +299,7 @@ mod tests {
     }
 
     #[test]
-    fn test_fmt_invlid_secret_ext_wrong_len() {
+    fn test_fmt_invalid_secret_ext_wrong_len() {
         let code = Code::InvalidSecretExtWrongLen;
         let formatted = format!("{code}");
         assert_eq!(formatted, "Secret key is not the correct length.");
