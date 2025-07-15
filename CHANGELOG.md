@@ -9,11 +9,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- Add client reuse functionality with `verify_request` method for efficient multiple requests [#1373]
+- add client reuse functionality with `verify_request` method for efficient multiple requests (pr [#1373])
 
 ### Changed
 
-- refactor-client methods to use shared internal `make_request` method [#1373]
+- refactor-client methods to use shared internal `make_request` method (pr [#1373])
 - 🔧 chore(vscode)-add SonarLint project configuration(pr [#1374])
 - Use-new-formatting-syntax-for-variables(pr [#1375])
 - Update-configuration-and-toolkit-version(pr [#1376])
