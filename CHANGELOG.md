@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Add client reuse functionality with `verify_request` method for efficient multiple requests [#1373]
+
 ### Changed
 
 - 🔧 chore(vscode)-add SonarLint project configuration(pr [#1374])
@@ -14,6 +18,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Update-configuration-and-toolkit-version(pr [#1376])
 - 👷 ci(config)-add committer-based pipeline selection(pr [#1377])
 - 👷 ci(circleci)-add update_pcu parameter to config(pr [#1378])
+- refactor-client methods to use shared internal `make_request` method [#1373]
 
 ## [3.0.28] - 2025-06-28
 
@@ -1326,6 +1331,7 @@ emitted if a tracing subscriber is not found.
 [#1370]: https://github.com/jerus-org/hcaptcha-rs/pull/1370
 [#1371]: https://github.com/jerus-org/hcaptcha-rs/pull/1371
 [#1372]: https://github.com/jerus-org/hcaptcha-rs/pull/1372
+[#1373]: https://github.com/jerus-org/hcaptcha-rs/pull/1373
 [#1374]: https://github.com/jerus-org/hcaptcha-rs/pull/1374
 [#1375]: https://github.com/jerus-org/hcaptcha-rs/pull/1375
 [#1376]: https://github.com/jerus-org/hcaptcha-rs/pull/1376
