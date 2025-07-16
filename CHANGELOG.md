@@ -7,8 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- add client reuse functionality with `verify_request` method for efficient multiple requests (pr [#1373])
+
 ### Changed
 
+- refactor-client methods to use shared internal `make_request` method (pr [#1373])
 - 🔧 chore(vscode)-add SonarLint project configuration(pr [#1374])
 - Use-new-formatting-syntax-for-variables(pr [#1375])
 - Update-configuration-and-toolkit-version(pr [#1376])
@@ -1327,6 +1332,7 @@ emitted if a tracing subscriber is not found.
 [#1370]: https://github.com/jerus-org/hcaptcha-rs/pull/1370
 [#1371]: https://github.com/jerus-org/hcaptcha-rs/pull/1371
 [#1372]: https://github.com/jerus-org/hcaptcha-rs/pull/1372
+[#1373]: https://github.com/jerus-org/hcaptcha-rs/pull/1373
 [#1374]: https://github.com/jerus-org/hcaptcha-rs/pull/1374
 [#1375]: https://github.com/jerus-org/hcaptcha-rs/pull/1375
 [#1376]: https://github.com/jerus-org/hcaptcha-rs/pull/1376

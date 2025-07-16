@@ -155,6 +155,38 @@ impl Client {
         Ok(self)
     }
 
+    /// Internal method to handle the actual HTTP request and response processing.
+    #[cfg_attr(
+        feature = "trace",
+        tracing::instrument(
+            name = "Internal HTTP request to hCaptcha API.",
+            skip(self),
+            level = "debug"
+        )
+    )]
+    async fn make_request(&self, request: Request) -> Result<Response, Error> {
+        let form: Form = request.into();
+        #[cfg(feature = "trace")]
+        tracing::debug!(
+            "The form to submit to Hcaptcha API: {:?}",
+            serde_urlencoded::to_string(&form).unwrap_or_else(|_| "form corrupted".to_owned())
+        );
+
+        let response = self
+            .client
+            .post(self.url.clone())
+            .form(&form)
+            .send()
+            .await?
+            .json::<Response>()
+            .await?;
+
+        #[cfg(feature = "trace")]
+        tracing::debug!("The response is: {:?}", response);
+        response.check_error()?;
+        Ok(response)
+    }
+
     /// Verify the client token with the Hcaptcha service API.
     ///
     /// Call the Hcaptcha api and provide a [Request] struct.
@@ -234,27 +266,15 @@ impl Client {
     )]
     #[deprecated(since = "3.0.0", note = "please use `verify` instead")]
     pub async fn verify_client_response(self, request: Request) -> Result<Response, Error> {
-        let form: Form = request.into();
-        #[cfg(feature = "trace")]
-        tracing::debug!(
-            "The form to submit to Hcaptcha API: {:?}",
-            serde_urlencoded::to_string(&form).unwrap_or_else(|_| "form corrupted".to_owned())
-        );
-        let response = self
-            .client
-            .post(self.url.clone())
-            .form(&form)
-            .send()
-            .await?
-            .json::<Response>()
-            .await?;
-        #[cfg(feature = "trace")]
-        tracing::debug!("The response is: {:?}", response);
-        response.check_error()?;
-        Ok(response)
+        self.make_request(request).await
     }
 
     /// Verify the client token with the Hcaptcha service API.
+    ///
+    /// **Note**: This method consumes the client. Consider using [`verify_request`]
+    /// instead if you need to reuse the client for multiple requests.
+    ///
+    /// [`verify_request`]: Client::verify_request
     ///
     /// Call the Hcaptcha api and provide a [Request] struct.
     ///
@@ -332,24 +352,67 @@ impl Client {
         )
     )]
     pub async fn verify(self, request: Request) -> Result<Response, Error> {
-        let form: Form = request.into();
-        #[cfg(feature = "trace")]
-        tracing::debug!(
-            "The form to submit to Hcaptcha API: {:?}",
-            serde_urlencoded::to_string(&form).unwrap_or_else(|_| "form corrupted".to_owned())
-        );
-        let response = self
-            .client
-            .post(self.url.clone())
-            .form(&form)
-            .send()
-            .await?
-            .json::<Response>()
-            .await?;
-        #[cfg(feature = "trace")]
-        tracing::debug!("The response is: {:?}", response);
-        response.check_error()?;
-        Ok(response)
+        self.make_request(request).await
+    }
+
+    /// Verify the client token with the Hcaptcha service API.
+    ///
+    /// This method takes a shared reference to the client, allowing reuse
+    /// of the same client instance for multiple requests. This is more
+    /// efficient as it reuses the underlying HTTP connection pool.
+    ///
+    /// # Inputs
+    ///
+    /// Request contains the required and optional fields
+    /// for the Hcaptcha API. The required fields include the response
+    /// code to validate and the secret key.
+    ///
+    /// # Outputs
+    ///
+    /// This method returns [Response] if successful and [Error] if
+    /// unsuccessful.
+    ///
+    /// # Example
+    ///
+    /// ```no_run
+    /// use hcaptcha::{Client, Request, Captcha};
+    /// # use rand::distr::Alphanumeric;
+    /// # use rand::{rng, Rng};
+    /// # use std::iter;
+    /// # #[tokio::main]
+    /// # async fn main() -> Result<(), hcaptcha::Error> {
+    /// let secret = get_your_secret();
+    /// let client = Client::new(); // Create once
+    ///
+    /// // Reuse the same client for multiple requests
+    /// for token in &["token1", "token2", "token3"] {
+    ///     let captcha = Captcha::new(token)?;
+    ///     let request = Request::new(&secret, captcha)?;
+    ///     let response = client.verify_request(request).await?;
+    ///     println!("Verification successful: {}", response.success());
+    /// }
+    /// # Ok(())
+    /// # }
+    /// # fn get_your_secret() -> String {
+    /// #   "0x123456789abcde0f123456789abcdef012345678".to_string()
+    /// # }
+    /// ```
+    ///
+    /// # Logging
+    ///
+    /// If the `trace` feature is enabled a debug level span is set for the
+    /// method and an event logs the response.
+    ///
+    #[cfg_attr(
+        feature = "trace",
+        tracing::instrument(
+            name = "Request verification from hcaptcha (reusable client).",
+            skip(self),
+            level = "debug"
+        )
+    )]
+    pub async fn verify_request(&self, request: Request) -> Result<Response, Error> {
+        self.make_request(request).await
     }
 }
 
@@ -420,6 +483,47 @@ mod tests {
         assert!(logs_contain("Hcaptcha API"));
         #[cfg(feature = "trace")]
         assert!(logs_contain("The response is"));
+    }
+
+    #[tokio::test]
+    #[cfg_attr(feature = "trace", traced_test)]
+    async fn hcaptcha_mock_verify_request_reuse() {
+        let token1 = random_string(100);
+        let token2 = random_string(100);
+        let secret = format!("0x{}", hex::encode(random_string(20)));
+
+        let timestamp = Utc::now()
+            .checked_sub_signed(TimeDelta::try_minutes(10).unwrap())
+            .unwrap()
+            .to_rfc3339();
+
+        let response_template = ResponseTemplate::new(200).set_body_json(json!({
+            "success": true,
+            "challenge_ts": timestamp,
+            "hostname": "test-host",
+        }));
+        let mock_server = MockServer::start().await;
+        Mock::given(method("POST"))
+            .and(path("/siteverify"))
+            .respond_with(response_template)
+            .mount(&mock_server)
+            .await;
+        let uri = format!("{}{}", mock_server.uri(), "/siteverify");
+
+        let client = Client::new_with(&uri).unwrap();
+
+        // Test that we can reuse the same client for multiple requests
+        let request1 = Request::new_from_response(&secret, &token1).unwrap();
+        let response1 = client.verify_request(request1).await;
+        assert_ok!(&response1);
+
+        let request2 = Request::new_from_response(&secret, &token2).unwrap();
+        let response2 = client.verify_request(request2).await;
+        assert_ok!(&response2);
+
+        // Verify both responses are successful
+        assert!(response1.unwrap().success());
+        assert!(response2.unwrap().success());
     }
 
     #[tokio::test]
