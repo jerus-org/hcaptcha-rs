@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - deps: update rust crate mockd to 0.4.51(pr [#1394])
 - deps: update rust crate proc-macro2 to 1.0.101(pr [#1395])
 - deps: update rust crate reqwest to 0.12.23(pr [#1396])
+- deps: update rust crate serde_json to 1.0.143(pr [#1397])
 
 ## [3.0.29] - 2025-07-28
 
@@ -1381,6 +1382,7 @@ emitted if a tracing subscriber is not found.
 [#1394]: https://github.com/jerus-org/hcaptcha-rs/pull/1394
 [#1395]: https://github.com/jerus-org/hcaptcha-rs/pull/1395
 [#1396]: https://github.com/jerus-org/hcaptcha-rs/pull/1396
+[#1397]: https://github.com/jerus-org/hcaptcha-rs/pull/1397
 [Unreleased]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.0.29...HEAD
 [3.0.29]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.0.28...v3.0.29
 [3.0.28]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.0.27...v3.0.28
