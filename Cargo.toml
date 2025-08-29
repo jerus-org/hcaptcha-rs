@@ -55,7 +55,7 @@ tracing = { version = "0.1.41", features = ["log", "attributes"] }
 tracing-appender = "0.2.3"
 tracing-bunyan-formatter = "0.3.10"
 tracing-log = "0.2.0"
-tracing-subscriber = { version = "0.3.19", features = ["env-filter"] }
+tracing-subscriber = { version = "0.3.20", features = ["env-filter"] }
 tracing-test = "0.2.5"
 wiremock = "0.6.4"
 trybuild = "1.0.106"
