@@ -5,6 +5,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Fixed
+
+- deps: update rust crate tracing-subscriber to v0.3.20 [security](pr [#1401])
+
 ## [3.0.30] - 2025-08-28
 
 ### Fixed
@@ -1387,7 +1393,9 @@ emitted if a tracing subscriber is not found.
 [#1397]: https://github.com/jerus-org/hcaptcha-rs/pull/1397
 [#1398]: https://github.com/jerus-org/hcaptcha-rs/pull/1398
 [#1399]: https://github.com/jerus-org/hcaptcha-rs/pull/1399
-[3.0.30]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.0.29...hcaptcha-v3.0.30
+[#1401]: https://github.com/jerus-org/hcaptcha-rs/pull/1401
+[Unreleased]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.0.30...HEAD
+[3.0.30]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.0.29...v3.0.30
 [3.0.29]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.0.28...v3.0.29
 [3.0.28]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.0.27...v3.0.28
 [3.0.27]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.0.26...v3.0.27
