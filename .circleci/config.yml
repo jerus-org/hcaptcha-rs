@@ -39,7 +39,7 @@ parameters:
     description: "Optional flag to allows successful exit if no pull request in CI environment"
 
 orbs:
-  toolkit: jerus-org/circleci-toolkit@2.12.1
+  toolkit: jerus-org/circleci-toolkit@2.13.0
 
 executors:
   rust_env:
@@ -311,7 +311,7 @@ workflows:
       - toolkit/security:
           context: SonarCloud
 
-      - toolkit/update_changelog:
+      - toolkit/update_prlog:
           requires:
             - toolkit/idiomatic_rust
             - test-suite
