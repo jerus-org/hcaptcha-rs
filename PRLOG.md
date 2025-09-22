@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- chore-rename CHANGELOG.md to PRLOG.md(pr [#1402])
+
 ### Security
 
 - Dependencies: bump tracing-subscriber from 0.3.19 to 0.3.20 in the cargo group across 1 directory(pr [#1400])
@@ -1394,6 +1398,7 @@ emitted if a tracing subscriber is not found.
 [#1398]: https://github.com/jerus-org/hcaptcha-rs/pull/1398
 [#1399]: https://github.com/jerus-org/hcaptcha-rs/pull/1399
 [#1400]: https://github.com/jerus-org/hcaptcha-rs/pull/1400
+[#1402]: https://github.com/jerus-org/hcaptcha-rs/pull/1402
 [Unreleased]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.0.30...HEAD
 [3.0.30]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.0.29...v3.0.30
 [3.0.29]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.0.28...v3.0.29
