@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 - deps: update rust crate chrono to 0.4.42(pr [#1403])
+- deps: update rust crate clap to 4.5.48(pr [#1404])
 
 ### Security
 
@@ -1404,6 +1405,7 @@ emitted if a tracing subscriber is not found.
 [#1400]: https://github.com/jerus-org/hcaptcha-rs/pull/1400
 [#1402]: https://github.com/jerus-org/hcaptcha-rs/pull/1402
 [#1403]: https://github.com/jerus-org/hcaptcha-rs/pull/1403
+[#1404]: https://github.com/jerus-org/hcaptcha-rs/pull/1404
 [Unreleased]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.0.30...HEAD
 [3.0.30]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.0.29...v3.0.30
 [3.0.29]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.0.28...v3.0.29
