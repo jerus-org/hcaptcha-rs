@@ -110,8 +110,6 @@ workflows:
       - toolkit/choose_pipeline:
           name: choose pipeline based on committer
           context: bot-check
-          pipeline_pcu_verbosity: << pipeline.parameters.pcu_verbosity >>
-          pipeline_pcu_allow_no_pull_request: << pipeline.parameters.pcu_allow_no_pull_request >>
 
   validation:
     when:
