@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - chore-rename CHANGELOG.md to PRLOG.md(pr [#1402])
+- 🔧 chore(ci)-update CircleCI toolkit version(pr [#1413])
 
 ### Fixed
 
@@ -1422,6 +1423,7 @@ emitted if a tracing subscriber is not found.
 [#1410]: https://github.com/jerus-org/hcaptcha-rs/pull/1410
 [#1411]: https://github.com/jerus-org/hcaptcha-rs/pull/1411
 [#1412]: https://github.com/jerus-org/hcaptcha-rs/pull/1412
+[#1413]: https://github.com/jerus-org/hcaptcha-rs/pull/1413
 [Unreleased]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.0.30...HEAD
 [3.0.30]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.0.29...v3.0.30
 [3.0.29]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.0.28...v3.0.29
