@@ -39,7 +39,7 @@ parameters:
     description: "Optional flag to allows successful exit if no pull request in CI environment"
 
 orbs:
-  toolkit: jerus-org/circleci-toolkit@2.13.0
+  toolkit: jerus-org/circleci-toolkit@2.13.2
 
 executors:
   rust_env:
@@ -48,64 +48,6 @@ executors:
   base-env:
     docker:
       - image: jerusdp/ci-rust:base
-
-commands:
-  pipeline_by_committer:
-    description: >
-      Makes a post request to the project branch pipeline endpoint to call the
-      next pipeline based on the committer of the last commit
-
-    parameters:
-      committer:
-        type: string
-        description: The name of the bot to check for
-      branch:
-        type: env_var_name
-        default: CIRCLE_BRANCH
-        description: The branch for the pipeline
-      pipeline_flag_if_not:
-        type: string
-        description: The pipeline flag to set if the last commit was not by the committer
-      pipeline_flag_if:
-        type: string
-        description: The pipeline flag to set if the last commit was by the committer
-      pipeline_pcu_verbosity:
-        type: string
-        default: "-vv"
-        description: "Verbosity for pcu application executions."
-      pipeline_pcu_allow_no_pull_request:
-        type: enum
-        enum:
-          - ""
-          - "--allow-no-pull-request"
-        default: ""
-        description: "Optional flag to allows successful exit if no pull request in CI environment"
-    steps:
-      - run:
-          name: Check if last commit made by bot
-          command: |
-            committer=$(git log -1 HEAD --pretty=format:%cn)
-            PROJECT_SLUG="gh/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME"
-            BODY='{"branch":"'
-            BODY+=${<< parameters.branch >>}
-            if [[ "$committer" == "<< parameters.committer >>" ]]; then
-              echo "Last committer is the bot"
-              BODY+='","parameters":{"<< parameters.pipeline_flag_if >>":true}}'
-            else
-              echo "Last committer is not the bot"
-              BODY+='","parameters":{"<< parameters.pipeline_flag_if_not >>":true'
-              BODY+=',"pcu_verbosity":"<< parameters.pipeline_pcu_verbosity >>"'
-              if [[ "<< parameters.pipeline_pcu_allow_no_pull_request >>" != "" ]]; then
-                BODY+=',"pcu_allow_no_pull_request":"<< parameters.pipeline_pcu_allow_no_pull_request >>"'
-              fi
-              BODY+='}}'
-            fi
-            echo $BODY
-            curl -u ${CIRCLE_TOKEN}: \
-              -X POST \
-              --header 'content-type: application/json' \
-              -d $BODY \
-              https://circleci.com/api/v2/project/$PROJECT_SLUG/pipeline
 
 jobs:
   test-suite:
@@ -154,54 +96,6 @@ jobs:
           cargo_package: << parameters.cargo_package >>
           cargo_bin: << parameters.cargo_bin >>
 
-  choose_pipeline:
-    description: >
-      Check if the last commit was made by a bot and if so cancel the workflow
-
-    executor:
-      name: base-env
-
-    parameters:
-      criterion:
-        type: enum
-        enum: ["committer"]
-        default: "committer"
-        description: The criterion to use to select between pipeline options
-      committer:
-        type: string
-        default: "Jerus Bot"
-        description: The name of the bot to check for
-      pipeline_flag_test_failed:
-        type: string
-        default: "validation-flag"
-        description: The pipeline flag to set if the test failed
-      pipeline_flag_test_passed:
-        type: string
-        default: "success-flag"
-        description: The pipeline flag to set if the test passed
-      pipeline_pcu_verbosity:
-        type: string
-        default: "-vv"
-        description: "Verbosity for pcu application executions."
-      pipeline_pcu_allow_no_pull_request:
-        type: enum
-        enum:
-          - ""
-          - "--allow-no-pull-request"
-        default: ""
-        description: "Optional flag to allows successful exit if no pull request in CI environment"
-    steps:
-      - checkout
-      - when:
-          condition: << parameters.criterion >> == "committer"
-          steps:
-            - pipeline_by_committer:
-                committer: "<< parameters.committer >>"
-                pipeline_flag_if_not: "<< parameters.pipeline_flag_test_failed >>"
-                pipeline_flag_if: "<< parameters.pipeline_flag_test_passed >>"
-                pipeline_pcu_verbosity: "<< parameters.pipeline_pcu_verbosity >>"
-                pipeline_pcu_allow_no_pull_request: "<< parameters.pipeline_pcu_allow_no_pull_request >>"
-
 workflows:
   check_last_commit:
     when:
@@ -213,7 +107,7 @@ workflows:
         - not: << pipeline.parameters.release-flag >>
 
     jobs:
-      - choose_pipeline:
+      - toolkit/choose_pipeline:
           name: choose pipeline based on committer
           context: bot-check
           pipeline_pcu_verbosity: << pipeline.parameters.pcu_verbosity >>
