@@ -1,6 +1,6 @@
 [package]
 name = "test-suite-trace"
-version = "3.0.30"
+version = "3.0.31"
 edition.workspace = true
 publish.workspace = true
 rust-version.workspace = true
