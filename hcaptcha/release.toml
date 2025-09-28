@@ -7,3 +7,4 @@ pre-release-replacements = [
     { file = "README.md", search = "hcaptcha = .*", replace = "{{crate_name}} = \"{{version}}\"" },
     { file = "src/lib.rs", search = "version = .+,", replace = "version = \"{{version}}\",", exactly = 1 },
 ]
+pre-release-hook = ["./release-hook.sh"]
