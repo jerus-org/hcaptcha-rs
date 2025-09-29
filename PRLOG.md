@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- 🔧 chore(release)-add pre-release hook to release.toml(pr [#1415])
+
+## [3.0.31] - 2025-09-28
+
+### Changed
+
 - chore-rename CHANGELOG.md to PRLOG.md(pr [#1402])
 - 🔧 chore(ci)-update CircleCI toolkit version(pr [#1413])
 - 📦 build(hcaptcha)-add release hook script for README and changelog(pr [#1414])
@@ -1002,7 +1008,7 @@ emitted if a tracing subscriber is not found.
 - Validate secret before submission to Hcaptcha API
 - Validate remoteip as a v4 or v6 IP address before submission to Hcaptcha API
 - Validate sitekey as a UUID before submission to Hcaptcha API
-- Constrain sitekey string to a Uuid
+- Constrain sitekey string to an Uuid
 - Place methods to access Enterprise only response data behind "enterprise" feature flag
 - Replace logging with tracing; remove logging feature flag
 - Revise documentation and enhance examples
