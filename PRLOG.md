@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - 👷 ci(circleci)-update circleci toolkit version(pr [#1417])
 - ♻️ refactor(release-hook)-remove redundant README build steps(pr [#1418])
 - 🔧 chore(release-hook)-update release script for hcaptcha(pr [#1419])
+- 👷 ci(circleci)-update circleci-toolkit orb version(pr [#1420])
 
 ## [3.0.31] - 2025-09-28
 
@@ -1442,6 +1443,7 @@ emitted if a tracing subscriber is not found.
 [#1417]: https://github.com/jerus-org/hcaptcha-rs/pull/1417
 [#1418]: https://github.com/jerus-org/hcaptcha-rs/pull/1418
 [#1419]: https://github.com/jerus-org/hcaptcha-rs/pull/1419
+[#1420]: https://github.com/jerus-org/hcaptcha-rs/pull/1420
 [Unreleased]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.0.31...HEAD
 [3.0.31]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.0.30...v3.0.31
 [3.0.30]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.0.29...v3.0.30
