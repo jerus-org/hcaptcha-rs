@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - deps: update ossf/scorecard-action action to v2.4.3(pr [#1422])
 - deps: update rust crate clap to 4.5.50(pr [#1423])
 - deps: update rust crate mockd to 0.4.54(pr [#1424])
+- deps: update rust crate proc-macro2 to 1.0.103(pr [#1425])
 
 ## [3.0.32] - 2025-09-29
 
@@ -1457,6 +1458,7 @@ emitted if a tracing subscriber is not found.
 [#1422]: https://github.com/jerus-org/hcaptcha-rs/pull/1422
 [#1423]: https://github.com/jerus-org/hcaptcha-rs/pull/1423
 [#1424]: https://github.com/jerus-org/hcaptcha-rs/pull/1424
+[#1425]: https://github.com/jerus-org/hcaptcha-rs/pull/1425
 [Unreleased]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.0.32...HEAD
 [3.0.32]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.0.31...v3.0.32
 [3.0.31]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.0.30...v3.0.31
