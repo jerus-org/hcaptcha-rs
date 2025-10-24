@@ -39,7 +39,7 @@ parameters:
     description: "Optional flag to allows successful exit if no pull request in CI environment"
 
 orbs:
-  toolkit: jerus-org/circleci-toolkit@2.13.4
+  toolkit: jerus-org/circleci-toolkit@2.13.5
 
 executors:
   rust_env:
