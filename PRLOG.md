@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 - deps: update dependency toolkit to v2.13.5(pr [#1421])
+- deps: update ossf/scorecard-action action to v2.4.3(pr [#1422])
 
 ## [3.0.32] - 2025-09-29
 
@@ -1451,6 +1452,7 @@ emitted if a tracing subscriber is not found.
 [#1419]: https://github.com/jerus-org/hcaptcha-rs/pull/1419
 [#1420]: https://github.com/jerus-org/hcaptcha-rs/pull/1420
 [#1421]: https://github.com/jerus-org/hcaptcha-rs/pull/1421
+[#1422]: https://github.com/jerus-org/hcaptcha-rs/pull/1422
 [Unreleased]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.0.32...HEAD
 [3.0.32]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.0.31...v3.0.32
 [3.0.31]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.0.30...v3.0.31
