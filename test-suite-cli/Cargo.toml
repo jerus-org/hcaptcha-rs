@@ -1,6 +1,6 @@
 [package]
 name = "test-suite-cli"
-version = "3.0.32"
+version = "3.0.33"
 edition.workspace = true
 publish.workspace = true
 rust-version.workspace = true
