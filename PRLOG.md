@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - deps: update rust crate clap to 4.5.53(pr [#1431])
 - deps: update rust crate mockd to 0.4.55(pr [#1432])
+- deps: update rust crate quote to 1.0.42(pr [#1433])
 
 ## [3.0.33] - 2025-10-28
 
@@ -1478,6 +1479,7 @@ emitted if a tracing subscriber is not found.
 [#1430]: https://github.com/jerus-org/hcaptcha-rs/pull/1430
 [#1431]: https://github.com/jerus-org/hcaptcha-rs/pull/1431
 [#1432]: https://github.com/jerus-org/hcaptcha-rs/pull/1432
+[#1433]: https://github.com/jerus-org/hcaptcha-rs/pull/1433
 [Unreleased]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.0.33...HEAD
 [3.0.33]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.0.32...v3.0.33
 [3.0.32]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.0.31...v3.0.32
