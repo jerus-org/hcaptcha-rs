@@ -57,7 +57,7 @@ tracing-bunyan-formatter = "0.3.10"
 tracing-log = "0.2.0"
 tracing-subscriber = { version = "0.3.20", features = ["env-filter"] }
 tracing-test = "0.2.5"
-wiremock = "0.6.4"
+wiremock = "0.6.5"
 trybuild = "1.0.114"
 uuid = { version = "1.18.1", features = ["v4"] }
 url = "2.5.7"
