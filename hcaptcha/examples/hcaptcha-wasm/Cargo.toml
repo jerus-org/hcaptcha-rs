@@ -17,7 +17,7 @@ claims = "0.8.0"
 hcaptcha = { path = "../../", features = ["enterprise"] }
 hcaptcha_derive = { path = "../../../hcaptcha_derive" }
 wasm-bindgen = "0.2.105"
-wasm-bindgen-futures = "0.4.53"
+wasm-bindgen-futures = "0.4.55"
 
 # The `console_error_panic_hook` crate provides better debugging of panics by
 # logging them with `console.error`. This is great for development, but requires
