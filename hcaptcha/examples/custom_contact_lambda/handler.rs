@@ -20,6 +20,7 @@ pub struct ApiGatewayEvent {
 ///
 /// Serde will extract the response from the body of the response.
 ///
+#[allow(dead_code)]
 #[derive(Deserialize, Serialize, Clone, Default)]
 pub struct Recaptcha {
     #[serde(rename = "reCaptchaResponse")]
