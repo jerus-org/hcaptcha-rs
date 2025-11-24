@@ -6,7 +6,7 @@ orbs:
 parameters:
   min-rust-version:
     type: string
-    default: "1.85"
+    default: "1.88"
   docker-tag-suffix:
     type: string
     default: "-wasi"
