@@ -31,7 +31,7 @@ color-eyre = "0.6.5"
 env_logger = "0.11.8"
 hex = "0.4.3"
 itertools = "0.14.0"
-lambda_runtime = "0.14.4"
+lambda_runtime = "1.0.1"
 log = "0.4.28"
 macrotest = "1.1.0"
 mockd = { version = "0.4.55", features = ["internet", "unique", "words"] }
