@@ -1,0 +1,10 @@
+version: 2.1
+
+orbs:
+  toolkit: jerus-org/circleci-toolkit@2.16.0
+
+workflows:
+  audit:
+    jobs:
+      - toolkit/security:
+          context: SonarCloud
