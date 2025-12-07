@@ -25,6 +25,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - deps: update tracing packages(pr [#1451])
 - deps: update rust crate wasm-bindgen-test to 0.3.56(pr [#1452])
 - deps: update rust crate wasm-bindgen-futures to 0.4.56(pr [#1453])
+- deps: update rust crate wasm-bindgen to 0.2.106(pr [#1454])
 
 ## [3.1.0] - 2025-11-28
 
@@ -1528,6 +1529,7 @@ emitted if a tracing subscriber is not found.
 [#1451]: https://github.com/jerus-org/hcaptcha-rs/pull/1451
 [#1452]: https://github.com/jerus-org/hcaptcha-rs/pull/1452
 [#1453]: https://github.com/jerus-org/hcaptcha-rs/pull/1453
+[#1454]: https://github.com/jerus-org/hcaptcha-rs/pull/1454
 [Unreleased]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.1.0...HEAD
 [3.1.0]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.0.33...v3.1.0
 [3.0.33]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.0.32...v3.0.33
