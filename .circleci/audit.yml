@@ -7,4 +7,4 @@ workflows:
   audit:
     jobs:
       - toolkit/security:
-          context: SonarCloud
+          sonarcloud: false
