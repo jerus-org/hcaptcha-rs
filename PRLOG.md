@@ -19,6 +19,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - deps: update github/codeql-action action to v4(pr [#1443])
 - deps: update actions/checkout action to v6(pr [#1445])
 - deps: update rust crate uuid to 1.19.0(pr [#1446])
+- deps: update rust crate simple_logger to 5.1.0(pr [#1448])
 
 ## [3.1.0] - 2025-11-28
 
@@ -1516,6 +1517,7 @@ emitted if a tracing subscriber is not found.
 [#1445]: https://github.com/jerus-org/hcaptcha-rs/pull/1445
 [#1446]: https://github.com/jerus-org/hcaptcha-rs/pull/1446
 [#1447]: https://github.com/jerus-org/hcaptcha-rs/pull/1447
+[#1448]: https://github.com/jerus-org/hcaptcha-rs/pull/1448
 [Unreleased]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.1.0...HEAD
 [3.1.0]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.0.33...v3.1.0
 [3.0.33]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.0.32...v3.0.33
