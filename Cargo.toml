@@ -51,11 +51,11 @@ simple_logger = "5.1.0"
 syn = { version = "2.0.111", features = ["extra-traits"] }
 thiserror = "2.0.17"
 tokio = { version = "1.46.1", features = ["rt", "macros"] }
-tracing = { version = "0.1.41", features = ["log", "attributes"] }
-tracing-appender = "0.2.3"
+tracing = { version = "0.1.43", features = ["log", "attributes"] }
+tracing-appender = "0.2.4"
 tracing-bunyan-formatter = "0.3.10"
 tracing-log = "0.2.0"
-tracing-subscriber = { version = "0.3.20", features = ["env-filter"] }
+tracing-subscriber = { version = "0.3.22", features = ["env-filter"] }
 tracing-test = "0.2.5"
 wiremock = "0.6.5"
 trybuild = "1.0.114"
