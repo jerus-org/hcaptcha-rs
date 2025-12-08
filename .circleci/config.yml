@@ -203,7 +203,6 @@ workflows:
       - toolkit/security:
           context: SonarCloud
           branch: << pipeline.git.branch >>
-          debug: true
 
       - toolkit/update_prlog:
           requires:
