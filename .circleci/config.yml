@@ -39,7 +39,7 @@ parameters:
     description: "Optional flag to allows successful exit if no pull request in CI environment"
 
 orbs:
-  toolkit: jerus-org/circleci-toolkit@2.17.0
+  toolkit: jerus-org/circleci-toolkit@2.17.1
   sonarcloud: sonarsource/sonarcloud@3.0.1
 
 executors:
