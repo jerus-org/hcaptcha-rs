@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - 📦 build(ci)-add circleci audit config(pr [#1441])
 - ci(circleci)-remove SonarCloud context from audit workflow(pr [#1447])
 - ci(circleci)-update circleci-toolkit orb to version 2.17.0(pr [#1457])
+- ci(circleci)-update circleci-toolkit orb to version 2.17.1(pr [#1458])
 
 ### Fixed
 
@@ -1536,6 +1537,7 @@ emitted if a tracing subscriber is not found.
 [#1455]: https://github.com/jerus-org/hcaptcha-rs/pull/1455
 [#1456]: https://github.com/jerus-org/hcaptcha-rs/pull/1456
 [#1457]: https://github.com/jerus-org/hcaptcha-rs/pull/1457
+[#1458]: https://github.com/jerus-org/hcaptcha-rs/pull/1458
 [Unreleased]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.1.0...HEAD
 [3.1.0]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.0.33...v3.1.0
 [3.0.33]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.0.32...v3.0.33
