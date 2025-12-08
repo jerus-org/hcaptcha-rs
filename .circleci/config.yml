@@ -40,7 +40,6 @@ parameters:
 
 orbs:
   toolkit: jerus-org/circleci-toolkit@2.17.2
-  sonarcloud: sonarsource/sonarcloud@3.0.1
 
 executors:
   rust_env:
@@ -97,54 +96,6 @@ jobs:
           cargo_package: << parameters.cargo_package >>
           cargo_bin: << parameters.cargo_bin >>
 
-  security:
-    description: >
-      Perform security checks on the code
-
-    executor:
-      name: base-env
-
-    parameters:
-      ignore_advisories:
-        default: ""
-        description: List of advisories to ignore each prefixed with "--ignore "
-        type: string
-      cargo_audit:
-        default: true
-        description: Run the cargo audit scan
-        type: boolean
-      sonarcloud:
-        default: true
-        description: Run the sonarcloud scan
-        type: boolean
-      main_audit_only:
-        default: false
-        description: Don't run sonarcloud if branch is main
-        type: boolean
-
-    steps:
-      - checkout
-      - when:
-          condition: << parameters.cargo_audit >>
-          steps:
-            - toolkit/cargo_audit:
-                ignore_advisories: << parameters.ignore_advisories >>
-      - when:
-          condition:
-            or:
-              # Case 1: main branch, both conditions must hold
-              - and:
-                  - equal: [main, << pipeline.git.branch >>]
-                  - equal: [true, << parameters.sonarcloud >>]
-                  - equal: [false, << parameters.main_audit_only >>]
-              # Case 2: non-main branch, only param_positive matters
-              - and:
-                  - not:
-                      equal: [main, << pipeline.git.branch >>]
-                  - equal: [true, << parameters.sonarcloud >>]
-          steps:
-            - sonarcloud/scan
-
 workflows:
   check_last_commit:
     when:
@@ -180,7 +131,7 @@ workflows:
           min_rust_version: << pipeline.parameters.min-rust-version >>
           package: hcaptcha
           requires:
-            - security
+            - toolkit/security
       - toolkit/required_builds:
           name: required builds-<< matrix.cargo_package >>
           min_rust_version: << pipeline.parameters.min-rust-version >>
@@ -190,7 +141,7 @@ workflows:
               cargo_package:
                 [hcaptcha, hcaptcha_derive, hcaptcha-cli, mock-verifier]
           requires:
-            - security
+            - toolkit/security
       - toolkit/optional_builds:
           name: optional builds-<< matrix.cargo_package >>
           min_rust_version: << pipeline.parameters.min-rust-version >>
@@ -198,19 +149,19 @@ workflows:
           matrix:
             <<: *builds
           requires:
-            - security
+            - toolkit/security
       - toolkit/common_tests:
           name: common tests for x86_64-<< matrix.cargo_package >>
           min_rust_version: << pipeline.parameters.min-rust-version >>
           matrix:
             <<: *builds
           requires:
-            - security
+            - toolkit/security
       - toolkit/idiomatic_rust:
           min_rust_version: << pipeline.parameters.min-rust-version >>
           lint_flags: "-A deprecated"
           requires:
-            - security
+            - toolkit/security
       - toolkit/test_doc_build:
           min_rust_version: << pipeline.parameters.min-rust-version >>
       - run_test_program:
@@ -249,8 +200,9 @@ workflows:
             - toolkit/required_builds
             - toolkit/test_doc_build
 
-      - security:
+      - toolkit/security:
           context: SonarCloud
+          debug: true
 
       - toolkit/update_prlog:
           requires:
