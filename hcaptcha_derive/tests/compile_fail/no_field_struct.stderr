@@ -8,7 +8,7 @@ error: Field containing hcaptcha not identified
                    hcaptcha: String,
                }
 
- --> tests/compile_fail/no_field_struct.rs:4:12
+ --> tests/compile_fail/no_field_struct.rs:8:12
   |
-4 | pub struct ContactForm {
+8 | pub struct ContactForm {
   |            ^^^^^^^^^^^

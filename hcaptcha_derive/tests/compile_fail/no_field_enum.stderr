@@ -8,7 +8,7 @@ error: Must derive on a struct
                    hcaptcha: String,
                }
 
- --> tests/compile_fail/no_field_enum.rs:4:10
+ --> tests/compile_fail/no_field_enum.rs:8:10
   |
-4 | pub enum ContactEnum {
+8 | pub enum ContactEnum {
   |          ^^^^^^^^^^^
