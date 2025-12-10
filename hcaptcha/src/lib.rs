@@ -276,8 +276,8 @@
 //! * `enterprise` - Enable methods to access enterprise service fields in the `Response`
 //! * `ext` - Enables extended validation of secret
 //! * `trace` - Enables tracing instrumentation on all functions. Traces are logged at the debug level. The value of the secret is not logged.
-//! * `nativetls-backend` - Enables native-tls backend in reqwests
-//! * `rustls-backend` - Enables rustls backend in reqwests
+//! * `nativetls-backend` - Enables native-tls backend in reqwest
+//! * `rustls-backend` - Enables rustls backend in reqwest
 //!
 //! ## Rust Version
 //!
