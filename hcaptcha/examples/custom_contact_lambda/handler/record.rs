@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2022 jerusdp
+//
+// SPDX-License-Identifier: MIT OR Apache-2.0
+
 use super::error::ContactError;
 use super::send::ContactForm;
 use tracing::instrument;

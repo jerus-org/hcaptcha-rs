@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2022 jerusdp
+//
+// SPDX-License-Identifier: MIT OR Apache-2.0
+
 use test_suite_cli::{assert_output, cargo_bin, load_expected, Cmd};
 
 fn main() {

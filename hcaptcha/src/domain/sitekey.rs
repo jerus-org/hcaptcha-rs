@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2022 jerusdp
+//
+// SPDX-License-Identifier: MIT OR Apache-2.0
+
 use crate::{Code, Error};
 use std::collections::HashSet;
 use std::fmt;

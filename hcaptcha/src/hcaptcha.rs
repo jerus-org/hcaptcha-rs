@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2022 jerusdp
+//
+// SPDX-License-Identifier: MIT OR Apache-2.0
+
 //! Hcaptcha Trait
 use crate::{Error, Response};
 // use async_trait::async_trait;

@@ -1,3 +1,9 @@
+<!--
+SPDX-FileCopyrightText: 2022 jerusdp
+
+SPDX-License-Identifier: MIT OR Apache-2.0
+-->
+
 # Derived Contact Lambda
 
 This example provides a skeleton for a lambda to handle the submission of a contact form.

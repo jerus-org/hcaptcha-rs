@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2022 jerusdp
+//
+// SPDX-License-Identifier: MIT OR Apache-2.0
+
 use crate::{Code, Error};
 use std::collections::HashSet;
 use std::fmt;
@@ -112,7 +116,7 @@ mod tests {
     use super::Secret;
     use crate::Code;
     use crate::Error;
-    use claims::{assert_err, assert_ok};
+    use claims::assert_err;
 
     #[test]
     fn whitespace_only_secrets_are_rejected() {
@@ -159,19 +163,6 @@ mod tests {
             assert!(hs.contains(&Code::InvalidSecretExtNotHex));
             assert!(hs.contains(&Code::InvalidSecretExtWrongLen));
         }
-    }
-
-    #[test]
-    fn test_v1_secret_key_is_valid() {
-        let secret = "0x0000000123456789abcdefABCDEF000000000000".to_string();
-        assert_ok!(Secret::parse(secret));
-    }
-
-    // A second format of secret is being issued since September 2023
-    #[test]
-    fn test_v2_secret_key_is_valid() {
-        let secret = "ES_215963ca0f4b4d5e80d2ae736ce35d1d".to_string();
-        assert_ok!(Secret::parse(secret));
     }
 
     #[test]

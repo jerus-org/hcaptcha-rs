@@ -1,0 +1,9 @@
+Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Upstream-Name: hcaptcha-rs
+Upstream-Contact: jerusdp
+Source: https://github.com/jerus-org/hcaptcha-rs
+
+# Generated files and files with unrecognized extensions
+Files: *.stderr *.txt Cargo.lock .whitesource coverage/lcov.info
+Copyright: 2022 jerusdp
+License: MIT OR Apache-2.0

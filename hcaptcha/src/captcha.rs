@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2022 jerusdp
+//
+// SPDX-License-Identifier: MIT OR Apache-2.0
+
 //! Collect the required and optional parameters supplied by the client for the
 //! hcaptcha api request.
 //!
