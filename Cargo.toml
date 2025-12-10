@@ -21,7 +21,7 @@ members = [
 ]
 
 [workspace.package]
-rust-version = "1.75"
+rust-version = "1.88"
 edition = "2021"
 publish = false
 
