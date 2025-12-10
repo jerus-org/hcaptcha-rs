@@ -4,6 +4,6 @@ Upstream-Contact: jerusdp
 Source: https://github.com/jerus-org/hcaptcha-rs
 
 # Generated files and files with unrecognized extensions
-Files: *.stderr *.txt Cargo.lock .whitesource coverage/lcov.info
+Files: *.stderr *.expanded.rs *.txt Cargo.lock .whitesource coverage/lcov.info PRLOG.md
 Copyright: 2022 jerusdp
 License: MIT OR Apache-2.0
