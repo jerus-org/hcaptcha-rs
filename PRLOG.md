@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - ci(circleci)-update circleci-toolkit orb to version 2.17.0(pr [#1457])
 - ci(circleci)-update circleci-toolkit orb to version 2.17.1(pr [#1458])
 - 🌐 i18n(license): add SPDX copyright and license headers(pr [#1459])
+- 📝 docs(hcaptcha)-correct spelling in documentation(pr [#1460])
 
 ### Fixed
 
@@ -1540,6 +1541,7 @@ emitted if a tracing subscriber is not found.
 [#1457]: https://github.com/jerus-org/hcaptcha-rs/pull/1457
 [#1458]: https://github.com/jerus-org/hcaptcha-rs/pull/1458
 [#1459]: https://github.com/jerus-org/hcaptcha-rs/pull/1459
+[#1460]: https://github.com/jerus-org/hcaptcha-rs/pull/1460
 [Unreleased]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.1.0...HEAD
 [3.1.0]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.0.33...v3.1.0
 [3.0.33]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.0.32...v3.0.33
