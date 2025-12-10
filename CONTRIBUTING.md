@@ -1,0 +1,233 @@
+<!--
+SPDX-FileCopyrightText: 2022 jerusdp
+
+SPDX-License-Identifier: MIT OR Apache-2.0
+-->
+
+# Contributing to hcaptcha-rs
+
+Thank you for your interest in contributing to hcaptcha-rs! We welcome contributions from the community and appreciate your help in making this project better.
+
+## Code of Conduct
+
+This project adheres to a [Code of Conduct](CODE_OF_CONDUCT.md). By participating, you are expected to uphold this code. Please report unacceptable behavior to community[@]jerus.ie.
+
+## Getting Started
+
+### Prerequisites
+
+- Rust 1.88 or higher
+- Git
+- Familiarity with Cargo and Rust development
+
+### Setting Up Your Development Environment
+
+1. Fork the repository on GitHub
+2. Clone your fork locally:
+   ```bash
+   git clone https://github.com/YOUR_USERNAME/hcaptcha-rs.git
+   cd hcaptcha-rs
+   ```
+3. Add the upstream repository as a remote:
+   ```bash
+   git remote add upstream https://github.com/jerus-org/hcaptcha-rs.git
+   ```
+4. Build the project:
+   ```bash
+   cargo build
+   ```
+5. Run the tests to ensure everything is working:
+   ```bash
+   cargo test --all
+   ```
+
+## How to Contribute
+
+### Reporting Bugs
+
+- Use the [GitHub Issues](https://github.com/jerus-org/hcaptcha-rs/issues) page to report bugs
+- Before creating a new issue, please search existing issues to avoid duplicates
+- Provide a clear description of the issue, including:
+  - Steps to reproduce
+  - Expected behavior
+  - Actual behavior
+  - Your environment (OS, Rust version, etc.)
+
+### Security Vulnerabilities
+
+**Do not report security vulnerabilities through public GitHub issues.**
+
+Please refer to our [Security Policy](SECURITY.md) for instructions on how to report security vulnerabilities responsibly.
+
+### Suggesting Enhancements
+
+- Use the [GitHub Issues](https://github.com/jerus-org/hcaptcha-rs/issues) page to suggest enhancements
+- Clearly describe the enhancement and its potential benefits
+- Provide examples of how the feature would be used
+
+### Submitting Pull Requests
+
+1. **Create a new branch** from `main` for your changes:
+   ```bash
+   git checkout -b feature/your-feature-name
+   ```
+   or
+   ```bash
+   git checkout -b fix/issue-description
+   ```
+
+2. **Make your changes** following the coding standards below
+
+3. **Write tests** for your changes to ensure code coverage
+
+4. **Run the test suite** to ensure all tests pass:
+   ```bash
+   cargo test --all
+   ```
+
+5. **Check for code quality issues**:
+   ```bash
+   cargo clippy --all-targets --all-features
+   ```
+   Fix any warnings or errors reported by Clippy.
+
+6. **Format your code**:
+   ```bash
+   cargo fmt --all
+   ```
+
+7. **Commit your changes** with a descriptive commit message prefixed with an appropriate emoji:
+   ```bash
+   git commit -m "✨ Add new feature for X"
+   ```
+   
+   Common emoji prefixes:
+   - ✨ `:sparkles:` - New feature
+   - 🐛 `:bug:` - Bug fix
+   - 📚 `:books:` - Documentation
+   - 🎨 `:art:` - Code style/formatting
+   - ♻️ `:recycle:` - Refactoring
+   - ✅ `:white_check_mark:` - Tests
+   - ⬆️ `:arrow_up:` - Dependency updates
+   - 🔒 `:lock:` - Security fixes
+
+8. **Push your branch** to your fork:
+   ```bash
+   git push origin feature/your-feature-name
+   ```
+
+9. **Create a Pull Request** on GitHub:
+   - Navigate to the [hcaptcha-rs repository](https://github.com/jerus-org/hcaptcha-rs)
+   - Click "New Pull Request"
+   - Select your fork and branch
+   - Provide a clear description of your changes
+   - Reference any related issues
+
+10. **Request review** from @jerusdp or other maintainers
+
+### Pull Request Guidelines
+
+- **Never commit directly to `main`** - all changes must go through a pull request
+- Keep pull requests focused on a single feature or fix
+- Write clear, descriptive commit messages
+- Ensure all tests pass and code quality checks are clean
+- Update documentation as needed
+- Add yourself to the contributors list if it's your first contribution
+
+## Coding Standards
+
+### Code Style
+
+- Follow Rust's official style guidelines
+- Use `cargo fmt` to format your code
+- Run `cargo clippy` and address all warnings
+
+### Testing
+
+- Write unit tests for all new functionality
+- Write integration tests where appropriate
+- Check for duplicated code in test functions and add helper functions when duplications are found
+- Aim for high test coverage
+- All tests must pass before submitting a pull request
+
+The project includes multiple test suites in the workspace:
+- `test-suite-default` - Default feature tests
+- `test-suite-enterprise` - Enterprise feature tests
+- `test-suite-native-only` - Native TLS only tests
+- `test-suite-no-default` - Tests with no default features
+- `test-suite-rustls-only` - RustLS only tests
+- `test-suite-trace` - Tracing feature tests
+- `test-suite-cli` - CLI tests
+- `test-wasm` - WebAssembly tests
+
+### Documentation
+
+- Document all public APIs with rustdoc comments
+- Include examples in documentation where helpful
+- Update the README.md if your changes affect usage
+- Keep PRLOG.md updated with notable changes
+
+### Licensing
+
+- All contributions must be licensed under MIT OR Apache-2.0
+- Include SPDX license identifiers in new files:
+  ```rust
+  // SPDX-FileCopyrightText: 2022 jerusdp
+  //
+  // SPDX-License-Identifier: MIT OR Apache-2.0
+  ```
+
+## Project Structure
+
+The project is organized as a Cargo workspace:
+
+- `hcaptcha/` - Core library
+- `hcaptcha-cli/` - Command-line interface
+- `hcaptcha_derive/` - Derive macros
+- `mock-verifier/` - Mock verification server for testing
+- `test-suite-*/` - Various test suites
+- `test-wasm/` - WebAssembly tests
+
+## Development Workflow
+
+1. Sync your fork with upstream regularly:
+   ```bash
+   git fetch upstream
+   git checkout main
+   git merge upstream/main
+   ```
+
+2. Keep your feature branch up to date:
+   ```bash
+   git checkout feature/your-feature-name
+   git rebase main
+   ```
+
+3. Before submitting a PR, ensure:
+   - [ ] All tests pass (`cargo test --all`)
+   - [ ] Code is formatted (`cargo fmt --all`)
+   - [ ] No clippy warnings (`cargo clippy --all-targets --all-features`)
+   - [ ] Documentation is updated
+   - [ ] Commit messages follow the emoji prefix convention
+
+## Getting Help
+
+- Check the [documentation](https://docs.rs/hcaptcha)
+- Search [existing issues](https://github.com/jerus-org/hcaptcha-rs/issues)
+- Ask questions in a new issue or discussion
+
+## Recognition
+
+Contributors are recognized in several ways:
+- Listed in project documentation
+- Mentioned in release notes
+- GitHub contributor graph
+
+## Support the Project
+
+If you find this project useful, consider:
+- ⭐ Starring the repository
+- ☕ [Buying the maintainer a coffee](https://buymeacoffee.com/jerusdp)
+- 💝 [Sponsoring on GitHub](https://github.com/sponsors/jerusdp)
+
+Thank you for contributing to hcaptcha-rs!
