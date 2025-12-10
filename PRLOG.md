@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - 🌐 i18n(license): add SPDX copyright and license headers(pr [#1459])
 - 📝 docs(hcaptcha)-correct spelling in documentation(pr [#1460])
 - ⬆️ Update minimum Rust version to 1.88 for consistency with CI(pr [#1461])
+- 📚 docs-add comprehensive CONTRIBUTING.md guide(pr [#1462])
 
 ### Fixed
 
@@ -1544,6 +1545,7 @@ emitted if a tracing subscriber is not found.
 [#1459]: https://github.com/jerus-org/hcaptcha-rs/pull/1459
 [#1460]: https://github.com/jerus-org/hcaptcha-rs/pull/1460
 [#1461]: https://github.com/jerus-org/hcaptcha-rs/pull/1461
+[#1462]: https://github.com/jerus-org/hcaptcha-rs/pull/1462
 [Unreleased]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.1.0...HEAD
 [3.1.0]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.0.33...v3.1.0
 [3.0.33]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.0.32...v3.0.33
