@@ -8,7 +8,7 @@ error: Must derive on a struct
                    hcaptcha: String,
                }
 
- --> tests/ui/compilefail/not_a_struct.rs:5:6
+ --> tests/ui/compilefail/not_a_struct.rs:9:6
   |
-5 | enum Test {
+9 | enum Test {
   |      ^^^^
