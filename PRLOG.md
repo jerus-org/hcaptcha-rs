@@ -1,3 +1,9 @@
+<!--
+SPDX-FileCopyrightText: 2022 jerusdp
+
+SPDX-License-Identifier: MIT OR Apache-2.0
+-->
+
 # Change Log
 
 All notable changes to this project will be documented in this file.

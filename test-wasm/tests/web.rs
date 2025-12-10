@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2022 jerusdp
+//
+// SPDX-License-Identifier: MIT OR Apache-2.0
+
 //! Test suite for the Web and headless browsers.
 
 #![cfg(target_arch = "wasm32")]

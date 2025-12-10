@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2022 jerusdp
+//
+// SPDX-License-Identifier: MIT OR Apache-2.0
+
 use std::{io, path::Path, process::Output};
 use std::{path::PathBuf, process::Command};
 

@@ -1,3 +1,9 @@
+<!--
+SPDX-FileCopyrightText: 2022 jerusdp
+
+SPDX-License-Identifier: MIT OR Apache-2.0
+-->
+
 <!-- markdownlint-disable MD033 MD040 MD041-->
 <div align="center">
 

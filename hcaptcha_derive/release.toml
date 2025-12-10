@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2022 jerusdp
+#
+# SPDX-License-Identifier: MIT OR Apache-2.0
+
 pre-release-commit-message = "chore: Release"
 tag-message = "{{tag_name}}"
 tag-name = "{{prefix}}v{{version}}"

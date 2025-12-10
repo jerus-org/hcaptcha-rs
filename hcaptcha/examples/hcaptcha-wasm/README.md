@@ -1,3 +1,9 @@
+<!--
+SPDX-FileCopyrightText: 2022 jerusdp
+
+SPDX-License-Identifier: MIT OR Apache-2.0
+-->
+
 # Example: hcaptcha-wasm
 
 Simple example project using `wasm-bindgen` to embed a [Hcaptcha](https://www.hcaptcha.com/) widget into your WebAssembly application.

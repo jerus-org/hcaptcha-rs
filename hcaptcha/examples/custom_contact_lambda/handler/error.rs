@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2022 jerusdp
+//
+// SPDX-License-Identifier: MIT OR Apache-2.0
+
 use thiserror::Error;
 #[derive(Error, Debug)]
 pub enum ContactError {
