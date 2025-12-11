@@ -31,6 +31,8 @@ jobs:
       - run: rustup +nightly component add miri
       - run: |
           set -eux
+          # Allow std time/syscalls while still catching UB in Rust code
+          export MIRIFLAGS="-Zmiri-disable-isolation"
           # Limit to core crate to keep runtime bounded
           cargo +nightly miri test -p hcaptcha
 
