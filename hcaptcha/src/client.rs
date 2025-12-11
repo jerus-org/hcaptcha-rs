@@ -449,6 +449,7 @@ mod tests {
             .collect()
     }
 
+    #[cfg_attr(miri, ignore)]
     #[tokio::test]
     #[cfg_attr(feature = "trace", traced_test)]
     async fn hcaptcha_mock_verify() {
@@ -489,6 +490,7 @@ mod tests {
         assert!(logs_contain("The response is"));
     }
 
+    #[cfg_attr(miri, ignore)]
     #[tokio::test]
     #[cfg_attr(feature = "trace", traced_test)]
     async fn hcaptcha_mock_verify_request_reuse() {
@@ -530,6 +532,7 @@ mod tests {
         assert!(response2.unwrap().success());
     }
 
+    #[cfg_attr(miri, ignore)]
     #[tokio::test]
     #[cfg_attr(feature = "trace", traced_test)]
     async fn hcaptcha_mock_verify_not_found() {
@@ -554,6 +557,7 @@ mod tests {
         assert_err!(&response);
     }
 
+    #[cfg_attr(miri, ignore)]
     #[tokio::test]
     #[cfg_attr(feature = "trace", traced_test)]
     async fn hcaptcha_mock_verify_client_response() {
@@ -595,6 +599,7 @@ mod tests {
         assert!(logs_contain("The response is"));
     }
 
+    #[cfg_attr(miri, ignore)]
     #[tokio::test]
     #[cfg_attr(feature = "trace", traced_test)]
     async fn hcaptcha_mock_verify_client_response_not_found() {
@@ -620,6 +625,7 @@ mod tests {
         assert_err!(&response);
     }
 
+    #[cfg_attr(miri, ignore)]
     #[tokio::test]
     #[cfg_attr(feature = "trace", traced_test)]
     async fn hcaptcha_mock_with_remoteip() {
@@ -667,6 +673,7 @@ mod tests {
         assert!(logs_contain("The response is"));
     }
 
+    #[cfg_attr(miri, ignore)]
     #[tokio::test]
     #[cfg_attr(feature = "trace", traced_test)]
     async fn hcaptcha_mock_with_sitekey() {
