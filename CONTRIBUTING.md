@@ -144,6 +144,15 @@ Please refer to our [Security Policy](SECURITY.md) for instructions on how to re
 
 ### Testing
 
+#### Test Policy
+
+The project maintains a policy that as major new functionality is added to the software, tests of that functionality must be added to the automated test suite. This ensures that:
+- New features are properly validated
+- Regressions can be detected early
+- Code quality and reliability are maintained over time
+
+#### Testing Guidelines
+
 - Write unit tests for all new functionality
 - Write integration tests where appropriate
 - Check for duplicated code in test functions and add helper functions when duplications are found
