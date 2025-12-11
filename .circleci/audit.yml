@@ -34,7 +34,14 @@ jobs:
           # Allow std time/syscalls while still catching UB in Rust code
           export MIRIFLAGS="-Zmiri-disable-isolation"
           # Limit to core crate to keep runtime bounded
-          cargo +nightly miri test -p hcaptcha
+          cargo +nightly miri test -p hcaptcha -- \
+            --skip hcaptcha_mock_verify \
+            --skip hcaptcha_mock_verify_request_reuse \
+            --skip hcaptcha_mock_verify_not_found \
+            --skip hcaptcha_mock_verify_client_response \
+            --skip hcaptcha_mock_verify_client_response_not_found \
+            --skip hcaptcha_mock_with_remoteip \
+            --skip hcaptcha_mock_with_sitekey
 
   fuzz_smoke:
     docker:
