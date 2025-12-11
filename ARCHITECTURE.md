@@ -14,7 +14,7 @@ hcaptcha-rs is a Rust library that provides backend verification for hCaptcha re
 
 ## Project Structure
 
-The project is organized as a Cargo workspace with multiple packages:
+The project is organized as a Cargo workspace with multiple crates:
 
 ```
 hcaptcha-rs/
@@ -218,7 +218,7 @@ The project uses separate test suites to validate different feature combinations
 
 CircleCI configuration includes:
 
-- Build verification for all packages
+- Build verification for all crates
 - Test execution across all test suites
 - Code coverage reporting (codecov)
 - Clippy linting and formatting checks
@@ -276,7 +276,7 @@ CircleCI configuration includes:
 
 - **MSRV**: 1.88+
 - Tested on stable channel
-- CI runs on latest stable Rust
+- CI runs on latest stable Rust and select tests on MSRV
 
 ## API Communication
 
