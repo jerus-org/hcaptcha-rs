@@ -11,6 +11,7 @@ SPDX-License-Identifier: MIT OR Apache-2.0
 [![Build Status][circleci-batch]][circleci-url]
 [![Rust 1.88+][version-badge]][version-url]
 [![Docs][docs-badge]][docs-url]
+[![OpenSSF Best Practices][ossf-badge]][ossf-url]
 [![BuyMeaCoffee][bmac-badge]][bmac-url]
 [![GitHubSponsors][ghub-badge]][ghub-url]
 [![codecov][codecov-badge]][codecov-url]
@@ -25,6 +26,8 @@ SPDX-License-Identifier: MIT OR Apache-2.0
 [version-url]: https://www.rust-lang.org
 [docs-badge]:  https://docs.rs/hcaptcha/badge.svg
 [docs-url]:  https://docs.rs/hcapatcha
+[ossf-badge]: https://www.bestpractices.dev/projects/9974/badge
+[ossf-url]: https://www.bestpractices.dev/projects/9974
 [bmac-badge]: https://badgen.net/badge/icon/buymeacoffee?color=yellow&icon=buymeacoffee&label
 [bmac-url]: https://buymeacoffee.com/jerusdp
 [ghub-badge]: https://img.shields.io/badge/sponsor-30363D?logo=GitHub-Sponsors&logoColor=#white
