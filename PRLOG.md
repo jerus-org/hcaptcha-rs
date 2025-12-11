@@ -21,6 +21,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - 📚 Add ROADMAP.md and ARCHITECTURE.md documentation(pr [#1464])
 - 🧪 ci(dynamic-analysis)-weekly ASan, Miri, and libFuzzer smoke test in audit workflow(pr [#1465])
 - 🔧 ci-bump circleci-toolkit orb to v3.0.2 in audit workflow(pr [#1466])
+- 🔧 ci(miri)-disable isolation in weekly Miri run(pr [#1467])
 
 ### Fixed
 
@@ -1554,6 +1555,7 @@ emitted if a tracing subscriber is not found.
 [#1464]: https://github.com/jerus-org/hcaptcha-rs/pull/1464
 [#1465]: https://github.com/jerus-org/hcaptcha-rs/pull/1465
 [#1466]: https://github.com/jerus-org/hcaptcha-rs/pull/1466
+[#1467]: https://github.com/jerus-org/hcaptcha-rs/pull/1467
 [Unreleased]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.1.0...HEAD
 [3.1.0]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.0.33...v3.1.0
 [3.0.33]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.0.32...v3.0.33
