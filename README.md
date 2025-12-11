@@ -47,6 +47,30 @@ hcaptcha = "3.1.0"
 
 ```
 
+## Quick start
+
+Minimal example verifying a client token on your backend:
+
+```rust
+use hcaptcha::{Client, Request};
+
+#[tokio::main]
+async fn main() -> Result<(), hcaptcha::Error> {
+    // Get the secret from your config/secret manager
+    let secret = "0x123456789abcde0f123456789abcdef012345678".to_string();
+    // Token comes from the client
+    let token = "client-response-token".to_string();
+
+    let request = Request::new(&secret, token)?;
+    let client = Client::new();
+
+    // This will call the hCaptcha API
+    // In tests/examples, prefer mocking the network
+    let _response = client.verify_client_response(request).await?;
+    Ok(())
+}
+```
+
 ## Breaking changes with version 3.0.0
 
 - The `Hcaptcha` prefix has been removed from all types.
