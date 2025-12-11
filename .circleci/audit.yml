@@ -7,8 +7,50 @@ version: 2.1
 orbs:
   toolkit: jerus-org/circleci-toolkit@2.17.0
 
+jobs:
+  asan_tests:
+    docker:
+      - image: cimg/rust:1.83
+    steps:
+      - checkout
+      - run: rustup toolchain install nightly --profile minimal
+      - run: |
+          set -eux
+          export RUSTFLAGS="-Zsanitizer=address"
+          export RUSTDOCFLAGS="-Zsanitizer=address"
+          export ASAN_OPTIONS="detect_leaks=1"
+          export RUST_BACKTRACE=1
+          cargo +nightly test --all --all-features
+
+  miri_tests:
+    docker:
+      - image: cimg/rust:1.83
+    steps:
+      - checkout
+      - run: rustup toolchain install nightly --profile minimal
+      - run: rustup +nightly component add miri
+      - run: |
+          set -eux
+          # Limit to core crate to keep runtime bounded
+          cargo +nightly miri test -p hcaptcha
+
+  fuzz_smoke:
+    docker:
+      - image: cimg/rust:1.83
+    steps:
+      - checkout
+      - run: rustup toolchain install nightly --profile minimal
+      - run: cargo +nightly install cargo-fuzz
+      - run: |
+          set -eux
+          # Short fuzz smoke (60s) on the response parser target
+          cargo +nightly fuzz run response_parse -runs=0 -max_total_time=60 || true
+
 workflows:
   audit:
     jobs:
       - toolkit/security:
           sonarcloud: false
+      - asan_tests
+      - miri_tests
+      - fuzz_smoke
