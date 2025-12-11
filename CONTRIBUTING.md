@@ -6,7 +6,7 @@ SPDX-License-Identifier: MIT OR Apache-2.0
 
 # Contributing to hcaptcha-rs
 
-Thank you for your interest in contributing to hcaptcha-rs! We welcome contributions from the community and appreciate your help in making this project better.
+Thank you for your interest in contributing to hcaptcha-rs! We welcome contributions from the community and appreciate your help in making this project better. Please also review the project [Governance](GOVERNANCE.md).
 
 ## Code of Conduct
 
@@ -66,6 +66,22 @@ Please refer to our [Security Policy](SECURITY.md) for instructions on how to re
 - Provide examples of how the feature would be used
 
 ### Submitting Pull Requests
+
+#### Developer Certificate of Origin (DCO)
+
+We use the Developer Certificate of Origin to certify contributions. Please sign your commits using `-s`:
+
+```bash
+git commit -s -m "✨ feat: add X"
+```
+
+If you forget, you can amend the latest commit with:
+
+```bash
+git commit --amend -s --no-edit
+```
+
+You may also enable the GitHub DCO app on your fork to enforce sign-off.
 
 1. **Create a new branch** from `main` for your changes:
    ```bash
@@ -134,7 +150,13 @@ Please refer to our [Security Policy](SECURITY.md) for instructions on how to re
 - Update documentation as needed
 - Add yourself to the contributors list if it's your first contribution
 
-## Coding Standards
+### Coding Standards
+
+#### Build flags and environment
+
+- The project uses Cargo. Standard environment variables such as `RUSTFLAGS`, `RUSTDOCFLAGS`, `CC`, and `CFLAGS` are honored by the Rust toolchain and build scripts.
+- The build does not rely on recursive cross-directory builds or custom wrappers.
+- CI does not strip debug information during builds; release artifacts preserve standard debug info unless users choose otherwise.
 
 ### Code Style
 
