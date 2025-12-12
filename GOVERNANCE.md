@@ -33,9 +33,9 @@ responsibilities, how decisions are made, and how continuity is ensured.
 
 ## Releases
 
-- Release cadence: as needed.
+- Release cadence: scheduled monthly on the 28th (early morning) via CI scheduled workflow; maintainers may trigger an out-of-band release for urgent fixes.
 - Ownership: Maintainers are responsible for `cargo release` and GitHub releases.
-- Provenance: Releases are cut from the `main` branch after CI is green.
+- Provenance: Releases are cut from a clean `main` after CI is green; the scheduled CI job runs the release workflow to publish artifacts.
 
 ## Access & continuity
 
