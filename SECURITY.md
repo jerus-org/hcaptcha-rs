@@ -19,7 +19,7 @@ If you believe you have found a security vulnerability in hcaptcha, please repor
 
 **Please do not report security vulnerabilities through public GitHub issues, discussions, or pull requests.**
 
-Report the Advisory through [Github's Security Advisory](https://github.com/jerus-org/hcaptcha-rs/security/advisories) service or send an email to security[@]jerus.ie.
+Report the Advisory through [GitHub's Security Advisory](https://github.com/jerus-org/hcaptcha-rs/security/advisories) service or send an email to security[@]jerus.ie.
 
 ## Security expectations and scope
 

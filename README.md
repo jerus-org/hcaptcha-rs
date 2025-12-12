@@ -25,7 +25,7 @@ SPDX-License-Identifier: MIT OR Apache-2.0
 [version-badge]: https://img.shields.io/badge/rust-1.88+-orange.svg
 [version-url]: https://www.rust-lang.org
 [docs-badge]:  https://docs.rs/hcaptcha/badge.svg
-[docs-url]:  https://docs.rs/hcapatcha
+[docs-url]:  https://docs.rs/hcaptcha
 [ossf-badge]: https://www.bestpractices.dev/projects/9974/badge
 [ossf-url]: https://www.bestpractices.dev/projects/9974
 [bmac-badge]: https://badgen.net/badge/icon/buymeacoffee?color=yellow&icon=buymeacoffee&label
@@ -63,12 +63,12 @@ async fn main() -> Result<(), hcaptcha::Error> {
     // Token comes from the client
     let token = "client-response-token".to_string();
 
-    let request = Request::new(&secret, token)?;
+let request = Request::new(&secret, token)?;
     let client = Client::new();
 
     // This will call the hCaptcha API
     // In tests/examples, prefer mocking the network
-    let _response = client.verify_client_response(request).await?;
+    let _response = client.verify(request).await?;
     Ok(())
 }
 ```
