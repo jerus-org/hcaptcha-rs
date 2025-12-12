@@ -234,7 +234,7 @@ workflows:
           min_rust_version: << pipeline.parameters.min-rust-version >>
           pcu_verbosity: << pipeline.parameters.pcu_verbosity >>
           pcu_allow_no_pull_request: << pipeline.parameters.pcu_allow_no_pull_request >>
-          update_pcu: false
+          update_pcu: true
 
   on_success:
     when:
