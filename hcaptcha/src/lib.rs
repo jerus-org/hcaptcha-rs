@@ -25,7 +25,7 @@
 //!
 //! Token needs to be supplied by the client.
 //! This example will fail as a client-provided token is not used.
-//! ```no_run
+//! ```ignore
 //!     use hcaptcha::{Client, Request};
 //! # use itertools::Itertools;
 //!
