@@ -34,3 +34,13 @@ Report the Advisory through [GitHub's Security Advisory](https://github.com/jeru
 ## Cryptography note
 
 This project does not implement cryptographic primitives or protocols. TLS and certificate validation are delegated to well-vetted dependencies (reqwest/rustls or native-tls). As such, cryptography-specific criteria on bestpractices.dev are Not Applicable for this project.
+
+## Vulnerability response process
+
+- Acknowledgement: We acknowledge valid reports within 3 business days via GitHub Security Advisories or email.
+- Triage: We privately assess severity and impact; if appropriate, we open a private GitHub Security Advisory and request a CVE ID via GitHub’s CVE services.
+- Remediation: Fixes are developed and reviewed in a private security branch with tests and minimal diff.
+- Target timelines: For High/Critical issues, we target a patch release within 30 days (best effort); for other severities within 90 days, unless coordination or complexity requires more time.
+- Disclosure: After releasing fixes, we publish the advisory (and CVE if assigned), list affected versions, and provide mitigations/workarounds if applicable.
+- Credit: We credit reporters who request attribution.
+- Contact: See “Reporting a Vulnerability” above for contact methods and advisory submission.
