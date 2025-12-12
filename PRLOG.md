@@ -44,6 +44,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - deps: update rust crate tokio to 1.48.0(pr [#1455])
 - deps: update rust crate log to 0.4.29(pr [#1456])
 
+### Security
+
+- 📚 Security: add vulnerability response process(pr [#1472])
+
 ## [3.1.0] - 2025-11-28
 
 ### Fixed
@@ -1564,6 +1568,7 @@ emitted if a tracing subscriber is not found.
 [#1469]: https://github.com/jerus-org/hcaptcha-rs/pull/1469
 [#1470]: https://github.com/jerus-org/hcaptcha-rs/pull/1470
 [#1473]: https://github.com/jerus-org/hcaptcha-rs/pull/1473
+[#1472]: https://github.com/jerus-org/hcaptcha-rs/pull/1472
 [Unreleased]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.1.0...HEAD
 [3.1.0]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.0.33...v3.1.0
 [3.0.33]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.0.32...v3.0.33
