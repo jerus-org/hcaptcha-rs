@@ -66,6 +66,15 @@ jobs:
           name: Running test suite <<parameters.test-suite>>
           command: "cargo +stable test -p <<parameters.test-suite>> --test compiletest"
 
+  doc_tests:
+    executor: rust_env
+    steps:
+      - checkout
+      - run: cargo +stable --version
+      - run:
+          name: Run doctests for core crate
+          command: cargo +stable test -p hcaptcha --doc
+
   run_test_program:
     parameters:
       cargo_bin:
@@ -168,6 +177,9 @@ workflows:
             - toolkit/security
       - toolkit/test_doc_build:
           min_rust_version: << pipeline.parameters.min-rust-version >>
+      - doc_tests:
+          requires:
+            - toolkit/test_doc_build
       - run_test_program:
           cargo_package: test-suite-cli
           name: run_test_program-<< matrix.cargo_bin >>
