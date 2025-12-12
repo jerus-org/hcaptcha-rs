@@ -37,6 +37,8 @@ SPDX-License-Identifier: MIT OR Apache-2.0
 
 The rust library hcaptcha is used with your backend service to verify the hcaptcha response provided from the client.
 
+Contributions are welcome — please see the [Contributing Guide](CONTRIBUTING.md) and our [Governance](GOVERNANCE.md).
+
 ## Installation
 
 To use hcaptcha, add the following to your `Cargo.toml`:
