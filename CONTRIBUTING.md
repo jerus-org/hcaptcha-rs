@@ -152,17 +152,36 @@ You may also enable the GitHub DCO app on your fork to enforce sign-off.
 
 ### Coding Standards
 
+#### Language and style
+- Language: Rust 2021, MSRV = 1.88 (see `Cargo.toml`).
+- Style: rustfmt default style; code must be formatted (`cargo fmt --all --check`).
+- Linting: clippy-clean (no warnings) across all targets/features (`cargo clippy --all-targets --all-features`).
+
+#### Rust API & design conventions
+- Follow the Rust API Guidelines (naming, error handling, docs, semver).
+- Public items should have rustdoc with examples where sensible; examples compile as doctests in CI.
+
+#### Error handling and panics
+- Library code must not panic on valid inputs; avoid `unwrap`/`expect` outside tests/examples.
+- Prefer `Result<_, Error>` with meaningful error variants.
+
+#### Unsafe code policy
+- Unsafe Rust is disallowed unless strictly necessary and justified with inline comments and tests.
+- If required, limit scope to the smallest module and document safety invariants.
+
+#### Dependencies and security
+- Prefer widely-used, well-maintained crates; compatible licenses only (MIT/Apache-2.0).
+- Keep dependencies updated via Renovate; handle issues per SECURITY.md.
+
+#### Commit/PR requirements
+- CI must be green: fmt, clippy, tests, and doctests (README/examples).
+- DCO sign-off is required for every commit (`git commit -s`).
+
 #### Build flags and environment
 
 - The project uses Cargo. Standard environment variables such as `RUSTFLAGS`, `RUSTDOCFLAGS`, `CC`, and `CFLAGS` are honored by the Rust toolchain and build scripts.
 - The build does not rely on recursive cross-directory builds or custom wrappers.
 - CI does not strip debug information during builds; release artifacts preserve standard debug info unless users choose otherwise.
-
-### Code Style
-
-- Follow Rust's official style guidelines
-- Use `cargo fmt` to format your code
-- Run `cargo clippy` and address all warnings
 
 ### Testing
 
