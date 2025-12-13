@@ -1,0 +1,39 @@
+# SPDX-FileCopyrightText: 2025 jerusdp
+#
+# SPDX-License-Identifier: MIT OR Apache-2.0
+name: Ensure labels exist
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+  metadata: read
+
+jobs:
+  ensure:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Create or update standard labels
+        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea # v7.0.1
+        with:
+          script: |
+            const labels = [
+              {name: 'good first issue', color: '7057ff', description: 'Small, well-scoped task for newcomers'},
+              {name: 'help wanted', color: '008672', description: 'Community contributions welcome'},
+              {name: 'documentation', color: '0075ca', description: 'Docs or examples improvements'},
+              {name: 'tests', color: '5319e7', description: 'Test-only change'},
+              {name: 'ci', color: '0e8a16', description: 'CI/build infrastructure'},
+            ];
+            for (const lbl of labels) {
+              try {
+                await github.rest.issues.getLabel({ owner: context.repo.owner, repo: context.repo.repo, name: lbl.name });
+                await github.rest.issues.updateLabel({ owner: context.repo.owner, repo: context.repo.repo, name: lbl.name, color: lbl.color, description: lbl.description });
+                core.info(`Updated label: ${lbl.name}`);
+              } catch (e) {
+                await github.rest.issues.createLabel({ owner: context.repo.owner, repo: context.repo.repo, name: lbl.name, color: lbl.color, description: lbl.description });
+                core.info(`Created label: ${lbl.name}`);
+              }
+            }

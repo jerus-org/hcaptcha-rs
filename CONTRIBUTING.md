@@ -41,6 +41,14 @@ This project adheres to a [Code of Conduct](CODE_OF_CONDUCT.md). By participatin
    cargo test --all
    ```
 
+### Newcomers: Small tasks
+
+If you’re looking for something easy to start with, check the issue lists:
+- good first issue: https://github.com/jerus-org/hcaptcha-rs/labels/good%20first%20issue
+- help wanted: https://github.com/jerus-org/hcaptcha-rs/labels/help%20wanted
+
+See docs/SMALL_TASKS.md for what qualifies and how to proceed. Maintainers aim to keep a handful of well-scoped, beginner-friendly tasks available.
+
 ## How to Contribute
 
 ### Reporting Bugs
