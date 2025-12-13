@@ -26,6 +26,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - 📝 docs(readme)-add OpenSSF Best Practices passing badge(pr [#1469])
 - 📚 docs-governance, security scope, DCO; add README Quick Start(pr [#1470])
 - 👷 ci(prlog)-enable update_pcu to build PCU from git (fix DCO on PRLOG)(pr [#1473])
+- 📚 docs(contributing)-clarify coding standards (fmt/clippy, MSRV, API guidelines, error/unsafe, doctests, DCO)(pr [#1474])
 
 ### Fixed
 
@@ -1564,6 +1565,7 @@ emitted if a tracing subscriber is not found.
 [#1469]: https://github.com/jerus-org/hcaptcha-rs/pull/1469
 [#1470]: https://github.com/jerus-org/hcaptcha-rs/pull/1470
 [#1473]: https://github.com/jerus-org/hcaptcha-rs/pull/1473
+[#1474]: https://github.com/jerus-org/hcaptcha-rs/pull/1474
 [Unreleased]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.1.0...HEAD
 [3.1.0]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.0.33...v3.1.0
 [3.0.33]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.0.32...v3.0.33
