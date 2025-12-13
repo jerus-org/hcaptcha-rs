@@ -1,0 +1,11 @@
+# SPDX-FileCopyrightText: 2025 jerusdp
+#
+# SPDX-License-Identifier: MIT OR Apache-2.0
+blank_issues_enabled: false
+contact_links:
+  - name: Security vulnerability
+    url: https://github.com/jerus-org/hcaptcha-rs/security/policy
+    about: Please report security issues privately via the Security Policy.
+  - name: Questions / Discussions
+    url: https://github.com/jerus-org/hcaptcha-rs/discussions
+    about: Ask questions and discuss ideas here.
