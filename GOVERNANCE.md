@@ -43,6 +43,7 @@ responsibilities, how decisions are made, and how continuity is ensured.
 - crates.io: At least two maintainers (target) have publish rights to `hcaptcha`
   and related crates.
 - CI/secrets: Maintainers manage CI settings and secrets (CircleCI contexts).
+- 2FA: All maintainers and publishers must use multi-factor authentication (2FA) on GitHub, crates.io, and CI accounts. Preferred methods are FIDO2/WebAuthn security keys or passkeys; TOTP is acceptable; SMS is not permitted. Recovery codes must be stored offline. Automation should use GitHub Apps or minimally scoped, short‑lived tokens; bot accounts must also have 2FA.
 - Bus factor: Document co-maintainers in this section; onboard at least one
   additional maintainer with the permissions above.
 
