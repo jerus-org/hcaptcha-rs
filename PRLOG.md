@@ -29,6 +29,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - 📚 docs(contributing)-clarify coding standards (fmt/clippy, MSRV, API guidelines, error/unsafe, doctests, DCO)(pr [#1474])
 - chore/small tasks infra(pr [#1475])
 - 🛠️ ci-fix ensure-labels workflow permissions (remove unsupported 'metadata' scope)(pr [#1476])
+- 🔐 docs-document secure 2FA policy (preferred FIDO2/passkeys; TOTP ok; no SMS) in SECURITY and GOVERNANCE(pr [#1481])
 
 ### Fixed
 
@@ -1570,6 +1571,7 @@ emitted if a tracing subscriber is not found.
 [#1474]: https://github.com/jerus-org/hcaptcha-rs/pull/1474
 [#1475]: https://github.com/jerus-org/hcaptcha-rs/pull/1475
 [#1476]: https://github.com/jerus-org/hcaptcha-rs/pull/1476
+[#1481]: https://github.com/jerus-org/hcaptcha-rs/pull/1481
 [Unreleased]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.1.0...HEAD
 [3.1.0]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.0.33...v3.1.0
 [3.0.33]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.0.32...v3.0.33
