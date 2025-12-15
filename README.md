@@ -24,8 +24,8 @@ SPDX-License-Identifier: MIT OR Apache-2.0
 [circleci-url]: https://dl.circleci.com/status-badge/redirect/gh/jerus-org/hcaptcha-rs/tree/main
 [version-badge]: https://img.shields.io/badge/rust-1.88+-orange.svg
 [version-url]: https://www.rust-lang.org
-[docs-badge]:  https://docs.rs/hcaptcha/badge.svg
-[docs-url]:  https://docs.rs/hcaptcha
+[docs-badge]: https://docs.rs/hcaptcha/badge.svg
+[docs-url]: https://docs.rs/hcaptcha
 [ossf-badge]: https://www.bestpractices.dev/projects/9974/badge
 [ossf-url]: https://www.bestpractices.dev/projects/9974
 [bmac-badge]: https://badgen.net/badge/icon/buymeacoffee?color=yellow&icon=buymeacoffee&label
@@ -63,7 +63,7 @@ async fn main() -> Result<(), hcaptcha::Error> {
     // Token comes from the client
     let token = "client-response-token".to_string();
 
-let request = Request::new(&secret, token)?;
+let request = Request::new_from_response(&secret, &token)?;
     let client = Client::new();
 
     // This will call the hCaptcha API
@@ -83,7 +83,7 @@ let request = Request::new(&secret, token)?;
 
 Derive a validation method on the data structure representing your data, marking the captcha components in the data structure.
 
-``` rust
+```rust
 # use hcaptcha::Hcaptcha;
 
 #[derive(Debug, Deserialize, Hcaptcha)]
@@ -100,7 +100,7 @@ pub struct ContactForm {
 
 Validate the captcha data.
 
-``` rust
+```rust
     # #[tokio::main]
     # async main() -> Result<(), Box<dyn std::error::Error>> {
     let contact_form: ContactForm = serde_json::from_str(e.body_string())?;
@@ -126,7 +126,7 @@ Licensed under either of
 
 - Apache License, Version 2.0 (LICENSE-APACHE or <http://www.apache.org/licenses/LICENSE-2.0>)
 - MIT license (LICENSE-MIT or <http://opensource.org/licenses/MIT>)
-at your option.
+  at your option.
 
 ## Contribution
 
