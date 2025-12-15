@@ -11,13 +11,6 @@ parameters:
   docker-tag-suffix:
     type: string
     default: "-wasi"
-  # Allow pinning docker images by immutable digest for reproducible builds
-  rust_image:
-    type: string
-    default: "jerusdp/ci-rust:<<pipeline.parameters.min-rust-version>><< pipeline.parameters.docker-tag-suffix >>"
-  base_image:
-    type: string
-    default: "jerusdp/ci-rust:base"
   fingerprint:
     type: string
     default: SHA256:OkxsH8Z6Iim6WDJBaII9eTT9aaO1f3eDc6IpsgYYPVg
@@ -70,10 +63,10 @@ commands:
 executors:
   rust_env:
     docker:
-      - image: << pipeline.parameters.rust_image >>
+      - image: jerusdp/ci-rust:<<pipeline.parameters.min-rust-version>><< pipeline.parameters.docker-tag-suffix >>
   base-env:
     docker:
-      - image: << pipeline.parameters.base_image >>
+      - image: jerusdp/ci-rust:base
 
 jobs:
   compute_checksums_and_upload:
@@ -98,9 +91,26 @@ jobs:
             set -euxo pipefail
             (cd dist && sha256sum *.crate > checksums-sha256.txt)
       - run:
+          name: Ensure GitHub CLI
+          command: |
+            set -euxo pipefail
+            if ! command -v gh >/dev/null 2>&1; then
+              if command -v apt-get >/dev/null 2>&1; then
+                apt-get update
+                apt-get install -y gh
+              else
+                echo "gh CLI not available and apt-get not found" >&2
+                exit 1
+              fi
+            fi
+      - run:
           name: Upload to GitHub release
           command: |
             set -euxo pipefail
+            # Map GITHUB_TOKEN to GH_TOKEN for gh CLI compatibility if needed
+            if [ -n "${GITHUB_TOKEN:-}" ] && [ -z "${GH_TOKEN:-}" ]; then
+              echo 'export GH_TOKEN=${GITHUB_TOKEN}' >> "$BASH_ENV"; source "$BASH_ENV"
+            fi
             tag=$(git describe --tags --abbrev=0)
             gh release upload "$tag" dist/* --clobber
   test-suite:
@@ -347,5 +357,8 @@ workflows:
           package: hcaptcha
       - compute_checksums_and_upload:
           name: compute checksums and attach to GitHub release
+          context:
+            - release
+            - bot-check
           requires:
             - github release for hcaptcha

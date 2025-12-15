@@ -61,9 +61,26 @@ jobs:
             set -euxo pipefail
             (cd dist && sha256sum *.crate > checksums-sha256.txt)
       - run:
+          name: Ensure GitHub CLI
+          command: |
+            set -euxo pipefail
+            if ! command -v gh >/dev/null 2>&1; then
+              if command -v apt-get >/devnull 2>&1; then
+                apt-get update
+                apt-get install -y gh
+              else
+                echo "gh CLI not available and apt-get not found" >&2
+                exit 1
+              fi
+            fi
+      - run:
           name: Upload to GitHub release
           command: |
             set -euxo pipefail
+            # Map GITHUB_TOKEN to GH_TOKEN for gh CLI compatibility if needed
+            if [ -n "${GITHUB_TOKEN:-}" ] && [ -z "${GH_TOKEN:-}" ]; then
+              echo 'export GH_TOKEN=${GITHUB_TOKEN}' >> "$BASH_ENV"; source "$BASH_ENV"
+            fi
             tag=$(git describe --tags --abbrev=0)
             gh release upload "$tag" dist/* --clobber
 
@@ -83,5 +100,8 @@ workflows:
           remove_ssh_key: false
           when_update_pcu: true
       - compute_checksums_and_upload:
+          context:
+            - release
+            - bot-check
           requires:
             - github release for hcaptcha
