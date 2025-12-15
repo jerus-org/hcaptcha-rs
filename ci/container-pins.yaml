@@ -1,0 +1,9 @@
+# SPDX-FileCopyrightText: 2022 jerusdp
+#
+# SPDX-License-Identifier: MIT OR Apache-2.0
+#
+# Immutable image digests for reproducible builds. Update via a PR and rotate deliberately.
+# Consumers: .circleci/config.yml parameters `rust_image`, `base_image` can be set to these values.
+
+rust_image: "jerusdp/ci-rust@sha256:REPLACE_WITH_DIGEST"
+base_image: "jerusdp/ci-rust@sha256:REPLACE_WITH_BASE_DIGEST"
