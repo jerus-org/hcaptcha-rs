@@ -30,6 +30,43 @@ executors:
     docker:
       - image: jerusdp/ci-rust:base
 
+jobs:
+  compute_checksums_and_upload:
+    executor: rust_env
+    steps:
+      - checkout
+      - run: cargo +stable --version
+      - run:
+          name: Set reproducible-build environment
+          command: |
+            echo "export SOURCE_DATE_EPOCH=$(git log -1 --pretty=%ct)" >> "$BASH_ENV"
+            echo 'export CARGO_HOME=${CARGO_HOME:-/root/.cargo}' >> "$BASH_ENV"
+            echo 'export RUSTFLAGS="--remap-path-prefix=$PWD=/src --remap-path-prefix=$CARGO_HOME=/cargo ${RUSTFLAGS:-}"' >> "$BASH_ENV"
+            echo 'export CFLAGS="-g -O2 -fdebug-prefix-map=$PWD=/src -fmacro-prefix-map=$PWD=/src ${CFLAGS:-}"' >> "$BASH_ENV"
+            echo 'export CARGO_PROFILE_RELEASE_DEBUG=true' >> "$BASH_ENV"
+            source "$BASH_ENV"
+      - run:
+          name: Package crates
+          command: |
+            set -euxo pipefail
+            mkdir -p dist
+            for pkg in hcaptcha hcaptcha-cli; do
+              if [ -f "${pkg}/Cargo.toml" ]; then
+                cargo +stable package -p ${pkg} -Z unstable-options --allow-dirty --no-verify --output dist/${pkg}.crate
+              fi
+            done
+      - run:
+          name: Compute checksums
+          command: |
+            set -euxo pipefail
+            (cd dist && sha256sum *.crate > checksums-sha256.txt)
+      - run:
+          name: Upload to GitHub release
+          command: |
+            set -euxo pipefail
+            tag=$(git describe --tags --abbrev=0)
+            gh release upload "$tag" dist/* --clobber
+
 workflows:
   github-release:
     jobs:
@@ -45,3 +82,6 @@ workflows:
           package: hcaptcha
           remove_ssh_key: false
           when_update_pcu: true
+      - compute_checksums_and_upload:
+          requires:
+            - github release for hcaptcha

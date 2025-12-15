@@ -39,6 +39,8 @@ The rust library hcaptcha is used with your backend service to verify the hcaptc
 
 Contributions are welcome — please see the [Contributing Guide](CONTRIBUTING.md) and our [Governance](GOVERNANCE.md).
 
+- Reproducible builds: see [docs/REPRODUCIBLE_BUILDS.md](docs/REPRODUCIBLE_BUILDS.md)
+
 ## Installation
 
 To use hcaptcha, add the following to your `Cargo.toml`:

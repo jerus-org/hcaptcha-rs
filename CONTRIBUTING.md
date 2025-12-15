@@ -190,6 +190,7 @@ You may also enable the GitHub DCO app on your fork to enforce sign-off.
 - The project uses Cargo. Standard environment variables such as `RUSTFLAGS`, `RUSTDOCFLAGS`, `CC`, and `CFLAGS` are honored by the Rust toolchain and build scripts.
 - The build does not rely on recursive cross-directory builds or custom wrappers.
 - CI does not strip debug information during builds; release artifacts preserve standard debug info unless users choose otherwise.
+- For deterministic, reproducible builds, see [docs/REPRODUCIBLE_BUILDS.md](docs/REPRODUCIBLE_BUILDS.md) for the exact flags, environment variables, and container pinning used in CI.
 
 ### Testing
 
