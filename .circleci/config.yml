@@ -280,6 +280,37 @@ workflows:
 
       - toolkit/security:
           context: SonarCloud
+      
+      - toolkit/end_success:
+          requires:
+            - toolkit/code_coverage
+            - required builds-hcaptcha
+            - required builds-hcaptcha_derive
+            - required builds-hcaptcha-cli
+            - required builds-mock-verifier
+            - optional builds-hcaptcha
+            - optional builds-hcaptcha_derive
+            - optional builds-hcaptcha-cli
+            - optional builds-mock-verifier
+            - common tests for x86_64-hcaptcha
+            - common tests for x86_64-hcaptcha_derive
+            - common tests for x86_64-hcaptcha-cli
+            - common tests for x86_64-mock-verifier
+            - toolkit/idiomatic_rust
+            - toolkit/test_doc_build
+            - doc_tests
+            - run_test_program-long_help
+            - run_test_program-no_options
+            - run_test_program-short_help
+            - run_test_program-simple_captcha
+            - test-suite-test-suite-default
+            - test-suite-test-suite-no-default
+            - test-suite-test-suite-native-only
+            - test-suite-test-suite-rustls-only
+            - test-suite-test-suite-trace
+            - test-suite-test-suite-enterprise
+            - toolkit/test_wasm
+            - toolkit/security
 
   on_success:
     when:
