@@ -292,7 +292,9 @@ workflows:
           context: SonarCloud
           filters:
             branches:
-              ignore: /pull\/[0-9]+/
+              ignore:
+                - /pull\/[0-9]+/
+                - main
       
       - trigger_success_pipeline:
           context: bot-check
