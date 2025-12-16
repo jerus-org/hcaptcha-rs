@@ -189,20 +189,6 @@ jobs:
               "https://circleci.com/api/v2/project/gh/${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME}/pipeline"
 
 workflows:
-  check_last_commit:
-    when:
-      and:
-        - not:
-            equal: [scheduled_pipeline, << pipeline.trigger_source >>]
-        - not: << pipeline.parameters.success-flag >>
-        - not: << pipeline.parameters.validation-flag >>
-        - not: << pipeline.parameters.release-flag >>
-
-    jobs:
-      - toolkit/choose_pipeline:
-          name: choose pipeline based on committer
-          context: bot-check
-
   validation:
     when:
       and:
@@ -210,7 +196,6 @@ workflows:
             equal: [scheduled_pipeline, << pipeline.trigger_source >>]
         - not: << pipeline.parameters.success-flag >>
         - not: << pipeline.parameters.release-flag >>
-        - << pipeline.parameters.validation-flag >>
     jobs:
       - toolkit/label:
           min_rust_version: << pipeline.parameters.min-rust-version >>
