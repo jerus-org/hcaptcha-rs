@@ -171,6 +171,23 @@ jobs:
           cargo_package: << parameters.cargo_package >>
           cargo_bin: << parameters.cargo_bin >>
 
+  trigger_success_pipeline:
+    executor: base-env
+    steps:
+      - run:
+          name: Trigger success pipeline
+          command: |
+            curl -X POST \
+              --header "Content-Type: application/json" \
+              --header "Circle-Token: ${CIRCLE_TOKEN}" \
+              --data '{
+                "branch": "'"${CIRCLE_BRANCH}"'",
+                "parameters": {
+                  "success-flag": true
+                }
+              }' \
+              "https://circleci.com/api/v2/project/gh/${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME}/pipeline"
+
 workflows:
   check_last_commit:
     when:
@@ -281,7 +298,8 @@ workflows:
       - toolkit/security:
           context: SonarCloud
       
-      - toolkit/end_success:
+      - trigger_success_pipeline:
+          context: bot-check
           requires:
             - toolkit/code_coverage
             - required builds-hcaptcha
