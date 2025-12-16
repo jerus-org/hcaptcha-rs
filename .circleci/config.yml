@@ -45,6 +45,21 @@ parameters:
 orbs:
   toolkit: jerus-org/circleci-toolkit@3.0.2
 
+# Reusable command to set reproducible-build environment variables.
+commands:
+  set_repro_env:
+    description: Set env vars for reproducible builds (timestamps and path remapping)
+    steps:
+      - run:
+          name: Set reproducible-build environment
+          command: |
+            echo "export SOURCE_DATE_EPOCH=$(git log -1 --pretty=%ct)" >> "$BASH_ENV"
+            echo 'export CARGO_HOME=${CARGO_HOME:-/root/.cargo}' >> "$BASH_ENV"
+            echo 'export RUSTFLAGS="--remap-path-prefix=$PWD=/src --remap-path-prefix=$CARGO_HOME=/cargo ${RUSTFLAGS:-}"' >> "$BASH_ENV"
+            echo 'export CFLAGS="-g -O2 -fdebug-prefix-map=$PWD=/src -fmacro-prefix-map=$PWD=/src ${CFLAGS:-}"' >> "$BASH_ENV"
+            echo 'export CARGO_PROFILE_RELEASE_DEBUG=true' >> "$BASH_ENV"
+            source "$BASH_ENV"
+
 executors:
   rust_env:
     docker:
@@ -54,6 +69,50 @@ executors:
       - image: jerusdp/ci-rust:base
 
 jobs:
+  compute_checksums_and_upload:
+    executor: rust_env
+    steps:
+      - checkout
+      - run: cargo +stable --version
+      - set_repro_env
+      - run:
+          name: Package crates
+          command: |
+            set -euxo pipefail
+            mkdir -p dist
+            for pkg in hcaptcha hcaptcha-cli; do
+              if [ -f "${pkg}/Cargo.toml" ]; then
+                cargo +stable package -p ${pkg} -Z unstable-options --allow-dirty --no-verify --output dist/${pkg}.crate
+              fi
+            done
+      - run:
+          name: Compute checksums
+          command: |
+            set -euxo pipefail
+            (cd dist && sha256sum *.crate > checksums-sha256.txt)
+      - run:
+          name: Ensure GitHub CLI
+          command: |
+            set -euxo pipefail
+            if ! command -v gh >/dev/null 2>&1; then
+              if command -v apt-get >/dev/null 2>&1; then
+                apt-get update
+                apt-get install -y gh
+              else
+                echo "gh CLI not available and apt-get not found" >&2
+                exit 1
+              fi
+            fi
+      - run:
+          name: Upload to GitHub release
+          command: |
+            set -euxo pipefail
+            # Map GITHUB_TOKEN to GH_TOKEN for gh CLI compatibility if needed
+            if [ -n "${GITHUB_TOKEN:-}" ] && [ -z "${GH_TOKEN:-}" ]; then
+              echo 'export GH_TOKEN=${GITHUB_TOKEN}' >> "$BASH_ENV"; source "$BASH_ENV"
+            fi
+            tag=$(git describe --tags --abbrev=0)
+            gh release upload "$tag" dist/* --clobber
   test-suite:
     parameters:
       test-suite:
@@ -62,6 +121,7 @@ jobs:
     steps:
       - checkout
       - run: cargo +stable --version
+      - set_repro_env
       - run:
           name: Running test suite <<parameters.test-suite>>
           command: "cargo +stable test -p <<parameters.test-suite>> --test compiletest"
@@ -71,6 +131,7 @@ jobs:
     steps:
       - checkout
       - run: cargo +stable --version
+      - set_repro_env
       - run:
           name: Run doctests for core crate
           command: cargo +stable test -p hcaptcha --doc
@@ -87,6 +148,7 @@ jobs:
     steps:
       - checkout
       - run: cargo +stable --version
+      - set_repro_env
       - restore_cache:
           key: << parameters.cache_version >>-{{ .Branch }}-{{ checksum "Cargo.lock" }}
       - run:
@@ -108,6 +170,23 @@ jobs:
       - toolkit/cargo_run:
           cargo_package: << parameters.cargo_package >>
           cargo_bin: << parameters.cargo_bin >>
+
+  trigger_success_pipeline:
+    executor: base-env
+    steps:
+      - run:
+          name: Trigger success pipeline
+          command: |
+            curl -X POST \
+              --header "Content-Type: application/json" \
+              --header "Circle-Token: ${CIRCLE_TOKEN}" \
+              --data '{
+                "branch": "'"${CIRCLE_BRANCH}"'",
+                "parameters": {
+                  "success-flag": true
+                }
+              }' \
+              "https://circleci.com/api/v2/project/gh/${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME}/pipeline"
 
 workflows:
   check_last_commit:
@@ -218,23 +297,38 @@ workflows:
 
       - toolkit/security:
           context: SonarCloud
-
-      - toolkit/update_prlog:
+      
+      - trigger_success_pipeline:
+          context: bot-check
           requires:
-            - toolkit/idiomatic_rust
-            - test-suite
-            - run_test_program
-            - toolkit/test_wasm
             - toolkit/code_coverage
-          context:
-            - release
-            - bot-check
-            - pcu-app
-          ssh_fingerprint: << pipeline.parameters.fingerprint >>
-          min_rust_version: << pipeline.parameters.min-rust-version >>
-          pcu_verbosity: << pipeline.parameters.pcu_verbosity >>
-          pcu_allow_no_pull_request: << pipeline.parameters.pcu_allow_no_pull_request >>
-          update_pcu: true
+            - required builds-hcaptcha
+            - required builds-hcaptcha_derive
+            - required builds-hcaptcha-cli
+            - required builds-mock-verifier
+            - optional builds-hcaptcha
+            - optional builds-hcaptcha_derive
+            - optional builds-hcaptcha-cli
+            - optional builds-mock-verifier
+            - common tests for x86_64-hcaptcha
+            - common tests for x86_64-hcaptcha_derive
+            - common tests for x86_64-hcaptcha-cli
+            - common tests for x86_64-mock-verifier
+            - toolkit/idiomatic_rust
+            - toolkit/test_doc_build
+            - doc_tests
+            - run_test_program-long_help
+            - run_test_program-no_options
+            - run_test_program-short_help
+            - run_test_program-simple_captcha
+            - test-suite-test-suite-default
+            - test-suite-test-suite-no-default
+            - test-suite-test-suite-native-only
+            - test-suite-test-suite-rustls-only
+            - test-suite-test-suite-trace
+            - test-suite-test-suite-enterprise
+            - toolkit/test_wasm
+            - toolkit/security
 
   on_success:
     when:
@@ -247,6 +341,31 @@ workflows:
 
     jobs:
       - toolkit/end_success
+
+  post_merge_main:
+    when:
+      and:
+        - not:
+            equal: [scheduled_pipeline, << pipeline.trigger_source >>]
+        - not: << pipeline.parameters.success-flag >>
+        - not: << pipeline.parameters.validation-flag >>
+        - not: << pipeline.parameters.release-flag >>
+
+    jobs:
+      - toolkit/update_prlog:
+          context:
+            - release
+            - bot-check
+            - pcu-app
+          ssh_fingerprint: << pipeline.parameters.fingerprint >>
+          min_rust_version: << pipeline.parameters.min-rust-version >>
+          pcu_verbosity: << pipeline.parameters.pcu_verbosity >>
+          pcu_allow_no_pull_request: << pipeline.parameters.pcu_allow_no_pull_request >>
+          update_pcu: true
+          filters:
+            branches:
+              only:
+                - main
 
   release:
     when:
@@ -293,3 +412,10 @@ workflows:
           when_cargo_release: false
           pcu_verbosity: << pipeline.parameters.pcu_verbosity >>
           package: hcaptcha
+      - compute_checksums_and_upload:
+          name: compute checksums and attach to GitHub release
+          context:
+            - release
+            - bot-check
+          requires:
+            - github release for hcaptcha

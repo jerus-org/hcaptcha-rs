@@ -158,6 +158,60 @@ You may also enable the GitHub DCO app on your fork to enforce sign-off.
 - Update documentation as needed
 - Add yourself to the contributors list if it's your first contribution
 
+### Pull Requests from Forks
+
+If you're contributing from a forked repository, please note the following:
+
+#### Automated Testing
+
+When you submit a PR from your fork, CircleCI will automatically run a **fork-safe validation workflow** that includes:
+
+- ✅ Code formatting checks (`cargo fmt`)
+- ✅ Linting (`cargo clippy`)
+- ✅ Build verification for all packages
+- ✅ All test suites (unit, integration, doc, wasm)
+- ✅ Dependency audits
+
+These tests run with **no access to secrets**, ensuring your PR is tested safely.
+
+#### Restricted Tests
+
+Some checks require restricted access and will not run automatically on fork PRs:
+
+- **SonarCloud analysis**: Code quality scans (requires maintainer privileges)
+- **Code coverage uploads**: Coverage reports (requires tokens)
+- **PRLOG updates**: See below
+
+These will show as "Unauthorized" in CircleCI - this is **expected and normal**.
+
+#### PRLOG (Changelog) Updates
+
+**Important**: The PRLOG.md changelog is **not updated in your PR branch**. Instead:
+
+1. Your PR goes through validation and review
+2. After merge to main, an automated job updates PRLOG.md
+3. The changelog entry appears on the main branch
+
+This approach maintains security and consistency for all contributors.
+
+#### Full Validation (When Needed)
+
+For complex or high-risk changes, maintainers may create a branch in the main repository to run full validation including:
+
+- SonarCloud security and quality analysis
+- Code coverage with upload to Codecov
+- All security scans
+
+You'll be notified if this is needed for your PR.
+
+#### Review Timeline
+
+- **Automated tests**: 10-15 minutes
+- **Maintainer review**: Typically 2-3 business days
+- **Full validation** (if needed): Additional 10-15 minutes
+
+For more details, see [docs/FORK_PR_REVIEW.md](docs/FORK_PR_REVIEW.md).
+
 ### Coding Standards
 
 #### Language and style
@@ -190,6 +244,7 @@ You may also enable the GitHub DCO app on your fork to enforce sign-off.
 - The project uses Cargo. Standard environment variables such as `RUSTFLAGS`, `RUSTDOCFLAGS`, `CC`, and `CFLAGS` are honored by the Rust toolchain and build scripts.
 - The build does not rely on recursive cross-directory builds or custom wrappers.
 - CI does not strip debug information during builds; release artifacts preserve standard debug info unless users choose otherwise.
+- For deterministic, reproducible builds, see [docs/REPRODUCIBLE_BUILDS.md](docs/REPRODUCIBLE_BUILDS.md) for the exact flags, environment variables, and container pinning used in CI.
 
 ### Testing
 

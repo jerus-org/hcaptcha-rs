@@ -53,6 +53,41 @@ responsibilities, how decisions are made, and how continuity is ensured.
 - Checks: CI must be green, `cargo fmt` and `cargo clippy` must pass.
 - Code of Conduct applies to all project spaces.
 
+### Pull Request Review Process
+
+#### Internal PRs (Organization Members)
+
+- Full CircleCI validation runs automatically with all contexts
+- Includes: fmt, clippy, tests, SonarCloud, code coverage
+- PRLOG.md updated automatically after merge to main
+- Requires maintainer approval before merge
+
+#### Fork PRs (External Contributors)
+
+**Automated Testing**:
+- Fork-safe CircleCI validation runs automatically
+- Includes: fmt, clippy, build, all test suites, doc tests
+- Excludes: SonarCloud, code coverage uploads (no context access)
+- PRLOG.md updated automatically after merge to main
+
+**Maintainer Review**:
+1. Verify automated checks passed
+2. Perform code review (security, quality, design)
+3. Assess risk level:
+   - **Low risk** (docs, simple fixes, tests < 50 lines): Merge directly
+   - **Medium/High risk** (features, refactoring, new deps): Create maintainer branch for full validation
+
+**Full Validation (Medium/High Risk)**:
+- Maintainer creates branch in main repo from fork PR
+- Full CircleCI validation with all contexts (SonarCloud, coverage)
+- Review results before merge
+
+**Post-Merge**:
+- PRLOG.md automatically updated on main branch
+- One commit added to main with changelog entry
+
+See [docs/FORK_PR_REVIEW.md](docs/FORK_PR_REVIEW.md) for detailed review guidelines.
+
 ## Changes to this document
 
 Proposed in PRs and approved by maintainers using the process above.
