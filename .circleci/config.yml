@@ -300,7 +300,9 @@ workflows:
           context: bot-check
           filters:
             branches:
-              ignore: /pull\/[0-9]+/
+              ignore:
+                - /pull\/[0-9]+/
+                - main
           requires:
             - toolkit/code_coverage
             - required builds-hcaptcha
@@ -341,7 +343,10 @@ workflows:
         - not: << pipeline.parameters.release-flag >>
 
     jobs:
-      - toolkit/end_success
+      - toolkit/end_success:
+          filters:
+            branches:
+              ignore: main
 
   post_merge_main:
     when:
