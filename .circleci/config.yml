@@ -208,7 +208,7 @@ workflows:
           min_rust_version: << pipeline.parameters.min-rust-version >>
           package: hcaptcha
           requires:
-            - toolkit/security
+            - security with sonarcloud
       - toolkit/required_builds:
           name: required builds-<< matrix.cargo_package >>
           min_rust_version: << pipeline.parameters.min-rust-version >>
@@ -218,7 +218,7 @@ workflows:
               cargo_package:
                 [hcaptcha, hcaptcha_derive, hcaptcha-cli, mock-verifier]
           requires:
-            - toolkit/security
+            - security audit only
       - toolkit/optional_builds:
           name: optional builds-<< matrix.cargo_package >>
           min_rust_version: << pipeline.parameters.min-rust-version >>
@@ -226,19 +226,19 @@ workflows:
           matrix:
             <<: *builds
           requires:
-            - toolkit/security
+            - security audit only
       - toolkit/common_tests:
           name: common tests for x86_64-<< matrix.cargo_package >>
           min_rust_version: << pipeline.parameters.min-rust-version >>
           matrix:
             <<: *builds
           requires:
-            - toolkit/security
+            - security audit only
       - toolkit/idiomatic_rust:
           min_rust_version: << pipeline.parameters.min-rust-version >>
           lint_flags: "-A deprecated"
           requires:
-            - toolkit/security
+            - security audit only
       - toolkit/test_doc_build:
           min_rust_version: << pipeline.parameters.min-rust-version >>
       - doc_tests:
@@ -281,6 +281,11 @@ workflows:
             - toolkit/test_doc_build
 
       - toolkit/security:
+          name: security audit only
+          sonarcloud: false
+      
+      - toolkit/security:
+          name: security with sonarcloud
           context: SonarCloud
       
       - trigger_success_pipeline:
@@ -313,7 +318,7 @@ workflows:
             - test-suite-test-suite-trace
             - test-suite-test-suite-enterprise
             - toolkit/test_wasm
-            - toolkit/security
+            - security with sonarcloud
 
   on_success:
     when:
