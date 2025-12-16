@@ -281,23 +281,6 @@ workflows:
       - toolkit/security:
           context: SonarCloud
 
-      - toolkit/update_prlog:
-          requires:
-            - toolkit/idiomatic_rust
-            - test-suite
-            - run_test_program
-            - toolkit/test_wasm
-            - toolkit/code_coverage
-          context:
-            - release
-            - bot-check
-            - pcu-app
-          ssh_fingerprint: << pipeline.parameters.fingerprint >>
-          min_rust_version: << pipeline.parameters.min-rust-version >>
-          pcu_verbosity: << pipeline.parameters.pcu_verbosity >>
-          pcu_allow_no_pull_request: << pipeline.parameters.pcu_allow_no_pull_request >>
-          update_pcu: true
-
   on_success:
     when:
       and:
@@ -309,6 +292,31 @@ workflows:
 
     jobs:
       - toolkit/end_success
+
+  post_merge_main:
+    when:
+      and:
+        - not:
+            equal: [scheduled_pipeline, << pipeline.trigger_source >>]
+        - not: << pipeline.parameters.success-flag >>
+        - not: << pipeline.parameters.validation-flag >>
+        - not: << pipeline.parameters.release-flag >>
+
+    jobs:
+      - toolkit/update_prlog:
+          context:
+            - release
+            - bot-check
+            - pcu-app
+          ssh_fingerprint: << pipeline.parameters.fingerprint >>
+          min_rust_version: << pipeline.parameters.min-rust-version >>
+          pcu_verbosity: << pipeline.parameters.pcu_verbosity >>
+          pcu_allow_no_pull_request: << pipeline.parameters.pcu_allow_no_pull_request >>
+          update_pcu: true
+          filters:
+            branches:
+              only:
+                - main
 
   release:
     when:
