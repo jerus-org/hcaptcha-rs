@@ -207,6 +207,9 @@ workflows:
       - toolkit/code_coverage:
           min_rust_version: << pipeline.parameters.min-rust-version >>
           package: hcaptcha
+          filters:
+            branches:
+              ignore: /pull\/[0-9]+/
           requires:
             - security with sonarcloud
       - toolkit/required_builds:
@@ -287,9 +290,15 @@ workflows:
       - toolkit/security:
           name: security with sonarcloud
           context: SonarCloud
+          filters:
+            branches:
+              ignore: /pull\/[0-9]+/
       
       - trigger_success_pipeline:
           context: bot-check
+          filters:
+            branches:
+              ignore: /pull\/[0-9]+/
           requires:
             - toolkit/code_coverage
             - required builds-hcaptcha
