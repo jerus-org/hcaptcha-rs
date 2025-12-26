@@ -5,16 +5,27 @@
 version: 2.1
 
 orbs:
-  toolkit: jerus-org/circleci-toolkit@3.0.2
+  toolkit: jerus-org/circleci-toolkit@3.2.0
+
+parameters:
+  min-rust-version:
+    type: string
+    default: "1.88"
 
 jobs:
-
   miri_tests:
-    docker:
-      - image: cimg/rust:1.83
+    executor:
+      name: toolkit/rust_env
+      min_rust_version: <<parameters.min_rust_version>>
+
+    parameters:
+      min_rust_version:
+        type: string
+        description: "Required: The minimum version of the rust compiler to use"
+
     steps:
       - checkout
-      - run: rustup toolchain install nightly --profile minimal
+      # - run: rustup toolchain install nightly --profile minimal
       - run: rustup +nightly component add miri
       - run: |
           set -eux
@@ -31,11 +42,18 @@ jobs:
             --skip hcaptcha_mock_with_sitekey
 
   fuzz_smoke:
-    docker:
-      - image: cimg/rust:1.83
+    executor:
+      name: toolkit/rust_env
+      min_rust_version: <<parameters.min_rust_version>>
+
+    parameters:
+      min_rust_version:
+        type: string
+        description: "Required: The minimum version of the rust compiler to use"
+
     steps:
       - checkout
-      - run: rustup toolchain install nightly --profile minimal
+      # - run: rustup toolchain install nightly --profile minimal
       - run: cargo +nightly install cargo-fuzz
       - run: |
           set -eux
@@ -47,5 +65,7 @@ workflows:
     jobs:
       - toolkit/security:
           sonarcloud: false
-      - miri_tests
-      - fuzz_smoke
+      - miri_tests:
+          min_rust_version: << pipeline.parameters.min-rust-version >>
+      - fuzz_smoke:
+          min_rust_version: << pipeline.parameters.min-rust-version >>
