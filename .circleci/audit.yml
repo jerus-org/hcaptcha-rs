@@ -11,7 +11,7 @@ jobs:
 
   miri_tests:
     docker:
-      - image: cimg/rust:1.83
+      - image: cimg/rust:1.92.0
     steps:
       - checkout
       - run: rustup toolchain install nightly --profile minimal
@@ -32,7 +32,7 @@ jobs:
 
   fuzz_smoke:
     docker:
-      - image: cimg/rust:1.83
+      - image: cimg/rust:1.92.0
     steps:
       - checkout
       - run: rustup toolchain install nightly --profile minimal
