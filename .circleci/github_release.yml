@@ -5,7 +5,7 @@
 version: 2.1
 
 orbs:
-  toolkit: jerus-org/circleci-toolkit@2.16.0
+  toolkit: jerus-org/circleci-toolkit@3.4.0
 
 parameters:
   min-rust-version:
