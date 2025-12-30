@@ -350,6 +350,7 @@ workflows:
           pcu_verbosity: << pipeline.parameters.pcu_verbosity >>
           pcu_allow_no_pull_request: << pipeline.parameters.pcu_allow_no_pull_request >>
           update_pcu: true
+          update_log_option: halt
           filters:
             branches:
               only:
