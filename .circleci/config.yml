@@ -67,9 +67,7 @@ jobs:
       name: toolkit/rust_wasi_rolling
     steps:
       - checkout
-      - toolkit/select_rust_version:
-          rust_version: stable
-      - run: cargo "+${RUST_VERSION}" --version
+      - run: cargo +stable --version
       - set_repro_env
       - run:
           name: Package crates
@@ -117,26 +115,22 @@ jobs:
       name: toolkit/rust_wasi_rolling
     steps:
       - checkout
-      - toolkit/select_rust_version:
-          rust_version: stable
-      - run: cargo "+${RUST_VERSION}" --version
+      - run: cargo +stable --version
       - set_repro_env
       - run:
           name: Running test suite <<parameters.test-suite>>
-          command: "cargo +${RUST_VERSION} test -p <<parameters.test-suite>> --test compiletest"
+          command: "cargo +stable test -p <<parameters.test-suite>> --test compiletest"
 
   doc_tests:
     executor:
       name: toolkit/rust_wasi_rolling
     steps:
       - checkout
-      - toolkit/select_rust_version:
-          rust_version: stable
-      - run: cargo "+${RUST_VERSION}" --version
+      - run: cargo +stable --version
       - set_repro_env
       - run:
           name: Run doctests for core crate
-          command: cargo "+${RUST_VERSION}" test -p hcaptcha --doc
+          command: cargo +stable test -p hcaptcha --doc
 
   run_test_program:
     parameters:
@@ -150,9 +144,7 @@ jobs:
       name: toolkit/rust_wasi_rolling
     steps:
       - checkout
-      - toolkit/select_rust_version:
-          rust_version: stable
-      - run: cargo "+${RUST_VERSION}" --version
+      - run: cargo +stable --version
       - set_repro_env
       - restore_cache:
           key: << parameters.cache_version >>-{{ .Branch }}-{{ checksum "Cargo.lock" }}
@@ -161,7 +153,7 @@ jobs:
           command: |
             set -ex
             if [ ! -f bin/hcaptcha-cli ]; then
-                cargo "+${RUST_VERSION}" build \
+                cargo +stable build \
                   --release \
                   --package hcaptcha-cli
                 mkdir -p bin
