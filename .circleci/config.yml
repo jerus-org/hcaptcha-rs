@@ -8,9 +8,6 @@ parameters:
   min-rust-version:
     type: string
     default: "1.88"
-  docker-tag-suffix:
-    type: string
-    default: "-wasi"
   fingerprint:
     type: string
     default: SHA256:OkxsH8Z6Iim6WDJBaII9eTT9aaO1f3eDc6IpsgYYPVg
@@ -43,7 +40,7 @@ parameters:
     description: "Optional flag to allows successful exit if no pull request in CI environment"
 
 orbs:
-  toolkit: jerus-org/circleci-toolkit@3.4.1
+  toolkit: jerus-org/circleci-toolkit@3.6.0
 
 # Reusable command to set reproducible-build environment variables.
 commands:
@@ -60,17 +57,14 @@ commands:
             echo 'export CARGO_PROFILE_RELEASE_DEBUG=true' >> "$BASH_ENV"
             source "$BASH_ENV"
 
-executors:
-  rust_env:
-    docker:
-      - image: jerusdp/ci-rust:<<pipeline.parameters.min-rust-version>><< pipeline.parameters.docker-tag-suffix >>
-  base-env:
-    docker:
-      - image: jerusdp/ci-rust:base
+# Custom executors removed - using toolkit rolling executors instead:
+#   - toolkit/rust_wasi_rolling for Rust jobs with WASI support
+#   - toolkit/base_env for base jobs
 
 jobs:
   compute_checksums_and_upload:
-    executor: rust_env
+    executor:
+      name: toolkit/rust_wasi_rolling
     steps:
       - checkout
       - run: cargo +stable --version
@@ -117,7 +111,8 @@ jobs:
     parameters:
       test-suite:
         type: string
-    executor: rust_env
+    executor:
+      name: toolkit/rust_wasi_rolling
     steps:
       - checkout
       - run: cargo +stable --version
@@ -127,7 +122,8 @@ jobs:
           command: "cargo +stable test -p <<parameters.test-suite>> --test compiletest"
 
   doc_tests:
-    executor: rust_env
+    executor:
+      name: toolkit/rust_wasi_rolling
     steps:
       - checkout
       - run: cargo +stable --version
@@ -144,7 +140,8 @@ jobs:
         type: string
       cache_version:
         type: string
-    executor: rust_env
+    executor:
+      name: toolkit/rust_wasi_rolling
     steps:
       - checkout
       - run: cargo +stable --version
@@ -172,7 +169,8 @@ jobs:
           cargo_bin: << parameters.cargo_bin >>
 
   trigger_success_pipeline:
-    executor: base-env
+    executor:
+      name: toolkit/base_env
     steps:
       - run:
           name: Trigger success pipeline
@@ -215,7 +213,6 @@ workflows:
       - toolkit/required_builds:
           name: required builds-<< matrix.cargo_package >>
           min_rust_version: << pipeline.parameters.min-rust-version >>
-          docker_tag_suffix: << pipeline.parameters.docker-tag-suffix >>
           matrix: &builds
             parameters:
               cargo_package:
@@ -225,7 +222,6 @@ workflows:
       - toolkit/optional_builds:
           name: optional builds-<< matrix.cargo_package >>
           min_rust_version: << pipeline.parameters.min-rust-version >>
-          docker_tag_suffix: << pipeline.parameters.docker-tag-suffix >>
           matrix:
             <<: *builds
           requires:
