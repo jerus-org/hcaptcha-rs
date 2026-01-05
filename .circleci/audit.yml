@@ -8,7 +8,7 @@ orbs:
   toolkit: jerus-org/circleci-toolkit@4.0.1
 
 parameters:
-  min-rust-version:
+  min_rust_version:
     type: string
     default: "1.88"
 
@@ -20,7 +20,7 @@ workflows:
 
       - toolkit/rust_miri:
           name: miri_tests
-          min_rust_version: << pipeline.parameters.min-rust-version >>
+          min_rust_version: << pipeline.parameters.min_rust_version >>
           package: "hcaptcha"
           test_args: "--lib"
           skip_tests: >
@@ -35,7 +35,7 @@ workflows:
 
       - toolkit/rust_fuzz_smoke:
           name: fuzz_smoke
-          min_rust_version: << pipeline.parameters.min-rust-version >>
+          min_rust_version: << pipeline.parameters.min_rust_version >>
           fuzz_target: "response_parse"
           max_total_time: 60
           fail_on_findings: false

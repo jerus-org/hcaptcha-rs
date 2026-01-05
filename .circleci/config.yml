@@ -5,21 +5,21 @@
 version: 2.1
 
 parameters:
-  min-rust-version:
+  min_rust_version:
     type: string
     default: "1.88"
   fingerprint:
     type: string
     default: SHA256:OkxsH8Z6Iim6WDJBaII9eTT9aaO1f3eDc6IpsgYYPVg
-  validation-flag:
+  validation_flag:
     type: boolean
     default: false
     description: "If true, the validation pipeline will be executed."
-  success-flag:
+  success_flag:
     type: boolean
     default: false
     description: "If true, the success pipeline will be executed."
-  release-flag:
+  release_flag:
     type: boolean
     default: false
     description: "If true, the release pipeline will be executed."
@@ -192,18 +192,18 @@ workflows:
       and:
         - not:
             equal: [scheduled_pipeline, << pipeline.trigger_source >>]
-        - not: << pipeline.parameters.success-flag >>
-        - not: << pipeline.parameters.release-flag >>
+        - not: << pipeline.parameters.success_flag >>
+        - not: << pipeline.parameters.release_flag >>
     jobs:
       - toolkit/label:
-          min_rust_version: << pipeline.parameters.min-rust-version >>
+          min_rust_version: << pipeline.parameters.min_rust_version >>
           context: pcu-app
           filters:
             branches:
               only:
                 - main
       - toolkit/code_coverage:
-          min_rust_version: << pipeline.parameters.min-rust-version >>
+          min_rust_version: << pipeline.parameters.min_rust_version >>
           package: hcaptcha
           filters:
             branches:
@@ -212,7 +212,7 @@ workflows:
             - security with sonarcloud
       - toolkit/required_builds:
           name: required builds-<< matrix.cargo_package >>
-          min_rust_version: << pipeline.parameters.min-rust-version >>
+          min_rust_version: << pipeline.parameters.min_rust_version >>
           matrix: &builds
             parameters:
               cargo_package:
@@ -221,25 +221,25 @@ workflows:
             - security audit only
       - toolkit/optional_builds:
           name: optional builds-<< matrix.cargo_package >>
-          min_rust_version: << pipeline.parameters.min-rust-version >>
+          min_rust_version: << pipeline.parameters.min_rust_version >>
           matrix:
             <<: *builds
           requires:
             - security audit only
       - toolkit/common_tests:
           name: common tests for x86_64-<< matrix.cargo_package >>
-          min_rust_version: << pipeline.parameters.min-rust-version >>
+          min_rust_version: << pipeline.parameters.min_rust_version >>
           matrix:
             <<: *builds
           requires:
             - security audit only
       - toolkit/idiomatic_rust:
-          min_rust_version: << pipeline.parameters.min-rust-version >>
+          min_rust_version: << pipeline.parameters.min_rust_version >>
           lint_flags: "-A deprecated"
           requires:
             - security audit only
       - toolkit/test_doc_build:
-          min_rust_version: << pipeline.parameters.min-rust-version >>
+          min_rust_version: << pipeline.parameters.min_rust_version >>
       - doc_tests:
           requires:
             - toolkit/test_doc_build
@@ -273,7 +273,7 @@ workflows:
             - toolkit/test_doc_build
 
       - toolkit/test_wasm:
-          min_rust_version: << pipeline.parameters.min-rust-version >>
+          min_rust_version: << pipeline.parameters.min_rust_version >>
           requires:
             - toolkit/common_tests
             - toolkit/required_builds
@@ -316,9 +316,9 @@ workflows:
       and:
         - not:
             equal: [scheduled_pipeline, << pipeline.trigger_source >>]
-        - << pipeline.parameters.success-flag >>
-        - not: << pipeline.parameters.validation-flag >>
-        - not: << pipeline.parameters.release-flag >>
+        - << pipeline.parameters.success_flag >>
+        - not: << pipeline.parameters.validation_flag >>
+        - not: << pipeline.parameters.release_flag >>
 
     jobs:
       - toolkit/end_success:
@@ -331,9 +331,9 @@ workflows:
       and:
         - not:
             equal: [scheduled_pipeline, << pipeline.trigger_source >>]
-        - not: << pipeline.parameters.success-flag >>
-        - not: << pipeline.parameters.validation-flag >>
-        - not: << pipeline.parameters.release-flag >>
+        - not: << pipeline.parameters.success_flag >>
+        - not: << pipeline.parameters.validation_flag >>
+        - not: << pipeline.parameters.release_flag >>
 
     jobs:
       - toolkit/update_prlog:
@@ -342,7 +342,7 @@ workflows:
             - bot-check
             - pcu-app
           ssh_fingerprint: << pipeline.parameters.fingerprint >>
-          min_rust_version: << pipeline.parameters.min-rust-version >>
+          min_rust_version: << pipeline.parameters.min_rust_version >>
           pcu_verbosity: << pipeline.parameters.pcu_verbosity >>
           pcu_allow_no_pull_request: << pipeline.parameters.pcu_allow_no_pull_request >>
           update_pcu: true
@@ -356,17 +356,17 @@ workflows:
     when:
       or:
         - and:
-            - << pipeline.parameters.release-flag >>
-            - not: << pipeline.parameters.success-flag >>
-            - not: << pipeline.parameters.validation-flag >>
+            - << pipeline.parameters.release_flag >>
+            - not: << pipeline.parameters.success_flag >>
+            - not: << pipeline.parameters.validation_flag >>
         - and:
             - equal: [scheduled_pipeline, << pipeline.trigger_source >>]
             - equal: ["release check", << pipeline.schedule.name >>]
-            - not: << pipeline.parameters.success-flag >>
-            - not: << pipeline.parameters.validation-flag >>
+            - not: << pipeline.parameters.success_flag >>
+            - not: << pipeline.parameters.validation_flag >>
     jobs:
       - toolkit/save_next_version:
-          min_rust_version: << pipeline.parameters.min-rust-version >>
+          min_rust_version: << pipeline.parameters.min_rust_version >>
 
       - toolkit/make_release:
           name: cargo release
@@ -376,11 +376,11 @@ workflows:
             - release
             - bot-check
           ssh_fingerprint: << pipeline.parameters.fingerprint >>
-          min_rust_version: << pipeline.parameters.min-rust-version >>
+          min_rust_version: << pipeline.parameters.min_rust_version >>
           pcu_verbosity: << pipeline.parameters.pcu_verbosity >>
           when_github_release: false
       - toolkit/no_release:
-          min_rust_version: << pipeline.parameters.min-rust-version >>
+          min_rust_version: << pipeline.parameters.min_rust_version >>
           requires:
             - toolkit/save_next_version:
                 - failed
@@ -393,7 +393,7 @@ workflows:
             - release
             - bot-check
           ssh_fingerprint: << pipeline.parameters.fingerprint >>
-          min_rust_version: << pipeline.parameters.min-rust-version >>
+          min_rust_version: << pipeline.parameters.min_rust_version >>
           when_cargo_release: false
           pcu_verbosity: << pipeline.parameters.pcu_verbosity >>
           package: hcaptcha
