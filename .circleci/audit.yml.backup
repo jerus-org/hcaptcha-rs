@@ -1,0 +1,41 @@
+# SPDX-FileCopyrightText: 2022 jerusdp
+#
+# SPDX-License-Identifier: MIT OR Apache-2.0
+
+version: 2.1
+
+orbs:
+  toolkit: jerus-org/circleci-toolkit@4.0.1
+
+parameters:
+  min-rust-version:
+    type: string
+    default: "1.88"
+
+workflows:
+  audit:
+    jobs:
+      - toolkit/security:
+          sonarcloud: false
+
+      - toolkit/rust_miri:
+          name: miri_tests
+          min_rust_version: << pipeline.parameters.min-rust-version >>
+          package: "hcaptcha"
+          test_args: "--lib"
+          skip_tests: >
+            hcaptcha_mock_verify
+            hcaptcha_mock_verify_request_reuse
+            hcaptcha_mock_verify_not_found
+            hcaptcha_mock_verify_client_response
+            hcaptcha_mock_verify_client_response_not_found
+            hcaptcha_mock_with_remoteip
+            hcaptcha_mock_with_sitekey
+          miri_flags: "-Zmiri-disable-isolation"
+
+      - toolkit/rust_fuzz_smoke:
+          name: fuzz_smoke
+          min_rust_version: << pipeline.parameters.min-rust-version >>
+          fuzz_target: "response_parse"
+          max_total_time: 60
+          fail_on_findings: false

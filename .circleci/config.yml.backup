@@ -1,0 +1,406 @@
+# SPDX-FileCopyrightText: 2022 jerusdp
+#
+# SPDX-License-Identifier: MIT OR Apache-2.0
+
+version: 2.1
+
+parameters:
+  min-rust-version:
+    type: string
+    default: "1.88"
+  fingerprint:
+    type: string
+    default: SHA256:OkxsH8Z6Iim6WDJBaII9eTT9aaO1f3eDc6IpsgYYPVg
+  validation-flag:
+    type: boolean
+    default: false
+    description: "If true, the validation pipeline will be executed."
+  success-flag:
+    type: boolean
+    default: false
+    description: "If true, the success pipeline will be executed."
+  release-flag:
+    type: boolean
+    default: false
+    description: "If true, the release pipeline will be executed."
+  pcu_workspace:
+    type: boolean
+    default: true
+    description: "If true, the make release treats as workspace."
+  pcu_verbosity:
+    type: string
+    default: "-vv"
+    description: "Verbosity for pcu application executions."
+  pcu_allow_no_pull_request:
+    type: enum
+    enum:
+      - ""
+      - "--allow-no-pull-request"
+    default: ""
+    description: "Optional flag to allows successful exit if no pull request in CI environment"
+
+orbs:
+  toolkit: jerus-org/circleci-toolkit@4.0.1
+
+# Reusable command to set reproducible-build environment variables.
+commands:
+  set_repro_env:
+    description: Set env vars for reproducible builds (timestamps and path remapping)
+    steps:
+      - run:
+          name: Set reproducible-build environment
+          command: |
+            echo "export SOURCE_DATE_EPOCH=$(git log -1 --pretty=%ct)" >> "$BASH_ENV"
+            echo 'export CARGO_HOME=${CARGO_HOME:-/root/.cargo}' >> "$BASH_ENV"
+            echo 'export RUSTFLAGS="--remap-path-prefix=$PWD=/src --remap-path-prefix=$CARGO_HOME=/cargo ${RUSTFLAGS:-}"' >> "$BASH_ENV"
+            echo 'export CFLAGS="-g -O2 -fdebug-prefix-map=$PWD=/src -fmacro-prefix-map=$PWD=/src ${CFLAGS:-}"' >> "$BASH_ENV"
+            echo 'export CARGO_PROFILE_RELEASE_DEBUG=true' >> "$BASH_ENV"
+            source "$BASH_ENV"
+
+# Custom executors removed - using toolkit rolling executors instead:
+#   - toolkit/rust_wasi_rolling for Rust jobs with WASI support
+#   - toolkit/base_env for base jobs
+
+jobs:
+  compute_checksums_and_upload:
+    executor:
+      name: toolkit/rust_wasi_rolling
+    steps:
+      - checkout
+      - run: cargo +stable --version
+      - set_repro_env
+      - run:
+          name: Package crates
+          command: |
+            set -euxo pipefail
+            mkdir -p dist
+            for pkg in hcaptcha hcaptcha-cli; do
+              if [ -f "${pkg}/Cargo.toml" ]; then
+                cargo +stable package -p ${pkg} -Z unstable-options --allow-dirty --no-verify --output dist/${pkg}.crate
+              fi
+            done
+      - run:
+          name: Compute checksums
+          command: |
+            set -euxo pipefail
+            (cd dist && sha256sum *.crate > checksums-sha256.txt)
+      - run:
+          name: Ensure GitHub CLI
+          command: |
+            set -euxo pipefail
+            if ! command -v gh >/dev/null 2>&1; then
+              if command -v apt-get >/dev/null 2>&1; then
+                apt-get update
+                apt-get install -y gh
+              else
+                echo "gh CLI not available and apt-get not found" >&2
+                exit 1
+              fi
+            fi
+      - run:
+          name: Upload to GitHub release
+          command: |
+            set -euxo pipefail
+            # Map GITHUB_TOKEN to GH_TOKEN for gh CLI compatibility if needed
+            if [ -n "${GITHUB_TOKEN:-}" ] && [ -z "${GH_TOKEN:-}" ]; then
+              echo 'export GH_TOKEN=${GITHUB_TOKEN}' >> "$BASH_ENV"; source "$BASH_ENV"
+            fi
+            tag=$(git describe --tags --abbrev=0)
+            gh release upload "$tag" dist/* --clobber
+  test-suite:
+    parameters:
+      test-suite:
+        type: string
+    executor:
+      name: toolkit/rust_wasi_rolling
+    steps:
+      - checkout
+      - run: cargo +stable --version
+      - set_repro_env
+      - run:
+          name: Running test suite <<parameters.test-suite>>
+          command: "cargo +stable test -p <<parameters.test-suite>> --test compiletest"
+
+  doc_tests:
+    executor:
+      name: toolkit/rust_wasi_rolling
+    steps:
+      - checkout
+      - run: cargo +stable --version
+      - set_repro_env
+      - run:
+          name: Run doctests for core crate
+          command: cargo +stable test -p hcaptcha --doc
+
+  run_test_program:
+    parameters:
+      cargo_bin:
+        type: string
+      cargo_package:
+        type: string
+      cache_version:
+        type: string
+    executor:
+      name: toolkit/rust_wasi_rolling
+    steps:
+      - checkout
+      - run: cargo +stable --version
+      - set_repro_env
+      - restore_cache:
+          key: << parameters.cache_version >>-{{ .Branch }}-{{ checksum "Cargo.lock" }}
+      - run:
+          name: Create the file if it does not exist
+          command: |
+            set -ex
+            if [ ! -f bin/hcaptcha-cli ]; then
+                cargo +stable build \
+                  --release \
+                  --package hcaptcha-cli
+                mkdir -p bin
+                cp target/release/hcaptcha-cli bin/
+            fi
+      - save_cache:
+          name: save to cache
+          paths:
+            - bin
+          key: << parameters.cache_version >>-{{ .Branch }}-{{ checksum "Cargo.lock" }}
+      - toolkit/cargo_run:
+          cargo_package: << parameters.cargo_package >>
+          cargo_bin: << parameters.cargo_bin >>
+
+  trigger_success_pipeline:
+    executor:
+      name: toolkit/base_env
+    steps:
+      - run:
+          name: Trigger success pipeline
+          command: |
+            curl -X POST \
+              --header "Content-Type: application/json" \
+              --header "Circle-Token: ${CIRCLE_TOKEN}" \
+              --data '{
+                "branch": "'"${CIRCLE_BRANCH}"'",
+                "parameters": {
+                  "success-flag": true
+                }
+              }' \
+              "https://circleci.com/api/v2/project/gh/${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME}/pipeline"
+
+workflows:
+  validation:
+    when:
+      and:
+        - not:
+            equal: [scheduled_pipeline, << pipeline.trigger_source >>]
+        - not: << pipeline.parameters.success-flag >>
+        - not: << pipeline.parameters.release-flag >>
+    jobs:
+      - toolkit/label:
+          min_rust_version: << pipeline.parameters.min-rust-version >>
+          context: pcu-app
+          filters:
+            branches:
+              only:
+                - main
+      - toolkit/code_coverage:
+          min_rust_version: << pipeline.parameters.min-rust-version >>
+          package: hcaptcha
+          filters:
+            branches:
+              ignore: /pull\/[0-9]+/
+          requires:
+            - security with sonarcloud
+      - toolkit/required_builds:
+          name: required builds-<< matrix.cargo_package >>
+          min_rust_version: << pipeline.parameters.min-rust-version >>
+          matrix: &builds
+            parameters:
+              cargo_package:
+                [hcaptcha, hcaptcha_derive, hcaptcha-cli, mock-verifier]
+          requires:
+            - security audit only
+      - toolkit/optional_builds:
+          name: optional builds-<< matrix.cargo_package >>
+          min_rust_version: << pipeline.parameters.min-rust-version >>
+          matrix:
+            <<: *builds
+          requires:
+            - security audit only
+      - toolkit/common_tests:
+          name: common tests for x86_64-<< matrix.cargo_package >>
+          min_rust_version: << pipeline.parameters.min-rust-version >>
+          matrix:
+            <<: *builds
+          requires:
+            - security audit only
+      - toolkit/idiomatic_rust:
+          min_rust_version: << pipeline.parameters.min-rust-version >>
+          lint_flags: "-A deprecated"
+          requires:
+            - security audit only
+      - toolkit/test_doc_build:
+          min_rust_version: << pipeline.parameters.min-rust-version >>
+      - doc_tests:
+          requires:
+            - toolkit/test_doc_build
+      - run_test_program:
+          cargo_package: test-suite-cli
+          name: run_test_program-<< matrix.cargo_bin >>
+          cache_version: "v1"
+          matrix:
+            parameters:
+              cargo_bin: [long_help, no_options, short_help, simple_captcha]
+          requires:
+            - toolkit/common_tests
+            - toolkit/required_builds
+            - toolkit/test_doc_build
+
+      - test-suite:
+          matrix:
+            parameters:
+              test-suite:
+                [
+                  test-suite-default,
+                  test-suite-no-default,
+                  test-suite-native-only,
+                  test-suite-rustls-only,
+                  test-suite-trace,
+                  test-suite-enterprise,
+                ]
+          requires:
+            - toolkit/common_tests
+            - toolkit/required_builds
+            - toolkit/test_doc_build
+
+      - toolkit/test_wasm:
+          min_rust_version: << pipeline.parameters.min-rust-version >>
+          requires:
+            - toolkit/common_tests
+            - toolkit/required_builds
+            - toolkit/test_doc_build
+
+      - toolkit/security:
+          name: security audit only
+          sonarcloud: false
+
+      - toolkit/security:
+          name: security with sonarcloud
+          context: SonarCloud
+          filters:
+            branches:
+              ignore:
+                - /pull\/[0-9]+/
+                - main
+
+      - trigger_success_pipeline:
+          context: bot-check
+          filters:
+            branches:
+              ignore:
+                - /pull\/[0-9]+/
+                - main
+          requires:
+            - toolkit/code_coverage
+            - toolkit/required_builds
+            - toolkit/common_tests
+            - toolkit/idiomatic_rust
+            - toolkit/test_doc_build
+            - doc_tests
+            - run_test_program
+            - test-suite
+            - toolkit/test_wasm
+            - security with sonarcloud
+
+  on_success:
+    when:
+      and:
+        - not:
+            equal: [scheduled_pipeline, << pipeline.trigger_source >>]
+        - << pipeline.parameters.success-flag >>
+        - not: << pipeline.parameters.validation-flag >>
+        - not: << pipeline.parameters.release-flag >>
+
+    jobs:
+      - toolkit/end_success:
+          filters:
+            branches:
+              ignore: main
+
+  post_merge_main:
+    when:
+      and:
+        - not:
+            equal: [scheduled_pipeline, << pipeline.trigger_source >>]
+        - not: << pipeline.parameters.success-flag >>
+        - not: << pipeline.parameters.validation-flag >>
+        - not: << pipeline.parameters.release-flag >>
+
+    jobs:
+      - toolkit/update_prlog:
+          context:
+            - release
+            - bot-check
+            - pcu-app
+          ssh_fingerprint: << pipeline.parameters.fingerprint >>
+          min_rust_version: << pipeline.parameters.min-rust-version >>
+          pcu_verbosity: << pipeline.parameters.pcu_verbosity >>
+          pcu_allow_no_pull_request: << pipeline.parameters.pcu_allow_no_pull_request >>
+          update_pcu: true
+          update_log_option: halt
+          filters:
+            branches:
+              only:
+                - main
+
+  release:
+    when:
+      or:
+        - and:
+            - << pipeline.parameters.release-flag >>
+            - not: << pipeline.parameters.success-flag >>
+            - not: << pipeline.parameters.validation-flag >>
+        - and:
+            - equal: [scheduled_pipeline, << pipeline.trigger_source >>]
+            - equal: ["release check", << pipeline.schedule.name >>]
+            - not: << pipeline.parameters.success-flag >>
+            - not: << pipeline.parameters.validation-flag >>
+    jobs:
+      - toolkit/save_next_version:
+          min_rust_version: << pipeline.parameters.min-rust-version >>
+
+      - toolkit/make_release:
+          name: cargo release
+          requires:
+            - toolkit/save_next_version
+          context:
+            - release
+            - bot-check
+          ssh_fingerprint: << pipeline.parameters.fingerprint >>
+          min_rust_version: << pipeline.parameters.min-rust-version >>
+          pcu_verbosity: << pipeline.parameters.pcu_verbosity >>
+          when_github_release: false
+      - toolkit/no_release:
+          min_rust_version: << pipeline.parameters.min-rust-version >>
+          requires:
+            - toolkit/save_next_version:
+                - failed
+
+      - toolkit/make_release:
+          requires:
+            - cargo release
+          name: github release for hcaptcha
+          context:
+            - release
+            - bot-check
+          ssh_fingerprint: << pipeline.parameters.fingerprint >>
+          min_rust_version: << pipeline.parameters.min-rust-version >>
+          when_cargo_release: false
+          pcu_verbosity: << pipeline.parameters.pcu_verbosity >>
+          package: hcaptcha
+      - compute_checksums_and_upload:
+          name: compute checksums and attach to GitHub release
+          context:
+            - release
+            - bot-check
+          requires:
+            - github release for hcaptcha
