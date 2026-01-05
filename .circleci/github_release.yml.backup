@@ -8,7 +8,7 @@ orbs:
   toolkit: jerus-org/circleci-toolkit@4.0.1
 
 parameters:
-  min_rust_version:
+  min-rust-version:
     type: string
     default: "1.88"
   docker-tag-suffix:
@@ -25,7 +25,7 @@ parameters:
 executors:
   rust_env:
     docker:
-      - image: jerusdp/ci-rust:<<pipeline.parameters.min_rust_version>><< pipeline.parameters.docker-tag-suffix >>
+      - image: jerusdp/ci-rust:<<pipeline.parameters.min-rust-version>><< pipeline.parameters.docker-tag-suffix >>
   base-env:
     docker:
       - image: jerusdp/ci-rust:base
@@ -93,7 +93,7 @@ workflows:
             - release
             - bot-check
           ssh_fingerprint: << pipeline.parameters.fingerprint >>
-          min_rust_version: << pipeline.parameters.min_rust_version >>
+          min_rust_version: << pipeline.parameters.min-rust-version >>
           when_cargo_release: false
           pcu_verbosity: << pipeline.parameters.pcu_verbosity >>
           package: hcaptcha
