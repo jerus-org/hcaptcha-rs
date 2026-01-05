@@ -181,7 +181,7 @@ jobs:
               --data '{
                 "branch": "'"${CIRCLE_BRANCH}"'",
                 "parameters": {
-                  "success-flag": true
+                  "success_flag": true
                 }
               }' \
               "https://circleci.com/api/v2/project/gh/${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME}/pipeline"
