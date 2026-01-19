@@ -186,25 +186,6 @@ jobs:
               }' \
               "https://circleci.com/api/v2/project/gh/${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME}/pipeline"
 
-  test_wasm:
-    parameters:
-      min_rust_version:
-        type: string
-        default: "1.81"
-    executor:
-      name: toolkit/rust_wasi_rolling
-    steps:
-      - checkout
-      - run: cargo +stable --version
-      - set_repro_env
-      - run:
-          name: Running wasm tests
-          command: |
-            set -ex
-            cd crates/test-wasm
-            cargo +stable test --target wasm32-unknown-unknown
-            cargo +stable test --target wasm32-wasip1
-
 workflows:
   validation:
     when:
@@ -291,8 +272,9 @@ workflows:
             - toolkit/required_builds
             - toolkit/test_doc_build
 
-      - test_wasm:
+      - toolkit/test_wasm:
           min_rust_version: << pipeline.parameters.min_rust_version >>
+          wasm_test_path: crates/test-wasm
           requires:
             - toolkit/common_tests
             - toolkit/required_builds
@@ -327,7 +309,7 @@ workflows:
             - doc_tests
             - run_test_program
             - test-suite
-            - test_wasm
+            - toolkit/test_wasm
             - security with sonarcloud
 
   on_success:
