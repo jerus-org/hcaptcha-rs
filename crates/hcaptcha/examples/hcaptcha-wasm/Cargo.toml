@@ -1,0 +1,45 @@
+# SPDX-FileCopyrightText: 2022 jerusdp
+#
+# SPDX-License-Identifier: MIT OR Apache-2.0
+
+[package]
+name = "hcaptcha-wasm"
+version = "3.1.1"
+authors = ["Jeremiah Russell <jerry@jrussell.ie>"]
+edition.workspace = true
+rust-version.workspace = true
+publish.workspace = true
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+# [features]
+# default = ["console_error_panic_hook"]
+
+[dependencies]
+claims = "0.8.0"
+hcaptcha = { path = "../../", features = ["enterprise"] }
+hcaptcha_derive = { path = "../../../hcaptcha_derive" }
+wasm-bindgen = "0.2.106"
+wasm-bindgen-futures = "0.4.56"
+
+# The `console_error_panic_hook` crate provides better debugging of panics by
+# logging them with `console.error`. This is great for development, but requires
+# all the `std::fmt` and `std::panicking` infrastructure, so isn't great for
+# code size when deploying.
+# console_error_panic_hook = { version = "0.1.7", optional = true }
+
+[dev-dependencies]
+wasm-bindgen-test = "0.3.56"
+
+# [profile.release]
+# # Tell `rustc` to optimize for small code size.
+# opt-level = "s"
+
+[lints.rust]
+unexpected_cfgs = { level = "warn", check-cfg = [
+    'cfg(wasm_bindgen_unstable_test_coverage)',
+] }
+
+[lints.clippy]
+pedantic = "allow"

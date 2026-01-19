@@ -5,21 +5,21 @@
 [workspace]
 resolver = "2"
 members = [
-    "hcaptcha",
-    "hcaptcha-cli",
-    "hcaptcha_derive",
-    "test-suite-default",
-    "test-suite-enterprise",
-    "test-suite-native-only",
-    "test-suite-no-default",
-    "test-suite-rustls-only",
-    "test-suite-trace",
-    "test-suite-cli",
-    "mock-verifier",
-    "test-wasm",
-    "hcaptcha/examples/hcaptcha-wasm",
+    "crates/hcaptcha",
+    "crates/hcaptcha-cli",
+    "crates/hcaptcha_derive",
+    "crates/test-suite-default",
+    "crates/test-suite-enterprise",
+    "crates/test-suite-native-only",
+    "crates/test-suite-no-default",
+    "crates/test-suite-rustls-only",
+    "crates/test-suite-trace",
+    "crates/test-suite-cli",
+    "crates/mock-verifier",
+    "crates/test-wasm",
+    "crates/hcaptcha/examples/hcaptcha-wasm",
 ]
-exclude = ["fuzz"]
+exclude = ["crates/hcaptcha/fuzz"]
 
 [workspace.package]
 rust-version = "1.88"
@@ -69,6 +69,10 @@ url = "2.5.7"
 wasm-bindgen = "0.2.106"
 wasm-bindgen-futures = "0.4.56"
 wasm-bindgen-test = "0.3.56"
+
+[workspace.lints.clippy]
+# Allow pedantic lints by default - they are informational, not errors
+pedantic = "allow"
 
 [profile.release]
 # Tell `rustc` to optimize for small code size.

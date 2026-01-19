@@ -75,7 +75,7 @@ jobs:
             set -euxo pipefail
             mkdir -p dist
             for pkg in hcaptcha hcaptcha-cli; do
-              if [ -f "${pkg}/Cargo.toml" ]; then
+              if [ -f "crates/${pkg}/Cargo.toml" ]; then
                 cargo +stable package -p ${pkg} -Z unstable-options --allow-dirty --no-verify --output dist/${pkg}.crate
               fi
             done
@@ -274,6 +274,7 @@ workflows:
 
       - toolkit/test_wasm:
           min_rust_version: << pipeline.parameters.min_rust_version >>
+          wasm_test_path: crates/test-wasm
           requires:
             - toolkit/common_tests
             - toolkit/required_builds
