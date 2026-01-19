@@ -14,7 +14,7 @@ cargo-fuzz = true
 [dependencies]
 libfuzzer-sys = "0.4.10"
 serde_json = "1.0.147"
-hcaptcha = { path = "../hcaptcha" }
+hcaptcha = { path = ".." }
 
 [[bin]]
 name = "response_parse"
