@@ -36,10 +36,10 @@ impl Secret {
         let mut codes = HashSet::new();
         if is_wrong_length {
             codes.insert(Code::InvalidSecretExtWrongLen);
-        };
+        }
         if is_not_a_hex_string {
             codes.insert(Code::InvalidSecretExtNotHex);
-        };
+        }
         if codes.is_empty() {
             Ok(Secret(s))
         } else {
@@ -56,10 +56,10 @@ impl Secret {
         let mut codes = HashSet::new();
         if is_wrong_length {
             codes.insert(Code::InvalidSecretExtWrongLen);
-        };
+        }
         if is_not_a_hex_string {
             codes.insert(Code::InvalidSecretExtNotHex);
-        };
+        }
         if codes.is_empty() {
             Ok(Secret(s))
         } else {

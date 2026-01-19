@@ -176,7 +176,7 @@ impl Captcha {
             self.remoteip = None;
         } else {
             self.remoteip = Some(Remoteip::parse(remoteip.to_owned())?);
-        };
+        }
 
         Ok(self.clone())
     }
@@ -252,7 +252,7 @@ impl Captcha {
             self.sitekey = None;
         } else {
             self.sitekey = Some(Sitekey::parse(sitekey.to_owned())?);
-        };
+        }
 
         Ok(self.clone())
     }
