@@ -40,3 +40,6 @@ wasm-bindgen-test = "0.3.56"
 unexpected_cfgs = { level = "warn", check-cfg = [
     'cfg(wasm_bindgen_unstable_test_coverage)',
 ] }
+
+[lints.clippy]
+pedantic = "allow"

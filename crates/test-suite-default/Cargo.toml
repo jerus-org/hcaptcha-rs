@@ -29,3 +29,6 @@ serde_json.workspace = true
 tokio = { workspace = true, features = ["rt-multi-thread"] }
 trybuild.workspace = true
 wiremock.workspace = true
+
+[lints]
+workspace = true
