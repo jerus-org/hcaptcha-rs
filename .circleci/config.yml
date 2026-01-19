@@ -75,7 +75,7 @@ jobs:
             set -euxo pipefail
             mkdir -p dist
             for pkg in hcaptcha hcaptcha-cli; do
-              if [ -f "${pkg}/Cargo.toml" ]; then
+              if [ -f "crates/${pkg}/Cargo.toml" ]; then
                 cargo +stable package -p ${pkg} -Z unstable-options --allow-dirty --no-verify --output dist/${pkg}.crate
               fi
             done
@@ -186,6 +186,25 @@ jobs:
               }' \
               "https://circleci.com/api/v2/project/gh/${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME}/pipeline"
 
+  test_wasm:
+    parameters:
+      min_rust_version:
+        type: string
+        default: "1.81"
+    executor:
+      name: toolkit/rust_wasi_rolling
+    steps:
+      - checkout
+      - run: cargo +stable --version
+      - set_repro_env
+      - run:
+          name: Running wasm tests
+          command: |
+            set -ex
+            cd crates/test-wasm
+            cargo +stable test --target wasm32-unknown-unknown
+            cargo +stable test --target wasm32-wasip1
+
 workflows:
   validation:
     when:
@@ -272,7 +291,7 @@ workflows:
             - toolkit/required_builds
             - toolkit/test_doc_build
 
-      - toolkit/test_wasm:
+      - test_wasm:
           min_rust_version: << pipeline.parameters.min_rust_version >>
           requires:
             - toolkit/common_tests
@@ -308,7 +327,7 @@ workflows:
             - doc_tests
             - run_test_program
             - test-suite
-            - toolkit/test_wasm
+            - test_wasm
             - security with sonarcloud
 
   on_success:
