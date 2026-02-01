@@ -40,7 +40,7 @@ parameters:
     description: "Optional flag to allows successful exit if no pull request in CI environment"
 
 orbs:
-  toolkit: jerus-org/circleci-toolkit@4.0.1
+  toolkit: jerus-org/circleci-toolkit@4.2.4
 
 # Reusable command to set reproducible-build environment variables.
 commands:
