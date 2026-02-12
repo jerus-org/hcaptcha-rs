@@ -60,7 +60,7 @@ tracing-appender = "0.2.4"
 tracing-bunyan-formatter = "0.3.10"
 tracing-log = "0.2.0"
 tracing-subscriber = { version = "0.3.22", features = ["env-filter"] }
-tracing-test = "0.2.5"
+tracing-test = "0.2.6"
 wiremock = "0.6.5"
 trybuild = "1.0.114"
 uuid = { version = "1.19.0", features = ["v4"] }
