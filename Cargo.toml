@@ -19,7 +19,6 @@ members = [
     "crates/test-wasm",
     "crates/hcaptcha/examples/hcaptcha-wasm",
 ]
-exclude = ["crates/hcaptcha/fuzz"]
 
 [workspace.package]
 rust-version = "1.88"
