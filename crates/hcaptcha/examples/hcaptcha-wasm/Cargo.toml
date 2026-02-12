@@ -20,7 +20,7 @@ crate-type = ["cdylib", "rlib"]
 claims = "0.8.0"
 hcaptcha = { path = "../../", features = ["enterprise"] }
 hcaptcha_derive = { path = "../../../hcaptcha_derive" }
-wasm-bindgen = "0.2.106"
+wasm-bindgen = "0.2.108"
 wasm-bindgen-futures = "0.4.56"
 
 # The `console_error_panic_hook` crate provides better debugging of panics by
