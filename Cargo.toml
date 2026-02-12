@@ -18,6 +18,7 @@ members = [
     "crates/mock-verifier",
     "crates/test-wasm",
     "crates/hcaptcha/examples/hcaptcha-wasm",
+    "crates/hcaptcha/fuzz",
 ]
 exclude = ["crates/hcaptcha/fuzz"]
 
