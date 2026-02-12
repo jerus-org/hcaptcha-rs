@@ -28,7 +28,7 @@ executors:
       - image: jerusdp/ci-rust:<<pipeline.parameters.min_rust_version>><< pipeline.parameters.docker-tag-suffix >>
   base-env:
     docker:
-      - image: jerusdp/ci-rust:base
+      - image: jerusdp/ci-rust:base@sha256:236b32b508970fcea0a8963ac5493e1ab131e1503485ac06687259a0b66bba28
 
 jobs:
   compute_checksums_and_upload:
