@@ -23,10 +23,6 @@ wasm-bindgen-futures.workspace = true
 [dev-dependencies]
 wasm-bindgen-test.workspace = true
 
-[profile.release]
-# Tell `rustc` to optimize for small code size.
-opt-level = "s"
-
 [lints.rust]
 unexpected_cfgs = { level = "warn", check-cfg = [
     'cfg(wasm_bindgen_unstable_test_coverage)',
