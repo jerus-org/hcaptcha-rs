@@ -370,6 +370,7 @@ impl Response {
     /// # Example
     /// ```no_run
     /// #   use hcaptcha::{Request, Client};
+    /// #   use std::iter;
     /// # #[tokio::main]
     /// # async fn main() -> Result<(), hcaptcha::Error> {
     /// # let request = Request::new(
