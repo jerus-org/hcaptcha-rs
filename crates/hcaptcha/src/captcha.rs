@@ -273,7 +273,6 @@ impl Captcha {
     ///
     /// # use rand::distr::Alphanumeric;
     /// # use rand::{rng, RngExt};
-    /// # use std::iter;
     /// # fn random_response() -> String {
     /// #     let mut rng = rng();
     /// #     (&mut rng)
@@ -334,7 +333,6 @@ impl Captcha {
     ///
     /// # use rand::distr::Alphanumeric;
     /// # use rand::{rng, RngExt};
-    /// # use std::iter;
     /// # fn random_response() -> String {
     /// #     let mut rng = rng();
     /// #     (&mut rng)
@@ -392,7 +390,6 @@ impl Captcha {
     ///
     /// # use rand::distr::Alphanumeric;
     /// # use rand::{rng, RngExt};
-    /// # use std::iter;
     /// # fn random_response() -> String {
     /// #     let mut rng = rng();
     /// #     (&mut rng)
