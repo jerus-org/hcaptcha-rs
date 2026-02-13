@@ -4,15 +4,14 @@
 
 use hcaptcha::Captcha;
 use rand::distr::Alphanumeric;
-use rand::{rng, Rng};
-use std::iter;
+use rand::{rng, RngExt};
 
 pub fn random_response() -> String {
     let mut rng = rng();
-    iter::repeat(())
-        .map(|()| rng.sample(Alphanumeric))
-        .map(char::from)
+    (&mut rng)
+        .sample_iter(Alphanumeric)
         .take(100)
+        .map(char::from)
         .collect()
 }
 
@@ -27,9 +26,9 @@ pub fn dummy_captcha() -> Captcha {
 
 pub fn random_string(characters: usize) -> String {
     let mut rng = rng();
-    iter::repeat(())
-        .map(|()| rng.sample(Alphanumeric))
-        .map(char::from)
+    (&mut rng)
+        .sample_iter(Alphanumeric)
         .take(characters)
+        .map(char::from)
         .collect()
 }

@@ -272,15 +272,15 @@ impl Captcha {
     ///     assert_eq!(response, captcha.response().to_string());
     ///
     /// # use rand::distr::Alphanumeric;
-    /// # use rand::{rng, Rng};
+    /// # use rand::{rng, RngExt};
     /// # use std::iter;
     /// # fn random_response() -> String {
     /// #     let mut rng = rng();
-    /// #     iter::repeat(())
-    /// #         .map(|()| rng.sample(Alphanumeric))
-    /// #         .map(char::from)
-    /// #         .take(100)
-    /// #         .collect()
+    /// #     (&mut rng)
+    /// #        .sample_iter(Alphanumeric)
+    /// #        .take(100)
+    /// #        .map(char::from)
+    /// #        .collect()
     /// # }
     /// #
     /// # fn get_captcha() -> (String, Captcha) {
@@ -333,15 +333,15 @@ impl Captcha {
     ///     }
     ///
     /// # use rand::distr::Alphanumeric;
-    /// # use rand::{rng, Rng};
+    /// # use rand::{rng, RngExt};
     /// # use std::iter;
     /// # fn random_response() -> String {
     /// #     let mut rng = rng();
-    /// #     iter::repeat(())
-    /// #         .map(|()| rng.sample(Alphanumeric))
-    /// #         .map(char::from)
-    /// #         .take(100)
-    /// #         .collect()
+    /// #     (&mut rng)
+    /// #        .sample_iter(Alphanumeric)
+    /// #        .take(100)
+    /// #        .map(char::from)
+    /// #        .collect()
     /// # }
     /// #
     /// # fn get_captcha() -> (String, Captcha) {
@@ -391,15 +391,15 @@ impl Captcha {
     ///     };
     ///
     /// # use rand::distr::Alphanumeric;
-    /// # use rand::{rng, Rng};
+    /// # use rand::{rng, RngExt};
     /// # use std::iter;
     /// # fn random_response() -> String {
     /// #     let mut rng = rng();
-    /// #     iter::repeat(())
-    /// #         .map(|()| rng.sample(Alphanumeric))
-    /// #         .map(char::from)
-    /// #         .take(100)
-    /// #         .collect()
+    /// #     (&mut rng)
+    /// #        .sample_iter(Alphanumeric)
+    /// #        .take(100)
+    /// #        .map(char::from)
+    /// #        .collect()
     /// # }
     /// #
     /// # fn get_captcha() -> (String, Captcha) {
@@ -434,15 +434,15 @@ mod tests {
     use crate::Code;
     use claims::{assert_err, assert_none, assert_ok, assert_some};
     use rand::distr::Alphanumeric;
-    use rand::{rng, Rng};
-    use std::iter;
+    use rand::{rng, RngExt};
 
     fn random_response() -> String {
         let mut rng = rng();
-        iter::repeat(())
-            .map(|()| rng.sample(Alphanumeric))
-            .map(char::from)
+
+        (&mut rng)
+            .sample_iter(Alphanumeric)
             .take(100)
+            .map(char::from)
             .collect()
     }
 

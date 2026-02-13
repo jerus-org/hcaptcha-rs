@@ -40,14 +40,14 @@
 //! # }
 //! # use hcaptcha::Captcha;
 //! # use rand::distr::Alphanumeric;
-//! # use rand::{rng, Rng};
+//! # use rand::{rng, RngExt};
 //! # use std::iter;
 //! # fn random_response() -> String {
 //! #    let mut rng = rng();
-//! #    iter::repeat(())
-//! #        .map(|()| rng.sample(Alphanumeric))
-//! #        .map(char::from)
+//! #     (&mut rng)
+//! #        .sample_iter(Alphanumeric)
 //! #        .take(100)
+//! #        .map(char::from)
 //! #        .collect()
 //! # }
 //! # fn get_captcha() -> Captcha {
@@ -214,14 +214,14 @@ impl Response {
     /// # }
     /// # use hcaptcha::Captcha;
     /// # use rand::distr::Alphanumeric;
-    /// # use rand::{rng, Rng};
+    /// # use rand::{rng, RngExt};
     /// # use std::iter;
     /// # fn random_response() -> String {
     /// #    let mut rng = rng();
-    /// #    iter::repeat(())
-    /// #        .map(|()| rng.sample(Alphanumeric))
-    /// #        .map(char::from)
+    /// #     (&mut rng)
+    /// #        .sample_iter(Alphanumeric)
     /// #        .take(100)
+    /// #        .map(char::from)
     /// #        .collect()
     /// # }
     /// # fn get_captcha() -> Captcha {
@@ -258,14 +258,14 @@ impl Response {
     /// # }
     /// # use hcaptcha::Captcha;
     /// # use rand::distr::Alphanumeric;
-    /// # use rand::{rng, Rng};
+    /// # use rand::{rng, RngExt};
     /// # use std::iter;
     /// # fn random_response() -> String {
     /// #    let mut rng = rng();
-    /// #    iter::repeat(())
-    /// #        .map(|()| rng.sample(Alphanumeric))
-    /// #        .map(char::from)
+    /// #     (&mut rng)
+    /// #        .sample_iter(Alphanumeric)
     /// #        .take(100)
+    /// #        .map(char::from)
     /// #        .collect()
     /// # }
     /// # fn get_captcha() -> Captcha {
@@ -302,14 +302,14 @@ impl Response {
     /// # }
     /// # use hcaptcha::Captcha;
     /// # use rand::distr::Alphanumeric;
-    /// # use rand::{rng, Rng};
+    /// # use rand::{rng, RngExt};
     /// # use std::iter;
     /// # fn random_response() -> String {
     /// #    let mut rng = rng();
-    /// #    iter::repeat(())
-    /// #        .map(|()| rng.sample(Alphanumeric))
-    /// #        .map(char::from)
+    /// #     (&mut rng)
+    /// #        .sample_iter(Alphanumeric)
     /// #        .take(100)
+    /// #        .map(char::from)
     /// #        .collect()
     /// # }
     /// # fn get_captcha() -> Captcha {
@@ -347,14 +347,14 @@ impl Response {
     /// # }
     /// # use hcaptcha::Captcha;
     /// # use rand::distr::Alphanumeric;
-    /// # use rand::{rng, Rng};
+    /// # use rand::{rng, RngExt};
     /// # use std::iter;
     /// # fn random_response() -> String {
     /// #    let mut rng = rng();
-    /// #    iter::repeat(())
-    /// #        .map(|()| rng.sample(Alphanumeric))
-    /// #        .map(char::from)
+    /// #     (&mut rng)
+    /// #        .sample_iter(Alphanumeric)
     /// #        .take(100)
+    /// #        .map(char::from)
     /// #        .collect()
     /// # }
     /// # fn get_captcha() -> Captcha {
@@ -392,7 +392,7 @@ impl Response {
     /// # }
     /// # use hcaptcha::Captcha;
     /// # use rand::distr::Alphanumeric;
-    /// # use rand::{rng, Rng};
+    /// # use rand::{rng, RngExt};
     /// # use std::iter;
     /// # fn random_response() -> String {
     /// #    iter::repeat(())
@@ -436,14 +436,14 @@ impl Response {
     /// # }
     /// # use hcaptcha::Captcha;
     /// # use rand::distr::Alphanumeric;
-    /// # use rand::{rng, Rng};
+    /// # use rand::{rng, RngExt};
     /// # use std::iter;
     /// # fn random_response() -> String {
     /// #    let mut rng = rng();
-    /// #    iter::repeat(())
-    /// #        .map(|()| rng.sample(Alphanumeric))
-    /// #        .map(char::from)
+    /// #     (&mut rng)
+    /// #        .sample_iter(Alphanumeric)
     /// #        .take(100)
+    /// #        .map(char::from)
     /// #        .collect()
     /// # }
     /// # fn get_captcha() -> Captcha {
@@ -483,14 +483,14 @@ impl Response {
     /// # }
     /// # use hcaptcha::Captcha;
     /// # use rand::distr::Alphanumeric;
-    /// # use rand::{rng, Rng};
+    /// # use rand::{rng, RngExt};
     /// # use std::iter;
     /// # fn random_response() -> String {
     /// #    let mut rng = rng();
-    /// #    iter::repeat(())
-    /// #        .map(|()| rng.sample(Alphanumeric))
-    /// #        .map(char::from)
+    /// #     (&mut rng)
+    /// #        .sample_iter(Alphanumeric)
     /// #        .take(100)
+    /// #        .map(char::from)
     /// #        .collect()
     /// # }
     /// # fn get_captcha() -> Captcha {
