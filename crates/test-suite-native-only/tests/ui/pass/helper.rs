@@ -5,7 +5,6 @@
 use hcaptcha::Captcha;
 use rand::distr::Alphanumeric;
 use rand::{rng, RngExt};
-use std::iter;
 
 pub fn random_response() -> String {
     let mut rng = rng();
