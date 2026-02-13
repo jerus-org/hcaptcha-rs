@@ -37,14 +37,14 @@
 //! #   "0x123456789abcde0f123456789abcdef012345678".to_string()
 //! # }
 //! # use rand::distr::Alphanumeric;
-//! # use rand::{rng, Rng};
+//! # use rand::{rng, RngExt};
 //! # use std::iter;
 //! # fn random_response() -> String {
 //! #    let mut rng = rng();
-//! #    iter::repeat(())
-//! #        .map(|()| rng.sample(Alphanumeric))
-//! #        .map(char::from)
+//! #     (&mut rng)
+//! #        .sample_iter(Alphanumeric)
 //! #        .take(100)
+//! #        .map(char::from)
 //! #        .collect()
 //! # }
 //! # fn dummy_captcha() -> Captcha {
@@ -213,7 +213,7 @@ impl Client {
     ///     use hcaptcha::{Client, Request};
     /// # use hcaptcha::Captcha;
     /// # use rand::distr::Alphanumeric;
-    /// # use rand::{rng, Rng};
+    /// # use rand::{rng, RngExt};
     /// # use std::iter;
     /// # #[tokio::main]
     /// # async fn main() -> Result<(), hcaptcha::Error> {
@@ -238,10 +238,10 @@ impl Client {
     /// # }
     /// # fn random_response() -> String {
     /// #    let mut rng = rng();
-    /// #    iter::repeat(())
-    /// #        .map(|()| rng.sample(Alphanumeric))
-    /// #        .map(char::from)
+    /// #     (&mut rng)
+    /// #        .sample_iter(Alphanumeric)
     /// #        .take(100)
+    /// #        .map(char::from)
     /// #        .collect()
     /// # }
     /// # fn get_captcha() -> Captcha {
@@ -300,7 +300,7 @@ impl Client {
     ///     use hcaptcha::{Client, Request};
     /// # use hcaptcha::Captcha;
     /// # use rand::distr::Alphanumeric;
-    /// # use rand::{rng, Rng};
+    /// # use rand::{rng, RngExt};
     /// # use std::iter;
     /// # #[tokio::main]
     /// # async fn main() -> Result<(), hcaptcha::Error> {
@@ -325,10 +325,10 @@ impl Client {
     /// # }
     /// # fn random_response() -> String {
     /// #    let mut rng = rng();
-    /// #    iter::repeat(())
-    /// #        .map(|()| rng.sample(Alphanumeric))
-    /// #        .map(char::from)
+    /// #     (&mut rng)
+    /// #        .sample_iter(Alphanumeric)
     /// #        .take(100)
+    /// #        .map(char::from)
     /// #        .collect()
     /// # }
     /// # fn get_captcha() -> Captcha {
@@ -381,7 +381,7 @@ impl Client {
     /// ```no_run
     /// use hcaptcha::{Client, Request, Captcha};
     /// # use rand::distr::Alphanumeric;
-    /// # use rand::{rng, Rng};
+    /// # use rand::{rng, RngExt};
     /// # use std::iter;
     /// # #[tokio::main]
     /// # async fn main() -> Result<(), hcaptcha::Error> {
@@ -427,9 +427,8 @@ mod tests {
     use chrono::{TimeDelta, Utc};
     use claims::{assert_err, assert_ok};
     use rand::distr::Alphanumeric;
-    use rand::{rng, Rng};
+    use rand::{rng, RngExt};
     use serde_json::json;
-    use std::iter;
     #[cfg(feature = "trace")]
     use tracing_test::traced_test;
     use wiremock::matchers::{body_string, method, path};
@@ -442,10 +441,10 @@ mod tests {
 
     fn random_string(characters: usize) -> String {
         let mut rng = rng();
-        iter::repeat(())
-            .map(|()| rng.sample(Alphanumeric))
-            .map(char::from)
+        (&mut rng)
+            .sample_iter(Alphanumeric)
             .take(characters)
+            .map(char::from)
             .collect()
     }
 
