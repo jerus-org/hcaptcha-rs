@@ -38,7 +38,6 @@
 //! # }
 //! # use rand::distr::Alphanumeric;
 //! # use rand::{rng, RngExt};
-//! # use std::iter;
 //! # fn random_response() -> String {
 //! #    let mut rng = rng();
 //! #     (&mut rng)
@@ -214,7 +213,6 @@ impl Client {
     /// # use hcaptcha::Captcha;
     /// # use rand::distr::Alphanumeric;
     /// # use rand::{rng, RngExt};
-    /// # use std::iter;
     /// # #[tokio::main]
     /// # async fn main() -> Result<(), hcaptcha::Error> {
     ///     let secret = get_your_secret(); // your secret key
@@ -301,7 +299,6 @@ impl Client {
     /// # use hcaptcha::Captcha;
     /// # use rand::distr::Alphanumeric;
     /// # use rand::{rng, RngExt};
-    /// # use std::iter;
     /// # #[tokio::main]
     /// # async fn main() -> Result<(), hcaptcha::Error> {
     ///     let secret = get_your_secret(); // your secret key
@@ -382,7 +379,6 @@ impl Client {
     /// use hcaptcha::{Client, Request, Captcha};
     /// # use rand::distr::Alphanumeric;
     /// # use rand::{rng, RngExt};
-    /// # use std::iter;
     /// # #[tokio::main]
     /// # async fn main() -> Result<(), hcaptcha::Error> {
     /// let secret = get_your_secret();

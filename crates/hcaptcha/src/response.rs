@@ -41,7 +41,6 @@
 //! # use hcaptcha::Captcha;
 //! # use rand::distr::Alphanumeric;
 //! # use rand::{rng, RngExt};
-//! # use std::iter;
 //! # fn random_response() -> String {
 //! #    let mut rng = rng();
 //! #     (&mut rng)
@@ -215,7 +214,6 @@ impl Response {
     /// # use hcaptcha::Captcha;
     /// # use rand::distr::Alphanumeric;
     /// # use rand::{rng, RngExt};
-    /// # use std::iter;
     /// # fn random_response() -> String {
     /// #    let mut rng = rng();
     /// #     (&mut rng)
@@ -259,7 +257,6 @@ impl Response {
     /// # use hcaptcha::Captcha;
     /// # use rand::distr::Alphanumeric;
     /// # use rand::{rng, RngExt};
-    /// # use std::iter;
     /// # fn random_response() -> String {
     /// #    let mut rng = rng();
     /// #     (&mut rng)
@@ -303,7 +300,6 @@ impl Response {
     /// # use hcaptcha::Captcha;
     /// # use rand::distr::Alphanumeric;
     /// # use rand::{rng, RngExt};
-    /// # use std::iter;
     /// # fn random_response() -> String {
     /// #    let mut rng = rng();
     /// #     (&mut rng)
@@ -348,7 +344,6 @@ impl Response {
     /// # use hcaptcha::Captcha;
     /// # use rand::distr::Alphanumeric;
     /// # use rand::{rng, RngExt};
-    /// # use std::iter;
     /// # fn random_response() -> String {
     /// #    let mut rng = rng();
     /// #     (&mut rng)
@@ -375,6 +370,7 @@ impl Response {
     /// # Example
     /// ```no_run
     /// #   use hcaptcha::{Request, Client};
+    /// #   use std::iter;
     /// # #[tokio::main]
     /// # async fn main() -> Result<(), hcaptcha::Error> {
     /// # let request = Request::new(
@@ -393,7 +389,6 @@ impl Response {
     /// # use hcaptcha::Captcha;
     /// # use rand::distr::Alphanumeric;
     /// # use rand::{rng, RngExt};
-    /// # use std::iter;
     /// # fn random_response() -> String {
     /// #    iter::repeat(())
     /// #        .map(|()| rng().sample(Alphanumeric))
@@ -437,7 +432,6 @@ impl Response {
     /// # use hcaptcha::Captcha;
     /// # use rand::distr::Alphanumeric;
     /// # use rand::{rng, RngExt};
-    /// # use std::iter;
     /// # fn random_response() -> String {
     /// #    let mut rng = rng();
     /// #     (&mut rng)
@@ -484,7 +478,6 @@ impl Response {
     /// # use hcaptcha::Captcha;
     /// # use rand::distr::Alphanumeric;
     /// # use rand::{rng, RngExt};
-    /// # use std::iter;
     /// # fn random_response() -> String {
     /// #    let mut rng = rng();
     /// #     (&mut rng)
