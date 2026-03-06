@@ -1,0 +1,122 @@
+# SPDX-FileCopyrightText: 2022 jerusdp
+#
+# SPDX-License-Identifier: MIT OR Apache-2.0
+
+version: 2.1
+
+parameters:
+  hcaptcha_version:
+    type: string
+    default: ""
+    description: "Override hcaptcha crate version (empty = nextsv auto-detect)"
+  hcaptcha_derive_version:
+    type: string
+    default: ""
+    description: "Override hcaptcha_derive crate version (empty = nextsv auto-detect)"
+  workspace_version:
+    type: string
+    default: ""
+    description: "Override workspace v* version (empty = nextsv auto-detect)"
+
+orbs:
+  toolkit: jerus-org/circleci-toolkit@4.8.0
+
+# Reusable command to set reproducible-build environment variables.
+commands:
+  set_repro_env:
+    description: Set env vars for reproducible builds (timestamps and path remapping)
+    steps:
+      - run:
+          name: Set reproducible-build environment
+          command: |
+            echo "export SOURCE_DATE_EPOCH=$(git log -1 --pretty=%ct)" >> "$BASH_ENV"
+            echo 'export CARGO_HOME=${CARGO_HOME:-/root/.cargo}' >> "$BASH_ENV"
+            echo 'export RUSTFLAGS="--remap-path-prefix=$PWD=/src --remap-path-prefix=$CARGO_HOME=/cargo ${RUSTFLAGS:-}"' >> "$BASH_ENV"
+            echo 'export CFLAGS="-g -O2 -fdebug-prefix-map=$PWD=/src -fmacro-prefix-map=$PWD=/src ${CFLAGS:-}"' >> "$BASH_ENV"
+            echo 'export CARGO_PROFILE_RELEASE_DEBUG=true' >> "$BASH_ENV"
+            source "$BASH_ENV"
+
+jobs:
+  tools:
+    executor:
+      name: toolkit/rust_env_rolling
+    steps:
+      - run:
+          name: Verify tools
+          command: |
+            set -ex
+            nextsv --version
+            pcu --version
+            cargo release --version
+            jq --version
+
+  compute_checksums_and_upload:
+    executor:
+      name: toolkit/rust_wasi_rolling
+    steps:
+      - checkout
+      - run: cargo +stable --version
+      - set_repro_env
+      - run:
+          name: Package crates
+          command: |
+            set -euxo pipefail
+            mkdir -p dist
+            for pkg in hcaptcha hcaptcha-cli; do
+              if [ -f "crates/${pkg}/Cargo.toml" ]; then
+                cargo +stable package -p ${pkg} -Z unstable-options --allow-dirty --no-verify --output dist/${pkg}.crate
+              fi
+            done
+      - run:
+          name: Compute checksums
+          command: |
+            set -euxo pipefail
+            (cd dist && sha256sum *.crate > checksums-sha256.txt)
+      - run:
+          name: Upload to GitHub release
+          command: |
+            set -euxo pipefail
+            if [ -n "${GITHUB_TOKEN:-}" ] && [ -z "${GH_TOKEN:-}" ]; then
+              echo 'export GH_TOKEN=${GITHUB_TOKEN}' >> "$BASH_ENV"; source "$BASH_ENV"
+            fi
+            tag=$(git describe --tags --abbrev=0)
+            gh release upload "$tag" dist/* --clobber
+
+workflows:
+  release:
+    jobs:
+      - tools
+      - toolkit/calculate_versions:
+          name: calculate-versions
+          requires: [tools]
+          crates: |
+            hcaptcha_derive:hcaptcha_derive-v
+            hcaptcha:hcaptcha-v
+          crate_version_overrides: |
+            hcaptcha_derive:<< pipeline.parameters.hcaptcha_derive_version >>
+            hcaptcha:<< pipeline.parameters.hcaptcha_version >>
+          workspace_version_override: << pipeline.parameters.workspace_version >>
+      - approve-release:
+          type: approval
+          requires: [calculate-versions]
+      - toolkit/release_crate:
+          name: release-hcaptcha_derive
+          requires: [approve-release]
+          package: hcaptcha_derive
+          crate_tag_prefix: hcaptcha_derive-v
+          build_binary: false
+          context: [release, bot-check, pcu-app]
+      - toolkit/release_crate:
+          name: release-hcaptcha
+          requires: [release-hcaptcha_derive]
+          package: hcaptcha
+          crate_tag_prefix: hcaptcha-v
+          build_binary: false
+          context: [release, bot-check, pcu-app]
+      - compute_checksums_and_upload:
+          name: compute-checksums
+          requires: [release-hcaptcha]
+          context: [release, bot-check]
+      - toolkit/release_prlog:
+          requires: [compute-checksums]
+          context: [release, bot-check, pcu-app]

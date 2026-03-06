@@ -1,0 +1,32 @@
+# SPDX-FileCopyrightText: 2022 jerusdp
+#
+# SPDX-License-Identifier: MIT OR Apache-2.0
+
+version: 2.1
+# Triggered by GitHub "pull_request merged" event in CircleCI project settings.
+
+parameters:
+  update_pcu:
+    type: boolean
+    default: false
+    description: "If true, pcu is updated from its main github branch before running."
+
+orbs:
+  toolkit: jerus-org/circleci-toolkit@4.8.0
+
+workflows:
+  update_prlog:
+    jobs:
+      - toolkit/update_prlog:
+          name: update-prlog-on-main
+          context: [release, bot-check, pcu-app]
+          min_rust_version: "1.88"
+          target_branch: "main"
+          pcu_from_merge: --from-merge
+          update_pcu: << pipeline.parameters.update_pcu >>
+          pcu_verbosity: "-vvv"
+      - toolkit/label:
+          min_rust_version: "1.88"
+          context: pcu-app
+          requires:
+            - update-prlog-on-main
