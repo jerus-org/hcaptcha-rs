@@ -126,6 +126,7 @@ workflows:
               ignore: main
       - toolkit/common_tests_rolling:
           min_rust_version: << pipeline.parameters.min_rust_version >>
+          cargo_all_features: false
       - toolkit/security:
           name: security audit only
           sonarcloud: false
