@@ -1644,9 +1644,9 @@ dependencies = [
 
 [[package]]
 name = "mockd"
-version = "0.5.0"
+version = "0.5.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "af2335bf0c336fee71dd73fb8806d066469c9cdd7b98b945a380940a74dfa5fd"
+checksum = "8c940eec287d73e081b353a2ce274fc6100c648141bc5341112ad7aa05b904ab"
 dependencies = [
  "chrono",
  "simplerand",
@@ -3430,12 +3430,12 @@ checksum = "06abde3611657adf66d383f00b093d7faecc7fa57071cce2578660c9f1010821"
 
 [[package]]
 name = "uuid"
-version = "1.20.0"
+version = "1.22.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "ee48d38b119b0cd71fe4141b30f5ba9c7c5d9f4e7a3a8b4a674e4b6ef789976f"
+checksum = "a68d3c8f01c0cfa54a75291d83601161799e4a89a39e0929f4b0354d88757a37"
 dependencies = [
  "atomic 0.6.1",
- "getrandom 0.3.4",
+ "getrandom 0.4.1",
  "js-sys",
  "wasm-bindgen",
 ]
