@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 - deps: update dependency toolkit to v4.9.0(pr [#1538])
+- deps: update github/codeql-action action to v4.32.6(pr [#1539])
 
 ## [3.1.1] - 2025-12-28
 
@@ -1586,6 +1587,7 @@ emitted if a tracing subscriber is not found.
 [#1483]: https://github.com/jerus-org/hcaptcha-rs/pull/1483
 [#1554]: https://github.com/jerus-org/hcaptcha-rs/pull/1554
 [#1538]: https://github.com/jerus-org/hcaptcha-rs/pull/1538
+[#1539]: https://github.com/jerus-org/hcaptcha-rs/pull/1539
 [Unreleased]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.1.1...HEAD
 [3.1.1]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.1.0...v3.1.1
 [3.1.0]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.0.33...v3.1.0
