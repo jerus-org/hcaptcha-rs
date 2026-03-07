@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- ci-migrate to 3-file pipeline model(pr [#1554])
+
 ## [3.1.1] - 2025-12-28
 
 ### Changed
@@ -1576,7 +1580,9 @@ emitted if a tracing subscriber is not found.
 [#1476]: https://github.com/jerus-org/hcaptcha-rs/pull/1476
 [#1481]: https://github.com/jerus-org/hcaptcha-rs/pull/1481
 [#1483]: https://github.com/jerus-org/hcaptcha-rs/pull/1483
-[3.1.1]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.1.0...hcaptcha-v3.1.1
+[#1554]: https://github.com/jerus-org/hcaptcha-rs/pull/1554
+[Unreleased]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.1.1...HEAD
+[3.1.1]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.1.0...v3.1.1
 [3.1.0]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.0.33...v3.1.0
 [3.0.33]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.0.32...v3.0.33
 [3.0.32]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.0.31...v3.0.32
@@ -1657,8 +1663,6 @@ emitted if a tracing subscriber is not found.
 [2.2.2]: https://github.com/jerus-org/hcaptcha-rs/compare/v2.2.1...v2.2.2
 [2.2.1]: https://github.com/jerus-org/hcaptcha-rs/compare/v2.2.0...v2.2.1
 [2.2.0]: https://github.com/jerus-org/hcaptcha-rs/compare/v2.1.1...v2.2.0
-[Unreleased]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.1.1...HEAD
-[3.1.1]: https://github.com/jerus-org/hcaptcha-rs/compare/v2.1.1...v3.1.1
 [2.1.1]: https://github.com/jerus-org/hcaptcha-rs/compare/v2.0.1...v2.1.1
 [2.0.1]: https://github.com/jerus-org/hcaptcha-rs/compare/v2.0.0...v2.0.1
 [2.0.0]: https://github.com/jerus-org/hcaptcha-rs/compare/v1.0.1...v2.0.0
