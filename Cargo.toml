@@ -41,7 +41,7 @@ macrotest = "1.2.1"
 mockd = { version = "0.5.1", features = ["internet", "unique", "words"] }
 proc-macro2 = "1.0.106"
 proc-macro-error2 = "2.0.1"
-quote = "1.0.44"
+quote = "1.0.45"
 rand = "0.10.0"
 reqwest = { version = "0.13.2", default-features = false, features = [
     "form",
