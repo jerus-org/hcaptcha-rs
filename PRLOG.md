@@ -11,6 +11,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - ci-migrate to 3-file pipeline model(pr [#1554])
 
+### Fixed
+
+- deps: update dependency toolkit to v4.9.0(pr [#1538])
+
 ## [3.1.1] - 2025-12-28
 
 ### Changed
@@ -1581,6 +1585,7 @@ emitted if a tracing subscriber is not found.
 [#1481]: https://github.com/jerus-org/hcaptcha-rs/pull/1481
 [#1483]: https://github.com/jerus-org/hcaptcha-rs/pull/1483
 [#1554]: https://github.com/jerus-org/hcaptcha-rs/pull/1554
+[#1538]: https://github.com/jerus-org/hcaptcha-rs/pull/1538
 [Unreleased]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.1.1...HEAD
 [3.1.1]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.1.0...v3.1.1
 [3.1.0]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.0.33...v3.1.0
