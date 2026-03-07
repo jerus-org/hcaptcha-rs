@@ -1,0 +1,70 @@
+# SPDX-FileCopyrightText: 2022 jerusdp
+#
+# SPDX-License-Identifier: MIT OR Apache-2.0
+
+version: 2.1
+
+parameters:
+  hcaptcha_version:
+    type: string
+    default: ""
+    description: "Override hcaptcha crate version (empty = nextsv auto-detect)"
+  hcaptcha_derive_version:
+    type: string
+    default: ""
+    description: "Override hcaptcha_derive crate version (empty = nextsv auto-detect)"
+  workspace_version:
+    type: string
+    default: ""
+    description: "Override workspace v* version (empty = nextsv auto-detect)"
+
+orbs:
+  toolkit: jerus-org/circleci-toolkit@4.9.0
+
+jobs:
+  tools:
+    executor:
+      name: toolkit/rust_env_rolling
+    steps:
+      - run:
+          name: Verify tools
+          command: |
+            set -ex
+            nextsv --version
+            pcu --version
+            cargo release --version
+
+workflows:
+  release:
+    jobs:
+      - tools
+      - toolkit/calculate_versions:
+          name: calculate-versions
+          requires: [tools]
+          crates: |
+            hcaptcha_derive:hcaptcha_derive-v
+            hcaptcha:hcaptcha-v
+          crate_version_overrides: |
+            hcaptcha_derive:<< pipeline.parameters.hcaptcha_derive_version >>
+            hcaptcha:<< pipeline.parameters.hcaptcha_version >>
+          workspace_version_override: << pipeline.parameters.workspace_version >>
+      - approve-release:
+          type: approval
+          requires: [calculate-versions]
+      - toolkit/release_crate:
+          name: release-hcaptcha_derive
+          requires: [approve-release]
+          package: hcaptcha_derive
+          crate_tag_prefix: hcaptcha_derive-v
+          build_binary: false
+          context: [release, bot-check, pcu-app]
+      - toolkit/release_crate:
+          name: release-hcaptcha
+          requires: [release-hcaptcha_derive]
+          package: hcaptcha
+          crate_tag_prefix: hcaptcha-v
+          build_binary: false
+          context: [release, bot-check, pcu-app]
+      - toolkit/release_prlog:
+          requires: [release-hcaptcha]
+          context: [release, bot-check, pcu-app]
