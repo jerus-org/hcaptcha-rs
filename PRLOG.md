@@ -28,6 +28,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - deps: update wasm-bindgen packages(pr [#1555])
 - correct broken crate symlinks (../x → ../../x)(pr [#1556])
 - correct REPO_DIR and PACKAGE in release hooks(pr [#1557])
+- update aws-lc-rs to 1.16.1 (3 high CVEs in aws-lc-sys)(pr [#1558])
 
 ## [3.1.1] - 2025-12-28
 
@@ -1614,6 +1615,7 @@ emitted if a tracing subscriber is not found.
 [#1555]: https://github.com/jerus-org/hcaptcha-rs/pull/1555
 [#1556]: https://github.com/jerus-org/hcaptcha-rs/pull/1556
 [#1557]: https://github.com/jerus-org/hcaptcha-rs/pull/1557
+[#1558]: https://github.com/jerus-org/hcaptcha-rs/pull/1558
 [Unreleased]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.1.1...HEAD
 [3.1.1]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.1.0...v3.1.1
 [3.1.0]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.0.33...v3.1.0
