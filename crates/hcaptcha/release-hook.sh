@@ -7,8 +7,8 @@
 set -exo pipefail
 
 NAME="CHANGE.md"
-PACKAGE=hcaptcha_derive
-REPO_DIR="../."
+PACKAGE=hcaptcha
+REPO_DIR="../../"
 
 # Build Changelog
 gen-changelog generate \
