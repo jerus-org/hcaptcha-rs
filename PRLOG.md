@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - ci-migrate to 3-file pipeline model(pr [#1554])
+- chore-remove ensure-labels workflow(pr [#1559])
 
 ### Fixed
 
@@ -1616,6 +1617,7 @@ emitted if a tracing subscriber is not found.
 [#1556]: https://github.com/jerus-org/hcaptcha-rs/pull/1556
 [#1557]: https://github.com/jerus-org/hcaptcha-rs/pull/1557
 [#1558]: https://github.com/jerus-org/hcaptcha-rs/pull/1558
+[#1559]: https://github.com/jerus-org/hcaptcha-rs/pull/1559
 [Unreleased]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.1.1...HEAD
 [3.1.1]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.1.0...v3.1.1
 [3.1.0]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.0.33...v3.1.0
