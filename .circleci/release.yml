@@ -19,7 +19,7 @@ parameters:
     description: "Override workspace v* version (empty = nextsv auto-detect)"
 
 orbs:
-  toolkit: jerus-org/circleci-toolkit@4.9.1
+  toolkit: jerus-org/circleci-toolkit@4.9.2
 
 jobs:
   tools:
