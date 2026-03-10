@@ -10,7 +10,7 @@ parameters:
     default: "1.88"
 
 orbs:
-  toolkit: jerus-org/circleci-toolkit@4.9.0
+  toolkit: jerus-org/circleci-toolkit@4.9.3
 
 # Reusable command to set reproducible-build environment variables.
 commands:
@@ -127,6 +127,11 @@ workflows:
       - toolkit/common_tests_rolling:
           min_rust_version: << pipeline.parameters.min_rust_version >>
           cargo_all_features: false
+          cache_version: "v2"
+          cargo_args: >-
+            --package hcaptcha
+            --package hcaptcha_derive
+            --package hcaptcha-cli
       - toolkit/security:
           name: security audit only
           sonarcloud: false
