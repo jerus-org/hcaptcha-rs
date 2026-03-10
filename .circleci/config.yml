@@ -127,6 +127,7 @@ workflows:
       - toolkit/common_tests_rolling:
           min_rust_version: << pipeline.parameters.min_rust_version >>
           cargo_all_features: false
+          cache_version: "v2"
           cargo_args: >-
             --package hcaptcha
             --package hcaptcha_derive
