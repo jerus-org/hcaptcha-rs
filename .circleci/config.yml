@@ -127,6 +127,10 @@ workflows:
       - toolkit/common_tests_rolling:
           min_rust_version: << pipeline.parameters.min_rust_version >>
           cargo_all_features: false
+          cargo_args: >-
+            --package hcaptcha
+            --package hcaptcha_derive
+            --package hcaptcha-cli
       - toolkit/security:
           name: security audit only
           sonarcloud: false
