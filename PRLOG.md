@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - chore-update toolkit to 4.9.1 in release.yml(pr [#1560])
 - chore-update toolkit to 4.9.2 in release.yml(pr [#1561])
 - chore-update toolkit to 4.9.3(pr [#1562])
+- chore-update toolkit to 4.9.4(pr [#1563])
 
 ### Fixed
 
@@ -1624,6 +1625,7 @@ emitted if a tracing subscriber is not found.
 [#1560]: https://github.com/jerus-org/hcaptcha-rs/pull/1560
 [#1561]: https://github.com/jerus-org/hcaptcha-rs/pull/1561
 [#1562]: https://github.com/jerus-org/hcaptcha-rs/pull/1562
+[#1563]: https://github.com/jerus-org/hcaptcha-rs/pull/1563
 [Unreleased]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.1.1...HEAD
 [3.1.1]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.1.0...v3.1.1
 [3.1.0]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.0.33...v3.1.0
