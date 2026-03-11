@@ -12,7 +12,7 @@ parameters:
     description: "If true, pcu is updated from its main github branch before running."
 
 orbs:
-  toolkit: jerus-org/circleci-toolkit@4.9.3
+  toolkit: jerus-org/circleci-toolkit@4.9.4
 
 workflows:
   update_prlog:
