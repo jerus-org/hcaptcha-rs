@@ -11,6 +11,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - chore-migrate CI to circleci-toolkit 6.0.0(pr [#1575])
 
+### Security
+
+- Dependencies: bump the cargo group across 2 directories with 1 update(pr [#1566])
+
 ## [3.2.0] - 2026-03-12
 
 ### Changed
@@ -1640,6 +1644,7 @@ emitted if a tracing subscriber is not found.
 [#1564]: https://github.com/jerus-org/hcaptcha-rs/pull/1564
 [#1565]: https://github.com/jerus-org/hcaptcha-rs/pull/1565
 [#1575]: https://github.com/jerus-org/hcaptcha-rs/pull/1575
+[#1566]: https://github.com/jerus-org/hcaptcha-rs/pull/1566
 [Unreleased]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.2.0...HEAD
 [3.2.0]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.1.1...v3.2.0
 [3.1.1]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.1.0...v3.1.1
