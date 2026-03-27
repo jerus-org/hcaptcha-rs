@@ -7,7 +7,6 @@ version: 2.1
 orbs:
   toolkit: jerus-org/circleci-toolkit@6.0.0
 
-parameters:
 workflows:
   audit:
     jobs:
