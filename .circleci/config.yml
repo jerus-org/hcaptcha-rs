@@ -10,7 +10,7 @@ parameters:
     default: "1.88"
 
 orbs:
-  toolkit: jerus-org/circleci-toolkit@4.9.5
+  toolkit: jerus-org/circleci-toolkit@6.0.0
 
 # Reusable command to set reproducible-build environment variables.
 commands:
@@ -109,22 +109,19 @@ workflows:
           filters:
             branches:
               only: /pull\/[0-9]+/
-      - toolkit/required_builds_rolling:
+      - toolkit/required_builds:
           min_rust_version: << pipeline.parameters.min_rust_version >>
       - toolkit/optional_builds:
-          min_rust_version: << pipeline.parameters.min_rust_version >>
           filters:
             branches:
               ignore: main
       - toolkit/test_doc_build:
-          min_rust_version: << pipeline.parameters.min_rust_version >>
       - toolkit/idiomatic_rust:
-          min_rust_version: << pipeline.parameters.min_rust_version >>
           lint_flags: "-A deprecated"
           filters:
             branches:
               ignore: main
-      - toolkit/common_tests_rolling:
+      - toolkit/common_tests:
           min_rust_version: << pipeline.parameters.min_rust_version >>
           cargo_all_features: false
           cache_version: "v2"
@@ -149,7 +146,6 @@ workflows:
                 - /pull\/[0-9]+/
                 - main
       - toolkit/code_coverage:
-          min_rust_version: << pipeline.parameters.min_rust_version >>
           package: hcaptcha
           filters:
             branches:
@@ -179,5 +175,4 @@ workflows:
             parameters:
               cargo_bin: [long_help, no_options, short_help, simple_captcha]
       - toolkit/test_wasm:
-          min_rust_version: << pipeline.parameters.min_rust_version >>
           wasm_test_path: crates/test-wasm
