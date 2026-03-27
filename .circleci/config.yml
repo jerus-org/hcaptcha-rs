@@ -175,4 +175,5 @@ workflows:
             parameters:
               cargo_bin: [long_help, no_options, short_help, simple_captcha]
       - toolkit/test_wasm:
+          rust_version: << pipeline.parameters.min_rust_version >>
           wasm_test_path: crates/test-wasm
