@@ -11,6 +11,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - chore-migrate CI to circleci-toolkit 6.0.0(pr [#1575])
 
+### Fixed
+
+- deps: update rust crate env_logger to 0.11.10(pr [#1567])
+
 ### Security
 
 - Dependencies: bump the cargo group across 2 directories with 1 update(pr [#1566])
@@ -1645,6 +1649,7 @@ emitted if a tracing subscriber is not found.
 [#1565]: https://github.com/jerus-org/hcaptcha-rs/pull/1565
 [#1575]: https://github.com/jerus-org/hcaptcha-rs/pull/1575
 [#1566]: https://github.com/jerus-org/hcaptcha-rs/pull/1566
+[#1567]: https://github.com/jerus-org/hcaptcha-rs/pull/1567
 [Unreleased]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.2.0...HEAD
 [3.2.0]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.1.1...v3.2.0
 [3.1.1]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.1.0...v3.1.1
