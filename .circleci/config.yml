@@ -115,7 +115,7 @@ workflows:
           filters:
             branches:
               ignore: main
-      - toolkit/test_doc_build:
+      - toolkit/test_doc_build
       - toolkit/idiomatic_rust:
           lint_flags: "-A deprecated"
           filters:
