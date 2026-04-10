@@ -65,11 +65,18 @@ jobs:
       - node/install
 
       - run:
-          name: Update to latest nightly and add wasm32-unknown-unknown target
+          name: Install latest nightly with wasm32-unknown-unknown target
           command: |
-            rustup update nightly
-            rustup target add wasm32-unknown-unknown --toolchain nightly
-            echo "Nightly version: $(cargo +nightly --version)"
+            # /usr/local/rustup is root-owned in the rolling image; the circleci
+            # user cannot update it. Install the latest nightly into a
+            # user-writable location instead so we always test the true latest.
+            echo 'export RUSTUP_HOME=/home/circleci/.rustup-user' >> "$BASH_ENV"
+            source "$BASH_ENV"
+            rustup toolchain install nightly \
+              --target wasm32-unknown-unknown \
+              --profile minimal \
+              --no-self-update
+            echo "Nightly version: $(rustup run nightly cargo --version)"
 
       - run:
           name: Run WASM tests on nightly (undefined-symbol canary)
