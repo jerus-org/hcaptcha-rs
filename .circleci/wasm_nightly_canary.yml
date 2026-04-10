@@ -1,0 +1,126 @@
+# SPDX-FileCopyrightText: 2025 jerusdp
+#
+# SPDX-License-Identifier: MIT OR Apache-2.0
+
+version: 2.1
+
+# WASM nightly canary pipeline
+#
+# Monitors hcaptcha-rs WASM compatibility with the latest Rust nightly.
+# Tracks the removal of --allow-undefined from the WASM linker (Rust 1.96,
+# stable 2026-05-28). When the test fails it files a GitHub issue — the
+# pipeline itself always exits green so it never blocks a PR.
+#
+# See: https://blog.rust-lang.org/2026/04/04/changes-to-webassembly-targets-and-handling-undefined-symbols/
+#
+# ── REGISTERING TRIGGERS ────────────────────────────────────────────────────
+#
+# This file must be registered as a separate CircleCI pipeline configuration.
+# It supports two triggers that both point at this file:
+#
+#   1. Push trigger  — runs on every branch push (parallel to config.yml, no
+#                      impact on PR approval or merge)
+#   2. Schedule trigger — runs on a cron schedule (daily while 1.96 is pending)
+#
+# Register via the CircleCI UI:
+#   Project Settings → Pipelines → Add Pipeline
+#   · Config file path: .circleci/wasm_nightly_canary.yml
+#   · Add a "Push" event trigger
+#   · Add a "Scheduled" trigger with your desired cron expression
+#
+# Register the scheduled trigger via the CircleCI API v2:
+#   export CIRCLE_TOKEN=<your-personal-api-token>
+#   export PROJECT_SLUG=github/jerusdp/hcaptcha-rs
+#
+#   curl -X POST "https://circleci.com/api/v2/project/${PROJECT_SLUG}/schedule" \
+#     -H "Circle-Token: ${CIRCLE_TOKEN}" \
+#     -H "Content-Type: application/json" \
+#     -d '{
+#           "name": "wasm-nightly-canary",
+#           "description": "Daily WASM nightly compatibility check (tracks Rust 1.96 breaking change)",
+#           "attribution-actor": "current",
+#           "timetable": {
+#             "per-hour": 0,
+#             "hours-of-day": [6],
+#             "days-of-week": ["MON","TUE","WED","THU","FRI"]
+#           },
+#           "parameters": {
+#             "branch": "main"
+#           }
+#         }'
+#
+# ─────────────────────────────────────────────────────────────────────────────
+
+orbs:
+  toolkit: jerus-org/circleci-toolkit@6.0.0
+  node: circleci/node@6.3.0
+
+jobs:
+  test_wasm_nightly:
+    executor:
+      name: toolkit/rust_wasi_rolling
+    steps:
+      - checkout
+
+      - node/install
+
+      - run:
+          name: Update to latest nightly and add wasm32-unknown-unknown target
+          command: |
+            rustup update nightly
+            rustup target add wasm32-unknown-unknown --toolchain nightly
+            echo "Nightly version: $(cargo +nightly --version)"
+
+      - run:
+          name: Run WASM tests on nightly (undefined-symbol canary)
+          command: |
+            wasm_exit=0
+            cd crates/test-wasm
+            RUSTUP_TOOLCHAIN=nightly wasm-pack test --node \
+            || wasm_exit=$?
+
+            if [ $wasm_exit -ne 0 ]; then
+              echo "Nightly WASM test FAILED (exit=${wasm_exit})"
+              echo 'export WASM_NIGHTLY_FAILED=true' >> "$BASH_ENV"
+            else
+              echo "Nightly WASM test passed."
+            fi
+
+      - run:
+          name: Prepare issue on failure
+          command: |
+            if [ "${WASM_NIGHTLY_FAILED:-false}" != "true" ]; then
+              circleci-agent step halt
+            fi
+
+            nightly_ver=$(cargo +nightly --version 2>/dev/null || echo "unknown")
+
+            echo "export ISSUE_TITLE=\"ci: wasm nightly canary failed on ${CIRCLE_BRANCH}\"" >> "$BASH_ENV"
+            echo "export ISSUE_BODY_FILE=/tmp/wasm_canary_issue.md" >> "$BASH_ENV"
+
+            cat > /tmp/wasm_canary_issue.md \<<BODY
+            ## WASM nightly canary failure
+
+            The \`test_wasm_nightly\` canary detected a failure with the latest nightly
+            toolchain. Investigate before Rust 1.96 stable (2026-05-28).
+
+            | | |
+            |---|---|
+            | **Nightly version** | ${nightly_ver} |
+            | **Branch** | ${CIRCLE_BRANCH} |
+            | **Commit** | ${CIRCLE_SHA1} |
+            | **CI job** | ${CIRCLE_BUILD_URL} |
+
+            ### Context
+
+            Rust is removing \`--allow-undefined\` from the WASM linker in 1.96.
+            See: https://blog.rust-lang.org/2026/04/04/changes-to-webassembly-targets-and-handling-undefined-symbols/
+            BODY
+
+      - toolkit/create_issue
+
+workflows:
+  wasm_nightly_canary:
+    jobs:
+      - test_wasm_nightly:
+          context: pcu-app
