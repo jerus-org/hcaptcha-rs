@@ -11,7 +11,6 @@ parameters:
 
 orbs:
   toolkit: jerus-org/circleci-toolkit@6.0.0
-  node: circleci/node@6.3.0
 
 # Reusable command to set reproducible-build environment variables.
 commands:
