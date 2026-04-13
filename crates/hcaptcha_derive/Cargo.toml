@@ -4,7 +4,7 @@
 
 [package]
 name = "hcaptcha_derive"
-version = "3.2.1"
+version = "3.2.2"
 edition = "2018"
 description = """
 Derive macro for hCaptcha. Please use hcaptcha crate.
