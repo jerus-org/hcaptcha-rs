@@ -18,6 +18,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Security
 
 - Dependencies: bump the cargo group across 2 directories with 1 update(pr [#1581])
+- Dependencies: bump rustls-webpki from 0.103.10 to 0.103.13 in /crates/hcaptcha/fuzz in the cargo group across 1 directory(pr [#1583])
 
 ## [3.2.2] - 2026-04-13
 
@@ -1698,6 +1699,7 @@ emitted if a tracing subscriber is not found.
 [#1584]: https://github.com/jerus-org/hcaptcha-rs/pull/1584
 [#1585]: https://github.com/jerus-org/hcaptcha-rs/pull/1585
 [#1586]: https://github.com/jerus-org/hcaptcha-rs/pull/1586
+[#1583]: https://github.com/jerus-org/hcaptcha-rs/pull/1583
 [Unreleased]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.2.2...HEAD
 [3.2.2]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.2.1...v3.2.2
 [3.2.1]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.2.0...v3.2.1
