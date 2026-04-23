@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - deps: update rust crate rand to v0.10.1 [security](pr [#1582])
 - deps: update dependency toolkit to v6.2.0(pr [#1594])
+- deps: update actions/upload-artifact action to v7.0.1(pr [#1584])
 
 ### Security
 
@@ -1692,6 +1693,7 @@ emitted if a tracing subscriber is not found.
 [#1582]: https://github.com/jerus-org/hcaptcha-rs/pull/1582
 [#1581]: https://github.com/jerus-org/hcaptcha-rs/pull/1581
 [#1594]: https://github.com/jerus-org/hcaptcha-rs/pull/1594
+[#1584]: https://github.com/jerus-org/hcaptcha-rs/pull/1584
 [Unreleased]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.2.2...HEAD
 [3.2.2]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.2.1...v3.2.2
 [3.2.1]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.2.0...v3.2.1
