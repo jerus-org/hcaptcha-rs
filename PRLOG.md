@@ -10,10 +10,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 - deps: update rust crate rand to v0.10.1 [security](pr [#1582])
+- deps: update dependency toolkit to v6.2.0(pr [#1594])
+- deps: update actions/upload-artifact action to v7.0.1(pr [#1584])
+- deps: update github/codeql-action action to v4.35.2(pr [#1585])
+- deps: update rust crate clap to 4.6.1(pr [#1586])
+- deps: update rust crate lambda_runtime to 1.1.3(pr [#1587])
+- deps: update rust crate mockd to 0.5.3(pr [#1588])
+- deps: update rust crate rand to 0.10.1(pr [#1589])
 
 ### Security
 
 - Dependencies: bump the cargo group across 2 directories with 1 update(pr [#1581])
+- Dependencies: bump rustls-webpki from 0.103.10 to 0.103.13 in /crates/hcaptcha/fuzz in the cargo group across 1 directory(pr [#1583])
 
 ## [3.2.2] - 2026-04-13
 
@@ -1690,6 +1698,14 @@ emitted if a tracing subscriber is not found.
 [#1580]: https://github.com/jerus-org/hcaptcha-rs/pull/1580
 [#1582]: https://github.com/jerus-org/hcaptcha-rs/pull/1582
 [#1581]: https://github.com/jerus-org/hcaptcha-rs/pull/1581
+[#1594]: https://github.com/jerus-org/hcaptcha-rs/pull/1594
+[#1584]: https://github.com/jerus-org/hcaptcha-rs/pull/1584
+[#1585]: https://github.com/jerus-org/hcaptcha-rs/pull/1585
+[#1586]: https://github.com/jerus-org/hcaptcha-rs/pull/1586
+[#1583]: https://github.com/jerus-org/hcaptcha-rs/pull/1583
+[#1587]: https://github.com/jerus-org/hcaptcha-rs/pull/1587
+[#1588]: https://github.com/jerus-org/hcaptcha-rs/pull/1588
+[#1589]: https://github.com/jerus-org/hcaptcha-rs/pull/1589
 [Unreleased]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.2.2...HEAD
 [3.2.2]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.2.1...v3.2.2
 [3.2.1]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.2.0...v3.2.1

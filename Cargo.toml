@@ -29,20 +29,20 @@ publish = false
 async-trait = "0.1.89"
 chrono = "0.4.44"
 claims = "0.8.0"
-clap = "4.6.0"
+clap = "4.6.1"
 clap-verbosity-flag = "3.0.4"
 color-eyre = "0.6.5"
 env_logger = "0.11.10"
 hex = "0.4.3"
 itertools = "0.14.0"
-lambda_runtime = "1.1.2"
+lambda_runtime = "1.1.3"
 log = "0.4.29"
 macrotest = "1.2.1"
-mockd = { version = "0.5.2", features = ["internet", "unique", "words"] }
+mockd = { version = "0.5.3", features = ["internet", "unique", "words"] }
 proc-macro2 = "1.0.106"
 proc-macro-error2 = "2.0.1"
 quote = "1.0.45"
-rand = "0.10.0"
+rand = "0.10.1"
 reqwest = { version = "0.13.2", default-features = false, features = [
     "form",
     "json",
