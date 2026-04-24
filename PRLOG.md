@@ -19,6 +19,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - deps: update rust crate rand to 0.10.1(pr [#1589])
 - deps: update rust crate tokio to 1.52.1(pr [#1590])
 - deps: update rust crate tracing-appender to 0.2.5(pr [#1591])
+- deps: update rust crate uuid to 1.23.1(pr [#1592])
 
 ### Security
 
@@ -1710,6 +1711,7 @@ emitted if a tracing subscriber is not found.
 [#1589]: https://github.com/jerus-org/hcaptcha-rs/pull/1589
 [#1590]: https://github.com/jerus-org/hcaptcha-rs/pull/1590
 [#1591]: https://github.com/jerus-org/hcaptcha-rs/pull/1591
+[#1592]: https://github.com/jerus-org/hcaptcha-rs/pull/1592
 [Unreleased]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.2.2...HEAD
 [3.2.2]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.2.1...v3.2.2
 [3.2.1]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.2.0...v3.2.1
