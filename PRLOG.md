@@ -22,6 +22,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - deps: update rust crate uuid to 1.23.1(pr [#1592])
 - deps: update wasm-bindgen packages(pr [#1593])
 - deps: update dependency node to v7(pr [#1595])
+- deps: update rust crate reqwest to 0.13.4(pr [#1597])
 
 ### Security
 
@@ -1720,6 +1721,7 @@ emitted if a tracing subscriber is not found.
 [#1595]: https://github.com/jerus-org/hcaptcha-rs/pull/1595
 [#1596]: https://github.com/jerus-org/hcaptcha-rs/pull/1596
 [#1603]: https://github.com/jerus-org/hcaptcha-rs/pull/1603
+[#1597]: https://github.com/jerus-org/hcaptcha-rs/pull/1597
 [Unreleased]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.2.2...HEAD
 [3.2.2]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.2.1...v3.2.2
 [3.2.1]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.2.0...v3.2.1
