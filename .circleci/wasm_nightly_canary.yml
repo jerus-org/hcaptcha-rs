@@ -52,8 +52,8 @@ version: 2.1
 # ─────────────────────────────────────────────────────────────────────────────
 
 orbs:
-  toolkit: jerus-org/circleci-toolkit@6.1.2
-  node: circleci/node@6.3.0
+  toolkit: jerus-org/circleci-toolkit@6.2.0
+  node: circleci/node@7.2.1
 
 jobs:
   test_wasm_nightly:

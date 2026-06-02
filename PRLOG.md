@@ -10,6 +10,28 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 - deps: update rust crate rand to v0.10.1 [security](pr [#1582])
+- deps: update dependency toolkit to v6.2.0(pr [#1594])
+- deps: update actions/upload-artifact action to v7.0.1(pr [#1584])
+- deps: update github/codeql-action action to v4.35.2(pr [#1585])
+- deps: update rust crate clap to 4.6.1(pr [#1586])
+- deps: update rust crate lambda_runtime to 1.1.3(pr [#1587])
+- deps: update rust crate mockd to 0.5.3(pr [#1588])
+- deps: update rust crate rand to 0.10.1(pr [#1589])
+- deps: update rust crate tokio to 1.52.1(pr [#1590])
+- deps: update rust crate tracing-appender to 0.2.5(pr [#1591])
+- deps: update rust crate uuid to 1.23.1(pr [#1592])
+- deps: update wasm-bindgen packages(pr [#1593])
+- deps: update dependency node to v7(pr [#1595])
+- deps: update rust crate reqwest to 0.13.4(pr [#1597])
+- deps: update rust crate serde_json to 1.0.150(pr [#1598])
+- deps: update rust crate tokio to 1.52.3(pr [#1599])
+
+### Security
+
+- Dependencies: bump the cargo group across 2 directories with 1 update(pr [#1581])
+- Dependencies: bump rustls-webpki from 0.103.10 to 0.103.13 in /crates/hcaptcha/fuzz in the cargo group across 1 directory(pr [#1583])
+- Dependencies: bump openssl from 0.10.78 to 0.10.79 in the cargo group across 1 directory(pr [#1596])
+- Dependencies: bump openssl from 0.10.79 to 0.10.80 in the cargo group across 1 directory(pr [#1603])
 
 ## [3.2.2] - 2026-04-13
 
@@ -1685,6 +1707,25 @@ emitted if a tracing subscriber is not found.
 [#1579]: https://github.com/jerus-org/hcaptcha-rs/pull/1579
 [#1580]: https://github.com/jerus-org/hcaptcha-rs/pull/1580
 [#1582]: https://github.com/jerus-org/hcaptcha-rs/pull/1582
+[#1581]: https://github.com/jerus-org/hcaptcha-rs/pull/1581
+[#1594]: https://github.com/jerus-org/hcaptcha-rs/pull/1594
+[#1584]: https://github.com/jerus-org/hcaptcha-rs/pull/1584
+[#1585]: https://github.com/jerus-org/hcaptcha-rs/pull/1585
+[#1586]: https://github.com/jerus-org/hcaptcha-rs/pull/1586
+[#1583]: https://github.com/jerus-org/hcaptcha-rs/pull/1583
+[#1587]: https://github.com/jerus-org/hcaptcha-rs/pull/1587
+[#1588]: https://github.com/jerus-org/hcaptcha-rs/pull/1588
+[#1589]: https://github.com/jerus-org/hcaptcha-rs/pull/1589
+[#1590]: https://github.com/jerus-org/hcaptcha-rs/pull/1590
+[#1591]: https://github.com/jerus-org/hcaptcha-rs/pull/1591
+[#1592]: https://github.com/jerus-org/hcaptcha-rs/pull/1592
+[#1593]: https://github.com/jerus-org/hcaptcha-rs/pull/1593
+[#1595]: https://github.com/jerus-org/hcaptcha-rs/pull/1595
+[#1596]: https://github.com/jerus-org/hcaptcha-rs/pull/1596
+[#1603]: https://github.com/jerus-org/hcaptcha-rs/pull/1603
+[#1597]: https://github.com/jerus-org/hcaptcha-rs/pull/1597
+[#1598]: https://github.com/jerus-org/hcaptcha-rs/pull/1598
+[#1599]: https://github.com/jerus-org/hcaptcha-rs/pull/1599
 [Unreleased]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.2.2...HEAD
 [3.2.2]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.2.1...v3.2.2
 [3.2.1]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.2.0...v3.2.1
