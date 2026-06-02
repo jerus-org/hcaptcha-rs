@@ -17,7 +17,6 @@ members = [
     "crates/test-suite-cli",
     "crates/mock-verifier",
     "crates/test-wasm",
-    "crates/hcaptcha/examples/hcaptcha-wasm",
 ]
 
 [workspace.package]
