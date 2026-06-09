@@ -1,13 +1,12 @@
 error: Must derive on a struct
 
-         = help: This macro can only be implemented on a struct.
+       help: This macro can only be implemented on a struct.
 
                #[derive(Hcaptcha)]
                struct MyStruct {
                    #[captcha]
                    hcaptcha: String,
                }
-
  --> tests/ui/compilefail/not_a_struct.rs:9:6
   |
 9 | enum Test {
