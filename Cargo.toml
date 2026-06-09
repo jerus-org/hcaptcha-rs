@@ -64,9 +64,9 @@ wiremock = "0.6.5"
 trybuild = "1.0.116"
 uuid = { version = "1.23.3", features = ["v4"] }
 url = "2.5.8"
-wasm-bindgen = "0.2.122"
-wasm-bindgen-futures = "0.4.72"
-wasm-bindgen-test = "0.3.72"
+wasm-bindgen = "0.2.123"
+wasm-bindgen-futures = "0.4.73"
+wasm-bindgen-test = "0.3.73"
 
 [workspace.lints.clippy]
 # Allow pedantic lints by default - they are informational, not errors
