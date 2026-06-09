@@ -104,7 +104,6 @@ use std::collections::HashMap;
 
 use proc_macro::TokenStream;
 use proc_macro2::Ident;
-use proc_macro_error2::proc_macro_error;
 use quote::quote;
 use syn::{Data, DataStruct, DeriveInput};
 
@@ -125,28 +124,27 @@ use syn::{Data, DataStruct, DeriveInput};
 ///     token: String,
 /// }
 /// ```
-#[proc_macro_error]
 #[proc_macro_derive(Hcaptcha, attributes(captcha, remoteip, sitekey))]
 pub fn hcaptcha_derive(input: TokenStream) -> TokenStream {
     // Construct a representation of Rust code as a syntax tree
     // that we can manipulate
     let ast = syn::parse(input).unwrap();
 
-    // Build the trait implementation
-    impl_hcaptcha(&ast)
+    // Build the trait implementation, emitting any error as a compile_error!.
+    impl_hcaptcha(&ast).unwrap_or_else(|e| e.to_compile_error().into())
 }
 
-fn impl_hcaptcha(ast: &DeriveInput) -> TokenStream {
+fn impl_hcaptcha(ast: &DeriveInput) -> Result<TokenStream, syn::Error> {
     let name = &ast.ident;
     let generics = &ast.generics;
     let (impl_generics, ty_generics, where_clause) = generics.split_for_impl();
     let data = &ast.data;
 
-    let data_struct = get_struct_data(data, name);
+    let data_struct = get_struct_data(data, name)?;
 
     let attributes = get_attributes(data_struct);
 
-    let captcha = get_required_attribute(&attributes, "captcha", name);
+    let captcha = get_required_attribute(&attributes, "captcha", name)?;
 
     let remoteip = get_optional_attribute(&attributes, "remoteip", "set_remoteip");
     let sitekey = get_optional_attribute(&attributes, "sitekey", "set_sitekey");
@@ -179,7 +177,7 @@ fn impl_hcaptcha(ast: &DeriveInput) -> TokenStream {
             }
         }
     };
-    gen.into()
+    Ok(gen.into())
 }
 
 /// Generate tokens for optional attribute
@@ -231,11 +229,11 @@ fn get_required_attribute(
     attributes: &HashMap<String, &proc_macro2::Ident>,
     name: &str,
     id: &proc_macro2::Ident,
-) -> proc_macro2::TokenStream {
+) -> Result<proc_macro2::TokenStream, syn::Error> {
     match attributes.get(name) {
         Some(i) => {
             let i = <&proc_macro2::Ident>::clone(i);
-            quote! {
+            Ok(quote! {
                 #[allow(unused_mut)]
                 let mut captcha;
                 match hcaptcha::Captcha::new(&self.#i) {
@@ -244,7 +242,7 @@ fn get_required_attribute(
                         return Box::pin(async{Err(e)});
                     }
                 };
-            }
+            })
         }
         None => {
             let example = r#"
@@ -253,11 +251,14 @@ fn get_required_attribute(
             #[captcha]
             hcaptcha: String,
         }"#;
-            proc_macro_error2::abort! {id,
-                "Field containing hcaptcha not identified";
-                help = "The field containing the hcaptcha response string must be identified with #[captcha]
-                {}", &example;
-            };
+            Err(syn::Error::new_spanned(
+                id,
+                format!(
+                    "Field containing hcaptcha not identified\n\n\
+                     help: The field containing the hcaptcha response string must be identified with #[captcha]\n\
+                     {example}"
+                ),
+            ))
         }
     }
 }
@@ -265,9 +266,9 @@ fn get_required_attribute(
 /// Extract the tokens for the Struct from the data
 /// If the data is not stored in the Struct variant abort compilation
 /// with an error.
-fn get_struct_data<'a>(data: &'a Data, name: &Ident) -> &'a DataStruct {
+fn get_struct_data<'a>(data: &'a Data, name: &Ident) -> Result<&'a DataStruct, syn::Error> {
     match data {
-        Data::Struct(s) => s,
+        Data::Struct(s) => Ok(s),
         _ => {
             let example = r#"
         #[derive(Hcaptcha)]
@@ -275,11 +276,14 @@ fn get_struct_data<'a>(data: &'a Data, name: &Ident) -> &'a DataStruct {
             #[captcha]
             hcaptcha: String,
         }"#;
-            proc_macro_error2::abort! {name,
-                "Must derive on a struct";
-                help = "This macro can only be implemented on a struct.
-                {}", &example;
-            };
+            Err(syn::Error::new_spanned(
+                name,
+                format!(
+                    "Must derive on a struct\n\n\
+                     help: This macro can only be implemented on a struct.\n\
+                     {example}"
+                ),
+            ))
         }
     }
 }
@@ -373,7 +377,7 @@ mod tests {
         attributes.insert("captcha".to_string(), &field_ident);
 
         let result = get_required_attribute(&attributes, "captcha", &struct_ident);
-        assert!(!result.is_empty());
+        assert!(!result.unwrap().is_empty());
     }
 
     #[test]
@@ -384,10 +388,13 @@ mod tests {
 
         attributes.insert("wrong_name".to_string(), &field_ident);
 
-        std::panic::catch_unwind(|| {
-            get_required_attribute(&attributes, "captcha", &struct_ident);
-        })
-        .expect_err("Should panic when captcha field is not found");
+        // Missing #[captcha] field now yields a recoverable syn::Error
+        // (emitted as a compile_error!) instead of aborting/panicking.
+        let result = get_required_attribute(&attributes, "captcha", &struct_ident);
+        let err = result.expect_err("should error when captcha field is not found");
+        assert!(err
+            .to_string()
+            .contains("Field containing hcaptcha not identified"));
     }
 
     #[test]
@@ -401,7 +408,7 @@ mod tests {
         attributes.insert("other".to_string(), &other_field);
 
         let result = get_required_attribute(&attributes, "captcha", &struct_ident);
-        assert!(!result.is_empty());
+        assert!(!result.unwrap().is_empty());
     }
 
     #[test]
@@ -419,7 +426,7 @@ mod tests {
         let data = Data::Struct(data_struct.clone());
 
         let result = get_struct_data(&data, &name);
-        assert_eq!(result, &data_struct);
+        assert_eq!(result.unwrap(), &data_struct);
     }
 
     #[test]
