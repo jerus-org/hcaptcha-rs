@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 - drop proc-macro-error2 from hcaptcha_derive(pr [#1604])
+- deps: update actions/checkout action to v6.0.3(pr [#1605])
 
 ## [3.2.3] - 2026-06-03
 
@@ -1739,6 +1740,7 @@ emitted if a tracing subscriber is not found.
 [#1601]: https://github.com/jerus-org/hcaptcha-rs/pull/1601
 [#1602]: https://github.com/jerus-org/hcaptcha-rs/pull/1602
 [#1604]: https://github.com/jerus-org/hcaptcha-rs/pull/1604
+[#1605]: https://github.com/jerus-org/hcaptcha-rs/pull/1605
 [Unreleased]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.2.3...HEAD
 [3.2.3]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.2.2...v3.2.3
 [3.2.2]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.2.1...v3.2.2
