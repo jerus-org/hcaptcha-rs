@@ -24,7 +24,3 @@ workflows:
           pcu_from_merge: --from-merge
           update_pcu: << pipeline.parameters.update_pcu >>
           pcu_verbosity: "-vvv"
-      - toolkit/label:
-          context: pcu-app
-          requires:
-            - update-prlog-on-main
