@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - fuzz: update aws-lc-sys to 0.41.0(pr [#1612])
 - deps: update rust crate libfuzzer-sys to 0.4.13(pr [#1608])
 - deps: update rust crate log to 0.4.32(pr [#1609])
+- deps: update rust crate uuid to 1.23.3(pr [#1610])
 
 ## [3.2.3] - 2026-06-03
 
@@ -1751,6 +1752,7 @@ emitted if a tracing subscriber is not found.
 [#1612]: https://github.com/jerus-org/hcaptcha-rs/pull/1612
 [#1608]: https://github.com/jerus-org/hcaptcha-rs/pull/1608
 [#1609]: https://github.com/jerus-org/hcaptcha-rs/pull/1609
+[#1610]: https://github.com/jerus-org/hcaptcha-rs/pull/1610
 [Unreleased]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.2.3...HEAD
 [3.2.3]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.2.2...v3.2.3
 [3.2.2]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.2.1...v3.2.2
