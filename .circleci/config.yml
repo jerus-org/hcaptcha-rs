@@ -10,7 +10,7 @@ parameters:
     default: "1.88"
 
 orbs:
-  toolkit: jerus-org/circleci-toolkit@6.3.0
+  toolkit: jerus-org/circleci-toolkit@6.4.2
 
 # Reusable command to set reproducible-build environment variables.
 commands:
