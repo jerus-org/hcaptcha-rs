@@ -632,10 +632,7 @@ mod tests {
             .set_remoteip(&remoteip)
             .unwrap();
 
-        let expected_body = format!(
-            "response={}&remoteip={}&secret={}",
-            token, remoteip, secret
-        );
+        let expected_body = format!("response={}&remoteip={}&secret={}", token, remoteip, secret);
 
         let timestamp = Utc::now()
             .checked_sub_signed(TimeDelta::try_minutes(10).unwrap())
@@ -680,10 +677,7 @@ mod tests {
             .set_sitekey(&sitekey)
             .unwrap();
 
-        let expected_body = format!(
-            "response={}&sitekey={}&secret={}",
-            token, sitekey, secret
-        );
+        let expected_body = format!("response={}&sitekey={}&secret={}", token, sitekey, secret);
 
         let timestamp = Utc::now()
             .checked_sub_signed(TimeDelta::try_minutes(10).unwrap())
