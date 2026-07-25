@@ -455,7 +455,8 @@ mod tests {
             ident: Some(ident.clone()),
             colon_token: None,
             ty: syn::Type::Verbatim(proc_macro2::TokenStream::new()),
-            mutability: syn::FieldMutability::None,
+            modifiers: syn::FieldModifiers::default(),
+            default: None,
         };
 
         let data_struct = DataStruct {
@@ -480,7 +481,8 @@ mod tests {
             ident: Some(format_ident!("field1")),
             colon_token: None,
             ty: syn::Type::Verbatim(proc_macro2::TokenStream::new()),
-            mutability: syn::FieldMutability::None,
+            modifiers: syn::FieldModifiers::default(),
+            default: None,
         };
 
         let field2 = Field {
@@ -489,7 +491,8 @@ mod tests {
             ident: Some(format_ident!("field2")),
             colon_token: None,
             ty: syn::Type::Verbatim(proc_macro2::TokenStream::new()),
-            mutability: syn::FieldMutability::None,
+            modifiers: syn::FieldModifiers::default(),
+            default: None,
         };
 
         let data_struct = DataStruct {
@@ -515,7 +518,8 @@ mod tests {
             ident: Some(format_ident!("field1")),
             colon_token: None,
             ty: syn::Type::Verbatim(proc_macro2::TokenStream::new()),
-            mutability: syn::FieldMutability::None,
+            modifiers: syn::FieldModifiers::default(),
+            default: None,
         };
 
         let data_struct = DataStruct {
