@@ -100,7 +100,7 @@ mod tests {
         assert_err!(&res);
 
         if let Err(Error::Codes(hs)) = res {
-            println!("Error Codes: {:?}", &hs);
+            println!("Error Codes: {hs:?}");
             assert!(hs.contains(&Code::InvalidUserIp));
         }
     }

@@ -15,7 +15,7 @@ use std::env;
 
 impl Cmd {
     pub fn new(binary: &Path) -> Self {
-        eprintln!("cmd:{:?}", &binary);
+        eprintln!("cmd:{binary:?}");
 
         if env::var("WASI").is_ok() {
             let inner_cmd = Command::new("wasmtime");
@@ -48,7 +48,7 @@ pub fn cargo_bin(name: &str) -> std::path::PathBuf {
         let bin_dir = bin_dir();
         bin_dir.join(name)
     };
-    eprintln!("cli binary:{:?}", &bin);
+    eprintln!("cli binary:{bin:?}");
 
     bin
 }
@@ -59,17 +59,17 @@ fn bin_dir() -> PathBuf {
 
 pub fn load_expected() -> String {
     let mut path = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
-    eprintln!("path:{:?}", &path);
+    eprintln!("path:{path:?}");
     let name = std::env::current_exe().unwrap();
     let name = name.file_stem().unwrap().to_str().unwrap();
-    eprintln!("name:{:?}", &name);
+    eprintln!("name:{name:?}");
     let wasm = if env::var("WASI").is_ok() {
         ".wasm"
     } else {
         ""
     };
     path.push(format!("testdata/{name}{wasm}.txt").as_str());
-    eprintln!("expected path:{:?}", &path);
+    eprintln!("expected path:{path:?}");
     std::fs::read_to_string(path).expect("failed to read file")
 }
 
