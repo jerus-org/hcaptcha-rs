@@ -53,7 +53,7 @@ serde = { version = "1.0.228", features = ["derive"] }
 simple_logger = "5.2.0"
 syn = { version = "3.0.3", features = ["extra-traits"] }
 thiserror = "2.0.19"
-tokio = { version = "1.52.3", features = ["rt", "macros"] }
+tokio = { version = "1.53.1", features = ["rt", "macros"] }
 tracing = { version = "0.1.44", features = ["log", "attributes"] }
 tracing-appender = "0.2.5"
 tracing-bunyan-formatter = "0.3.10"
