@@ -452,7 +452,7 @@ mod tests {
         let secret = format!("0x{}", hex::encode(random_string(20)));
         let request = Request::new_from_response(&secret, &token).unwrap();
 
-        let expected_body = format!("response={}&secret={}", &token, &secret);
+        let expected_body = format!("response={}&secret={}", token, secret);
 
         let timestamp = Utc::now()
             .checked_sub_signed(TimeDelta::try_minutes(10).unwrap())
@@ -535,7 +535,7 @@ mod tests {
         let secret = format!("0x{}", hex::encode(random_string(20)));
         let request = Request::new_from_response(&secret, &token).unwrap();
 
-        let expected_body = format!("response={}&secret={}", &token, &secret);
+        let expected_body = format!("response={}&secret={}", token, secret);
 
         let response_template = ResponseTemplate::new(404);
         let mock_server = MockServer::start().await;
@@ -560,7 +560,7 @@ mod tests {
         let secret = format!("0x{}", hex::encode(random_string(20)));
         let request = Request::new_from_response(&secret, &token).unwrap();
 
-        let expected_body = format!("response={}&secret={}", &token, &secret);
+        let expected_body = format!("response={}&secret={}", token, secret);
 
         let timestamp = Utc::now()
             .checked_sub_signed(TimeDelta::try_minutes(10).unwrap())
@@ -602,7 +602,7 @@ mod tests {
         let secret = format!("0x{}", hex::encode(random_string(20)));
         let request = Request::new_from_response(&secret, &token).unwrap();
 
-        let expected_body = format!("response={}&secret={}", &token, &secret);
+        let expected_body = format!("response={}&secret={}", token, secret);
 
         let response_template = ResponseTemplate::new(404);
         let mock_server = MockServer::start().await;
@@ -632,10 +632,7 @@ mod tests {
             .set_remoteip(&remoteip)
             .unwrap();
 
-        let expected_body = format!(
-            "response={}&remoteip={}&secret={}",
-            &token, &remoteip, &secret
-        );
+        let expected_body = format!("response={}&remoteip={}&secret={}", token, remoteip, secret);
 
         let timestamp = Utc::now()
             .checked_sub_signed(TimeDelta::try_minutes(10).unwrap())
@@ -680,10 +677,7 @@ mod tests {
             .set_sitekey(&sitekey)
             .unwrap();
 
-        let expected_body = format!(
-            "response={}&sitekey={}&secret={}",
-            &token, &sitekey, &secret
-        );
+        let expected_body = format!("response={}&sitekey={}&secret={}", token, sitekey, secret);
 
         let timestamp = Utc::now()
             .checked_sub_signed(TimeDelta::try_minutes(10).unwrap())
