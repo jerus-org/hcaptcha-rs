@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - deps: update dependency toolkit to v7(pr [#1635])
 - deps: lock file maintenance(pr [#1625])
+- deps: update actions/checkout action to v7.0.1(pr [#1626])
 
 ### Security
 
@@ -1798,6 +1799,7 @@ emitted if a tracing subscriber is not found.
 [#1635]: https://github.com/jerus-org/hcaptcha-rs/pull/1635
 [#1636]: https://github.com/jerus-org/hcaptcha-rs/pull/1636
 [#1625]: https://github.com/jerus-org/hcaptcha-rs/pull/1625
+[#1626]: https://github.com/jerus-org/hcaptcha-rs/pull/1626
 [Unreleased]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.2.5...HEAD
 [3.2.5]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.2.4...v3.2.5
 [3.2.4]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.2.3...v3.2.4
