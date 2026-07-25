@@ -1,0 +1,24 @@
+# SPDX-FileCopyrightText: 2022 jerusdp
+#
+# SPDX-License-Identifier: MIT OR Apache-2.0
+
+# cargo-about configuration for generating THIRD-PARTY-LICENSES.md.
+# Permissive licenses only (copyleft is denied, matching the workspace policy).
+# This is a superset of deny.toml's allow list: the distributed dependency graph
+# also carries Unicode-3.0 and CDLA-Permissive-2.0 (via the icu/zerovec stack
+# pulled in by url→idna). deny.toml should be aligned to allow these too.
+accepted = [
+    "MIT",
+    "Apache-2.0",
+    "Apache-2.0 WITH LLVM-exception",
+    "BSD-2-Clause",
+    "BSD-3-Clause",
+    "ISC",
+    "Unicode-DFS-2016",
+    "Unicode-3.0",
+    "CDLA-Permissive-2.0",
+]
+
+# Notices cover what ships in the published crate/binary: dev-only dependencies
+# (test harness, mocks, etc.) are not distributed, so they are excluded.
+ignore-dev-dependencies = true

@@ -24,6 +24,7 @@ include = [
     "LICENSE-APACHE",
     "LICENSE-MIT",
     "CHANGES.md",
+    "THIRD-PARTY-LICENSES.md",
 ]
 
 [features]
