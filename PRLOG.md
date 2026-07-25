@@ -30,6 +30,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - deps: update rust crate trybuild to 1.0.118(pr [#1640])
 - deps: update rust crate uuid to 1.24.0(pr [#1641])
 - deps: update serde packages(pr [#1642])
+- deps: update github/codeql-action action to v4.37.3(pr [#1643])
 
 ### Security
 
@@ -1833,6 +1834,7 @@ emitted if a tracing subscriber is not found.
 [#1640]: https://github.com/jerus-org/hcaptcha-rs/pull/1640
 [#1641]: https://github.com/jerus-org/hcaptcha-rs/pull/1641
 [#1642]: https://github.com/jerus-org/hcaptcha-rs/pull/1642
+[#1643]: https://github.com/jerus-org/hcaptcha-rs/pull/1643
 [Unreleased]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.2.5...HEAD
 [3.2.5]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.2.4...v3.2.5
 [3.2.4]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.2.3...v3.2.4
