@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- chore-add THIRD-PARTY-LICENSES.md generation(pr [#1637])
+
 ### Fixed
 
 - deps: update dependency toolkit to v7(pr [#1635])
@@ -1816,6 +1820,7 @@ emitted if a tracing subscriber is not found.
 [#1632]: https://github.com/jerus-org/hcaptcha-rs/pull/1632
 [#1633]: https://github.com/jerus-org/hcaptcha-rs/pull/1633
 [#1634]: https://github.com/jerus-org/hcaptcha-rs/pull/1634
+[#1637]: https://github.com/jerus-org/hcaptcha-rs/pull/1637
 [Unreleased]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.2.5...HEAD
 [3.2.5]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.2.4...v3.2.5
 [3.2.4]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.2.3...v3.2.4
