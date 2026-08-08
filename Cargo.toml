@@ -52,7 +52,7 @@ serde_urlencoded = "0.7.1"
 serde = { version = "1.0.229", features = ["derive"] }
 simple_logger = "5.2.0"
 syn = { version = "3.0.3", features = ["extra-traits"] }
-thiserror = "2.0.19"
+thiserror = "2.0.20"
 tokio = { version = "1.53.1", features = ["rt", "macros"] }
 tracing = { version = "0.1.44", features = ["log", "attributes"] }
 tracing-appender = "0.2.5"
