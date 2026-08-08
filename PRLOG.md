@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - chore-add THIRD-PARTY-LICENSES.md generation(pr [#1637])
+- chore-Revise hCaptcha package description(pr [#1650])
 
 ### Fixed
 
@@ -1839,6 +1840,7 @@ emitted if a tracing subscriber is not found.
 [#1643]: https://github.com/jerus-org/hcaptcha-rs/pull/1643
 [#1645]: https://github.com/jerus-org/hcaptcha-rs/pull/1645
 [#1646]: https://github.com/jerus-org/hcaptcha-rs/pull/1646
+[#1650]: https://github.com/jerus-org/hcaptcha-rs/pull/1650
 [Unreleased]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.2.5...HEAD
 [3.2.5]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.2.4...v3.2.5
 [3.2.4]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.2.3...v3.2.4
