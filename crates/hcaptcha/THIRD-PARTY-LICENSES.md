@@ -236,7 +236,7 @@ Used by:
 
 Used by:
 
-- aws-lc-sys 0.43.0
+- aws-lc-sys 0.44.0
 - dunce 1.0.5
 - ryu 1.0.23
 - sync_wrapper 1.0.2
@@ -361,7 +361,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 Used by:
 
-- aws-lc-sys 0.43.0
+- aws-lc-sys 0.44.0
 
 ```text
 Copyright (c) <year> <owner>. 
@@ -505,8 +505,8 @@ third-party/chromium/LICENSE.
 
 Used by:
 
-- aws-lc-rs 1.17.3
-- aws-lc-sys 0.43.0
+- aws-lc-rs 1.18.0
+- aws-lc-sys 0.44.0
 
 ```text
 ISC License:
@@ -662,22 +662,22 @@ DEALINGS IN THE SOFTWARE.
 
 Used by:
 
-- cc 1.4.0
+- cc 1.4.2
 - cfg-if 1.0.4
 - cmake 0.1.58
-- find-msvc-tools 0.1.9
+- find-msvc-tools 0.1.10
 - jobserver 0.1.35
-- js-sys 0.3.103
+- js-sys 0.3.104
 - openssl-probe 0.2.1
 - openssl-sys 0.9.117
 - pkg-config 0.3.33
 - socket2 0.6.5
-- wasm-bindgen-futures 0.4.76
-- wasm-bindgen-macro-support 0.2.126
-- wasm-bindgen-macro 0.2.126
-- wasm-bindgen-shared 0.2.126
-- wasm-bindgen 0.2.126
-- web-sys 0.3.103
+- wasm-bindgen-futures 0.4.77
+- wasm-bindgen-macro-support 0.2.127
+- wasm-bindgen-macro 0.2.127
+- wasm-bindgen-shared 0.2.127
+- wasm-bindgen 0.2.127
+- web-sys 0.3.104
 
 ```text
 Copyright (c) 2014 Alex Crichton
@@ -1100,7 +1100,7 @@ Used by:
 
 - hyper-rustls 0.27.9
 - rustls-native-certs 0.8.4
-- rustls 0.23.42
+- rustls 0.23.43
 
 ```text
 Copyright (c) 2016 Joseph Birr-Pixton <jpixton@gmail.com>
@@ -1499,7 +1499,7 @@ DEALINGS IN THE SOFTWARE.
 
 Used by:
 
-- http 1.4.2
+- http 1.5.0
 
 ```text
 Copyright (c) 2017 http-rs authors
@@ -2016,8 +2016,8 @@ SOFTWARE.
 
 Used by:
 
-- hcaptcha 3.2.4
-- hcaptcha_derive 3.2.5
+- hcaptcha 3.2.5
+- hcaptcha_derive 3.2.6
 
 ```text
 Copyright (c) 2022 jerusdp
@@ -2197,7 +2197,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 Used by:
 
-- ipnet 2.12.0
+- ipnet 2.12.1
 
 ```text
 Copyright 2017 Juniper Networks, Inc.
@@ -2405,9 +2405,9 @@ SOFTWARE.
 
 Used by:
 
-- async-trait 0.1.91
+- async-trait 0.1.92
 - atomic-waker 1.1.2
-- displaydoc 0.2.6
+- displaydoc 0.2.7
 - fastrand 2.5.0
 - itoa 1.0.18
 - linux-raw-sys 0.12.1
@@ -2425,8 +2425,8 @@ Used by:
 - simd_cesu8 1.2.0
 - syn 2.0.119
 - syn 3.0.3
-- thiserror-impl 2.0.19
-- thiserror 2.0.19
+- thiserror-impl 2.0.20
+- thiserror 2.0.20
 - unicode-ident 1.0.24
 - wasi 0.11.1+wasi-snapshot-preview1
 - zmij 1.0.23
@@ -2619,7 +2619,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 Used by:
 
-- aws-lc-sys 0.43.0
+- aws-lc-sys 0.44.0
 
 ```text
 The MIT License (MIT)
