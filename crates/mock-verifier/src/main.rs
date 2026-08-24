@@ -2,67 +2,86 @@
 //
 // SPDX-License-Identifier: MIT OR Apache-2.0
 
-use rocket::{get, launch, routes};
-
 mod tc001_blank_sitekey;
 use tc001_blank_sitekey::tc001;
 
-#[get("/")]
-fn hello() -> &'static str {
-    "Hello, world!"
+use axum::{
+    routing::{get, post},
+    Router,
+};
+use tower_http::trace::TraceLayer;
+use tracing_subscriber::{layer::SubscriberExt, util::SubscriberInitExt};
+
+async fn root() -> &'static str {
+    "Hello, World!"
 }
 
-#[get("/siteverify")]
-fn siteverify() -> &'static str {
+async fn siteverify() -> &'static str {
     r#"tc001 - Blank Sitekey"#
 }
 
-#[launch]
-fn rocket() -> _ {
-    rocket::build().mount("/", routes![hello, siteverify, tc001])
+#[tokio::main]
+async fn main() {
+    tracing_subscriber::registry()
+        .with(
+            tracing_subscriber::EnvFilter::try_from_default_env().unwrap_or_else(|_| {
+                format!("{}=debug,tower_http=debug", env!("CARGO_CRATE_NAME")).into()
+            }),
+        )
+        .with(tracing_subscriber::fmt::layer())
+        .init();
+
+    let listener = tokio::net::TcpListener::bind("127.0.0.1:3000")
+        .await
+        .unwrap();
+    tracing::debug!("listening on {}", listener.local_addr().unwrap());
+    let _ = axum::serve(listener, app()).await;
+}
+
+fn app() -> Router {
+    Router::new()
+        .route("/", get(root))
+        .route("/siteverify", get(siteverify))
+        .route("/siteverify/tc001", post(tc001))
+        .layer(TraceLayer::new_for_http())
 }
 
 #[cfg(test)]
 mod test {
     use crate::tc001_blank_sitekey::{RequestData, SuccessResponse};
+    use axum_test::TestServer;
 
-    use super::rocket;
-    use rocket::{http::ContentType, local::blocking::Client};
-    use rocket::{http::Status, uri};
-
-    #[test]
-    fn hello_world() {
-        let client = Client::tracked(rocket()).expect("valid rocket instance");
-        let response = client.get(uri!(super::hello)).dispatch();
-
-        assert_eq!(response.status(), Status::Ok);
-        assert_eq!(response.into_string(), Some("Hello, world!".into()));
+    fn test_server() -> TestServer {
+        TestServer::new(super::app())
     }
 
-    #[test]
-    fn tc001() {
+    #[tokio::test]
+    async fn hello_world() {
+        let server = test_server();
+
+        let response = server.get("/").await;
+
+        response.assert_text("Hello, World!");
+    }
+
+    #[tokio::test]
+    async fn tc001() {
+        let server = test_server();
+
         let request = RequestData {
             response: Some("10000000-aaaa-bbbb-cccc-000000000001".to_string()),
             secret: Some("0x0000000000000000000000000000000000000000".to_string()),
             sitekey: Some("10000000-ffff-ffff-ffff-000000000001".to_string()),
             ..Default::default()
         };
-        // urlencode request
-        let request = serde_urlencoded::to_string(&request).unwrap();
 
-        let client = Client::tracked(rocket()).expect("valid rocket instance");
-        let response = client
-            .post(uri!(super::tc001_blank_sitekey::tc001))
-            .header(ContentType::Form)
-            .body(request)
-            .dispatch();
+        let response = server.post("/siteverify/tc001").form(&request).await;
 
-        assert_eq!(response.status(), Status::Ok);
-        // convert rsponse body to success response struct
-        let response = response.into_json::<SuccessResponse>().unwrap();
+        response.assert_status_ok();
 
-        assert!(response.success());
-        assert!(!response.credit());
-        assert_eq!(response.hostname(), "dummy-key-pass");
+        let report = response.form::<SuccessResponse>();
+        assert!(report.success());
+        assert!(!report.credit());
+        assert_eq!(report.hostname(), "dummy-key-pass");
     }
 }

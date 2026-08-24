@@ -25,7 +25,7 @@ edition = "2021"
 publish = false
 
 [workspace.dependencies]
-async-trait = "0.1.92"
+axum = "0.8.9"
 chrono = "0.4.45"
 claims = "0.8.0"
 clap = "4.6.6"
@@ -46,11 +46,9 @@ reqwest = { version = "0.13.4", default-features = false, features = [
     "json",
     "http2",
 ] }
-rocket = { version = "0.5.1", features = ["json"] }
 serde_json = "1.0.151"
 serde_urlencoded = "0.7.1"
 serde = { version = "1.0.229", features = ["derive"] }
-simple_logger = "5.2.0"
 syn = { version = "3.0.3", features = ["extra-traits"] }
 thiserror = "2.0.20"
 tokio = { version = "1.53.1", features = ["rt", "macros"] }
