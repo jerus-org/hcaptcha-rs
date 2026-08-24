@@ -11,6 +11,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - ♻️ refactor(mock-verifier)-migrate from Rocket to Axum framework(pr [#1663])
 
+### Fixed
+
+- deps: lock file maintenance(pr [#1657])
+
 ## [3.2.6] - 2026-08-08
 
 ### Changed
@@ -1862,6 +1866,7 @@ emitted if a tracing subscriber is not found.
 [#1655]: https://github.com/jerus-org/hcaptcha-rs/pull/1655
 [#1656]: https://github.com/jerus-org/hcaptcha-rs/pull/1656
 [#1663]: https://github.com/jerus-org/hcaptcha-rs/pull/1663
+[#1657]: https://github.com/jerus-org/hcaptcha-rs/pull/1657
 [Unreleased]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.2.6...HEAD
 [3.2.6]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.2.5...v3.2.6
 [3.2.5]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.2.4...v3.2.5
