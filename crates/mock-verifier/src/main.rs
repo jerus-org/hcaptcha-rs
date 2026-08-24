@@ -20,17 +20,6 @@ async fn siteverify() -> &'static str {
     r#"tc001 - Blank Sitekey"#
 }
 
-// #[tokio::main]
-// async fn main() {
-//     let app = Router::new()
-//         .route("/", get(root))
-//         .route("/siteverify", get(siteverify))
-//         .route("/siteverify/tc001", post(tc001));
-
-//     let listener = tokio::net::TcpListener::bind("0.0.0.0:3000").await.unwrap();
-//     axum::serve(listener, app).await.unwrap();
-// }
-
 #[tokio::main]
 async fn main() {
     tracing_subscriber::registry()
@@ -49,8 +38,6 @@ async fn main() {
     let _ = axum::serve(listener, app()).await;
 }
 
-/// Having a function that produces our app makes it easy to call it from tests
-/// without having to create an HTTP server.
 fn app() -> Router {
     Router::new()
         .route("/", get(root))
