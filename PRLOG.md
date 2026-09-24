@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - deps: lock file maintenance(pr [#1669])
 - deps: update rust crate axum-test to 21.1.0(pr [#1670])
 - deps: update rust crate clap to 4.6.7(pr [#1671])
+- deps: update rust crate lambda_runtime to 1.4.0(pr [#1672])
 
 ## [3.2.7] - 2026-08-28
 
@@ -1898,6 +1899,7 @@ emitted if a tracing subscriber is not found.
 [#1669]: https://github.com/jerus-org/hcaptcha-rs/pull/1669
 [#1670]: https://github.com/jerus-org/hcaptcha-rs/pull/1670
 [#1671]: https://github.com/jerus-org/hcaptcha-rs/pull/1671
+[#1672]: https://github.com/jerus-org/hcaptcha-rs/pull/1672
 [Unreleased]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.2.7...HEAD
 [3.2.7]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.2.6...v3.2.7
 [3.2.6]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.2.5...v3.2.6
