@@ -19,7 +19,7 @@ tracing.workspace = true
 tracing-subscriber.workspace = true
 hcaptcha = { path = "../hcaptcha", features = ["enterprise"] }
 serde_urlencoded.workspace = true
-tower-http = { version = "0.7.0", features = ["trace"] }
+tower-http = { version = "0.7.1", features = ["trace"] }
 axum-test = "21.1.0"
 
 [lints]
