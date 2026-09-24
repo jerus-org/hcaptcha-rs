@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - deps: lock file maintenance(pr [#1668])
 - deps: update dependency toolkit to v8(pr [#1667])
 - deps: update rust crate trybuild to 1.0.121(pr [#1678])
+- deps: lock file maintenance(pr [#1669])
 
 ## [3.2.7] - 2026-08-28
 
@@ -1892,6 +1893,7 @@ emitted if a tracing subscriber is not found.
 [#1668]: https://github.com/jerus-org/hcaptcha-rs/pull/1668
 [#1667]: https://github.com/jerus-org/hcaptcha-rs/pull/1667
 [#1678]: https://github.com/jerus-org/hcaptcha-rs/pull/1678
+[#1669]: https://github.com/jerus-org/hcaptcha-rs/pull/1669
 [Unreleased]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.2.7...HEAD
 [3.2.7]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.2.6...v3.2.7
 [3.2.6]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.2.5...v3.2.6
