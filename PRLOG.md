@@ -24,6 +24,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - deps: update rust crate tower-http to 0.7.1(pr [#1677])
 - deps: update github/codeql-action action to v4.38.2(pr [#1681])
 - deps: update rust crate uuid to 1.26.1(pr [#1679])
+- deps: update wasm-bindgen packages(pr [#1680])
 
 ## [3.2.7] - 2026-08-28
 
@@ -1914,6 +1915,7 @@ emitted if a tracing subscriber is not found.
 [#1677]: https://github.com/jerus-org/hcaptcha-rs/pull/1677
 [#1681]: https://github.com/jerus-org/hcaptcha-rs/pull/1681
 [#1679]: https://github.com/jerus-org/hcaptcha-rs/pull/1679
+[#1680]: https://github.com/jerus-org/hcaptcha-rs/pull/1680
 [Unreleased]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.2.7...HEAD
 [3.2.7]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.2.6...v3.2.7
 [3.2.6]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.2.5...v3.2.6
