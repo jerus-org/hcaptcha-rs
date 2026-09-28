@@ -236,7 +236,7 @@ Used by:
 
 Used by:
 
-- aws-lc-sys 0.44.0
+- aws-lc-sys 0.45.0
 - dunce 1.0.5
 - ryu 1.0.23
 - sync_wrapper 1.0.2
@@ -361,7 +361,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 Used by:
 
-- aws-lc-sys 0.44.0
+- aws-lc-sys 0.45.0
 
 ```text
 Copyright (c) <year> <owner>. 
@@ -505,8 +505,8 @@ third-party/chromium/LICENSE.
 
 Used by:
 
-- aws-lc-rs 1.18.0
-- aws-lc-sys 0.44.0
+- aws-lc-rs 1.18.1
+- aws-lc-sys 0.45.0
 
 ```text
 ISC License:
@@ -717,22 +717,22 @@ DEALINGS IN THE SOFTWARE.
 
 Used by:
 
-- cc 1.4.4
-- cfg-if 1.0.4
+- cc 1.5.1
+- cfg-if 1.0.5
 - cmake 0.1.58
-- find-msvc-tools 0.1.11
+- find-msvc-tools 0.1.14
 - jobserver 0.1.35
-- js-sys 0.3.104
+- js-sys 0.3.106
 - openssl-probe 0.2.1
 - openssl-sys 0.9.117
 - pkg-config 0.3.34
 - socket2 0.6.5
-- wasm-bindgen-futures 0.4.77
-- wasm-bindgen-macro-support 0.2.127
-- wasm-bindgen-macro 0.2.127
-- wasm-bindgen-shared 0.2.127
-- wasm-bindgen 0.2.127
-- web-sys 0.3.104
+- wasm-bindgen-futures 0.4.79
+- wasm-bindgen-macro-support 0.2.129
+- wasm-bindgen-macro 0.2.129
+- wasm-bindgen-shared 0.2.129
+- wasm-bindgen 0.2.129
+- web-sys 0.3.106
 
 ```text
 Copyright (c) 2014 Alex Crichton
@@ -767,7 +767,7 @@ DEALINGS IN THE SOFTWARE.
 
 Used by:
 
-- mio 1.2.2
+- mio 1.2.3
 
 ```text
 Copyright (c) 2014 Carl Lerche and other MIO contributors
@@ -831,7 +831,7 @@ DEALINGS IN THE SOFTWARE.
 
 Used by:
 
-- bitflags 2.13.1
+- bitflags 2.13.2
 - log 0.4.34
 
 ```text
@@ -867,7 +867,7 @@ DEALINGS IN THE SOFTWARE.
 
 Used by:
 
-- uuid 1.26.0
+- uuid 1.26.1
 
 ```text
 Copyright (c) 2014 The Rust Project Developers
@@ -903,7 +903,7 @@ DEALINGS IN THE SOFTWARE.
 
 Used by:
 
-- hyper 1.11.0
+- hyper 1.11.1
 
 ```text
 Copyright (c) 2014-2026 Sean McArthur
@@ -1153,9 +1153,9 @@ DEALINGS IN THE SOFTWARE.
 
 Used by:
 
-- hyper-rustls 0.27.9
+- hyper-rustls 0.27.10
 - rustls-native-certs 0.8.4
-- rustls 0.23.43
+- rustls 0.23.45
 
 ```text
 Copyright (c) 2016 Joseph Birr-Pixton <jpixton@gmail.com>
@@ -1254,7 +1254,7 @@ SOFTWARE.
 
 Used by:
 
-- indexmap 2.14.0
+- indexmap 2.14.2
 
 ```text
 Copyright (c) 2016--2017
@@ -1324,7 +1324,7 @@ DEALINGS IN THE SOFTWARE.
 
 Used by:
 
-- reqwest 0.13.4
+- reqwest 0.13.5
 
 ```text
 Copyright (c) 2016-2026 Sean McArthur
@@ -1589,7 +1589,7 @@ DEALINGS IN THE SOFTWARE.
 
 Used by:
 
-- tokio-rustls 0.26.4
+- tokio-rustls 0.26.5
 
 ```text
 Copyright (c) 2017 quininer kel
@@ -1659,7 +1659,7 @@ DEALINGS IN THE SOFTWARE.
 
 Used by:
 
-- smallvec 1.15.2
+- smallvec 1.16.2
 
 ```text
 Copyright (c) 2018 The Servo Project Developers
@@ -2071,8 +2071,8 @@ SOFTWARE.
 
 Used by:
 
-- hcaptcha 3.2.6
-- hcaptcha_derive 3.2.7
+- hcaptcha 3.2.7
+- hcaptcha_derive 3.2.8
 
 ```text
 Copyright (c) 2022 jerusdp
@@ -2136,7 +2136,7 @@ DEALINGS IN THE SOFTWARE.
 
 Used by:
 
-- hyper-util 0.1.20
+- hyper-util 0.1.21
 
 ```text
 Copyright (c) 2023-2025 Sean McArthur
@@ -2235,7 +2235,7 @@ DEALINGS IN THE SOFTWARE.
 
 Used by:
 
-- synstructure 0.13.2
+- synstructure 0.14.0
 
 ```text
 Copyright 2016 Nika Layzell
@@ -2252,7 +2252,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 Used by:
 
-- ipnet 2.12.1
+- ipnet 2.12.2
 
 ```text
 Copyright 2017 Juniper Networks, Inc.
@@ -2335,7 +2335,7 @@ SOFTWARE.
 
 Used by:
 
-- rustls-platform-verifier 0.7.0
+- rustls-platform-verifier 0.7.1
 
 ```text
 MIT License
@@ -2370,7 +2370,7 @@ Used by:
 - jni-sys-macros 0.4.1
 - jni 0.22.4
 - r-efi 6.0.0
-- rustls-platform-verifier-android 0.1.1
+- rustls-platform-verifier-android 0.2.0
 - windows-link 0.2.1
 - windows-sys 0.61.2
 
@@ -2469,7 +2469,7 @@ Used by:
 - pin-project-lite 0.2.17
 - proc-macro2 1.0.107
 - quote 1.0.47
-- rustix 1.1.4
+- rustix 1.1.5
 - rustversion 1.0.23
 - semver 1.0.28
 - serde 1.0.229
@@ -2478,10 +2478,10 @@ Used by:
 - serde_json 1.0.151
 - simd_cesu8 1.2.0
 - syn 2.0.119
-- syn 3.0.4
-- thiserror-impl 2.0.20
-- thiserror 2.0.20
-- unicode-ident 1.0.24
+- syn 3.0.6
+- thiserror-impl 2.0.21
+- thiserror 2.0.21
+- unicode-ident 1.0.26
 - wasi 0.11.1+wasi-snapshot-preview1
 - zmij 1.0.23
 
@@ -2540,37 +2540,6 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
-
-```
-
-## MIT License
-
-Used by:
-
-- base64 0.22.1
-
-```text
-The MIT License (MIT)
-
-Copyright (c) 2015 Alice Maz
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in
-all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-THE SOFTWARE.
 
 ```
 
@@ -2704,7 +2673,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 Used by:
 
-- aws-lc-sys 0.44.0
+- aws-lc-sys 0.45.0
 
 ```text
 The MIT License (MIT)
@@ -2764,11 +2733,42 @@ THE SOFTWARE.
 
 ```
 
+## MIT License
+
+Used by:
+
+- base64 0.23.1
+
+```text
+The MIT License (MIT)
+
+Copyright (c) 2025 Alice Maz, Marshall Pierce
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+
+```
+
 ## Unicode License v3
 
 Used by:
 
-- unicode-ident 1.0.24
+- unicode-ident 1.0.26
 
 ```text
 UNICODE LICENSE V3
@@ -2828,9 +2828,9 @@ Used by:
 - potential_utf 0.1.6
 - tinystr 0.8.4
 - writeable 0.6.4
-- yoke-derive 0.8.2
+- yoke-derive 0.8.3
 - yoke 0.8.3
-- zerofrom-derive 0.1.7
+- zerofrom-derive 0.1.8
 - zerofrom 0.1.8
 - zerotrie 0.2.5
 - zerovec-derive 0.11.6
