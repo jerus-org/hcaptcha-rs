@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 - deps: lock file maintenance(pr [#1694])
+- deps: update rust crate uuid to 1.29.0(pr [#1693])
 
 ## [3.2.8] - 2026-09-28
 
@@ -1925,6 +1926,7 @@ emitted if a tracing subscriber is not found.
 [#1680]: https://github.com/jerus-org/hcaptcha-rs/pull/1680
 [#1682]: https://github.com/jerus-org/hcaptcha-rs/pull/1682
 [#1694]: https://github.com/jerus-org/hcaptcha-rs/pull/1694
+[#1693]: https://github.com/jerus-org/hcaptcha-rs/pull/1693
 [Unreleased]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.2.8...HEAD
 [3.2.8]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.2.7...v3.2.8
 [3.2.7]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.2.6...v3.2.7
