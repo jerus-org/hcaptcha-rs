@@ -200,6 +200,7 @@ fn get_optional_attribute(
     let method = quote::format_ident!("{}", method);
     match attributes.get(name) {
         Some(i) => {
+            #[allow(clippy::clone_on_copy)]
             let i = <&proc_macro2::Ident>::clone(i);
             quote! {
                 match captcha.#method(&self.#i) {
@@ -232,6 +233,7 @@ fn get_required_attribute(
 ) -> Result<proc_macro2::TokenStream, syn::Error> {
     match attributes.get(name) {
         Some(i) => {
+            #[allow(clippy::clone_on_copy)]
             let i = <&proc_macro2::Ident>::clone(i);
             Ok(quote! {
                 #[allow(unused_mut)]
