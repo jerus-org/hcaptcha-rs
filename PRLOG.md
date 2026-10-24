@@ -17,6 +17,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - deps: update rust crate syn to 3.0.9(pr [#1687])
 - deps: update rust crate tracing-bunyan-formatter to 0.3.11(pr [#1688])
 - deps: update rust crate trybuild to 1.0.122(pr [#1689])
+- deps: update github/codeql-action action to v4.39.1(pr [#1690])
 
 ## [3.2.8] - 2026-09-28
 
@@ -1939,6 +1940,7 @@ emitted if a tracing subscriber is not found.
 [#1687]: https://github.com/jerus-org/hcaptcha-rs/pull/1687
 [#1688]: https://github.com/jerus-org/hcaptcha-rs/pull/1688
 [#1689]: https://github.com/jerus-org/hcaptcha-rs/pull/1689
+[#1690]: https://github.com/jerus-org/hcaptcha-rs/pull/1690
 [Unreleased]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.2.8...HEAD
 [3.2.8]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.2.7...v3.2.8
 [3.2.7]: https://github.com/jerus-org/hcaptcha-rs/compare/v3.2.6...v3.2.7
