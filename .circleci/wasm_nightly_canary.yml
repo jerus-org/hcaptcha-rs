@@ -52,7 +52,7 @@ version: 2.1
 # ─────────────────────────────────────────────────────────────────────────────
 
 orbs:
-  toolkit: jerus-org/circleci-toolkit@8.0.1
+  toolkit: jerus-org/circleci-toolkit@8.0.3
   node: circleci/node@7.2.1
 
 jobs:
