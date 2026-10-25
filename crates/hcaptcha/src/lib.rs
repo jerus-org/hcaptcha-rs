@@ -268,7 +268,7 @@
 //!
 //! ```toml
 //! [dependency]
-//! hcaptcha = { version = "3.2.7", default-features = false }
+//! hcaptcha = { version = "3.2.8", default-features = false }
 //! ```
 //!
 //! The following feature flags are available:

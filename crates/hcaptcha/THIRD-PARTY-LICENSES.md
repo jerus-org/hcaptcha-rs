@@ -236,7 +236,7 @@ Used by:
 
 Used by:
 
-- aws-lc-sys 0.45.0
+- aws-lc-sys 0.46.0
 - dunce 1.0.5
 - ryu 1.0.23
 - sync_wrapper 1.0.2
@@ -361,7 +361,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 Used by:
 
-- aws-lc-sys 0.45.0
+- aws-lc-sys 0.46.0
 
 ```text
 Copyright (c) <year> <owner>. 
@@ -382,7 +382,7 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
 
 Used by:
 
-- webpki-root-certs 1.0.9
+- webpki-root-certs 1.0.11
 
 ```text
 # Community Data License Agreement - Permissive - Version 2.0
@@ -476,7 +476,7 @@ Used by:
 
 Used by:
 
-- rustls-webpki 0.103.15
+- rustls-webpki 0.103.16
 
 ```text
 Except as otherwise noted, this project is licensed under the following
@@ -505,8 +505,8 @@ third-party/chromium/LICENSE.
 
 Used by:
 
-- aws-lc-rs 1.18.1
-- aws-lc-sys 0.45.0
+- aws-lc-rs 1.18.2
+- aws-lc-sys 0.46.0
 
 ```text
 ISC License:
@@ -717,10 +717,10 @@ DEALINGS IN THE SOFTWARE.
 
 Used by:
 
-- cc 1.5.1
+- cc 1.10.0
 - cfg-if 1.0.5
 - cmake 0.1.58
-- find-msvc-tools 0.1.14
+- find-msvc-tools 0.1.15
 - jobserver 0.1.35
 - js-sys 0.3.106
 - openssl-probe 0.2.1
@@ -767,7 +767,7 @@ DEALINGS IN THE SOFTWARE.
 
 Used by:
 
-- mio 1.2.3
+- mio 1.2.4
 
 ```text
 Copyright (c) 2014 Carl Lerche and other MIO contributors
@@ -867,7 +867,7 @@ DEALINGS IN THE SOFTWARE.
 
 Used by:
 
-- uuid 1.26.1
+- uuid 1.29.0
 
 ```text
 Copyright (c) 2014 The Rust Project Developers
@@ -903,7 +903,7 @@ DEALINGS IN THE SOFTWARE.
 
 Used by:
 
-- hyper 1.11.1
+- hyper 1.12.0
 
 ```text
 Copyright (c) 2014-2026 Sean McArthur
@@ -996,7 +996,7 @@ SOFTWARE.
 
 Used by:
 
-- schannel 0.1.29
+- schannel 0.1.30
 
 ```text
 Copyright (c) 2015 steffengy
@@ -1154,8 +1154,8 @@ DEALINGS IN THE SOFTWARE.
 Used by:
 
 - hyper-rustls 0.27.10
-- rustls-native-certs 0.8.4
-- rustls 0.23.45
+- rustls-native-certs 0.8.5
+- rustls 0.23.46
 
 ```text
 Copyright (c) 2016 Joseph Birr-Pixton <jpixton@gmail.com>
@@ -1289,7 +1289,7 @@ DEALINGS IN THE SOFTWARE.
 
 Used by:
 
-- equivalent 1.0.2
+- equivalent 1.0.3
 
 ```text
 Copyright (c) 2016--2023
@@ -1519,7 +1519,7 @@ SOFTWARE.
 
 Used by:
 
-- h2 0.4.19
+- h2 0.4.20
 
 ```text
 Copyright (c) 2017 h2 authors
@@ -1589,7 +1589,7 @@ DEALINGS IN THE SOFTWARE.
 
 Used by:
 
-- tokio-rustls 0.26.5
+- tokio-rustls 0.26.6
 
 ```text
 Copyright (c) 2017 quininer kel
@@ -1659,7 +1659,7 @@ DEALINGS IN THE SOFTWARE.
 
 Used by:
 
-- smallvec 1.16.2
+- smallvec 1.16.4
 
 ```text
 Copyright (c) 2018 The Servo Project Developers
@@ -1694,7 +1694,7 @@ DEALINGS IN THE SOFTWARE.
 
 Used by:
 
-- want 0.3.1
+- want 0.3.2
 
 ```text
 Copyright (c) 2018-2019 Sean McArthur
@@ -1755,7 +1755,7 @@ THE SOFTWARE.
 
 Used by:
 
-- zeroize 1.9.0
+- zeroize 1.9.1
 
 ```text
 Copyright (c) 2018-2026 The RustCrypto Project Developers
@@ -2071,8 +2071,8 @@ SOFTWARE.
 
 Used by:
 
-- hcaptcha 3.2.7
-- hcaptcha_derive 3.2.8
+- hcaptcha 3.2.8
+- hcaptcha_derive 3.2.9
 
 ```text
 Copyright (c) 2022 jerusdp
@@ -2165,7 +2165,7 @@ THE SOFTWARE.
 
 Used by:
 
-- libc 0.2.189
+- libc 0.2.191
 
 ```text
 Copyright (c) The Rust Project Developers
@@ -2400,8 +2400,8 @@ USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 Used by:
 
-- tokio-util 0.7.19
-- tokio 1.53.1
+- tokio-util 0.7.20
+- tokio 1.54.1
 
 ```text
 MIT License
@@ -2475,13 +2475,13 @@ Used by:
 - serde 1.0.229
 - serde_core 1.0.229
 - serde_derive 1.0.229
-- serde_json 1.0.151
+- serde_json 1.0.154
 - simd_cesu8 1.2.0
 - syn 2.0.119
-- syn 3.0.6
+- syn 3.0.9
 - thiserror-impl 2.0.21
 - thiserror 2.0.21
-- unicode-ident 1.0.26
+- unicode-ident 1.0.27
 - wasi 0.11.1+wasi-snapshot-preview1
 - zmij 1.0.23
 
@@ -2579,7 +2579,7 @@ THE SOFTWARE.
 
 Used by:
 
-- combine 4.6.8
+- combine 4.6.9
 
 ```text
 The MIT License (MIT)
@@ -2673,7 +2673,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 Used by:
 
-- aws-lc-sys 0.45.0
+- aws-lc-sys 0.46.0
 
 ```text
 The MIT License (MIT)
@@ -2768,7 +2768,7 @@ THE SOFTWARE.
 
 Used by:
 
-- unicode-ident 1.0.26
+- unicode-ident 1.0.27
 
 ```text
 UNICODE LICENSE V3
@@ -2817,24 +2817,24 @@ authorization of the copyright holder.
 
 Used by:
 
-- icu_collections 2.3.0
-- icu_locale_core 2.3.0
-- icu_normalizer 2.3.0
-- icu_normalizer_data 2.3.0
-- icu_properties 2.3.0
-- icu_properties_data 2.3.0
-- icu_provider 2.3.1
+- icu_collections 2.4.0
+- icu_locale_core 2.4.0
+- icu_normalizer 2.4.0
+- icu_normalizer_data 2.4.0
+- icu_properties 2.4.0
+- icu_properties_data 2.4.0
+- icu_provider 2.4.0
 - litemap 0.8.3
 - potential_utf 0.1.6
-- tinystr 0.8.4
+- tinystr 0.8.5
 - writeable 0.6.4
-- yoke-derive 0.8.3
-- yoke 0.8.3
+- yoke-derive 0.8.4
+- yoke 0.8.4
 - zerofrom-derive 0.1.8
 - zerofrom 0.1.8
 - zerotrie 0.2.5
-- zerovec-derive 0.11.6
-- zerovec 0.11.8
+- zerovec-derive 0.11.7
+- zerovec 0.11.9
 
 ```text
 UNICODE LICENSE V3
